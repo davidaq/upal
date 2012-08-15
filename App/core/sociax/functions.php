@@ -1021,4 +1021,43 @@ function ts_cookie($name,$value='',$option=null)
         }
     }
 }
+
+//trace message
+function trace($traceMsg=''){
+	function vdump($var){
+		$ret=$var;
+		if(is_array($var)){
+			$ret=array();
+			foreach($var as $k=>$f){
+				$ret[]=$k.' => '.vdump($f);
+			}
+			$ret='Array('.implode(',',$ret).')';
+		}else if(is_object($var)){
+			$ret='Object of '.get_class($var);
+		}else if(is_string($var)){
+			$ret='"'.$var.'"';
+		}
+		return $ret;
+	}
+	$fp=fopen('core/trace.io.php','a');
+	if(!$fp)
+		die('core/trace.io.php can\'t be written');
+	$dbg=debug_backtrace();
+	$msg['message']='['.date('H:i:s',time()).'] '.vdump($traceMsg);
+	$msg['stack']='Call stack:';
+	foreach($dbg as $f){
+		$stack=chr(10).'+line '.$f['line'].' of file: '.$f['file'];
+		if(isset($f['function']))
+			$stack.=chr(10).'	in function ['.(isset($f['class'])?$f['class'].'::':'').$f['function'].']';
+		if(isset($f['args'])&&$f['args']){
+			$stack.=chr(10).'	with arguments:';
+			foreach($f['args'] as $ff){
+				$stack.=chr(10).'		'.vdump($ff);
+			}
+		}
+		$msg['stack'].=$stack;
+	}
+	fwrite($fp,json_encode($msg).chr(10));
+	fclose($fp);
+}
 ?>
