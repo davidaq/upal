@@ -1,0 +1,39 @@
+<include file="__THEME__/header" />
+<link rel="stylesheet" href="../Public/group.css" type="text/css" media="screen" charset="utf-8" />
+<script type="text/javascript" src="../Public/Js/common.js"></script>
+<div class="content_holder">
+<div class="content no_bg"> 
+  <!-- 内容 begin  -->
+<include file="../Public/_mainNav" />
+  <div class="main no_l"> 
+    <!-- 右侧内容 begin  -->
+    <div class="mainbox">
+      <div class="mainbox_C mainC_pad" style="margin-right:20px"> <include file="../Public/manage_group_top" />
+        <div class="MenuSub"> 
+          <a href="{:U('group/Log/index', array('gid'=>$gid))}" <eq name="on" value="all">class="on"</eq>>全部</a> 
+          <a href="{:U('group/Log/index', array('gid'=>$gid,'type'=>'topic'))}" <eq name="on" value="topic"> class="on" </eq>>小组话题管理</a> 
+          <a href="{:U('group/Log/index', array('gid'=>$gid,'type'=>'member'))}" <eq name="on" value="member"> class="on" </eq>>成员管理</a> 
+          <a href="{:U('group/Log/index', array('gid'=>$gid,'type'=>'setting'))}" <eq name="on" value="setting"> class="on" </eq>>小组设置</a>
+        </div>
+        <div class="groupBox">
+            <ul class="log">
+              <volist name="logList['data']" id="log">
+                <li>
+                  <div class="c1"><space uid="log['uid']" target="_blank">{uavatar=m}</space></div>
+                  <div class="c2"><div class="shijian">{$log.ctime|friendlyDate}</div>
+                  {$log.content}</div>
+                </li>
+              </volist>
+            </ul>
+            <div id="pages" class="page">{$logList['html']}</div>
+        </div>
+      </div>
+      <div class="c"></div>
+    </div>
+  </div>
+  <!-- 右侧内容 end  --> 
+</div>
+</div>
+<!-- 内容 end --> 
+
+<include file="__THEME__/footer" /> 

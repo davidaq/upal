@@ -1,0 +1,235 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">站点配置</div>
+  
+  <div class="form2">
+  	<form method="post" action="{:U('admin/Global/doSetSiteOpt')}" enctype="multipart/form-data">
+    <dl class="lineD">
+      <dt>站点名称：</dt>
+      <dd>
+        <input name="site_name" type="text" value="{$site_name}" size="60">
+        <span>整个网站的名称</span>
+      </dd>  
+    </dl>
+    <dl class="lineD">
+      <dt>默认标题：</dt>
+      <dd>
+        <input name="site_header_title" type="text" value="{$site_header_title}" size="60">
+        <span>整个站点默认的标题(title)，搜索引擎优化使用</span>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>默认关键字：</dt>
+      <dd>
+        <textarea cols="50" rows="3" name="site_header_keywords">{$site_header_keywords}</textarea><br />
+        <span>页面meta标签里的关键字信息(keywords)，搜索引擎优化使用</span>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>默认描述信息：</dt>
+      <dd>
+        <textarea cols="50" rows="3" name="site_header_description">{$site_header_description}</textarea><br />
+        <span>页面meta标签对关键字内容的描述(description)，搜索引擎优化使用</span>
+      </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>公司名/ICP/IP/域名备案：</dt>
+      <dd>
+        <input name="site_icp" type="text" value="{$site_icp}" size="60">
+        <p>例如：智士软件(北京)有限公司 京ICP备04000001号</p>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>站点状态：</dt>
+      <dd>
+        <label class="check-line">
+        	<input class="s-ck" name="site_closed" type="radio" value="1" <eq name="site_closed" value="1">checked</eq>>关闭
+        </label>
+        <br>
+        <label>
+        	<input class="s-ck" name="site_closed" type="radio" value="0" <eq name="site_closed" value="0">checked</eq>>开启
+        </label>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>站点关闭理由：</dt>
+      <dd>
+        <textarea cols="50" rows="3" name="site_closed_reason">{$site_closed_reason}</textarea><br />网站关闭时，页面显示的内容</span>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>是否允许匿名访问个人空间：</dt>
+      <dd>
+        <label class="check-line">
+            <input class="s-ck" name="site_anonymous" type="radio" value="1" <eq name="site_anonymous" value="1">checked</eq>>允许
+        </label>
+        <br>
+        <label>
+            <input class="s-ck" name="site_anonymous" type="radio" value="0" <eq name="site_anonymous" value="0">checked</eq>>禁止
+        </label>
+        <p>对于没有登录或注册的用户是否允许访问个人空间</p>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>是否允许匿名访问微博广场：</dt>
+      <dd>
+        <label class="check-line">
+            <input class="s-ck" name="site_anonymous_square" type="radio" value="1" <eq name="site_anonymous_square" value="1">checked</eq>>允许
+        </label>
+        <br>
+        <label>
+            <input class="s-ck" name="site_anonymous_square" type="radio" value="0" <eq name="site_anonymous_square" value="0">checked</eq>>禁止
+        </label>
+        <p>对于没有登录或注册的用户是否允许访问微博广场</p>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>是否允许匿名访问搜索：</dt>
+      <dd>
+        <label class="check-line">
+            <input class="s-ck" name="site_anonymous_search" type="radio" value="1" <eq name="site_anonymous_search" value="1">checked</eq>>允许
+        </label>
+        <br>
+        <label>
+            <input class="s-ck" name="site_anonymous_search" type="radio" value="0" <eq name="site_anonymous_search" value="0">checked</eq>>禁止
+        </label>
+        <p>对于没有登录或注册的用户是否允许访问搜索</p>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>是否启用个性化域名：</dt>
+      <dd>
+        <label class="check-line">
+            <input class="s-ck" name="site_user_domain_on" type="radio" value="1" <eq name="site_user_domain_on" value="1">checked</eq>>启用
+        </label>
+        <br>
+        <label>
+            <input class="s-ck" name="site_user_domain_on" type="radio" value="0" <neq name="site_user_domain_on" value="1">checked</neq>>禁用
+        </label>
+        <p>帐号，设置里面显示</p>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>是否启用Rewrite伪静态：</dt>
+      <dd>
+        <label class="check-line">
+            <input class="s-ck" name="site_rewrite_on" type="radio" value="1" <eq name="site_rewrite_on" value="1">checked</eq>>启用
+        </label>
+        <br>
+        <label>
+            <input class="s-ck" name="site_rewrite_on" type="radio" value="0" <neq name="site_rewrite_on" value="1">checked</neq>>禁用
+        </label>
+		    <p>启用伪静态，需要服务器环境支持Rewrite功能。请和你的系统管理员或主机厂商咨询确认，从URLRewrite目录下拷贝伪静态规则文件到根目录下。</p>
+      </dd>
+    </dl>
+    <!--<dl class="lineD">
+      <dt>左侧的应用名超过4个字时：</dt>
+      <dd>
+        <label>
+            <input name="site_appalias_wordwrap" type="radio" value="1" <eq name="site_appalias_wordwrap" value="1">checked</eq>>换行
+        </label>
+        <br>
+        <label>
+            <input name="site_appalias_wordwrap" type="radio" value="0" <eq name="site_appalias_wordwrap" value="0">checked</eq>>隐藏多余字符
+        </label>
+      </dd>
+    </dl>-->
+
+    <dl class="lineD">
+      <dt>风格包：</dt>
+      <dd>
+          <select name="site_theme">
+              <volist name="theme_list" id="theme">
+              <option value="{$theme.filename}" <php>if($site_theme == $theme['filename']){</php>selected<php>}</php>>{$theme.filename}</option>
+              </volist>
+          </select>
+          <p>重要: 修改风格包后需要手动清理缓存!</p>
+      </dd>
+    </dl>
+      <dl style="*zoom:1">
+      <dt>logo：</dt>
+      <dd>
+          <img src="{$site_logo}" /><br />
+		  <input type="file" name="site_logo" />
+          <p>重要: 在线上传LOGO，最好是8位透明PNG图标!</p>
+      </dd>
+    </dl>
+      <dl style="*zoom:1">
+      <dt>banner：</dt>
+      <dd>
+          <img src="{$banner_logo}" style="width:600px" /><br />
+          <input type="file" name="banner_logo" />
+          <p>重要: 因为各种模板的样式和比例不同，请注意图片大小，程序并不进行自动剪切!</p>
+          <p>Newstyle模板，为960*305尺寸</p>
+          <p>weibo模板，为525*430尺寸</p>
+          <p>classic2模板，为960*305尺寸</p>
+      </dd>
+    </dl>
+    <dl style="*zoom:1">
+    <dt>表情包：</dt>
+      <dd>
+          <select name="expression">
+              <volist name="expression_list" id="theme">
+              <option value="{$theme.filename}" <php>if($expression == $theme['filename']){</php>selected<php>}</php>>{$theme.filename}</option>
+              </volist>
+          </select>
+          <p>重要: 修改表情包后需要手动清理缓存!</p>
+      </dd>
+    </dl>
+    <dl style="*zoom:1">
+      <dt>开启验证码：</dt>
+      <dd>
+        <label style="padding:0; margin:0 30px 0 0;_margin:0 30px 0 -3px" class="check-line">
+        	<input class="s-ck" name="site_verify[]" type="checkbox" value="register" <php>if(in_array('register',$site_verify)) {</php>checked<php>}</php>>注册页面
+        </label>
+        <label style="padding:0">
+        	<input class="s-ck" name="site_verify[]" type="checkbox" value="login" <php>if(in_array('login',$site_verify)) {</php>checked<php>}</php>>登录页面
+        </label>
+        <p>登录或注册是否显示验证码</p>
+      </dd>
+    </dl>
+    <dl style="*zoom:1">
+      <dt>全站微博、评论字数限制：</dt>
+      <dd>
+        <input name="length" type="text" value="{$length}"> 字
+        <p>填写正整数（大于0），默认是140字。</p>
+      </dd>
+    </dl>
+    <dl style="*zoom:1">
+      <dt>全站微博、评论发布频率限制：</dt>
+      <dd>
+        <input name="max_post_time" type="text" value="{$max_post_time}"> 秒
+        <p>填写正整数（大于0），默认是5秒。执行发布操作后，在5秒内不允再发布内容。</p>
+      </dd>
+    </dl>
+    <dl style="*zoom:1">
+      <dt>用户关注人数限制：</dt>
+      <dd>
+        <input name="max_following" type="text" value="{$max_following}"> 人
+        <p>填写正整数（大于0），默认是1000人。只能关注1000个用户（管理员除外），修改此数字后，只在加关注时按新数字计算。</p>
+      </dd>
+    </dl>
+    <dl style="*zoom:1">
+      <dt>全站搜索频率限制：</dt>
+      <dd>
+        <input name="max_search_time" type="text" value="{$max_search_time}"> 秒
+        <p>填写正整数（大于0），默认是5秒。执行搜索操作后，在5秒内不允再搜索。</p>
+      </dd>
+    </dl>
+    <!--<dl style="*zoom:1">
+      <dt>页面刷新频率限制：</dt>
+      <dd>
+        <input name="max_refresh_time" type="text" value="{$max_refresh_time}"> 秒
+        <p>填写正整数（大于0），默认是1秒。同一个地址，在1秒内不允再刷新。</p>
+      </dd>
+    </dl>
+    -->
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+    </form>
+  </div>
+</div>
+<include file="../Public/_footer" />

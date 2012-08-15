@@ -1,0 +1,57 @@
+<include file="__THEME__/header" />
+<link href="../Public/account.css" rel="stylesheet" type="text/css" />
+<script>
+//鼠标移动表格效果
+$(document).ready(function(){
+    $("tr[overstyle='on']").hover(
+      function () {
+        $(this).addClass("iine_warning");
+      },
+      function () {
+        $(this).removeClass("iine_warning");
+      }
+    );
+});
+</script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l"> <!-- 右侧内容 begin  -->
+    <div class="mainbox">
+      <div class="mainbox_appC no_r">
+    <!-- page_title end -->
+    <include file="_tab" />
+    <!-- 切换标签 end  -->
+    <div class="mainbox_C_C">
+		<div class="setupBox" style="margin-right:0px;">
+		  <!-- 修改密码 -->
+          <div class="setItems" style="_width:100%">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="line-height:25px;">
+  			  <tr>
+  			  	<th class="lineD_btm cGray2">动作</th>
+  			  	<volist name="credit_type" id="ct">    	
+		    	<th class="lineD_btm cGray2" style="text-align:center">{$ct.alias}</th>
+		   		</volist>
+		   	  </tr>
+		   	  <volist name="credit_rules" id="vo">
+		   	  <tr overstyle='on' >
+		   	  	<td class="lineS_btm">{$vo.alias}</td>
+		   	  	<volist name="credit_type" id="ct">    	
+		    	<th class="lineS_btm" style="text-align:center">{$vo[$ct['name']]}</th>
+		   		</volist>
+		   	  </tr>
+		   	  </volist>
+		   	</table>
+          </div>
+
+        <div class="c"></div>
+        </div>
+        </div>
+      </div>
+  </div>
+  </div>
+  <!-- 右侧内容 end  -->
+  <div class="c"></div>
+</div>
+</div>
+<!-- 内容 end --> 
+<include file="__THEME__/footer" />

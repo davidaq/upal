@@ -1,0 +1,26 @@
+<script type="text/javascript" src="../Public/Js/common.js"></script>
+<script type="text/javascript" src="../Public/Js/group.interesting.js"></script>
+<script>
+var display_interesting_group = 'right';
+$(document).ready(function(){
+	change_interesting_group(1);
+});
+</script>
+<div class="mainbox_appR">
+	<if condition="$config['createGroup']">
+      <div class="mod_create">
+        <a href="{:U('group/Index/add')}" class="btn_group_c"></a>
+          <h4><a href="{:U('group/SomeOne')}">进入我的群组首页</a></h4>
+      </div>
+	</if>
+	    <div class="group_left_menu mt10 mb10">
+	        <a href="{:U('group/Index/index')}" class="{$newly}">{$ts['app']['app_alias']}动态</a>
+	        <a href="{:U('group/Index/comment')}" class="{$commentes}">群内评论
+    		<span id="app_right_count_comment"><gt name="userCount['comment']" value="0">(<font color="red">{$userCount.comment}</font>)</gt></span></a>
+	        <a href="{:U('group/Index/atme')}" class="{$atmes}">群内@提到我的
+	        <span id="app_right_count_atme"><gt name="userCount['atme']" value="0">(<font color="red">{$userCount.atme}</font>)</gt></span></a>
+		    <a href="{:U('group/Index/bbsNotify')}" class="{$bbsNotifyes}">群内帖子消息
+		    <span id="app_right_count_bbs"><gt name="userCount['bbs']" value="0">(<font color="red">{$userCount.bbs}</font>)</gt></span></a>
+		</div>
+    <div class="mod_interest" id="interesting_group_list"></div>
+</div>

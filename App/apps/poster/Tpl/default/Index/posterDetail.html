@@ -1,0 +1,105 @@
+<include file="__THEME__/header" />
+<link rel="stylesheet" href="../Public/poster.css" type="text/css" media="screen" charset="utf-8" />
+<script  type="text/javascript" src="../Public/poster.js" ></script>
+<div class="content_holder">
+<div class="content no_bg"><!-- 内容 begin  -->
+<include file="../Public/_mainNav" />
+  <div class="main no_l"><!-- 画布 begin  -->
+    <div class="mainbox">
+      <div class="mainbox_appR">
+        <div class="right_box box_create"><a href="{:U('poster/Index/addPosterSort')}" class="btn_poster_c"></a></div>
+      </div>
+      <div class="mainbox_appC">
+        <div class="page_title"> <!-- page_title begin -->
+          <h2><span class="right fn f12px"><php>if($admin){</php>
+            <a href="#"> <a href="{:U('//editPoster',array('id'=>$poster['id'],'typeId'=>$poster['pid']))}">修改</a> ┊ <a href="javascript:deletePoster({$poster.id})">删除</a>
+            <php>}</php>
+            {:W('Weibo',array('tpl_name'=>$_SESSION['new_poster'] == 1?'poster_create_weibo':'poster_share_weibo','button_title'=>'分享'))}
+            <php> $tpl_data = urlencode(serialize(array(
+              'author'=>getUserName($poster['uid']),
+              'title'=>$poster['title'],
+              'url'=>U('poster/Index/posterDetail',array('id'=>$poster['id'])),
+              )));
+              $param_data = urlencode(serialize(array('has_status'=>1,'is_success_status'=>1,'status_title'=>'发布招贴成功'))); </php>
+            <php>if($_SESSION['new_poster'] == 1){</php>
+            <!-- 自动弹出分享 --> 
+            <script>
+                $(document).ready(function(){
+                    _widget_weibo_start('', '{$tpl_data}', '{$param_data}');
+                });
+                </script>
+            <php>unset($_SESSION['new_poster']);}</php>
+            <input type="button" value="分享" class="BtnShare" onclick="_widget_weibo_start('', '{$tpl_data}');" id="BtnShare_{$id}"/>
+            </span><img src="../Public/images/ico/{$type.ico}" class="alM mr5" style="width:24px; height:24px;"><strong style="color:#999">{$poster.posterType} </strong></h2>
+          <h2 style="margin:10px 0 0 29px;">{$poster.title}</h2>
+        </div>
+        <!-- page_title end -->
+        <div class="groupBox">
+          <div class="boxL">
+            <div class="box1 mLR15">
+              <div class="info btmlineD">
+                <div class="list">
+                  <div class="img">
+                    <php>if(!empty($poster['cover'])){</php>
+                    <img src="{:SITE_URL}/thumb.php?url={$poster.cover}&w=150&h=150" />
+                    <php>}</php>
+                  </div>
+                  <ul>
+                    <li>
+                      <div class="c1">发布者：</div>
+                      <div class="c2"><a href="{:U('home/space/index',array('uid'=>$poster['uid']))}">{$poster.name}</a>&nbsp;&nbsp;<a href="{:U('//personal',array('uid'=>$uid))}">{$name}发布的所有信息</a></div>
+                    </li>
+                    <li>
+                      <div class="c1"> 有效时间：</div>
+                      <div class="c2">
+                        <php>echo date('Y年n月j日',$poster['cTime']);</php>
+                        -
+                        <php> if($poster['deadline']){ </php>
+                        <php>echo date('Y年n月j日',$poster['deadline']);}else{ echo '不限制';}</php>
+                      </div>
+                    </li>
+                    <php>if(!empty($poster['posterSmallType'])){</php>
+                    <li>
+                      <div class="c1"> {$type.type}：</div>
+                      <div class="c2">{$poster.posterSmallType}</div>
+                    </li>
+                    <php>}</php>
+                    <li>
+                      <div class="c1"> 地区：</div>
+                      <div class="c2">{$poster.address}</div>
+                    </li>
+                    <li>
+                      <div class="c1"> 联系方式：</div>
+                      <div class="c2">{$poster.contact}</div>
+                    </li>
+                    <volist name="extraField" k="key" id="vo">
+                      <php>if(!empty($poster[$vo])){</php>
+                      <li>
+                        <div class="c1"> {$key}：</div>
+                        <div class="c2">{$poster[$vo]}</div>
+                      </li>
+                      <php>}</php>
+                    </volist>
+                    <?php if( $poster['deadline'] && $poster['deadline']<=time()){ ?>
+                    <li> <span class="cGreen lh35">此{$poster.posterType}已经超过有效期</span> </li>
+                    <?php } ?>
+                  </ul>
+                  <div class="c"></div>
+                  <div id="poster" class="lineS_top pt10"> {$poster.content|stripslashes} </div>
+                </div>
+                <div class="c"></div>
+              </div>
+            </div>
+            <div> {:W('Comment',array('type'=>'poster','appid'=>$poster['id'],'author_uid'=>$poster['uid'],'title'=>$poster['title'],'url'=>U('poster/Index/posterDetail',array('id'=>$poster['id'])),'table'=>'poster','id_field'=>'id','comment_count_field'=>'commentCount'))} </div>
+          </div>
+          <!-- end  --> 
+        </div>
+      </div>
+      <!-- 画布 end  -->
+      <div class="c"></div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- 内容 end --> 
+<include file="__THEME__/footer" />

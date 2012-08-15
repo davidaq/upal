@@ -1,0 +1,50 @@
+<script>
+$(document).ready(function(){
+	$('#input_delete').focus(function(){
+		$('#input_delete_select').attr('checked', true);
+	});
+});
+var deleteVerified = function(id)
+{
+	var id = id ? id : getChecked();
+
+    id = id.toString();
+    var reason = $('input["name=delete"][checked]').val();
+    if (undefined == reason) {
+    	return false;
+    } else if ('' == reason) {
+    	reason = $('#input_delete').val();
+    }
+    if(reason == '' || getLength(reason.replace(/\s+/g,"")) == 0){
+    	alert("请填写取消原因");
+    	return false;
+    }
+    // alert(reason);return false;
+    $.post( '{:Addons::adminUrl('deleteVerified')}',{uid:id,reason:encodeURIComponent(reason),verified:'<?php echo $_GET['verified']; ?>'},function(text){
+    	if( text == 1 ){
+             ui.success( "操作成功" );
+             var id_list = id.split( ',' );   
+             for (var j=0 ; j< id_list.length ; j++   ){
+             	$('#user_'+id_list[j]).remove(); 
+             }
+        }else if( text == 2 ){
+                  ui.success( "操作成功" );
+            $('#user_'+id).remove();
+        }else{
+            ui.error( "操作失败" );
+        }
+    	ui.box.close();
+     });
+};
+</script>
+<p><input type="radio" name="delete" value="不满足认证条件" checked />
+1.不满足认证条件</p>
+<p><input type="radio" name="delete" value="有填写虚假信息嫌疑" />
+2.有填写虚假信息嫌疑</p>
+<p><input type="radio" name="delete" id="input_delete_select" value="" />
+3.其他</p>
+<p><input type="text" name="input_delete" id="input_delete" /></p>
+<div >
+	<input type="button" value="确定" class="btn_b" onclick="deleteVerified({$_GET['uid']})" />
+	<input type="button" value="取消" class="btn_b" onclick="ui.box.close()" />
+</div>

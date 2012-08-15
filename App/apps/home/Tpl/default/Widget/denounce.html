@@ -1,0 +1,54 @@
+<script>
+function doDenounce(){
+	var from = $('#from').val();
+	var aid = $('#aid').val();
+	var uid = $('#uid').val();
+	var fuid = $('#fuid').val();
+	var content = $('#content').html();
+	var reason = $('#reason').val();
+	$.post(U('home/Widget/doDenounce'),{from:from,aid:aid,content:content,reason:reason,uid:uid,fuid:fuid},function(txt){
+		if(txt == 1) {
+			ui.success('举报成功');
+		} else {
+			ui.error('举报失败');
+		}
+		ui.box.close();
+	});
+}
+</script>
+<div  style="width: 500px; text-align: left;overflow:hidden">
+<div style="padding:10px; color:#666"><span class="sico  ico_cue"> </span>不良信息是指含有色情、暴力、广告或其它骚扰你正常微博生活的内容。</div>
+<div class="lineD_btm"></div>
+<div style="padding:10px">你要举报的是"{$fuid|getUserName}"发的信息： </div>
+<input type="hidden" id="from" value="{$from}" >
+<input type="hidden" id="aid" value="{$aid}" >
+<input type="hidden" id="uid" value="{$uid}" >
+<input type="hidden" id="fuid" value="{$fuid}" >
+<div style="padding:10px">
+    <div style="padding:10px;" class="iine_warning clearfix">
+        <div style="width:457px">
+            <div class="left"><img src="{$fuid|getUserFace}" style="padding:2px; border: 1px solid #CCCCCC; background-color:#FFF; width:30px; height:30px;"/></div>
+            <div style="margin-left:40px;" id="content">{$content}</div>
+        </div>
+    </div>
+</div>
+<div style="padding:10px">
+    你可以填写更多举报说明：<span style="color:#666;">（选填,字数范围0－140个文字）</span><br />
+    <textarea id="reason" style="font-family: Tahoma,宋体; border: 1px solid rgb(204, 204, 204); background-color: rgb(248, 248, 248); word-wrap: break-word; font-size: 12px; line-height: 18px; height: 65px; width: 100%;"></textarea>
+</div>
+<div  style="padding:5px 10px 15px 10px">
+    <span class="left">请放心，你的隐私将会得到保护。</span>
+    <input type="button" value="确定" onclick="doDenounce();" class="btn_b mr5"/><input type="button" value="取消" onclick="ui.box.close();" class="btn_w"/>
+</div>
+</div>
+
+<script type="text/javascript">
+$(function() {
+	$('#reason').live('keydown', function(event) {
+		if(this.value.length > 140 && event.which != '8' && event.which != '46') {
+			event.preventDefault();
+			return;
+		}
+	});
+});
+</script>

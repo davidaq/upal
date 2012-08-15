@@ -1,0 +1,75 @@
+<include file="__THEME__/header" />
+<link rel="stylesheet" href="../Public/poster.css" type="text/css" media="screen" charset="utf-8" />
+<div class="content_holder">
+<div class="content no_bg"><!-- 内容 begin  -->
+<include file="../Public/_mainNav" />
+  <div class="main no_l"><!-- 画布 begin  -->
+    <div class="mainbox">
+      <div class="mainbox_appR">
+        <div class="right_box box_create"><a href="{:U('poster/index/addPosterSort')}" class="btn_poster_c"></a></div>
+        <include file="../Public/_isHotList" /> </div>
+      <div class="mainbox_appC"> <!-- 右侧内容 begin  -->
+        <div class="tab-menu"><!-- 切换标签 begin  -->
+          <ul>
+            <li><a class="on" href="{:U('//personal', array('uid'=>$uid))}"><span><if condition="$uid eq $mid">我<else />{$uid|getUserName}</if>的{$ts['app']['app_alias']}</span></a></li>
+          </ul>
+        </div>
+        <div class="boxL poster_boxL">
+          <div class="sort mt10 pt5" >
+         <dl>
+            <volist name="posterType" id="vo">
+              <dd><a href="{:U('//personal',array('uid'=>$_GET['uid'],'pid'=>$vo['id']))}" 
+                <php>if($vo['id'] == $_GET['pid']) echo "class='on'";</php>
+                >{$vo.name}</a></dd>
+            </volist>
+            </dl>
+            <div class="c"></div>
+          </div>
+          <php>if(!empty($type)){</php>
+           <div class="sort mb10" style="background-color:#fff; border-top:0;">
+	            <dl>
+            <volist name="type" id="vo">
+              <dd><a href="{:U('//personal',array('uid'=>$_GET['uid'],'pid'=>$_GET['pid'],'stid'=>$vo['id']))}" 
+                <php>if($vo['id'] == $_GET['stid']) echo "class='on'";</php>
+                >{$vo.name}<if condition=" $mid neq $uid">({$vo.count})</if></a></dd>
+            </volist>
+            </dl>
+            <dd class="c"></dd>
+          </div>
+          <php>}</php>
+          <ul class="search">
+            <volist name="data" id="vo">
+              <li class="lineD_btm" >
+                <div class="left alC" style="padding:0 10px 0 0"><span class="headpic50"><space uid="vo.uid">{uavatar}</space></span><br /><space uid="vo.uid">{uname}</space></div>
+                <div class="left" style="width:65%;">
+                  <h3><a href="{:U('//posterDetail',array('id'=>$vo['id']))}">{$vo.title}</a><if condition="$vo['type']"><span class="cGray2 f12px">[{$vo.type}]</span></if></h3>
+                  <p>{$vo.content}</p>
+                  <p>发布时间：{$vo.cTime|friendlyDate} </p>
+                </div>
+                <div class="right pt10" style="width: 70px;">
+                  <php>if(!empty($vo['cover'])){</php>
+                  <img src="{:SITE_URL}/thumb.php?url={$vo['cover']}&w=68&h=52" width="68" height="52" />
+                  <php>}else{</php>
+                  <img src="../Public/images/list_zw.gif" width="68" height="52" />
+                  <php>}</php>
+                </div>
+                <div class="right pt10" style="width: 90px;">
+                  <php>if($vo['deadline']&&$vo['deadline']<=time()){</php>
+                  <img src="../Public/images/icon_ygq1.gif" width="63" height="36" />
+                  <php>}</php>
+                </div>
+                <div class="c"></div>
+              </li>
+            </volist>
+          </ul>
+          <div id="Pagination" class="page">{$html}</div>
+        </div>
+      </div>
+      <!-- 右侧内容 end  -->
+      <div class="c"></div>
+    </div>
+  </div>
+  <!-- 内容 end --> 
+</div>
+</div>
+<include file="__THEME__/footer" />

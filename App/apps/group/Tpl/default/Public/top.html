@@ -1,0 +1,103 @@
+<script type="text/javascript" src="../Public/Js/common.js"></script>
+<if condition="$groupinfo['brower_level'] eq -1">
+{:W('Weibo',array('tpl_name'=>'group_share_weibo','button_title'=>'分享'))}
+</if>
+<script>
+<if condition="$is_invited eq 1">
+$(document).ready(function(){
+	joingroup({$gid});
+});
+</if>
+</script>
+<div class="M_group clearfix">
+    <!-- 群信息 -->
+    <dl class="mod_group_info clearfix">
+        <dt class="userPic">
+            <a href="{:U('group/Group/index', array('gid'=>$gid))}"><img src="__ROOT__/thumb.php?w=80&h=80&url={$groupinfo['logo']|get_photo_url}"/></a>
+        </dt>
+        <dd class="userInfo">
+        
+        <div class="right alR">
+            <div class="mb10">	    
+                <if condition="$groupinfo['brower_level'] eq -1">
+                    <php>
+                        $tpl_data = array('author'=>getUserName($groupinfo['uid']),'name'=>$groupinfo['name'],'url'=>U('group/Group/index',array('gid'=>$gid)));
+                        $tpl_data = urlencode(serialize($tpl_data));
+                    </php>
+                    <a href="javascript:void(0)" onclick="_widget_weibo_start('', '{$tpl_data}');">分享群组</a>
+                    
+                </if>
+                <php>if (($ismember && $groupinfo['need_invite'] != 2) || $isadmin) { </php>
+                    &nbsp;&nbsp;<span class="cGray2">|</span>&nbsp;&nbsp;<a href="{:U('group/Invite/create',array('gid'=>$groupinfo['id']))}">邀请好友</a>
+                <php>}</php>
+                <php>if($isadmin){</php>&nbsp;&nbsp;<span class="cGray2">|</span>&nbsp;&nbsp;
+                    <span class="ico_Modify"></span><a href="{:U('/Manage/',array('gid'=>$groupinfo['id']))}">管理群组</a>
+                    
+                <php>}</php>
+                <php>if(!isadmin($mid,$gid) && !ismember($mid,$gid)){</php>
+                    <php>if($groupinfo['membercount'] == $config['groupMaxUser']){</php>
+                        &nbsp;&nbsp;<span class="cGray2">|</span>&nbsp;&nbsp;人数已经满({$groupinfo['membercount']})
+                    <php>}else{</php>
+                        &nbsp;&nbsp;<span class="cGray2">|</span>&nbsp;&nbsp;<a href="javascript:joingroup({$gid})" class="btn_shenqing"><span class="addnew"></span>加入该群</a>
+                    <php>}</php>
+                    <php>} elseif(iscreater($mid,$gid)){</php>
+                        
+                    <php>} else {</php>
+                        <span class="vline">|</span><span class="cGray2">已加入群组</span> <a href="javascript:quitgroup({$gid})">退出</a>
+                    <php>}</php>
+                    
+              </div>
+        </div>
+              
+                <p class="hd"><a href="{:U('group/Group/index', array('gid'=>$gid))}">{$groupinfo['name']}</a> <span  class="f12px cGray2 fw100 fn">({$groupinfo['membercount']}人)</span></p>
+                <p class="member"><if condition=" $groupinfo['need_invite'] eq 1 "> <if condition=" $isadmin ">等待审核成员：{$gid|getApplyCount}人</if></if>         </p>
+                <p class="date">创建时间：{$groupinfo['ctime']|friendlyDate}</p>
+                <p class="info">群介绍：{$groupinfo['intro']}</p>
+        </dd>
+    </dl>
+    <div class="mod_announcement">
+        <div class="right">
+              <php>if ($isadmin) {</php>
+              <a href="{:U('group/Manage/announce', array('gid'=>$gid))}">修改</a>
+              <php>}</php>
+        </div>
+        <h4 class="titround_Ann">最新公告</h4>
+        <span>{$groupinfo['announce']}</span>
+    </div>
+    <!-- 切换标签  -->
+    <div class="tab-menu">
+    <if condition="!$search_key && ACTION_NAME neq 'search' && MODULE_NAME neq 'Member'">
+        <php>
+        $search_title = '搜索';
+        switch(strtolower(MODULE_NAME)) {
+            case 'group':
+                $search_title = '搜群聊';
+                break;
+            case 'topic':
+                $search_title = '搜帖子';
+                break;
+            case 'dir':
+                $search_title = '搜文件';
+                break;
+            default:
+                $search_title = '搜索';
+        }
+        </php>
+        <span class="searchGroup">
+        <form 
+            <if condition="MODULE_NAME eq 'Group'">action="{:U('group/Group/search', array('gid'=>$groupinfo['id']))}"
+            <elseif condition="MODULE_NAME eq 'Topic'" />action="{:U('group/Topic/index', array('gid'=>$groupinfo['id']))}"
+            <elseif condition="MODULE_NAME eq 'Dir'" />action="{:U('group/Dir/index', array('gid'=>$groupinfo['id']))}"</if> 
+        method="post" onsubmit="javascript:if(this.k.value.length <= 0){return false;}">
+            <input type="text" name="k"  value="" class="textSearch" />
+            <input type="submit" value="" class="btn_s" /><!--{$search_title}-->
+        </form>
+        </span>
+    </if>
+      <ul>
+          <if condition="$groupinfo['openWeibo']"><li><a href="{:U('/Group/',array('gid'=>$groupinfo['id']))}" <if condition="$current eq 'group'">class="on" </if> > <span>群聊</span></a></li></if>
+          <if condition="$groupinfo['openBlog']"><li><a href="{:U('/Topic/',array('gid'=>$groupinfo['id']))}" <if condition="$current eq 'topic'">class="on" </if>><span>帖子</span></a></li></if>
+          <if condition="$groupinfo['openUploadFile']"><li><a href="{:U('/Dir/',array('gid'=>$groupinfo['id']))}" <if condition="$current eq 'dir'">class="on" </if> ><span>文档</span></a></li></if>
+          <li><a href="{:U('/Member/',array('gid'=>$groupinfo['id']))}" <if condition="$current eq 'member'">class="on" </if> ><span>成员</span></a></li>
+      </ul>
+    </div>

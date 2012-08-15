@@ -1,0 +1,217 @@
+<include file="__THEME__/header" />
+<link href="../Public/account.css" rel="stylesheet" type="text/css" />
+<link href="../Public/js/setavatar/css/imgareaselect-default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/js/avatar/avatar.js"></script>
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<script type="text/javascript" src="../Public/js/setavatar/jquery.imgareaselect.min.js"></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l"> <!-- 右侧内容 begin  -->
+    <div class="mainbox">
+      <div class="mainbox_appC no_r">
+    <include file="_tab" />
+    <!-- 切换标签 end  -->
+    <div class="mainbox_C_C">
+    		<div class="setupBox">
+		  <div class="setItems" id="face">
+            <div class="setFold setUnfold" rel="base">
+			<div style="float:left;margin-right:10px;border:1px solid #8098A8;height:30px;padding:1px;width:30px;"><img src="{$mid|getUserFace='s'}" width="30"></div>
+              <h2>上传头像</h2>
+             <div class="setStep">
+			  	<span class="txt1" id="avatarInfo">
+				<php>if( isSetAvatar($mid) ){</php>
+					已设置头像
+				<php>}else{</php>
+					未设置头像
+				<php>}</php>
+				</span>
+              </div>
+            </div>
+            <div style=""  class="setItemsInfo"> 
+				<div style="padding:10px 0;color:#666;"> 
+				<form enctype="multipart/form-data" method="post" id="uploadpic" name="upform" dotype="ajax" callback="uploadpic" target="upload_target" action="{:U('home/Account/avatar',array('t'=>'upload'))}">
+				<input type="file" name="Filedata" onchange="douploadpic()" id="Filedata"/> 
+				<span style="display:none;" id="loading_gif"><img src="../Public/js/avatar/loading.gif" align="absmiddle" />上传中，请稍侯......</span>  
+				</form>
+				</div> 
+                <div class="picSettings">
+                	<div id="photo" class="left" style="width:250px; height:250px; border-right:1px solid #E5E5E5">
+					</div>
+                    <div class="left" style="width:200px; padding-left:15px;">
+                    	<div style="width:180px;  margin-bottom:20px; font-size:16px"><strong>头像预览</strong></div>
+                        <div class="left" style=" width: 150px; height: 150px; border:1px solid #B4B5AF; overflow:hidden;"><img id="photo_big" src="{$mid|getUserFace='b'}" /></div>
+						
+                    </div>
+					<form enctype="multipart/form-data" method="post" name="upform" dotype="ajax" callback="dosaveface" target="_blank" action="{:U('home/Account/avatar',array('t'=>'save'))}">
+				<input type="hidden" name="picurl">
+				<input type="hidden" name="x1">
+				<input type="hidden" name="y1">
+				<input type="hidden" name="x2">
+				<input type="hidden" name="y2">
+				<input type="hidden" name="w">
+				<input type="hidden" name="h">
+				<div style="clear:left; padding-top:20px;"> <input type="submit" class="btn_b" value="保存" /> <input type="button" class="btn_w" value="取消" onclick="unSetFace()" /></div>
+				</form>
+                    
+                </div>
+			</div>
+          </div>
+          <div class="c"></div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <!-- 右侧内容 end  -->
+  <div class="c"></div>
+</div>
+</div>
+<!-- 内容 end --> 
+<include file="__THEME__/footer" />
+<script>
+$(document).ready(function(){
+	var hs = document.location.hash;
+	var up_pic_width =50;
+	var up_pic_height =50;
+	
+	changeModel( hs.replace('#','') );
+	$('.setFold').click(function(){
+		if( $(this).attr('class')=='setFold' ){
+			changeModel( $(this).attr('rel') );
+		}else{
+			$(this).removeClass('setUnfold');
+			$(this).next('.setItemsInfo').hide();
+		}
+		location.href='#'+$(this).attr('rel');
+	})
+	
+	//监听 form 表单提交
+	$("form").bind('submit', function() {
+		var callbackfun = $(this).attr('callback');
+		var type   = $(this).attr('type');
+		var options = {
+			success: function(txt) {
+				txt = eval("("+txt+")");
+				if(callbackfun){
+					callback(eval(callbackfun),txt);
+				}else{
+					  if(txt.boolen){
+						  ui.success( txt.message );
+					  }else{
+						  ui.error( txt.message );
+					  }
+						 
+				}
+			}
+		};		
+		 $(this).ajaxSubmit(options);
+		 return false;
+	});
+
+});
+
+function callback(fun,argum){
+	fun(argum);
+}
+
+function dosaveface(txt){
+	if (txt=='-1') {
+		ui.error('更新失败');
+	}else {
+		alert('更新成功');
+		location.reload();
+	}
+}
+
+function douploadpic(){
+	$('#loading_gif').show();
+	$('input[name="Filedata"]').hide();
+	var options = {
+			success: function(txt) {
+				uploadpic(txt);
+			}
+	};		
+	$('#uploadpic').ajaxSubmit(options);
+	return false;		
+}
+var imgrs;
+function uploadpic(txt){
+	txt = eval('('+txt+')');
+	if(txt.code==1){
+		var tmpDate = new Date(); 
+		set_UP_W_H(txt.data['picwidth'],txt.data['picheight']);
+		var defautlv = ( txt.data['picwidth'] > txt.data['picheight']) ?txt.data['picheight']:txt.data['picwidth'];
+//		$("#photo").attr('src',txt.data['picurl']+'?t='+ tmpDate.getTime());
+		$("#photo").html("<img id='photo_img' src="+txt.data['picurl']+'?t='+ tmpDate.getTime()+">");
+		$("input[name=picurl]").attr('value',txt.data['picurl']);
+		$("#photo_big").attr('src',txt.data['picurl']+'?t='+ tmpDate.getTime());
+	
+		imgrs = $('#photo_img').imgAreaSelect({ 
+					x1: 0, 
+					y1: 0,
+					x2: 100, 
+					y2: 100, 
+					handles: true,
+					onInit:preview,
+					onSelectChange:preview,
+					onSelectEnd:onSelectEnd,
+					aspectRatio: '1:1',
+					instance: true,
+					parent:$('#photo')
+					});
+		$('#loading_gif').hide();
+	 }else{
+		alert(txt.message);
+	 }
+}
+
+//重新上传图片
+function unSetFace(){
+	var defaultpic = "{$mid|getUserFace=b}"
+	$('input[name="Filedata"]').show();
+	$("#photo").html("");
+	$("input[name=picurl]").attr('value','');
+	$("#photo_big").attr('src',defaultpic);
+	$('#photo_big').attr('style','position: relative;');
+	imgrs.setOptions({ remove:true });
+	imgrs.update();
+};	
+
+function set_UP_W_H(w,h){
+	up_pic_width = w;
+	up_pic_height = h;
+}	
+	
+function onSelectEnd(img,selection){
+	$('input[name=x1]').val(selection.x1);
+	$('input[name=y1]').val(selection.y1);
+	$('input[name=x2]').val(selection.x2);
+	$('input[name=y2]').val(selection.y2); 
+	$('input[name=w]').val(selection.width); 
+	$('input[name=h]').val(selection.height); 
+}
+	
+function preview(img, selection) {
+	onSelectEnd(img,selection);
+	var big_scaleX = 150 / (selection.width || 1);
+	var big_scaleY = 150 / (selection.height || 1);
+	
+	$('#photo_big').css({
+		width: Math.round(big_scaleX * up_pic_width) + 'px',
+		height: Math.round(big_scaleY * up_pic_height) + 'px',
+		marginLeft: '-' + Math.round(big_scaleX * selection.x1) + 'px',
+		marginTop: '-' + Math.round(big_scaleY * selection.y1) + 'px'
+	});
+}		
+
+//切换操作模块
+function changeModel( type ){
+	var t = type || 'base';
+	$('.setFold').removeClass('setUnfold');
+	$('.setItemsInfo').hide();
+	var handle = $('div[rel="'+t+'"]');
+	handle.addClass('setUnfold');
+	handle.next('.setItemsInfo').show();
+}
+</script> 

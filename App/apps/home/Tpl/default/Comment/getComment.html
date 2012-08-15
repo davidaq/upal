@@ -1,0 +1,41 @@
+
+<volist name="data" id="vo">
+  <li id="comm{$vo['id']}"class="comlist">
+  <div class="left" style="width:65px;"><span class="headpic50"><a href="__APP__/space/{$vo['uid']}" class="tips" rel="__TS__/Index/userInfo/uid/{$vo['uid']}"><img src="{$vo['face']}" /></a></span></div>
+          		<div style="margin-left:65px;">
+       			  <div style="padding-bottom:20px;">
+                      <h3 class="tit_Critique lh25 mb5"><span class="right f12px mr5">
+                          <?php
+                            $string = sprintf( "<a href=\"javascript:replay( \'%s\',%s )\">回复</a>",$vo['name'],$vo['id'] );
+                            if( $vo['isDelete'] ){
+                                $delete = sprintf("<a href=\"###\" onclick=\"deleteComment(%s,%s)\">删除</a>",$vo['id'],$vo['appid']);
+                            }
+                            ?>
+                            <span>{$string}</span><eq name="vo.isDelete" value="1"><span class="ml5">{$delete}</span></eq>
+                      </span>
+                      <a href="__APP__/space/{$vo['uid']}">{$vo['name']}</a> <em class="cGray2">{$vo['cTime']}</em> <eq name="vo.quietly" value="1"><font color="red"><b>[悄悄话]</b></font></eq></h3>
+                    <p>{$vo.comment}</p>
+                  </div>
+                  <div class="subcomment">
+                    <php>foreach( $vo['subcomment'] as $value ){</php>
+                          <?php
+                             if( $value['isDelete'] ){
+                                $delete = sprintf("<a href=\"###\" onclick=\"deleteComment(%s,%s)\">删除</a>",$value['id'],$value['appid']);
+                            }
+                            ?>
+                    <div class="sublist pt5 clear" id="comm{$value['id']}">
+                      <div class="left" style="width:50px;">
+                      <span class="pic38"><a href="__APP__/space/{$value['uid']}" class="tips" rel="__TS__/Index/userInfo/uid/{$value['uid']}"><img src="{$value['face']}" /></a></span>
+                      </div>
+                      <div style=" margin-left:50px;">
+                        <h3 class="tit_Critique lh20 mb5"><span class="right f12px mr5">          <eq name="value.isDelete" value="1"><span class="ml5">{$delete}</span></eq>
+                          </span><a href="__APP__/space/{$value['uid']}">{$value['name']}</a>  <em class="cGray2">{$value['cTime']}</em><eq name="vo.quietly" value="1"><font color="red"><b>[悄悄话]</b></font></eq></h3>
+                          <p>{$value['comment']}</p>
+                      </div>
+                      <div class="c"></div>
+                    </div>
+                    <php>}</php>
+                  </div>
+                </div>
+                </li>
+              </volist>

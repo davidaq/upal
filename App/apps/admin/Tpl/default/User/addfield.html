@@ -1,0 +1,76 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">添加字段</div>
+  
+  <!--表单设置修改模块 begin -->
+  <form action="{:U('admin/user/addfield')}" method="post">
+  <div class="form">
+    <dl class="lineD">
+      <dt>字段键名：</dt>
+      <dd>
+        <input name="fieldkey" type="text">
+    </dl>
+	
+    <dl class="lineD">
+      <dt>字段名称：</dt>
+      <dd>
+        <input name="fieldname" type="text">
+    </dl>
+	
+    <dl class="lineD">
+      <dt>字段类型：</dt>
+      <dd>
+        <input type="hidden" name="fieldtype" value="text">文本输入
+        <!-- 
+        <select name="fieldtype">
+        	<option value="text">文本输入</option>
+        	<option value="radio">radio单选</option>
+        	<option value="checkbox">checkbox多选</option>
+        	<option value="select">select下拉选择</option>
+        	<option value="other">自定义类型</option>
+        </select>
+        -->
+	  </dd>
+    </dl>		
+	
+    <dl class="lineD">
+      <dt>所属模块：</dt>
+      <dd>
+       <select name="module">
+	       <!-- <option value="base">基本资料</option> -->
+	       <option value="intro">个人情况</option>
+	       <option value="contact">联系方式</option>
+	   </select>
+    </dl>
+		
+    <dl class="lineD">
+      <dt>是否启用：</dt>
+      <dd>
+        <label>
+          <input name="status" type="radio" value="1" checked>
+          启用</label>
+        <label>
+          <input name="status" type="radio" value="0">
+          不启用</label>
+      </dd>
+    </dl>
+	
+    <dl class="">
+      <dt>空间显示：</dt>
+      <dd>
+        <label>
+          <input name="showspace" type="radio" value="1" >
+          显示</label>
+        <label>
+          <input name="showspace" type="radio" value="0" checked>
+          不显示</label>
+      </dd>
+    </dl>
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+    </div>
+	</form>
+  </div>
+  <!--表单设置修改模块 end -->
+<include file="../Public/_footer" />

@@ -1,0 +1,208 @@
+<include file="__THEME__/header" />
+<link rel="stylesheet" type="text/css" href="../Public/css/square.css"/>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/weibo.js"></script>
+<script type="text/javascript" src="../Public/js/square.js"></script>
+<script type="text/javascript" src="../Public/js/square.slide.js"></script>
+
+<script>
+$(document).ready(function(){
+	<php>if($aboutkey){</php>
+	//今日看点
+	var scrtime;
+	var $ul = $('#topic_user_list');
+	var $u  = $ul.find('.topic_user:first');
+
+	$ul.hover(function(){
+         clearInterval(scrtime);
+
+ 	},function(){
+		scrtime = setInterval(function(){
+			$u.fadeOut("slow",function(){
+				if($u.css('display')=='none'){
+					$next = $u.next();
+					if($next.hasClass('topic_user')){
+						$u = $next;
+					}else{
+						$u = $ul.find('.topic_user:first');
+					}
+					$u.fadeIn();
+				}else{
+					$u.css('display','block');
+				}
+			});
+		},4500);
+
+ 	}).trigger("mouseleave");
+	<php>}</php>
+
+	//活跃用户
+	<if condition="$hotUserSlide">hot_user_slide();</if>
+
+	//名人推荐
+	star_list();
+
+	//微博列表
+	$("#square_list_tab a").click(function(){
+		var $a = $(this);
+		if(!$a.hasClass("on")){
+			$("#square_list_tab a").removeClass("on");
+			$a.addClass("on");
+		}
+
+		var url = $a.attr("source");
+		square_index_weibo(url);
+		return false;
+	});
+	square_index_weibo();
+	
+	
+	
+});
+  var weibo = $.weibo({
+          timeStep : 60000
+    });
+
+</script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  -->
+  <include file="_left" />
+  <div class="main">
+    <div class="mainbox">
+    <div class="mainbox_R">
+    {:Addons::hook('home_square_index_right_top')}
+    <div class="right_box">
+      {:W('HotTopic', array('type'=>'recommend',limit=>5))}
+      {:W('HotTopic', array('type'=>'auto','limit'=>5))}
+    </div>
+    
+    <!--粉丝榜-->
+    <div class="right_box lineS_top">
+      <h2>粉丝榜</h2>
+      <ul class="fans_toplist">
+        <volist id="vo" name="topfollow">
+          <php>if($key>2){ $class='no'; }else{ $class='no top'.($key+1); }</php>
+          <li>
+            <em class="{$class}">{$key+1}</em>
+            <a href="{:U('home/space/index',array('uid'=>$vo['uid']))}"><img src="{$vo.uid|getUserFace}" class="userFace"/></a>
+            <div>
+                <space uid="vo.uid" class="OverH nam ">{uname}</space>
+                <p><span>{$vo.count}</span>粉丝数</span>
+            </div>
+          </li>
+        </volist>
+      </ul>
+    </div>
+    <!--/粉丝榜-->
+    {:Addons::hook('home_square_index_right_bottom')}
+    <php>if (Addons::requireHooks('home_index_right_advert')) {</php>
+        {:Addons::hook('home_index_right_advert', array($ts['ad']['right']))}
+    <php>} else {</php>
+		<volist name="ts['ad']['right']" id="vo">
+		<div class="ad_right"><div class="ke-post lineS_btm">{$vo.content}</div></div>
+		</volist>
+	<php>}</php>
+  </div>
+      <div class="mainbox_C main_pad" >
+        {:Addons::hook('home_square_index_top')}
+        <php>if($aboutkey){</php>
+		<div class="Hotspot_box">
+			<gt name="mid" value="0">
+			<div class="hotspot_tit"><span><a href="javascript:void(0)" onclick="weibo.quickpublish('#{$aboutkey|str_replace='"','&quot;',###|addslashes}# ')">我也说几句>></a></span><strong>今日看点:</strong>大家一起聊“<a href="{:U('home/User/topics',array('k'=>$aboutkey))}">{$aboutkey}</a>”吧</div>
+	        </gt>
+			<div class="topic">
+			<div id="topic_user_list">
+            <volist id="vo" name="userlist">
+              <div class="topic_user" <php>if($i > 1){echo 'style="display:none;"';}else{echo 'style="display:block;"';}</php>>
+	              <div class="dd left">
+	                <span class="userPic mb10">
+	                  <space uid="vo.uid">{uavatar}</space>
+	                </span>
+	              </div>
+	              <div class="dd left" style="width:480px;_width:470px">
+	                <h3>
+	                  <space uid="vo.uid">{uname}</space>
+	                </h3>
+	                <p>{$vo.userinfo.location} <a href="{:U('home/Space/follow',array('uid'=>$vo['uid'],'type'=>'follower'))}">粉丝{$vo.follower|intval}人</a></p>
+	                <p style=" height:35px; overflow:hidden; display:block; line-height: 18px;"><a href="{:U('home/space/detail',array('id'=>$vo['weibo_id']))}">{$vo.content|getShort=###,66}</a> ({$vo.ctime|friendlyDate})</p>
+	              </div>
+              </div>
+            </volist>
+            </div>
+        </div>
+		</div>
+		<php>}</php>
+        <div class="laSOSO">
+         <div class="sosobox">
+            <p class="sosuo"><input type="text" id="s_keyword" style="width:300px; margin:0px; " class="text mr5">
+            <input type="button" onclick="s_search('topic')" value="搜微博" class="btn_b">
+            <input type="button" onclick="s_search('user')" value="搜人" class="btn_b"></p>
+            <p class="reci">
+            <span class="cGray2">热词：</span>
+            <volist name="hotkeys" id="hk">
+              <a href="{:U('home/user/search',array('k'=>urlencode($hk['name'])))}">{$hk.name|getShort=###,10}</a>&nbsp;&nbsp;
+            </volist></p>
+          </div>
+        </div>
+        
+        <if condition="$hotUser">
+          <div class="tab-menu">
+            <ul>
+              <li><a class="feed_item on"  href="javascript:void(0)" ><span>活跃用户</span></a></li>
+            </ul>
+          </div>
+          	<div id="hot_user_list">
+          	<a href="#" ref="pre_slide" class="pre_slide"><!--<if condition="$hotUserSlide">&lt;<else />&nbsp;</if>--></a>
+            <div id="hot_user_slides" class="slides_container" style="position:relative; overflow:hidden;">
+              <volist name="hotUser" id="hu">
+              <div class="hot_user_slide" style="position:absolute;<php>if($i>1){echo 'display:none;';}else{echo 'display:block;';}</php>">
+                <php>if(is_array($hu)){</php>
+                <php>foreach($hu as $u){</php>
+	                <div class="left" style="width:126px; height:60px; overflow:hidden;">
+	                  <div class="userPic" ><space uid="u.uid">{uavatar}</space></div>
+	                  <div style="margin-left:60px;">
+	                    <space uid="u.uid">{uname}</space><br />
+	                    <span class="lh30 cGray2"><a href="{:U('home/space/follow',array('uid'=>$u['uid'],'type'=>'follower'))}">粉丝{$u.follower}人</a></span>
+	                  </div>
+	                </div>
+                <php>}}</php>
+              </div>
+              </volist>
+            </div>
+          	<a href="#" ref="next_slide" class="next_slide"><!--<if condition="$hotUserSlide">&gt;<else />&nbsp;</if>--></a>
+            </div>
+          </if>
+		<!--名人推荐-->
+        <if condition="$star_list">
+	    <div class="mod-star clearfix">
+          <div class="tab-menu">
+              <ul>
+                  <span class="right"><a href="{:U('home/Square/star')}" target="_blank">更多&raquo;</a></span>
+                  <li><a class="feed_item on"  href="javascript:void(0)" ><span>名人推荐</span></a></li>
+              </ul>
+          </div>
+          <div id="star_list" class="star_list"><img src="__THEME__/images/icon_waiting.gif" width="20" style="margin:33px 50% 0 50%;" /></div>
+	    </div>
+        </if>
+		<!--//名人推荐-->
+        
+		<!--大家在说-->
+        {:Addons::hook('home_square_index_middle')}
+        <div class="tab-menu" id="square_list_tab">
+          <ul>
+            <volist name="square_list_menu" id="vo">
+              <li><a class="feed_item <if condition="!$key">on</if>" source="{:U('home/square/index_weibo', array('type'=>$key))}"><span>{$vo}</span></a></li>
+			</volist>
+          </ul>
+        </div>
+		<!--//大家在说-->
+        <div id="square_list"><img src="__THEME__/images/icon_waiting.gif" width="20" style="margin:33px 50% 0 50%;" /></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+</div>
+{:Addons::hook('weibo_js_plugin')}
+<!-- 内容 end --> 
+<include file="__THEME__/footer" /> 

@@ -1,0 +1,75 @@
+<span id="followGroupSelector" class="mod-group-list">
+	<volist name="group_list" id="g">
+		<label><input type="checkbox" name="gids[]" value="{$g.follow_group_id}" onclick="setFollowGroup(this.value)" class="ck">{$g.title}</label>
+	</volist>
+</span>
+<span id="createFollowGroup" class="add-group">
+	<a href="javascript:void(0);" onclick="createFollowGroupTab('')" class="openTab">+创建分组</a>
+	<input type="text" name="followGroupTitle" value="" class="text mb5" style="display:none; width:88px;margin:0 0 5px"><br />
+	<input type="button" onclick="createFollowGroup()" class="btn_b" value="保存" style="display:none;">
+	<a href="javascript:void(0);" onclick="createFollowGroupTab('close')" class="cancelTab" style="display:none;">取消</a>
+</span>
+<script>
+var fid = '{$fid}';
+$(document).ready(function(){
+	<volist name="f_group_status" id="gs">
+    	$( "input[name='gids[]'][value='{$gs.gid}']" ).attr( 'checked',true );
+	</volist>
+});
+
+function setFollowGroup(gid){
+	$.post(U('weibo/FollowGroup/setFollowGroup'),{gid:gid,fid:fid},function(res){
+		$('.followGroup'+fid).html(res);
+	});
+}
+
+function createFollowGroupTab(action){
+	if(action == 'close'){
+		$("input[name='followGroupTitle']").val(' ');
+		$('#createFollowGroup input').css('display','none');
+		$('#createFollowGroup .cancelTab').css('display','none');
+		$('#createFollowGroup .openTab').css('display','inline');
+	}else{
+		$('#createFollowGroup input').css('display','inline');
+		$('#createFollowGroup .cancelTab').css('display','inline');
+		$('#createFollowGroup .openTab').css('display','none');
+	}
+}
+
+function createFollowGroup(){
+	var title = $.trim($("input[name='followGroupTitle']").val());
+	if(title == ''){
+		ui.error('请输入分组标题！');
+		return false;
+	}else if(title.length>8){
+		ui.error('分组标题字数不能超过8个字符');
+		return false;
+	}
+	$.post(U('weibo/FollowGroup/setGroup'),{title:title},function(gid){
+	    var res = eval('('+gid+')');
+		if(res.status != 0){
+			createFollowGroupTab('close');
+			$('#followGroup').append('<a href="'+U('home/space/follow')+'&uid='+_UID_+'&type=following&gid='+res.info+'">'+title+'</a>');
+			$('#followGroupSelector').append('<label><input type="checkbox" name="gids[]" value="'+res.info+'" onclick="setFollowGroup(this.value)" checked class="ck" />'+title+'</label>');
+			setFollowGroup(res.info);
+		}else{
+			ui.error(res.info);
+		}
+	});
+}
+
+//单击空白区域隐藏分组选择
+var isOut{$fid} = true;
+$('.followGroupStatus'+fid).mouseleave(function() {
+	isOut{$fid} = true;
+});
+$('.followGroupStatus'+fid).mouseover(function() {
+	isOut{$fid} = false;
+});
+$(document).click(function(){
+	if(isOut{$fid}){
+		followGroupSelectorClose(fid);
+		isOut{$fid} = false;
+	}
+});
+</script>

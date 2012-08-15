@@ -1,0 +1,15 @@
+上传图片添加水印功能
+
+在后台全局设置/附件管理里边可以设置水印属性
+addons/libs/中新建了watermark.class.php类库
+
+在需要加入水印的方法中载入该类库，使用watermark::iswater("文件路径名称");即可，
+程序会自动调用在后台设置的属性
+
+把本文件夹内的文件覆盖到根目录即可(注意备份原文件)
+水印图片文件放在Public/images/watermark/watermark.png，水印文件请自己准备
+
+
+浪子不归
+fbcha@163.com
+http://www.21gt.com

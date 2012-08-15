@@ -1,0 +1,253 @@
+<include file="_header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-ui-1.8.6.custom.min.js"></script>
+<style>
+.ui-state-highlight { height: 1.5em; line-height: 1.2em; background-color:#eef2f8 }
+</style>
+<script>
+$(function() {
+    $( "#sortable_star_group" ).sortable({
+        placeholder: "ui-state-highlight",
+        stop:function(event,ui){ $('#group_order_top input[type="submit"]').fadeIn();}
+    });
+    $( "#sortable_star_group" ).disableSelection();
+});
+</script>
+<script>
+var gid = '{$group.star_group_id}';
+var gtitle  = '{$group.star_group_title}';
+var gstatus = '<if condition="$group['top_group_id']">{$group.top_group_title} - </if>{$group.star_group_title}';
+
+function addGroupTab(type,action){
+	var form = '#addgroup_'+type;
+	if(action == 'close'){
+		$(form+" input").css('display','none');
+		$(form+" a[href='javascript:void(0);']").css('display','inline');
+	}else{
+		$(form+" input").css('display','inline');
+		$(form+" a[href='javascript:void(0);']").css('display','none');
+	}
+}
+function add_group(type){
+	var form = '#addgroup_'+type;
+	var title = $(form+" input[name='title']").val();
+	if(title.length == 0){
+		ui.error('请输入分组标题！');
+	}else if(title.length>10){
+		ui.error('分组标题字数不能超过10个字符！');
+	}else{
+		var options = {
+				success: function(txt) {
+					if(txt == -2){
+						ui.error('上级分组不存在！');
+					}else if(txt == -1){
+						ui.error('该分组已经存在！');
+					}else if(txt>0){
+						ui.success('创建分组成功');
+						setInterval("location.reload()",500);
+					}else{
+						ui.error('创建分组失败！');
+					}
+				} 
+			};		
+		$(form).ajaxSubmit( options );
+	}
+	return false;
+}
+
+function group_order(type){
+	var $form = $('#group_order_'+type);
+	var options = {
+			success: function(txt) {
+				if(txt == 1){
+					ui.success('保存排序成功');
+					$('input[type="submit"]',$form).fadeOut();
+				}else{
+					ui.error('保存失败！');
+				}
+			} 
+		};		
+	$form.ajaxSubmit( options );
+	return false;
+}
+
+function getChecked() {
+    var ids = new Array();
+    $.each($('table input:checked'), function(i, n){
+        ids.push( $(n).val() );
+    });
+    return ids;
+}
+
+function checkon(o){
+    if( o.checked == true ){
+        $(o).parents('tr').addClass('bg_on') ;
+    }else{
+        $(o).parents('tr').removeClass('bg_on') ;
+    }
+}
+
+function checkAll(o){
+    if( o.checked == true ){
+        $('input[name="checkbox2"]').attr('checked','true');
+        $('tr').addClass("bg_on");
+    }else{
+        $('input[name="checkbox2"]').removeAttr('checked');
+        $('tr').removeClass("bg_on");
+    }
+}
+
+var ctrl = function(){
+}
+ctrl.prototype = {
+	add_star:function(){
+		ui.box.load('__URL__&act=addStarTab',{title:'添加名人：'+gstatus});
+	},
+    del:function(id){
+        var length = 0;
+        if(id) {
+            length = 1;         
+        }else {
+            id    = getChecked();
+            length = id.length;
+            id    = id.toString();
+        }
+        if(id=='') {
+            ui.error('请先选择一个名人');
+            return ;
+        }
+        if( confirm("是否删除名人？") ){
+          $.post( '__URL__&act=delStar',{id:id},function(text ){
+              if( text == 1 ){
+                  ui.success( "删除多个名人成功" );
+                  var id_list = id.toString().split( ',' );   
+                  for (var j=0 ; j< id_list.length ; j++   ){
+                      $('#list_'+id_list[j]).remove(); 
+                  }
+              }else if( text == 2 ){
+                  ui.success( "删除成功" );
+                  $('#list_'+id).remove();
+              }else{
+                  ui.error( "删除失败" );
+              }
+          });
+        }
+    },
+    transfer:function(id){
+       var length = 0;
+        if(id) {
+            length = 1;         
+        }else {
+            id    = getChecked();
+            length = id.length;
+            id    = id.toString();
+        }
+        if(id=='') {
+            ui.error('请先选择一个名人');
+            return ;
+        }
+      ui.box.load('__URL__&act=editStarBox&id='+id,{title:'名人分组转移'});
+    },
+    edit_group:function(){
+    	ui.box.load('__URL__&act=editStarGroupBox',{title:'编辑分组名称'});
+    }
+}
+var c = null;
+</script>
+<div class="so_main">
+	<include file="_tab" />
+
+    <div class="tit_tab2">
+  	  <form action="{:U('weibo/admin/editStarGroupOrder')}" id="group_order_top" onsubmit="return group_order('top');" method="post">
+	  Tips: 拖拽分组以改变前台显示的顺序
+	    <ul id="sortable_star_group">
+	  	  <volist name="top_list" id="tg">
+	  	    <li>
+	  	      <input type="hidden" name="star_group[]" value="{$tg['star_group_id']}"/>
+	  		  <a href="{:U('weibo/admin/star',array('gid'=>$tg['star_group_id']))}" <if condition="$tid eq $tg['star_group_id']">class="on"</if>>{$tg['title']}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			</li>
+	  	  </volist>
+	    </ul>
+		<input type="submit" value="保存排序" style="display:none;">
+	  </form>
+  	  <div style="clear:both"><form action="{:U('weibo/admin/addStarGroup')}" id="addgroup_top" onsubmit="return add_group('top');" method="post">
+	    <a href="javascript:void(0);" onclick="addGroupTab('top','')">+创建一级分组</a>
+		<input type="text" name="title" value="" class="text mb5" style="display:none;">
+		<input type="hidden" name="tid" value="0" />
+		<input type="submit" value="保存" style="display:none;">
+		<input type="button" onclick="addGroupTab('top','close')" value="取消" style="display:none;">
+  	  </form>
+      </div>
+	</div>
+	<!-- 
+	<div>
+  	  <form action="{:U('weibo/admin/addStarGroup')}" id="addgroup_son" onsubmit="return add_group('son');" method="post">
+	  <strong>二级分组：&nbsp;&nbsp;</strong>
+	  <volist name="son_list" id="sg">
+	  	<a href="{:U('weibo/admin/star',array('gid'=>$sg['star_group_id']))}" <if condition="$sid eq $sg['star_group_id']">class="on"</if>>{$sg['title']}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	  </volist>
+	  <if condition="$tid">
+	    <a href="javascript:void(0)" onclick="addGroupTab('son','')">+创建二级分组</a>
+		<input type="text" name="title" value="" class="text mb5" style="display:none;">
+		<input type="hidden" name="tid" value="{$tid}" />
+		<input type="submit" value="保存" style="display:none;">
+		<input type="button" onclick="addGroupTab('son','close')" value="取消" style="display:none;">
+	  </if>
+  	  </form>
+    </div>
+    -->
+
+  <!--列表模块-->
+  <div class="Toolbar_inbox">
+    <div class="page right">{$list.html}</div>
+        <a href="javascript:void(0);" class="btn_a" onclick="c.del()"><span>删除名人</span></a>
+        <a href="javascript:void(0);" class="btn_a" onclick="c.transfer()"><span>转移名人</span></a>
+        <if condition="$group['star_group_id']">
+          <a href="javascript:void(0)" class="btn_a" onclick="c.add_star()"><span>添加名人</span></a>
+          <a href="javascript:void(0)" class="btn_a" onclick="c.edit_group()"><span>编辑分组名称</span></a>
+          <a href="{:U('weibo/admin/delStarGroup',array('gid'=>$group['star_group_id']))}" onclick="return confirm('确认删除当前名人分组“{$group['title']}”？同时还会删除该分组下的所有名人，但不会删除名人帐号！');" class="btn_a"><span>删除当前分组</span></a>
+        </if>
+  </div>
+
+  <div class="list">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th style="width:30px;">
+            <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+            <label for="checkbox"></label>
+        </th>
+        <th class="line_l">名人</th>
+        <th class="line_l">分组</th>
+        <th class="line_l">时间</th>
+        <th class="line_l">操作</th>
+      </tr>
+<volist id="vo" name="list['data']">      
+      <tr id="list_{$vo.star_id}">
+        <td><input type="checkbox" name="checkbox2" id="checkbox2" onclick="checkon(this)" value="{$vo.star_id}" /></td>
+        <td><space uid="vo.uid" target="_blank">{uname}</space></td>
+        <td>
+        	<if condition="$vo['top_group_id']"><a href="{:U('weibo/admin/star',array('gid'=>$vo['top_group_id']))}">{$vo.top_group_title}</a> -</if>
+        	<a href="{:U('weibo/admin/star',array('gid'=>$vo['star_group_id']))}">{$vo.star_group_title}</a>
+        </td>
+        <td>{$vo.ctime|friendLydate}</td>
+        <td><a href="javascript:void(0)" onclick="c.transfer('{$vo.star_id}')">编辑</a> <a href="javascript:void(0)" onclick="c.del({$vo.star_id})">删除</a></td>
+      </tr>
+</volist>
+    </table>
+  </div>
+  <div class="Toolbar_inbox">
+    <div class="page right">{$list.html}</div>
+        <a href="javascript:void(0);" class="btn_a" onclick="c.del()"><span>删除名人</span></a>
+        <a href="javascript:void(0);" class="btn_a" onclick="c.transfer()"><span>转移名人</span></a>
+        <if condition="$group['star_group_id']">
+          <a href="javascript:void(0)" class="btn_a" onclick="c.add_star()"><span>添加名人</span></a>
+          <a href="javascript:void(0)" class="btn_a" onclick="c.edit_group()"><span>编辑分组名称</span></a>
+          <a href="{:U('weibo/admin/delStarGroup',array('gid'=>$group['star_group_id']))}" onclick="return confirm('确认删除当前名人分组“{$group['title']}”？同时还会删除该分组下的所有名人，但不会删除名人帐号！');" class="btn_a"><span>删除当前分组</span></a>
+        </if>
+  </div>
+
+</div>
+<script type="text/javascript">
+c = new ctrl();
+</script>
+<include file="_footer" />

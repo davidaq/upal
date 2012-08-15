@@ -1,0 +1,61 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l">
+    <div class="mainbox">
+      <div class="mainbox_C no_r boxMessage">
+        <div class="tab-menu">
+        	<a href="javascript:void(0)" onclick="ui.sendmessage();" class="btn_b right">发私信</a>
+			<include file="_tab" />
+        </div>
+        <div style="width:100%; overflow:hidden;">
+          <php>if (empty($data)) {</php>
+              暂无应用消息
+          <php>}</php>
+         <ul class="feed_list">
+          	<volist id="vo" name="data">
+            <li class="lineD_btm" id="myinvite_{$vo.hash}">
+                <div class="userPic">
+                    <a href="{:U('home/space/index',array('uid'=>$vo['fromuid']))}" title="">
+                        <img card="1" src="{$vo.fromuid|getUserFace}">
+                    </a>
+                </div>
+                <div style="margin-left:70px;">{$vo.myml}</div>
+            </li>
+			</volist>
+          </ul>
+          <div class="c"></div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+</div>
+<!-- 内容 end --> 
+<script>
+	function manyou_add_userapp(hash, url){
+        if (url) {
+            ui.success('正在跳转至应用...');
+        }
+        setTimeout(function(){
+	        $.post( "{:U('home/Message/deleteMyInvite')}", {hash:hash}, function(res){
+	            if (res == '1') {
+	                if (url) {
+	                    //同意
+	                    self.location.href = url;
+	                }else {
+	                    //忽略
+	                    ui.success('忽略成功');
+	                    $('#myinvite_'+hash).remove();
+	                }
+	            }else {
+	                ui.error('操作失败');
+	            }
+	        });
+        }, 1500);
+	}
+</script>	
+<include file="__THEME__/footer" /> 

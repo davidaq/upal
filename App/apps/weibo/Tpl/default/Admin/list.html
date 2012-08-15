@@ -1,0 +1,295 @@
+<include file="_header" />
+<script>
+//鼠标移动表格效果
+$(document).ready(function(){
+    $("tr[overstyle='on']").hover(
+      function () {
+        $(this).addClass("bg_hover");
+      },
+      function () {
+        $(this).removeClass("bg_hover");
+      }
+    );
+});
+
+$(function(){
+    $( "select[name='sorder']" ).val("{$sorder}");
+    $( "select[name='eorder']" ).val("{$eorder}");
+    $( "select[name='limit']" ).val("{$limit}");
+});
+
+function getChecked() {
+    var ids = new Array();
+    $.each($('table input:checked'), function(i, n){
+        if($(n).val()>0)ids.push( $(n).val() );
+    });
+    return ids;
+}
+
+function checkon(o){
+    if( o.checked == true ){
+        $(o).parents('tr').addClass('bg_on') ;
+    }else{
+        $(o).parents('tr').removeClass('bg_on') ;
+    }
+}
+
+function checkAll(o){
+    if( o.checked == true ){
+        $('input[name="checkbox"]').attr('checked','true');
+        $('tr[overstyle="on"]').addClass("bg_on");
+    }else{
+        $('input[name="checkbox"]').removeAttr('checked');
+        $('tr[overstyle="on"]').removeClass("bg_on");
+    }
+}
+
+//搜索用户
+var isSearchHidden = <neq name="isSearch" value="1">1<else/>0</neq>;
+function searchBlog() {
+    if(isSearchHidden == 1) {
+        $("#searchBlog_div").slideDown("fast");
+        $(".searchBlog_action").html("搜索完毕");
+        isSearchHidden = 0;
+    }else {
+        $("#searchBlog_div").slideUp("fast");
+        $(".searchBlog_action").html("搜索微博");
+        isSearchHidden = 1;
+    }
+}
+
+var ctrl = function(name){
+    this.elements = document.getElementsByName('id[]');
+    this.length = this.elements.length;
+}
+ctrl.prototype = {
+    reverse:function(){
+    for(i=0;i<this.length;i++){
+        this.elements[i].checked= !this.elements[i].checked;
+    }
+    },
+all:function(){
+for(i=0;i<this.length;i++){
+  this.elements[i].checked = true;
+}
+},
+unAll:function(){
+  for(i=0;i<this.length;i++){
+    this.elements[i].checked = false;
+  }
+},
+toggle:function(obj){
+   this[obj.checked ? 'all' : 'unAll']();
+ },
+del:function(weibo_id,uid){
+  var length = 0;
+    if(weibo_id) {
+        length = 1;         
+    }else {
+        weibo_id    = getChecked();
+        length = weibo_id.length;
+        weibo_id    = weibo_id.toString();
+    }
+    if(weibo_id=='') {
+        ui.error('请先选择一个微博');
+        return ;
+    }
+	if( confirm("是否删除微博") ){
+	  $.post( "{:U('weibo/Admin/operate')}",{dotype:'del',weibo_id:weibo_id,uid:uid},function(text ){
+	      if( text == 1 ){
+          weibo_id = weibo_id.toString().split(',');
+          $.each(weibo_id, function(i,n){
+          $('#weibo_list_'+n).remove();
+        });   
+	    	  ui.success( "删除成功" );
+	      }else{
+	    	  ui.error( "删除失败" );
+	      }
+	  });
+	}
+},
+restore:function(weibo_id,uid){
+	var length = 0;
+    if(weibo_id) {
+        length = 1;         
+    }else {
+        weibo_id    = getChecked();
+        length = weibo_id.length;
+        weibo_id    = weibo_id.toString();
+    }
+    if(weibo_id=='') {
+        ui.error('请先选择一个微博');
+        return ;
+    }
+	if( confirm("是否恢复微博") ){
+	  $.post( "{:U('weibo/Admin/restore')}",{weibo_id:weibo_id,uid:uid},function(text ){
+	      if( text == 1 ){
+			    weibo_id = weibo_id.toString().split(',');
+          $.each(weibo_id, function(i,n){
+          $('#weibo_list_'+n).remove();
+        });  
+	    	  ui.success( "恢复成功" );
+	      }else{
+	    	  ui.error( "恢复失败" );
+	      }
+	  });
+	}
+},
+edit:function(id,act){
+  if( act == 'recommend' ){
+      v= "推荐";
+      v2 = "取消推荐";
+      act2 = 'cancel';
+    
+  }else{
+      v = "取消推荐";
+      v2 = "推荐";
+      act2 = 'recommend';
+  }
+if( confirm( '是否'+v ) ){
+  $.post('__URL__&act=doChangeIsHot',{id:id,type:act},function( text ){
+          if( text == 1 ){
+          ui.success( "操作成功" );
+          $( '#button'+id ).val( v2 );
+          location.reload();
+          //$('#button'+id).click(function() "c.edit"+id+",'"+act2+"')")
+       }else{
+       
+        ui.error( "设置失败" );
+       }
+ });
+}
+}
+}
+var c = null;
+</script>
+<div class="so_main">
+    <include file="_tab" />
+    
+    <div id="searchBlog_div" <neq name="isSearch" value="1">style="display:none;"</neq>>
+    <div class="page_tit">搜索微博 [ <a href="javascript:void(0);" onclick="searchBlog();">隐藏</a> ]</div>
+    <div class="form2">
+    <form action="__URL__&act=weibolist&recycle={$recycle}" method="POST">
+    <input type="hidden" name="isSearch" value="1"/>
+        <php>if($isSearch != '1') $uid = '';</php>
+        <dl class="lineD">
+          <dt>微博ID：</dt>
+          <dd>
+            <input name="wid" type="text" value="{$wid}"> (注意：多个ID用英文,隔开)
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>用户ID：</dt>
+          <dd>
+            <input name="uid" type="text" value="{$uid}"> (注意：多个ID用英文,隔开)
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>内容：</dt>
+          <dd>
+            <input name="content" type="text" value="{$content}" />
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>排序关键字：</dt>
+          <dd>
+          <select name="orderkey">
+          	<option value="weibo_id" <eq name="orderkey" value="weibo_id">selected</eq> >微博ID</option>
+          	<option value="transpond" <eq name="orderkey" value="transpond">selected</eq> >转发数</option>
+          	<option value="comment" <eq name="orderkey" value="comment">selected</eq> >评论数</option>
+          </select>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>排序方式：</dt>
+          <dd>
+          <select name="ordertype">
+          	<option value="DESC" <eq name="ordertype" value="DESC">selected</eq> >倒序</option>
+          	<option value="ASC" <eq name="ordertype" value="ASC">selected</eq> >顺序</option>
+          </select>
+          </dd>
+        </dl>
+        <div class="page_btm">
+          <input type="submit" class="btn_b" value="确定" />
+        </div>
+    </form>
+    </div>
+    </div>
+    
+    <div class="Toolbar_inbox">
+        <div class="page right">{$list.html}</div>
+        <a href="javascript:void(0);" class="btn_a" onclick="searchBlog();">
+            <span class="searchBlog_action"><neq name="isSearch" value="1">搜索微博<else/>搜索完毕</neq></span>
+        </a>
+        <a href="javascript:void(0);" class="btn_a" onclick="c.del()"><span>删除微博</span></a>
+		<eq name="_GET['recycle']" value="1"> <a href="javascript:void(0);" class="btn_a" onclick="c.restore()"><span>恢复微博</span></a></eq>
+    </div>
+  
+    <div class="list">
+        <table id="blog_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+		    <th style="width:30px;">
+		        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+		        <label for="checkbox"></label>
+		    </th>
+		    <th class="line_l">ID</th>
+		    <th class="line_l">用户ID</th>
+		    <th class="line_l">用户名</th>
+            <th class="line_l">内容</th>
+            <th class="line_l">转发数/评论数</th>
+            <th class="line_l">发布时间</th>
+            <th class="line_l">类型</th>
+            <th class="line_l">来自</th>
+            <th class="line_l">操作</th>
+        </tr>
+        <volist id="vo" name="list['data']">      
+	      	<tr overstyle='on' id="weibo_list_{$vo.weibo_id}">
+		        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.weibo_id}"></td>
+		        <td><if condition="$recycle">{$vo.weibo_id}<else /><a href="{:U('home/space/detail',array('id'=>$vo['weibo_id']))}" target="_blank">{$vo.weibo_id}</a></if></td>
+		        <td>{$vo.uid} </td>
+		        <td><space uid="vo.uid" target="_blank">{uname}</space></td>
+		        <td style="width:400px;overflow:hidden">{$vo.content}</td>
+		        <td>{$vo.transpond} / {$vo.comment}</td>
+		        <td>{$vo.ctime|friendLydate}</td>
+		        <td>
+		        <switch name="vo.type">
+		        	<case value="0">
+		        		纯文字
+		        	</case>
+		        	<case value="1">
+		        		图片
+		        	</case>
+		        	<case value="3">
+		        		视频
+		        	</case>
+		        	<case value="4">
+		        		音乐 
+		        	</case>
+		        	<case value="5">
+		        		文件 
+		        	</case>
+		        </switch>
+		        </td>
+		        <td><?php echo getFrom($vo['from'], $vo['from_data']);?></td>
+		        <td>
+					<eq name="_GET['recycle']" value="1"><a href="javascript:void(0)" onclick="c.restore({$vo.weibo_id},{$vo.uid})">恢复</a> | </eq>
+					<a href="javascript:void(0)" onclick="c.del({$vo.weibo_id},{$vo.uid})">删除</a>
+				</td>
+	      	</tr>
+		</volist>
+        </table>
+    </div>
+    
+    <div class="Toolbar_inbox">
+        <div class="page right">{$list.html}</div>
+        <a href="javascript:void(0);" class="btn_a" onclick="searchBlog();">
+            <span class="searchBlog_action"><neq name="isSearch" value="1">搜索微博<else/>搜索完毕</neq></span>
+        </a>
+        <a href="javascript:void(0);" class="btn_a" onclick="c.del()"><span>删除微博</span></a>
+		<eq name="_GET['recycle']" value="1"> <a href="javascript:void(0);" class="btn_a" onclick="c.restore()"><span>恢复微博</span></a></eq>
+    </div>
+</div>
+<script type="text/javascript">
+var c = new ctrl('id[]');
+</script>
+<include file="_footer" />

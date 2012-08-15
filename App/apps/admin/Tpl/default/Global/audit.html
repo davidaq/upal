@@ -1,0 +1,103 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">审核配置 - 全站审核配置</div>
+  
+  <form method="post" action="{:U('admin/Global/doSaveAudit')}">
+  <div class="form2">
+  <fieldset>
+    <legend>
+	<dl class="lineD">
+      <dt>是否开启敏感词过滤：</dt>
+      <dd>
+        <label><input name="open" type="radio" value="1" <eq name="open" value="1">checked</eq> >是</label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <label><input name="open" type="radio" value="0" <eq name="open" value="0">checked</eq> >否</label>
+      </dd>
+    </dl>
+	</legend>
+    <dl class="lineD">
+      <dt>敏感词：</dt>
+      <dd>
+      <textarea name="keywords" cols="100" rows="5">{$keywords}</textarea>
+      <br />(提示：多个敏感词用|号分开)
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>敏感词替换为：</dt>
+      <dd>
+      <input type="Text" name="replace" value="{$replace}" />
+      </dd>
+    </dl>
+	</fieldset>
+    <br />
+	
+	<fieldset>
+    <legend>
+	<dl class="lineD">
+      <dt>是否开启IP地址过滤：</dt>
+      <dd>
+        <label><input name="banip" type="radio" value="1" <eq name="banip" value="1">checked</eq> >是</label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <label><input name="banip" type="radio" value="0" <eq name="banip" value="0">checked</eq> >否</label>
+      </dd>
+    </dl>
+	</legend>
+
+    <dl class="lineD">
+      <dt>IP地址白名单：</dt>
+      <dd>
+      <textarea name="ipwhitelist" cols="100" rows="2">{$ipwhitelist}</textarea>
+      <br />(提示：多个IP地址用|号分开，支持通配符*号，白名单优先判断，不在白名单内则提示无权访问。)
+      </dd>
+    </dl>
+	
+	<dl class="lineD">
+      <dt>IP地址黑名单：</dt>
+      <dd>
+      <textarea name="ipblacklist" cols="100" rows="2">{$ipblacklist}</textarea>
+      <br />(提示：多个IP地址用|号分开，支持通配符*号，黑名单次于白名单，在黑名单内则提示无权访问。)
+      </dd>
+    </dl>
+	
+	</fieldset>
+	<br />
+
+	<fieldset>
+    <legend>
+    <dl class="lineD">
+      <dt>是否开启用户帐号过滤：</dt>
+      <dd>
+        <label><input name="banuid" type="radio" value="1" <eq name="banuid" value="1">checked</eq> >是</label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <label><input name="banuid" type="radio" value="0" <eq name="banuid" value="0">checked</eq> >否</label>
+      </dd>
+    </dl>
+	</legend>
+
+    <dl class="lineD">
+      <dt>禁止登录的用户UID：</dt>
+      <dd>
+      <textarea name="banneduids" cols="100" rows="5">{$banneduids}</textarea>
+      <br />(提示：多个用户ID用|号分开，小心设置，如果自己也不能登录请在config.inc.php中增加设置'ADMIN_UID'=>YourUID,)
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>禁止注册的用户昵称：</dt>
+      <dd>
+      <textarea name="bannedunames" cols="100" rows="5">{$bannedunames}</textarea>
+      <br />(提示：多个用户昵称用|号分开，敏感词默认禁止注册)
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>禁止注册的个性化域名：</dt>
+      <dd>
+      <textarea name="banneddomains" cols="100" rows="5">{$banneddomains}</textarea>
+      <br />(提示：多个用户ID用|号分开)
+      </dd>
+    </dl>
+	</fieldset>
+    
+	<div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+  </div>
+  </form>
+</div>
+<include file="../Public/_footer" />

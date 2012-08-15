@@ -1,0 +1,217 @@
+<include file="_header" />
+<script>
+//鼠标移动表格效果
+$(document).ready(function(){
+    $("tr[overstyle='on']").hover(
+      function () {
+        $(this).addClass("bg_hover");
+      },
+      function () {
+        $(this).removeClass("bg_hover");
+      }
+    );
+});
+
+$(function(){
+    $( "select[name='sorder']" ).val("{$sorder}");
+    $( "select[name='eorder']" ).val("{$eorder}");
+    $( "select[name='limit']" ).val("{$limit}");
+});
+
+function getChecked() {
+    var ids = new Array();
+    $.each($('table input:checked'), function(i, n){
+        if($(n).val()>0)ids.push( $(n).val() );
+    });
+    return ids;
+}
+
+function checkon(o){
+    if( o.checked == true ){
+        $(o).parents('tr').addClass('bg_on') ;
+    }else{
+        $(o).parents('tr').removeClass('bg_on') ;
+    }
+}
+
+function checkAll(o){
+    if( o.checked == true ){
+        $('input[name="checkbox"]').attr('checked','true');
+        $('tr[overstyle="on"]').addClass("bg_on");
+    }else{
+        $('input[name="checkbox"]').removeAttr('checked');
+        $('tr[overstyle="on"]').removeClass("bg_on");
+    }
+}
+
+//搜索用户
+var isSearchHidden = <neq name="isSearch" value="1">1<else/>0</neq>;
+function searchBlog() {
+    if(isSearchHidden == 1) {
+        $("#searchBlog_div").slideDown("fast");
+        $(".searchBlog_action").html("搜索完毕");
+        isSearchHidden = 0;
+    }else {
+        $("#searchBlog_div").slideUp("fast");
+        $(".searchBlog_action").html("搜索专题");
+        isSearchHidden = 1;
+    }
+}
+
+var ctrl = function(){
+}
+ctrl.prototype = {
+	del:function(topics_id){
+		 var length = 0;
+        if(topics_id) {
+            length = 1;         
+        }else {
+            topics_id    = getChecked();
+            length = topics_id.length;
+            topics_id    = topics_id.toString();
+        }
+        if(topics_id=='') {
+            ui.error('请先选择一个专题');
+            return ;
+        }
+		if( confirm("是否删除专题") ){
+		  $.post( "{:U('weibo/Admin/deleteTopics')}",{topics_id:topics_id},function(text){
+		      if( text == 1 ){
+				  var id_list = topics_id.split( ',' );   
+				  for (var j=0 ; j< id_list.length ; j++   ){
+					  $('#topics_list_'+id_list[j]).remove(); 
+				  }
+		    	  ui.success( "删除成功" );
+		      }else{
+		    	  ui.error( "删除失败" );
+		      }
+		  });
+		}
+	},
+	change_recommend:function(topics_id, e){
+        var $e = $(e);
+		var type = $(e).attr('type');
+		$.post( "{:U('weibo/Admin/doRecommendTopics')}",{topics_id:topics_id, type:type},function(text){
+		    if(1 == text){
+		        if ('recommend' == type) {
+			        $e.html("已设为推荐话题");
+			        $e.attr('type', 'cancel');
+			        $e.addClass('cRed');
+		        } else {
+			        $e.html("设为推荐话题");
+			        $e.attr('type', 'recommend');
+			        $e.removeClass('cRed');
+		        }
+		        ui.success( "操作成功" );
+		    }else{		       
+		      	ui.error( "操作失败" );
+		    }
+		});
+	}
+}
+var c = null;
+</script>
+<div class="so_main">
+    <include file="_tab" />
+    
+    <div id="searchBlog_div" <neq name="isSearch" value="1">style="display:none;"</neq>>
+    <div class="page_tit">搜索专题 [ <a href="javascript:void(0);" onclick="searchBlog();">隐藏</a> ]</div>
+    <div class="form2">
+    <form action="__URL__&act=topics" method="post">
+    <input type="hidden" name="isSearch" value="1"/>
+        <php>if($isSearch != '1') $uid = '';</php>
+        <dl class="lineD">
+          <dt>专题ID：</dt>
+          <dd>
+            <input name="topics_id" type="text" value="{$topics_id}"> (注意：多个ID用英文,隔开)
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>话题：</dt>
+          <dd>
+            <input name="name" type="text" value="{$name}">
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>内容：</dt>
+          <dd>
+            <input name="content" type="text" value="{$content}" />
+          </dd>
+        </dl>
+	    <dl class="">
+	      <dt>推荐：</dt>
+	      <dd>
+	        <label><input name="recommend" type="radio" value="1" <eq name="recommend" value="1">checked</eq> >是</label>&nbsp;&nbsp;&nbsp;&nbsp;
+	        <label><input name="recommend" type="radio" value="0" <eq name="recommend" value="0">checked</eq> >否</label>
+	      </dd>
+	    </dl>
+        <div class="page_btm">
+          <input type="submit" class="btn_b" value="确定" />
+        </div>
+    </form>
+    </div>
+    </div>
+
+    <div class="Toolbar_inbox">
+        <div class="page right">{$list.html}</div>
+        <a href="javascript:void(0);" class="btn_a" onclick="searchBlog();">
+            <span class="searchBlog_action"><neq name="isSearch" value="1">搜索专题<else/>搜索完毕</neq></span>
+        </a>
+        <a href="{:U('weibo/Admin/editTopicsTab')}" class="btn_a"><span>添加专题</span></a>
+        <a href="javascript:void(0);" class="btn_a" onclick="c.del()"><span>删除专题</span></a>
+    </div>
+  
+    <div class="list">
+        <table id="blog_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+		    <th style="width:30px;">
+		        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+		        <label for="checkbox"></label>
+		    </th>
+		    <th class="line_l" width="5%">ID</th>
+		    <th class="line_l" width="10%">话题</th>
+		    <th class="line_l" width="15%">注释</th>
+		    <th class="line_l" width="15%">内容</th>
+            <th class="line_l" width="20%">图片</th>
+            <th class="line_l" width="10%">时间</th>
+            <th class="line_l" width="10%">状态</th>
+            <th class="line_l" width="10%">操作</th>
+        </tr>
+        <volist id="vo" name="list['data']">      
+	      	<tr overstyle='on' id="topics_list_{$vo.topics_id}">
+		        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.topics_id}"></td>
+		        <td>{$vo.topics_id}</td>
+		        <td><a href="{:U('home/User/topics/', array('k'=>urlencode($vo['name'])))}" target="_blank">#{$vo.name}#</a></td>
+		        <td>{$vo.note}&nbsp;</td>
+		        <td>{$vo.content}&nbsp;</td>
+		        <td><img alt="" src="{:SITE_URL}/data/uploads/{$vo.pic}" height="60" />&nbsp;</td>
+		        <td>{$vo.ctime|friendlyDate='ymd'}</td>
+		        <td>
+		        	<eq name="vo.recommend" value="1">
+		        		<a href="javascript:;" onclick="c.change_recommend({$vo.topics_id}, this)" type="cancel" class="cRed">已设为推荐话题</a>
+		        	<else />
+		        		<a href="javascript:;" onclick="c.change_recommend({$vo.topics_id}, this)" type="recommend">设为推荐话题</a>
+		        	</eq>
+		        </td>
+		        <td>
+		        	<a href="{:U('weibo/Admin/editTopicsTab', array('id'=>$vo['topics_id']))}">编辑</a>
+		        	<a href="javascript:void(0)" onclick="c.del({$vo.topics_id})">删除</a>
+		        </td>
+	      	</tr>
+		</volist>
+        </table>
+    </div>
+    
+    <div class="Toolbar_inbox">
+        <div class="page right">{$list.html}</div>
+        <a href="javascript:void(0);" class="btn_a" onclick="searchBlog();">
+            <span class="searchBlog_action"><neq name="isSearch" value="1">搜索专题<else/>搜索完毕</neq></span>
+        </a>
+        <a href="{:U('weibo/Admin/editTopicsTab')}" class="btn_a"><span>添加专题</span></a>
+        <a href="javascript:void(0);" class="btn_a" onclick="c.del()"><span>删除专题</span></a>
+    </div>
+</div>
+<script type="text/javascript">
+var c = new ctrl();
+</script>
+<include file="_footer" />

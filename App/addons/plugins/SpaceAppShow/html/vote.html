@@ -1,0 +1,39 @@
+        <div class="pollBox pt10">
+          <div class="LogList">
+            <ul >
+              <volist name="data" id="vo">
+                <li class="lineD_btm mb10 pb5">
+                  <div style="float:left; text-align:center">
+                    <div class="userPic"><a href="{:U('home/space/index',array('uid'=>$vo[uid]))}"  class="tips" rel="{:U('home/space/index',array('uid'=>$vo[uid]))}"><img src="{$vo.uid|getUserFace}" /></a></div>
+                    <div class="OverH" style="clear: left;"><a href="{:U('home/space/index',array('uid'=>$vo[uid]))}" class="U">{$vo.uid|getUserName}</a></div>
+                  </div>
+                  <div class="userinfo">
+                  <div class="num">
+                      <div><strong>{$vo.vote_num}</strong>参与人数</div>
+                    </div>
+                    <h3 class="f14px"><a href="{:U('vote/Index/pollDetail',array('id'=>$vo['id']))}" class="U"><strong>{$vo.title}</strong></a><php>if( $vo['deadline'] < time() ){</php>
+                    <span class="cRed ">(已结束)</span></p>
+                    <php>}else{</php>
+                     <php>}</php></h3>
+                    <volist name="vo.opts" id="opt">
+                      <php>if($vo['type'] == "0"){</php>
+                      <p>
+                        <input type="radio" name="checkbox" id="checkbox" disabled="true"/>
+                        <php>}else{</php>
+                      <p>
+                        <input type="checkbox" name="checkbox" id="checkbox" disabled="true"/>
+                        <php>}</php>
+                        {$opt.name}</p>
+                    </volist>
+                    <php>if( $vo['deadline'] < time() ){</php>
+                    <p><span class="right cGray2">发起时间：{$vo.cTime|friendlyDate}&nbsp;&nbsp; <a href="{:U('vote/Index/pollDetail',array('id'=>$vo['id']))}">查看投票&gt;&gt;</a></span>．．．</p>
+                    <php>}else{</php>
+                    <p><span class="right cGray2">发起时间：{$vo.cTime|friendlyDate}&nbsp;&nbsp; <a href="{:U('vote/Index/pollDetail',array('id'=>$vo['id']))}">参与投票&gt;&gt;</a></span>．．．</p>
+                    <php>}</php>
+                  </div>
+                </li>
+              </volist>
+            </ul>
+            <div id="Pagination" class="pagination">{$html}</div>
+          </div>
+        </div>

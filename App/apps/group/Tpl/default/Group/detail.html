@@ -1,0 +1,197 @@
+<include file="__THEME__/header" />
+<link  href="../Public/group.css" rel="stylesheet" type="text/css"/>
+<!-- 微博 -->
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('group/WeiboPlugins/init')}"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.autocomplete.js"></script>
+<div class="content_holder">
+<div class="content no_bg"><!-- 内容 begin  --> 
+<include file="../Public/_mainNav" />
+  <div class="main no_l">
+    <div class="mainbox">
+      <include file="../Public/_groupInfo" />
+      <div class="mainbox_appC">
+
+		<div class="page_title lineS_btm"> <!-- page_title begin -->
+		  	<div class="left" style="width:40px;">
+		    	<span><a href="{:U('group/Group/index',array('gid'=>$groupinfo['id']))}"><img src="__ROOT__/thumb.php?w=40&h=40&url={$groupinfo['logo']|get_photo_url}" class="pic30" /></a></span>
+		    </div>
+		    <div style=" margin-left:45px;">
+		    	<h1 class="f12px"><a href="{:U('group/Group/index',array('gid'=>$groupinfo['id']))}">{$groupinfo['name']}</a> <span  class="f12px cGray2 fw100 fn">({$groupinfo['membercount']}人)</span></h1>
+		        <p class="cGray">创建时间：{$groupinfo['ctime']|friendlyDate}</p>		        
+		     </div>
+		</div><!-- page_title end -->
+      <div class="overflowH">
+      <div class="feedBox">
+        <ul class="feed_list">
+          
+            <li class="lineD_btm" id="list_li_{$mini.id}">
+              <div class="userPic"><space uid="mini.uid">{uavatar}</space></div>
+              <div class="feed_c">
+                <div class="msgCnt"><space uid="mini.uid">{uname}</space>：{$mini.content|group_weibo_format=###,$mini['gid'],true}</div>
+				<php>if( $mini['transpond_id'] ){</php>
+				<div class="feed_quote"> <img class="q_ico_arrow" src="__THEME__/images/zw_img.gif" />
+                  <div class="q_tit"><img class="q_tit_l" src="__THEME__/images/zw_img.gif" /></div>
+                  <div class="q_con"> 
+                  <space uid="mini.expend.uid" class="null">@{uname}</space>：{$mini.expend.content|group_weibo_format=###,$mini['expend']['gid'],true}  <a href="{:U('group/Group/detail',array('gid'=>$mini['expend']['gid'],'id'=>$mini['expend']['id']))}">原文转发({$mini.expend.transpond}</a>)&nbsp;|&nbsp;<a href="{:U('group/Group/detail',array('gid'=>$mini['expend']['gid'],'id'=>$mini['expend']['id']))}">原文评论({$mini.expend.comment})</a>
+                  {$mini.expend.expend}
+                  </div>
+                  
+                  <div class="q_btm"><img class="q_btm_l" src="__THEME__/images/zw_img.gif" /></div>
+                  
+                </div>
+                <php>}else{</php>
+                	{$mini.expend}
+                <php>}</php>
+			    <div class="feed_c_btm"> 
+					<span class="right">
+						<php>if( $mini['uid'] == $mid ){</php>
+                        <a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条微博?')" callback="weibo.deleted({$mini.id}, {$mini.gid})">删除</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <php>}</php>
+                        <a href="javascript:;" onclick="weibo.transpond({$mini.id}, {$mini.gid}, 0)">转发({$mini.transpond})</a>&nbsp;&nbsp;|&nbsp;&nbsp; 
+                        <a href="javascript:;" onclick="weibo.share({$mini.id}, {$mini.gid})">分享</a>&nbsp;&nbsp;|&nbsp;&nbsp; 
+						<a href="javascript:;">评论({$mini.comment})</a>
+					</span>					
+                    <cite> <a href="#">{$mini.ctime|friendlyDate}</a></cite> 
+                    来自 <cite><?php echo getFrom($mini['from'], $mini['from_data']);?></cite>
+					<!-- | <cite><a href="javascript:void(0)" onclick="denounce('weibo',{$mini.id},'{$mini.content|msubstr=0,140|t|keyWordFilter|addslashes}','{$mini.uid}',{$mid});">举报</a></cite> -->
+				</div>
+                <div id="comment_list_{$mini.id}" style=""></div>
+              </div>
+            </li>
+			
+        </ul>
+      </div>
+<if condition="$ismember">
+<php>if($privacy['weibo_comment']){</php>      
+	  <form action="{:U('group/WeiboOperate/addcomment')}" method="post" callback="addDetailComment" rel="miniblog_comment" id="weibo_comment_list">
+		<input type="hidden" name="gid" value="{$mini.gid}">
+		<input type="hidden" name="weibo_id" value="{$mini.id}">
+		<input type="hidden" name="reply_comment_id" id="replyid_{$mini.id}">	
+      <div class="box_comment">
+          <dl class="massage_comment">
+            <dt><em>共{$comment.count}条</em>评论</dt>
+            <dd><textarea class="message_text" id="comment_{$mini.id}" style="width:97.8%;" name="comment_content" cols="" rows=""></textarea></dd>
+            <dd>
+                <input type="submit" class="N_but right" value="确定">
+                <span><a class="faceicon1" href="javascript:void(0)" onclick="ui.emotions(this)" target_set="comment_{$mini.id}"></a></span>
+                <span><label><input type="checkbox" value="1" name="transpond"> 同时发一条群聊 </label></span>
+            </dd>
+          </dl>
+      </div> 
+	  </form>
+<php>}else{</php>
+	 <div class="message"><div style="margin:5px">您没有权限评论此微博</div></div> 
+<php>}</php>
+
+      <div class="feedBox"> 
+        <ul class="feed_list">
+
+<volist id="vo" name="comment['data']">
+           <li class="lineD_btm">
+              <div class="userPic"><space uid="vo.uid">{uavatar}</space></div>
+              <div class="feed_c" style="margin-left:65px">
+                <div class="msgCnt" style="padding-bottom:0; font-size:12px;"><space uid="vo.uid">{uname}</space>{$vo.uid|getUserGroupIcon}<em> {$vo.ctime|date='m月d日 H:i',###}</em>
+                </div>
+			    <div class="feed_c_btm"> 
+					<span class="right">
+						<php>if($vo['uid']==$mid || $mini['uid']==$mid){</php>
+						<a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条评论?')" callback="doDelComment({$vo.comment_id})">删除</a> |
+						<php>}</php>
+						 <php>if($privacy['weibo_comment']){</php> <a href="javascript:void(0)" onclick="reply('{$vo.uid|getUserName}',{$vo.comment_id})">回复</a><php>}</php>
+					</span> {$vo.content|formatComment=true}
+				</div>
+              </div>
+            </li>
+</volist>
+        </ul>
+      </div>
+	  <div class="page">{$comment.html}</div>
+<else />
+<script type="text/javascript" src="../Public/Js/common.js"></script>
+只有群成员才可以发表评论哦
+<input type="button" value="+ 我要加入" onclick="joingroup({$gid})" />
+</if>
+      <div class="c"></div>
+      </div>
+    </div>
+  </div>
+  <div class="clear"></div>
+</div>
+</div>
+</div>
+<!-- 内容 end --> 
+ <script>
+ 
+ $(document).ready(function(){		
+	    $("#comment_{$mini.id}").keyup(function(event){
+			if(event.keyCode==32 || event.keyCode==8 || event.keyCode==13){
+				checkInputLength(this,<php> echo $ts['site']['length']; </php>);
+			}
+		}).keypress(function(){
+			checkInputLength(this,<php> echo $ts['site']['length']; </php>);
+		}).blur(function(){
+			checkInputLength(this,<php> echo $ts['site']['length']; </php>);
+		}).keydown(function(){
+			checkInputLength(this,<php> echo $ts['site']['length']; </php>);
+		}).keyup(function(){
+			checkInputLength(this,<php> echo $ts['site']['length']; </php>);
+		});
+
+	    shortcut('ctrl+return',	function(){ $("form[rel='miniblog_comment']").submit();},{'target':'comment_<?php echo $mini['id']; ?>'});
+
+	    $('#weibo_comment_list').submit(addDetailComment);
+ });
+ 
+ 
+ function checkInputLength(obj,num){
+	 	var $obj = $(obj);
+		var str  = $obj.val();  
+		var len  = getLength(str);
+		if( len > num ){
+			$obj.val(subStr(str, num));
+		}
+}
+ 
+ function reply( name,id){
+		$("#comment_{$mini.id}").val( '回复@'+name+' : ' ).focus();
+		$("#replyid_{$mini.id}").val(id);
+		
+		var textArea = document.getElementById("comment_{$mini.id}");
+		var strlength = textArea.value.length;
+		if (document.selection) { //IE
+			 var rng = textArea.createTextRange();
+			 rng.collapse(true);
+			 rng.moveStart("character",strlength)
+		}else if (textArea.selectionStart || (textArea.selectionStart == '0')) { // Mozilla/Netscape…
+	        textArea.selectionStart = strlength;
+	        textArea.selectionEnd = strlength;
+	    }		
+	}
+	
+	function addDetailComment(txt){
+		ui.success('回复成功');
+		setInterval("location.reload()",1000);
+	}
+	
+	//删除某条回复
+	function doDelComment(id){
+		$.post( U('group/WeiboOperate/docomments') , {id:id,gid:<?php echo $gid; ?>} ,function(txt){
+			ui.success('删除成功');
+			setInterval("location.reload()",1000);
+		});
+	}	
+
+	var gid = '<?php echo $gid; ?>';
+
+	var weibo = $.weibo({
+		      timeStep : 10000,
+		      gid:'<php> echo $gid;</php>',
+		      weiboType:'<php> echo $type;</php>',
+		      type:1,
+		      typeList:{
+		          GROUP:1
+		      },
+		});
+</script>
+<include file="__THEME__/footer" /> 

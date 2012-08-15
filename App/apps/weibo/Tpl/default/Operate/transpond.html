@@ -1,0 +1,70 @@
+<form action="{:U('weibo/Operate/transpond')}" method="post" id="transpondForm">
+<php>if($data['transpond_id']){</php>
+	<input type="hidden" name="transpond_id" value="{$data.transpond_id}" />
+<php>}else{</php>
+	<input type="hidden" name="transpond_id" value="{$data.weibo_id}" />
+<php>}</php>
+    <!--转发弹窗-->
+        <dl class="pop_weibo_transmit">
+            <php>if($data['transpond_id']){</php>
+            <php>$detail_more = get_str_length($data['transponInfo']['content'], true) > 140 ? ' <a href="' . U('home/space/detail',array('id'=>$data['transponInfo']['weibo_id'])) . '" target="_blank">查看更多&raquo;</a>' : '';</php>
+            <dt>转发：{$data.transponInfo.content|getShort=###,140,'...'|keyWordFilter|format}</dt>
+            <php>}else{</php>
+            <php>$detail_more = get_str_length($data['content'], true) > 140 ? ' <a href="' . U('home/space/detail',array('id'=>$data['weibo_id'])) . '" target="_blank">查看更多&raquo;</a>' : '';</php>
+            <dt>转发：{$data.content|getShort=###,140,'...'|keyWordFilter|format}</dt>
+            <php>}</php>
+            <dd><span class="right numObj wordNum" id="transpond_count"></span></dd>
+            <dd>
+            <textarea id="transpond_content_{$data.weibo_id}" name="content" class="contentObj" style="font-family: Tahoma,宋体; overflow: hidden; border: 1px solid #ccc; background-color:#F8F8F8; word-wrap: break-word; font-size: 12px; line-height: 18px; height: 65px; width:378px;">
+<php>if($data['transponInfo']){</php>
+//@{$data.uid|getUserName}:{$data.content|getShort=###,140,'...'}
+<php>}</php></textarea>
+            </dd>
+            <dd>
+            <a href="javascript:void(0)" target_set="transpond_content_{$data.weibo_id}" onclick="ui.emotions(this);" class="a52"><img class="icon_add_face_d" src="__THEME__/images/zw_img.gif" />表情</a>
+            </dd>
+            <dd>
+            <input type="button" error="转发失败" id="transpond_button" class="btn_b right buttonObj" value="确定">
+            <div><label><input type="checkbox" class="labelbox" name="reply_weibo_id[]" value="{$data.weibo_id}" > 同时作为给 {$data.uid|getUserName} 的评论发布</label></div>
+            <php>if( $data['transpond_id'] && $data['transponInfo']['uid']!=$data['uid'] ){</php>
+            <div><label><input type="checkbox" class="labelbox" name="reply_weibo_id[]" value="{$data.transponInfo.weibo_id}"> 同时作为给 {$data.transponInfo.uid|getUserName} 的评论发布</label></div>
+            <php>}</php>
+            </dd>
+        </dl>
+    <!--/转发弹窗-->
+</form>
+
+<script>
+$(document).ready(function(){
+   var default_transpond_string = "转发微博";
+   weibo.initForm("transpondForm",{       
+        blur:function(formObj,buttonObj,contentObj,numObj){
+            if(contentObj.val() == '') {
+                contentObj.val(default_transpond_string);
+            }
+        },
+        focus:function(formObj,buttonObj,contentObj,numObj){
+            if(contentObj.val() == default_transpond_string) {
+                contentObj.val('');
+                return true;
+            }
+        },
+        enter:function(formObj,buttonObj,contentObj,numObj,txt){
+            <php>if($data['upcontent']){</php>
+                            $("#feed_list").prepend( txt ).slideDown('slow');
+            <php>}</php>
+            ui.box.close();
+        },
+        after:function(formObj,buttonObj,contentObj,numObj){
+                if (contentObj.val() == '') {
+                    contentObj.val(default_transpond_string);
+                }else {
+                  weibo.contentFirst('transpond_content_{$data.weibo_id}');
+               }
+        }
+   },{
+       emotions:true,
+       topic:false
+   });
+});
+</script>

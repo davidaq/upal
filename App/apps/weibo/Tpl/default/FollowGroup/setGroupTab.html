@@ -1,0 +1,48 @@
+<dl id="createFollowGroup2" class="pop_add_group">
+	<dt>
+        <if condition="$gid">修改分组：<else />创建分组：</if><input type="text" maxlength="8" name="followGroupTitle" value="{$title}" class="text" style="width:280px;" />
+    </dt>
+	<dd>
+        <input type="button" onclick="createFollowGroup()" class="btn_b" value="确定" />
+        <input type="button" onclick="ui.box.close()" class="btn_w" value="取消" />
+    </dd>
+</dl>
+<script>
+function createFollowGroup(title){
+	var title = $("input[name='followGroupTitle']").val();
+	title = $.trim(title);
+	if(title == ''){
+		alert('请输入分组标题！');
+		return false;
+	}else if(title.length>8){
+		alert('分组标题字数不能超过8个字符');
+		return false;
+	}
+	<if condition="$gid">
+		var gid = '{$gid}';
+		$.post(U('weibo/FollowGroup/setGroup'),{title:title,gid:gid},function(res){
+			res = eval('(' + res + ')');
+			var status = res.status;
+			var gid = res.info;
+			if(status != 0){
+				$('#current_follow_group').html(title);
+				ui.box.close();
+			}else{
+				ui.error('此分组名已存在');
+			}
+		});
+	<else />
+		$.post(U('weibo/FollowGroup/setGroup'),{title:title},function(res){
+			res = eval('(' + res + ')');
+			var status = res.status;
+			var gid = res.info;
+			if(status != 0){
+				var url = window.location.href.match(/space/) ? U('home/space/follow') + '&gid=' + gid + '&type=following&uid=' + _UID_ : U('home/User/index') + '&follow_gid=' + gid;
+				location.href=url;
+			}else{
+				ui.error('此分组名已存在');
+			}
+		});		
+	</if>
+}
+</script>

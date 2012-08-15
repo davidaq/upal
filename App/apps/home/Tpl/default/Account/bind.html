@@ -1,0 +1,182 @@
+<include file="__THEME__/header" />
+  <link href="../Public/account.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+  <script type="text/javascript" src="../Public/js/account.js"></script>
+<div class="content_holder">
+  <div class="content"><!-- 内容 begin  --> 
+      <div class="main no_l"> <!-- 右侧内容 begin  -->
+        <div class="mainbox_appC no_r">
+          <!-- page_title end -->
+    	  <include file="_tab" />
+          <!-- 切换标签 end  -->
+          <div class="mainbox_C_C">
+            <div class="setupBox" style="margin-right:0px;">
+              <!-- 修改密码 -->
+              <div class="setItems" style="_width:100%">
+                <div class="setFold setUnfold" rel="email" >
+                  <h2><img src="__THEME__/images/icon/ico_mail_ok.gif"  width="24" height="24" class="alM" /> 邮箱绑定 (<php>if($email){</php><span class="f12px fn">已绑定</span><php>}else{</php><span class="f12px fn cRed">未绑定</span><php>}</php>)</h2>
+                </div>
+                <div style="display: block;" class="setItemsInfo">
+                  <div class="data"><!-- 修改密码 begin  -->
+                    <ul>
+                      <php>if($email){</php>
+                      <li>
+                      <div class="left alR" style="width: 15%;">邮件地址：</div>
+                      <div class="left" style="width: 50%;">
+                        <div class="left mr5">{$email}</div>
+                      </div>
+                      </li>
+                      <php>}else{</php>
+                      <li>
+                      <div class="left alR" style="width: 15%;">邮件地址：</div>
+                      <div class="left" style="width: 50%;">
+                        <div class="left mr5"><input name="email" id="bind_email" type="text" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
+                      </div>
+                      </li>
+                      <li>
+                      <div class="left alR" style="width: 15%;">站内密码：</div>
+                      <div class="left" style="width: 50%;">
+                        <div class="left mr5"><input name="password" id="bind_passwd" type="password" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
+                      </div>
+                      </li>
+                      <li>
+                      <div class="left alR" style="width: 15%;">确认密码：</div>
+                      <div class="left" style="width: 50%;">
+                        <div class="left mr5"><input name="repassword" id="bind_repasswd" type="password" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
+                      </div>
+                      </li>
+                      <li>
+                      <div class="left alR" style="width: 15%;">&nbsp;</div>
+                      <div class="left" style="width: 50%;"><input type="button" onclick="bindemal()" class="btn_b" value="保存" /></div>
+                      <div class="left" style="width: 20%;">&nbsp;</div>
+                      <div class="left" style="width: 15%;">&nbsp;</div>
+                      </li>
+                      <php>}</php>
+                    </ul>
+                  </div><!-- 修改密码 end  -->
+                </div>
+              </div>
+              <volist name="bind" id="vo">
+                <php>
+                  if($vo['isBind']){
+                    $bindInfo = '已绑定';
+                  }else{
+                    $bindInfo = '未绑定';
+                  }
+                </php>
+              <div class="setItems" style="_width:100%">
+                <div class="setFold" rel="{$vo.type}" >
+                  <h2><img src="{$vo.ico}" width="24" height="24"  class="alM"/> {$vo.name}({$bindInfo})</h2>
+                </div>
+                <div  class="setItemsInfo">
+                  <div class="data"><!-- 新浪微博绑定 begin  -->
+                    <php>if($vo['isBind']){</php>
+                    <ul>
+                      <li>您已绑定{$vo.name}</li>
+                      <li><input type="button" class="btn_b" value="取消绑定" onclick="unbind1('{$vo.name}','{$vo.type}','{$vo.addon}','{$vo.unbind_hook}');" /></li>
+                    </ul>
+                    <php>}else{</php>
+                    <ul>
+                      <li>您未绑定{$vo.name}</li>
+                      <li><a class="btn_b" href="{:Addons::createAddonShow($vo['addon'],$vo['bind_hook'],array('type'=>$vo['type'],'do'=>'bind'))}">开始绑定</a></li>
+                    </ul>
+                    <php>}</php>  
+                  </div><!-- 新浪微博绑定 end  -->
+                </div>
+              </div>		  
+              </volist>
+              <!-- 绑定手机 -->
+
+              {:Addons::hook('home_account_bind_bottom')}
+              <div class="c"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 右侧内容 end  -->
+      <div class="c"></div>
+    </div>
+</div>
+    <!-- 内容 end --> 
+    <include file="__THEME__/footer" />
+
+      <script>
+        $(document).ready(function(){
+            var hs = document.location.hash;
+            changeModel( hs.replace('#','') );
+            $('.setFold').click(function(){
+              if( $(this).attr('class')=='setFold' ){
+              changeModel( $(this).attr('rel') );
+              }else{
+              $(this).removeClass('setUnfold');
+              $(this).next('.setItemsInfo').hide();
+              }
+              location.href='#'+$(this).attr('rel');
+              })
+
+
+            });
+
+//切换操作模块
+function changeModel( type ){
+  var t = type || 'base';
+  $('.setFold').removeClass('setUnfold');
+  $('.setItemsInfo').hide();
+  var handle = $('div[rel="'+t+'"]');
+  handle.addClass('setUnfold');
+  handle.next('.setItemsInfo').show();
+}
+
+//绑定新浪帐号
+function sinabind(){
+  $.post( U('weibo/operate/bind'), {username:$('#Bind_userId').val(),password:$('#Bind_passwd').val()},function(txt){
+      if(txt=='1'){
+      location.reload();
+      }else{
+      ui.error('帐号绑定失败');
+      }
+      });
+}
+
+//取消新浪帐号绑定
+function unbind1(name,type,addon,hooks){
+  if(!confirm('确认要取消绑定'+name+'？')){
+    return false;
+  }
+  $.post( U('home/Widget/addonsRequest'),{addon:addon,hook:hooks,type:type},function(txt){
+      if(txt){
+      location.reload();
+      }
+      });
+}
+
+//绑定邮箱
+function bindemal(){
+  var emailreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+  var email = $("#bind_email").val();
+  var passwd = $("#bind_passwd").val();
+  var repasswd = $("#bind_repasswd").val();
+  if(!emailreg.test(email)){
+    alert('邮箱格式不正确');
+    return false;
+  }
+  if(passwd==''){
+    alert('密码不能为空');
+    return false;
+  }
+  if(passwd!=repasswd){
+    alert('两次输入的密码不一致');
+    return false;
+  }
+
+  $.post(U('weibo/operate/bindemail'),{email:email,passwd:passwd},function(txt){
+      txt = eval('('+txt+')');
+      if(txt.boolen){
+      location.reload();
+      }else{
+      alert(txt.message);
+      }
+      });
+}
+
+      </script>

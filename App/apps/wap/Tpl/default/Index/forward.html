@@ -1,0 +1,28 @@
+<include file="../Public/header" />
+<php>if ($weibo['transpond_id'] == 0) {</php>
+<!-- 原创 -->
+    <a href="{:U('wap/Index/weibo',array('uid'=>$weibo['uid']))}">{$weibo['uname']}</a>: 
+    {$weibo['content']}<br/>
+    <php>if($weibo['type']==1) {</php>
+        <a href="{:U('wap/Index/detail',array('weibo_id'=>$weibo['weibo_id']))}"><img src="{$weibo['type_data']['thumburl']}" width="100" /></a>
+    <php>}</php>
+<php>}else {</php>
+<!-- 转发 -->
+    <php>$forward = $weibo['transpond_data'];</php>
+    <a href="{:U('wap/Index/weibo',array('uid'=>$weibo['uid']))}">{$weibo['uname']}</a>: 
+    转发 <a href="{:U('wap/Index/weibo',array('uid'=>$forward['uid']))}">@{$forward['uname']}</a> 的微博:{$forward['content']|getShort=###,140,'...'}<br />
+    <php>if($forward['type']==1) {</php>
+        <a href="{:U('wap/Index/detail',array('weibo_id'=>$weibo['weibo_id']))}"><img src="{$forward['type_data']['thumburl']}" width="100" /><a href="#">原图</a> </a>
+    <php>}</php>
+    TA的转发理由: {$weibo['content']}
+<php>}</php>
+<div class="addtbox">
+您的转发理由（只取前{$GLOBALS['ts']['site']['length']}字）：
+    <form action="{:U('wap/Index/doForward')}" method="post">
+    <input type="hidden" name="weibo_id" value="{$weibo['weibo_id']}" />
+    <textarea cols="" rows="2" style="width:99%" name="content">{$content}</textarea>
+    <label><input type="checkbox" name="isComment" value="1"/>同时作为评论</label>
+    <input type="submit" value="发布" />
+    </form>
+</div>
+<include file="../Public/footer" />

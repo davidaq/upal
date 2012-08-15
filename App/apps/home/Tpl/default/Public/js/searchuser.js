@@ -1,0 +1,1 @@
+(function($){    $.fn.searchuser = function(options){    	    };})(jQuery);

@@ -1,0 +1,22 @@
+<div class="form2">
+  	<form method="post" action="{:Addons::adminUrl('saveConfig')}">
+    <dl>
+      <dt>应用展示：</dt>
+      <dd>
+        <volist name="apps_list" id="vo">
+          <php>if (in_array($vo['app_name'], $apps_show_list)) {</php>
+	        <label><input name="{$vo['app_name']}" type="checkbox" value="1" 
+	        <php>if($$vo['app_name'] != 0 && $vo['status']!= 0 ){</php> checked ='true' <php>}</php>
+	        <php>if($vo['status']==0){</php> disabled="disabled" <php>}</php>
+	        />{$vo['app_alias']} </label>
+          <php>}</php>
+		</volist>
+        <br />(说明：“灰色选框”表示该应用未安装或已关闭)
+      </dd>
+    </dl>
+
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+    </form>
+ </div>

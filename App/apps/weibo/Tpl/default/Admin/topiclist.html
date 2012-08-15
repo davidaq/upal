@@ -1,0 +1,257 @@
+<include file="_header" />
+<script>
+//鼠标移动表格效果
+$(document).ready(function(){
+    $("tr[overstyle='on']").hover(
+      function () {
+        $(this).addClass("bg_hover");
+      },
+      function () {
+        $(this).removeClass("bg_hover");
+      }
+    );
+});
+
+$(function(){
+    $( "select[name='sorder']" ).val("{$sorder}");
+    $( "select[name='eorder']" ).val("{$eorder}");
+    $( "select[name='limit']" ).val("{$limit}");
+});
+
+function getChecked() {
+    var ids = new Array();
+    $.each($('table input:checked'), function(i, n){
+        if($(n).val()>0)ids.push( $(n).val() );
+    });
+    return ids;
+}
+
+function checkon(o){
+    if( o.checked == true ){
+        $(o).parents('tr').addClass('bg_on') ;
+    }else{
+        $(o).parents('tr').removeClass('bg_on') ;
+    }
+}
+
+function checkAll(o){
+    if( o.checked == true ){
+        $('input[name="checkbox"]').attr('checked','true');
+        $('tr[overstyle="on"]').addClass("bg_on");
+    }else{
+        $('input[name="checkbox"]').removeAttr('checked');
+        $('tr[overstyle="on"]').removeClass("bg_on");
+    }
+}
+
+//搜索用户
+var isSearchHidden = <neq name="isSearch" value="1">1<else/>0</neq>;
+function searchBlog() {
+    if(isSearchHidden == 1) {
+        $("#searchBlog_div").slideDown("fast");
+        $(".searchBlog_action").html("搜索完毕");
+        isSearchHidden = 0;
+    }else {
+        $("#searchBlog_div").slideUp("fast");
+        $(".searchBlog_action").html("搜索微博");
+        isSearchHidden = 1;
+    }
+}
+
+var ctrl = function(name){
+    this.elements = document.getElementsByName('id[]');
+    this.length = this.elements.length;
+}
+ctrl.prototype = {
+    reverse:function(){
+    for(i=0;i<this.length;i++){
+        this.elements[i].checked= !this.elements[i].checked;
+    }
+    },
+all:function(){
+for(i=0;i<this.length;i++){
+  this.elements[i].checked = true;
+}
+},
+unAll:function(){
+  for(i=0;i<this.length;i++){
+    this.elements[i].checked = false;
+  }
+},
+toggle:function(obj){
+   this[obj.checked ? 'all' : 'unAll']();
+ },
+del:function(topic_id){
+  var topic_id = topic_id ? topic_id : getChecked();
+  topic_id = topic_id.toString();
+  if(topic_id=='' || topic_id==0) return;
+  if( confirm("是否删除微博") ){
+    $.post( "{:U('weibo/Admin/operate')}",{dotype:'del',topic_id:topic_id},function(text ){
+        if( text == 1 ){
+        var id_list = weibo_id.split( ',' );   
+        for (var j=0 ; j< id_list.length ; j++   ){
+          $('#weibo_list_'+id_list[j]).remove(); 
+        }
+          ui.success( "删除成功" );
+        }else{
+          ui.error( "删除失败" );
+        }
+    });
+  }
+},
+edit:function(id,act){
+  if( act == 'recommend' ){
+      v= "推荐";
+      v2 = "取消推荐";
+      act2 = 'cancel';
+    
+  }else{
+      v = "取消推荐";
+      v2 = "推荐";
+      act2 = 'recommend';
+  }
+if( confirm( '是否'+v ) ){
+  $.post('__URL__&act=doChangeIsHot',{id:id,type:act},function( text ){
+          if( text == 1 ){
+          ui.success( "操作成功" );
+          $( '#button'+id ).val( v2 );
+          location.reload();
+          //$('#button'+id).click(function() "c.edit"+id+",'"+act2+"')")
+       }else{
+       
+        ui.error( "设置失败" );
+       }
+ });
+}
+}
+}
+var c = null;
+</script>
+<div class="so_main">
+    <include file="_tab" />
+    
+    <div id="searchBlog_div" <neq name="isSearch" value="1">style="display:none;"</neq>>
+    <div class="page_tit">搜索话题 [ <a href="javascript:void(0);" onclick="searchBlog();">隐藏</a> ]</div>
+    <div class="form2">
+    <form action="__URL__&act=searchlist" method="POST">
+    <input type="hidden" name="isSearch" value="1"/>
+        <dl class="lineD">
+          <dt>话题名：</dt>
+          <dd>
+            <input name="name" type="text" value=""> 
+          </dd>
+        </dl>
+        <dl class="">
+        <dt>屏蔽：</dt>
+        <dd>
+          <label><input name="lock" type="radio" value="1" checked="checked" >是</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label><input name="lock" type="radio" value="0" >否</label>
+        </dd>
+      </dl>
+        <div class="page_btm">
+          <input type="submit" class="btn_b" value="确定" />
+        </div>
+    </form>
+    </div>
+    </div>
+    
+    <div class="Toolbar_inbox">
+        <div class="page right">{$list.html}</div>
+        <a hf="javascript:void(0);" class="btn_a" onclick="searchBlog();">
+            <span class="searchBlog_action"><neq name="isSearch" value="1">搜索话题<else/>搜索完毕</neq></span>
+        </a>
+        <a href="javascript:void(0);" class="btn_a" onclick="setManyShield()"><span>屏蔽话题</span></a>
+    </div>
+  
+    <div class="list">
+        <table id="blog_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+        <th style="width:30px;">
+            <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+            <label for="checkbox"></label>
+        </th>
+        <th class="line_l">话题ID</th>
+        <th class="line_l">话题名</th>
+        <th class="line_l">话题微博数</th>
+        <th class="line_l">创建时间</th>
+        <!--<th class="line_l">推荐状态</th>-->
+        <th class="line_l">屏蔽状态</th>
+        </tr>
+        <volist id="vo" name="list['data']">      
+          <tr overstyle='on' id="weibo_list_{$vo.weibo_id}">
+            <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.topic_id}"></td>
+            <td><a href="{:U('home/space/detail',array('id'=>$vo['weibo_id']))}" target="_blank">{$vo.topic_id}</a></td>
+            <td><a href="{:U('home/User/topics',array('k'=>$vo['name']))}" target="_blank">#{$vo.name}# </a></td>
+            <td style="width:400px;overflow:hidden">{$vo.count}</td>
+            <td>{$vo.ctime|friendLydate}</td>
+            <!--<td>
+              <eq name="vo.status" value="1"><span style="color:red">是</span>&nbsp;&nbsp;|&nbsp;&nbsp;<a target="_self" href="javascript:void(0)" onclick="setRecommend('{$vo['topic_id']}')">取消推荐</a></eq>
+              <eq name="vo.status" value="0">否&nbsp;&nbsp;|&nbsp;&nbsp;<a target="_self" href="javascript:void(0)" onclick="setRecommend('{$vo['topic_id']}')">设置推荐</a></eq>
+           </td>-->
+            <td>
+              <eq name="vo.lock" value="1"><span style="color:red">是</span>&nbsp;&nbsp;|&nbsp;&nbsp;<a target="_self" href="javascript:void(0)" onclick="setShield('{$vo['topic_id']}')">取消屏蔽</a></eq>
+              <eq name="vo.lock" value="0">否&nbsp;&nbsp;|&nbsp;&nbsp;<a target="_self" href="javascript:void(0)" onclick="setShield('{$vo['topic_id']}')">设置屏蔽</a></eq>
+            </td>
+          </tr>
+    </volist>
+        </table>
+    </div>
+    
+     <div class="Toolbar_inbox">
+        <div class="page right">{$list.html}</div>
+        <a hf="javascript:void(0);" class="btn_a" onclick="searchBlog();">
+            <span class="searchBlog_action"><neq name="isSearch" value="1">搜索话题<else/>搜索完毕</neq></span>
+        </a>
+        <a href="javascript:void(0);" class="btn_a" onclick="setManyShield()"><span>屏蔽话题</span></a>
+    </div>
+</div>
+<script type="text/javascript">
+var c = new ctrl('id[]');
+
+function setRecommend(id) {
+          $.get(U('weibo/admin/setRecommend'),{id:id},function(msg){
+             if(msg == 0){
+                ui.error('设置失败！');
+             }else{
+                ui.success('设置成功！');
+                setTimeout("location.href = location.href", 2000);               
+             }   
+          });  
+    }
+
+function setShield(id) {
+          $.get(U('weibo/admin/setShield'),{id:id},function(msg){
+             if(msg == 0){
+                ui.error('设置失败！');
+             }else{
+                ui.success('设置成功！');
+                setTimeout("location.href = location.href", 2000);               
+             }   
+          });  
+    }
+function setManyShield(ids) {      
+        var length = 0;
+      if(ids) {
+        length = 1;       
+      }else {
+        ids    = getChecked();
+        length = ids.length;
+            ids    = ids.toString();
+      }
+      if(ids=='') {
+        ui.error('请选择一个话题！');
+        return ;
+      }
+        if(confirm('您将屏蔽'+length+'个话题，确认继续？')) {
+             $.post("{:U('weibo/admin/setManyShield')}",{id:ids},function(res){
+                  if(res=='1') {
+                      ui.success('设置成功！');
+                      setTimeout("location.href = location.href", 1000);    
+                 }else{
+                      ui.error('设置失败！');
+                  }
+             });
+        }
+    }
+</script>
+<include file="_footer" />

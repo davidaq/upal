@@ -1,0 +1,39 @@
+<div style="width:280px; padding:20px;" class="alL">
+<form action="__URL__&act=editStar" method="post" id="edit_star" onsubmit="return edit_star();">
+<div class="left">将TA转移到：</div>
+<div style="margin-left:85px;"><volist name="group_list" id="g">
+	<label style="width:140px; display:inline-block" class="lh25"><input type="checkbox" name="gid[]" value="{$g.star_group_id}" /> {$g.title}</label>
+	<!-- 
+	<volist name="g.son_list" id="s">
+       <label style="width:140px; display:inline-block" class="lh25"><input type="checkbox" name="gid[]" value="{$s.star_group_id}" /> {$s.title}</label>
+    </volist>
+     -->
+  </volist></div>
+  <input type="hidden" name="star_id" value="{$star_id}" /><div class="alC">
+  <input type="submit" value="保存" class="btn_b"></div>
+</form>
+</div>
+<script>
+function edit_star(){
+	var ids = new Array();
+	$.each($('#edit_star input:checked'), function(i, n){
+		ids.push( $(n).val() );
+	});
+	if(ids != ''){
+		var options = {
+				success: function(txt) {
+					if(txt==1){
+						ui.success('转移分组成功');
+						setInterval("location.reload()",500);
+					}else{
+						ui.error('转移分组失败！');
+					}
+				} 
+			};		
+		$('#edit_star').ajaxSubmit( options );
+	}else{
+		ui.error('请选择分组！');
+	}
+	return false;
+}
+</script>

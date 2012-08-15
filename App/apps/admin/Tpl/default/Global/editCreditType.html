@@ -1,0 +1,36 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">积分设置</div>
+  <div class="tit_tab">
+    <ul>
+    <li><a href="{:U('admin/Global/credit')}">积分规则</a></li>
+    <li><a href="{:U('admin/Global/creditType')}" class="on">积分类型</a></li>
+    <li><a href="{:U('admin/Global/creditUser')}">设置用户积分</a></li>
+    </ul>
+  </div>
+  <div class="form2">
+  	<eq name="type" value="add">
+	  	<form method="post" action="{:U('admin/Global/doAddCreditType')}">
+	    <h3>添加积分类型</h3>
+	<else/>
+	  	<form method="post" action="{:U('admin/Global/doEditCreditType')}">
+	    <h3>编辑积分类型</h3>
+		<input type="hidden" name="id" value="{$creditType['id']}">
+	</eq>
+    <dl class="lineD">
+      <dt>名称：</dt>
+      <dd><input name="name" type="text" value="{$creditType['name']}"> *
+	  <p>英文名，保持唯一。如“score”、“experience”</p>
+    </dl>
+    <dl>
+      <dt>别名：</dt>
+      <dd><input name="alias" type="text" value="{$creditType['alias']}">
+	  <p>如“积分”，“经验”</p>
+    </dl>
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+    </form>
+  </div>
+</div>
+<include file="../Public/_footer" />

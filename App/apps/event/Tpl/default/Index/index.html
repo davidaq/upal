@@ -1,0 +1,37 @@
+<include file="__THEME__/header" />
+<link rel="stylesheet" href="../Public/event.css" type="text/css" media="screen" charset="utf-8" />
+<script type="text/javascript" src="../Public/js/event.js"></script>
+<div class="content_holder">
+<div class="content no_bg">
+<include file="../Public/_mainNav" />
+  <div class="main no_l">
+    <!-- 画布 begin  -->
+    <div class="mainbox">
+      <include file="../Public/_isHotList" />
+      <div class="mainbox_appC">
+        <div class="tab-menu">
+          <!-- 切换标签 begin  -->
+          <ul>
+            <li><a href="{:U('//',array('order'=>'hot'))}" <php> echo (empty($_GET['order']) || $_GET['order']=='hot')?'class="on"':NULL;</php>><span>热门{$ts['app']['app_alias']}</span></a></li>
+            <li><a href="{:U('//',array('order'=>'new'))}" <php> echo ($_GET['order']=='new')?'class="on"':NULL;</php>><span>最新{$ts['app']['app_alias']}</span></a></li>
+            <li><a href="{:U('//',array('order'=>'following'))}" <php> echo ($_GET['order']=='following')?'class="on"':NULL;</php>><span>我关注的人的{$ts['app']['app_alias']}</span></a></li>
+          </ul>
+        </div>
+        <!-- 切换标签 end  -->
+        <div class="groupBox">
+          
+          <!-- 活动列表 begin  -->
+          <div class="boxL">
+            <include file="../Public/_eventList" />
+          </div>
+          <!-- 活动列表 end  -->
+        <div class="c"></div>
+        </div>
+      </div>
+      <div class="c"></div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- 右侧内容 end  -->
+<include file="__THEME__/footer" /> 

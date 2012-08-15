@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<meta name="viewport" content="width=device-width; initial-scale=1.0; minimum-scale=1.0; maximum-scale=2.0"/>
+<meta name="MobileOptimized" content="240"/>
+<title>{$ts['site']['site_name']} 3G版</title>
+<style type="text/css"  id="internalStyle">
+    body{background:#fff;padding:2px;margin:1px;font-size:12px; line-height:140%}
+    p{ clear:both; padding:0; margin:0}
+    .top{ background:#449EC3;background: url(top_bg.gif) right; height:24px;}
+    a.top_a{ float:right; margin-right:5px; color:#fff}
+    .nav{ background-color:#E4E9EA; line-height:25px}
+    .userinfo{line-height:20px; background-color:#FAFAFA; border:1px solid #CBD6DA; padding:5px 0 5px 5px;}
+    .addtbox{ padding:5px 0;}
+    .list{ padding-bottom:5px; margin-top:5px; border-bottom:1px dashed #C1CFD3}
+    .por {border: 1px solid #CCCCCC; height:50px; width:50px; }
+</style>
+</head>
+<body>
+<div data-role="page">
+  <header data-role="header" data-backbtn="false">欢迎访问{$ts['site']['site_name']}</header>
+  <div data-role="content">
+    <div class="addtbox">
+      <form action="{:U('w3g/Public/doLogin')}" method="post">
+        <label for="email">邮箱：</label>
+        <input type="text" name="email" id="email" value="" />
+        <br />
+        <label for="password">密码：</label>
+        <input type="password" name="password" id="password" value="" />
+        <br />
+        <label for="remember">记住我</label>
+        <input type="checkbox" name="remember" id="remember" checked="checked" class="custom" /><br />
+        <input type="submit" name="submit" value="登录" data-icon="forward"/>
+        <eq name="is_register_open" value="1">
+            <php>$register_url = U('/Public/register');</php> 
+            <input type="button" name="" value="注册" onclick="window.location.href='{$register_url}'" />
+        </eq>
+      </form>
+    </div>
+    <div> 小提示：<br/>
+      1、节省流量，请咨询各地手机上网资费。<br/>
+      2、登录成功后保存任意页面为书签，下次通过书签访问，也可免去登录过程。<br/>
+      3、请不要直接通过手机浏览器的发送地址功能将登录后的页面地址发送给朋友，以免泄露个人信息及密码。<br/>
+      4、记住登录状态，需支持并打开手机的cookie功能。<br/>
+      <a href="{:U('/Public/wapToNormal')}">访问普通版</a>
+    </div>
+  </div>
+  <footer data-role="footer">欢迎访问{$ts['site']['site_name']} </footer>
+</div>
+</body>
+</html>

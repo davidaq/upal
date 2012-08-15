@@ -1,0 +1,63 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="../Public/Js/common.js"></script>
+<link  href="../Public/group.css" rel="stylesheet" type="text/css"/>
+<div class="content_holder">
+<div class="content no_bg"><!-- 内容 begin  -->
+  <include file="../Public/_mainNav" />
+  <div class="main no_l">
+    <!-- 右侧内容 begin  -->
+    <div class="mainbox"> <include file="../Public/_groupInfo" />
+    <div class="mainbox_appC">
+    <!--  简单头部 -->
+    <include file="../Public/top" />
+    <!--  简单头部结束  -->
+  <div class="MenuSub_2">
+  	<if condition="$order eq 'all' "><a href="#" class="on">所有成员</a> <else /> <a href="{:U('group/Member/index',array('gid'=>$gid))}">所有成员</a></if>| 
+  	<if condition="$order eq 'new'"><a href="#" class="on">最新加入成员</a><else /><a href="{:U('group/Member/index',array('gid'=>$gid,'order'=>'new'))}">最新加入成员</a></if>| 
+  	<if condition="$order eq 'visit'"><a href="#" class="on">最近来访成员</a><else /><a href="{:U('group/Member/index',array('gid'=>$gid,'order'=>'visit'))}">最近来访成员</a></if>
+  </div>
+  <div class="groupBox">
+    <div class="boxL" style="width:100%;_width:99%">
+    <ul class="feed_list">
+          <volist name="memberInfo['data']" id="_member">
+    		<li class="lineD_btm">
+    			<div class="userPic"><space uid="_member['uid']" target="_blank">{uavatar=m}</space></div>				
+				<php>if ($mid > 0 && $_member['uid'] != $mid) {</php>
+				<div class="right pr10" id="follow_list_{$_member.uid}" >
+					<script>document.write(followState('{$_member.followState}','dolistfollow',{$_member.uid}))</script>
+				</div>
+				<php>}</php>
+    			<div class="feed_c" style="margin-right:100px;">
+    				<div class="mb5"><if condition="$_member['level'] eq 1">
+    				  <span class="creator" title="创建者">&nbsp;</span>
+    				<elseif condition="$_member['level'] eq 2" />
+    				  <span class="newer" title="管理者">&nbsp;</span>
+    				<else />    				
+    				  
+    				</if><space uid="_member['uid']" class="fn" target="_blank">{uname}</space>
+    				</div>
+                    <div class="mb5">
+                      <if condition="$_member['weibo']">
+                      最近微博：<a href="{:U('group/Group/detail', array('gid'=>$_member['weibo']['gid'],'id'=>$_member['weibo']['weibo_id']))}" class="cGray" target="_blank">{$_member['weibo']['content']}</a>
+                      <else />
+                      该用户还未发布微博
+                      </if>
+					</div>
+                    <div><em>最近访问：{$_member['mtime']|friendlyDate}</em> </div>
+    			</div>    			
+    			   			
+    		</li>
+          </volist>
+     </ul>
+     <div class="page">{$memberInfo['html']}</div>
+    </div>
+  <!-- end  -->
+  </div> <div class="c"></div>
+   </div>
+  <div class="c"></div>
+  </div>
+   </div><!-- 右侧内容 end  -->
+</div>
+</div>
+<!-- 内容 end -->
+<include file="__THEME__/footer" />

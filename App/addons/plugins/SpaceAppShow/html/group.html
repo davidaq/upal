@@ -1,0 +1,43 @@
+<script type="text/javascript" src="{:SITE_URL}/apps/{$app_show}/Tpl/default/Public/Js/common.js"></script>
+      <div class="groupBox">
+        <div class="boxL pt10">
+          <ul class="search">
+            <volist name="grouplist['data']" id="group">
+              <li class="lineD_btm">
+                <div class="left" style="width:80; height:80">
+                    <span class="group_pic">
+                        <a href="{$group['id']|group_id_to_url}" target="_blank"><img src="{$group['logo']|logo_path_to_url}" width="80" height="80px"/></a>
+                    </span>
+                </div>
+                <div class="right rmenu" style="width: 60px; text-align:center">
+                  <if condition="$group['status'] eq 1">
+                      <?php if($isLogin) { ?>
+                      <a href="{:U('group/Group/index',array('gid'=>$group['id']))}" target="_blank">浏览该群</a><br />
+                      <?php } ?>
+                      <php>$level = getLevel($uid, $group['id']);</php>
+                      <php>if($level==='0'){</php>
+                      &nbsp;待审核
+                      <php>} else if($level==1 || $level==2){</php>
+                      &nbsp;管理员
+                      <php>} else if($level==3){</php>
+                      &nbsp;群成员
+                      <php>}</php><br />
+                      <php>if(getLevel($mid, $group['id']) === null){</php>
+                      <?php if($isLogin) { ?>
+                      <a href="javascript:joingroup({$group['id']});">加入该群</a>
+                      <?php } ?>
+                      <php>}</php>
+                  </if>
+                </div>
+                <div style="margin: 0pt 70px 0pt 90px;">
+                  <h3><if condition="$group['status'] eq 1"><a href="{:U('group/Group/index',array('gid'=>$group['id']))}" target="_blank">{$group['name']}</a><else />{$group['name']}</if></h3>
+                  <p>成员：{$group['membercount']}</p>
+                  <p>创建：{$group['ctime']|friendlyDate}</p>
+                  <p>类型：{$group['cid0']|getCategoryName}</p>
+                </div>
+              </li>
+            </volist>
+          </ul>
+        </div>
+        <div class="page">{$grouplist['html']}</div>
+      </div><div class="c"></div>

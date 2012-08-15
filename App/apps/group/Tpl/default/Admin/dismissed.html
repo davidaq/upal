@@ -1,0 +1,47 @@
+<script>
+$(document).ready(function(){
+	$('#input_dismissed').focus(function(){
+		$('#input_dismissed_select').attr('checked', true);
+	});
+});
+var dismissed = function(id)
+{
+	var id = id ? id : getChecked();
+    id = id.toString();
+    if(id == '' || id == 0) return ;
+    var reason = $('input["name=dismissed"][checked]').val();
+    if (undefined == reason) {
+    	return false;
+    } else if ('' == reason) {
+    	reason = $('#input_dismissed').val();
+    }
+    $.post( '{:U('group/Admin/doDismissed')}',{gid:id,reason:encodeURIComponent(reason)},function(text){
+    	if( text == 1 ){
+             ui.success( "驳回多个<?php echo $GLOBALS['ts']['app']['app_alias']; ?>" );
+             var id_list = id.split( ',' );   
+             for (var j=0 ; j< id_list.length ; j++   ){
+             	$('#list_'+id_list[j]).remove(); 
+             }
+        }else if( text == 2 ){
+                  ui.success( "驳回成功" );
+            $('#list_'+id).remove();
+        }else{
+            ui.error( "驳回失败" );
+        }
+    	ui.box.close();
+     });
+};
+</script>
+<input type="radio" name="dismissed" value="有广告嫌疑" checked />
+1.有广告嫌疑
+<br />
+<input type="radio" name="dismissed" value="含有不正当或者不健康的内容" />
+2.含有不正当或者不健康的内容
+<br />
+<input type="radio" name="dismissed" id="input_dismissed_select" value="" />
+3.其他
+<br />
+<input type="text" name="input_dismissed" id="input_dismissed" />
+<br />
+<input type="button" value="确定" onclick="dismissed({$_GET['gid']})" />
+<input type="button" value="取消" onclick="ui.box.close()" />

@@ -1,0 +1,18 @@
+<body>
+<!--投票框架-->
+<dl class="ts_vote">
+	<dt>&nbsp;</dt>
+    <dd >
+    	<div class="ts_vote_pic"><img src="{$htmlPath}/vote_pic.png" width="100" height="100" /></div>
+        <div class="ts_vote_right">
+        <h3><a href="{$url}">{$title|getShort=###,20,'...'}</a></h3>
+        <ul>
+            <volist name="opt" id="vo">
+                <php>if($key >2) break;</php>
+                <li><span class="vote_Icon"></span>{$vo|getShort=###,20,'...'}</li>
+            </volist>
+          </ul>
+             <p><span class="right"><a href="{$url}" class="vote_but">参与投票</a></span></p>
+        </div>
+    </dd>
+</dl>

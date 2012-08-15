@@ -1,0 +1,86 @@
+<include file="__THEME__/header" />
+<include file="__THEME__/editor" />
+<script type="text/javascript" src="../Public/Js/common.js"></script>
+<link  href="../Public/group.css" rel="stylesheet" type="text/css"/>
+<script src="../Public/js/topic.js" type="text/javascript"></script>
+<script>
+	function checkform(v_form){
+		if(checkPostContent(v_form.content.value) == 0) {
+			v_form.content.focus();
+			//ui.error('内容不能为空');
+			//return false;
+		}
+		return true;
+	}
+</script>
+<div class="content_holder content">
+<div style="padding:20px;width:940px;margin:0 auto;background:#fff">
+<div class="no_bg"><!-- 内容 begin  -->
+  <!-- 用户组件列表 begin -->   
+  <!-- 用户组件列表 end -->
+  <div class="mainbox"> <!-- 右侧内容 begin  -->
+  <div class=page_title> <!-- page_title begin -->
+  	<div class="left" style="width:80px;">
+    	<span class="headpic50"><a href="{:U('group/Group/index',array('gid'=>$groupinfo['id']))}"><img src="__ROOT__/thumb.php?w=50&h=50&url={$groupinfo['logo']|get_photo_url}"/></a></span>
+    </div>
+    <div class="left" style="width:583px;">
+      <h2>
+    	<a href="{:U('group/Group/index',array('gid'=>$groupinfo['id']))}">{$groupinfo['name']}</a> &gt; 
+    	<a href="{:U('group/Topic/index',array('gid'=>$groupinfo['id']))}">话题区</a>
+      </h2>
+    </div>
+    <div class="left alR lh30" style="width:260px;">
+      <a href="JavaScript:window.history.back()">&lt;&lt;返回上一页</a>
+    </div>
+  <div class="c"></div>
+</div><!-- page_title end -->
+  <!-- 切换标签 end  -->
+  <div class="groupBox">
+  <div class="boxL" style="width:100%;">
+    <div class="box1">
+  	<h3>编辑回复</h3>
+  	<form method="post" action="{:U('group/Topic/editPost')}" onsubmit="return checkform(this);">
+    <ul class="pt10">
+          <li class="li pt10">
+          	
+            <div class="left" style="width:100%">
+            <textarea id="content" name="content" style="height:350px;">{$post.content}</textarea>
+              <div style="margin-top:10px;">
+               <div class="left" style="width:100%">
+                <div id="attach_upload_data" class="mb5">
+                <php>if($post['attach']) { $attach = unserialize($post['attach']); </php>
+						<volist name="attach" id="data">
+						<php>$data = explode('|',$data);</php>
+						<input class="attach{$data[0]}" type="hidden" value="{$data[0]}|{$data[1]}" name="attach[]"/>
+					   <div>
+						<a class="attach{$data[0]}" onClick="deleteAttach({$data[0]})" href="javascript:void(0)">[删除]</a>
+						<span class="attach{$data[0]}">{$data[1]}</span>
+					 </div>
+						</volist>
+				<php>}</php>
+				</div>
+              <input type="hidden" name="editsubmit" value="do" >              
+			  <input type="hidden" value="{$gid}" name="gid">
+			  <input type="hidden" value="{$post.id}" name="pid">			  
+              <input name="button" type="submit" class="btn_b mt5" id="button" value="修改" />
+              </div>
+              </div>
+            </div>
+       	  </li>
+      </ul>
+      </form>
+    </div>
+    </div>
+  <!-- end  -->
+  </div>  </div><!-- 右侧内容 end  -->
+  <div class="c"></div>
+</div>
+</div>
+</div>
+<!-- 内容 end -->
+<script>
+$(document).ready(function(){
+	loadEditor("content");
+});
+</script> 
+<include file="__THEME__/footer" />

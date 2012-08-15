@@ -1,0 +1,36 @@
+<include file="../Public/_header" />
+<div class="so_main">
+<div class="page_tit">邀请配置 - 发放邀请码</div>
+<php>if($invite_set=='invitecode'){</php>
+    <div class="form2">
+ 	<form method="post" action="{:U('admin/Global/invitecode')}">
+ 	<dl class="lineD">
+      <dt>发放方式：</dt>
+      <dd>
+        <input type="radio" name="send_type" value="0" checked>指定用户
+        <input type="radio" name="send_type" value="1">全部用户
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>指定用户UID：</dt>
+      <dd>
+        <input name="send_type_user" type="text" value="">
+        <p>多个UID以英文的“,”隔开</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt>发放数量：</dt>
+      <dd>
+        <input name="send_type_num" type="text" value="5"> 个/用户
+      </dd>
+    </dl>
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+    </form>
+    </div>
+<php>}else {</php>
+    当“注册配置”中“注册方式”为“邀请注册”，且“邀请方式”为“使用邀请码”时，才可设置本项。
+<php>}</php>
+</div>
+<include file="../Public/_footer" />

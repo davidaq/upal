@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* CSS Document */
+/*
+赵杰  
+公司信息
+*/
+
+.left_menu { float:left; width:145px; text-align: left; }
+.left_menu_top { height:15px; overflow:hidden; background-image: url(images/app_top_bg.jpg); background-repeat: repeat-x; background-position: 0px 0px; background-color: #095ea5; }
+.left_menu_list { margin-right:2px; margin-left:2px; margin-top: 10px; }
+.left_menu_list ul { margin:0px; padding:0px; border-top-width:0px; border-right-width:0px; border-bottom-width:0px; border-left-width:0px; }
+.left_menu_list li { height:40px; position:relative; border-width: 0px; }
+.left_menu_list li a { font-size:14px; height:auto; text-decoration: none; line-height: 35px; font-weight: bold; padding-left: 20px; }
+.left_menu_list li a:hover { text-decoration: underline; }
+.left_menu_list li.on { background-image: url(images/left_menu_on.gif); background-repeat: repeat-x; background-position: 0px 0px; }
+.left_menu_list li.on span { background-image: url(images/left_menu_on_r.gif); background-repeat: no-repeat; background-position: right 0px; height: 41px; width: 10px; display: block; position: absolute; right: -10px; top: 0px; z-index: 100; }
+.left_menu_list li.on a { }
+.left_menu_btm { overflow:hidden; height:2px; }
+.us_info { width: 800px; padding-left: 15px; }
+.us_info .tit { font-size: 18px; font-family: "黑体", "宋体", Arial; line-height: 50px; border-bottom-width: 2px; border-bottom-style: solid; border-bottom-color: #d3d3d3; margin-bottom: 10px; }
+.us_info .detail { font-size: 14px; }

@@ -1,0 +1,46 @@
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/weibo.js"></script>
+    <!--分享微博弹窗-->
+    <form action="{:U('home/Widget/doShare')}" method="post" id="share_form">
+        <dl class="pop_share_weibo">
+            <dt><span class="right wordNum numObj" id="_widget_weibo_words_count"></span></dt>
+            <dd>
+            <textarea id="content_publish" name="content" class="contentObj" style="font-family: Tahoma,宋体; overflow: hidden; border: 1px solid #ccc; background-color:#F8F8F8; word-wrap: break-word; font-size: 12px; line-height: 18px; height: 65px; width:358px;">{$content}</textarea>
+            </dd>
+            <dd>
+			<input type="hidden" name="source" value="{$source}"/>
+			<input type="hidden" name="sourceUrl" value="{$sourceUrl}"/>
+            <input type="hidden" name="type" value="{$type}"/>
+            <input type="hidden" name="type_data" value="{$type_data}"/>
+            <span class="right"><input type="button" class="btn_b buttonObj" value="{$button_title}"></span>
+            <div id="publish_type_content_before" class="left"><?php /* Addons::hook('home_index_middle_publish_type',array("position"=>"other")) */ ?></div>
+            </dd>
+        </dl>
+    </form>
+    <!--/分享微博弹窗-->
+<script>
+var weibo = $.weibo();
+$(document).ready(function(){
+   var default_transpond_string = document.getElementById("content_publish").value;
+   weibo.initForm("share_form",{       
+        blur:function(formObj,buttonObj,contentObj,numObj){
+            if(contentObj.val() == '') {
+                contentObj.val(default_transpond_string);
+            }
+        },
+        enter:function(formObj,buttonObj,contentObj,numObj,txt){
+			ui.success("分享成功");
+            ui.box.close();
+        },
+        after:function(formObj,buttonObj,contentObj,numObj){
+                if (contentObj.val() == '') {
+                    contentObj.val(default_transpond_string);
+                }else {
+                  weibo.contentFirst('content_publish');
+               }
+               contentObj.focus();
+        }
+   });
+});
+</script>
+{:Addons::hook('weibo_js_plugin')}

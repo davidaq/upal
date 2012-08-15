@@ -1,0 +1,54 @@
+<include file="__THEME__/header" />
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l">
+    <div class="mainbox">
+	<div class="mainbox_appC no_r">
+      <div class="mainbox_C no_r">
+        <div class="add_app">
+          <div class="Prompt" style="margin-top:20px;">
+            <div class="Prompt_top"></div>
+            <div class="add_install">
+              <dl>
+                <dt>将应用"{$app_alias}"添加到您的账户吗？</dt>
+                <dd style="width:285px; ">
+                    <php>if(empty($large_icon_url)) $large_icon_url = $icon_url;</php>
+                    <div class="appIco"><img src="{:getAppIconUrl($large_icon_url,$app_name);}" /></div>
+                    <!-- 
+                    <div class="tishi">
+                        <strong>隐私提示：</strong>
+                        本组件为第三方开发，如果你添加该组件，将允许该组件获取你在开心网的个人基本信息、好友信息等内容。
+                    </div>
+                    -->
+                    <div class="alC">
+                        <php>$href = U('home/Index/doInstall',array('app_id'=>$app_id));</php>
+                        <input type="button" value="立即添加" class="btn_b" onclick="location.href='{$href}'"/> 
+                        <a class="btn_w" href="{:U('home/Index/addapp')}">取消</a>
+                    </div>
+                </dd>
+                <dd style="width:250px; float:right;">
+                <div class="appInfo">
+                    <ul>
+                        <li><span>开发者：</span>{$author_name}</li>
+                        <li><span>应用类型：</span>{$category}</li>
+                        <li><span>发布日期：</span>{$release_date}</li>
+                        <li><span>最后更新：</span>{$last_update_date}</li>
+                    </ul>
+                    <p class="cGray2 lh30">组件介绍</p>
+                    <p style="text-indent:2em;" class="lh20">{$description}</p>
+                </div>
+                </dd>
+              </dl>
+              <div class="c"></div>
+            </div>
+            <div class="Prompt_btm"></div>
+          </div>
+        </div>
+        <div class="c"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<include file="__THEME__/footer" /> 

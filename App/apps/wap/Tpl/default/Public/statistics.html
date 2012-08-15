@@ -1,0 +1,14 @@
+<p>
+  <php>if($is_owner==1) {</php>
+    <a href="{:U('wap/Index/weibo')}">微博[{$profile['weibo_count']}]</a> 
+    <a href="{:U('wap/Index/following')}">关注[{$profile['followed_count']}]</a> 
+    <a href="{:U('wap/Index/followers')}">粉丝[{$profile['followers_count']}]</a> 
+    <a href="{:U('wap/Index/atMe')}">@我的<gt name="news['atme']" value="0"><font color=red>({$news['atme']})</font></gt></a>
+	<a href="{:U('wap/Index/replyMe')}">评论我的<gt name="news['comment']" value="0"><font color=red>({$news['comment']})</font></gt></a>
+    <a href="{:U('wap/Index/favorite')}">我的收藏</a>
+  <php>}else {</php>
+    <a href="{:U('wap/Index/weibo', array('uid'=>$_GET['uid']))}">微博[{$profile['weibo_count']}]</a> 
+    <a href="{:U('wap/Index/following', array('uid'=>$_GET['uid']))}">关注[{$profile['followed_count']}]</a> 
+    <a href="{:U('wap/Index/followers', array('uid'=>$_GET['uid']))}">粉丝[{$profile['followers_count']}]</a> 
+  <php>}</php>
+</p>

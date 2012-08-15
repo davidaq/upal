@@ -1,0 +1,154 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/weibo.js"></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l">
+    <div class="mainbox boxspace">
+      <div class="mainbox_appR">
+	  <php>if(!empty($search_key)){</php>
+	  <gt name="mid" value="0">
+      <div class="right_box">
+	  <span class="ico_tuijian"></span>
+		<span id="followTopic" style="font-size:14px; font-weight:bold">
+			<php>if($followState){</php>
+				<a href="javascript:void(0)" onclick="weibo.unfollowTopic('{$search_key_id}','{$search_key}')">已关注该话题</a>
+			<php>}else{</php>
+				<a href="javascript:void(0)" onclick="weibo.followTopic('{$search_key}')">关注该话题</a>
+			<php>}</php>
+		</span>
+      <h2><span class="ico_tuijian"></span><a href="javascript:void(0)" onclick="weibo.quickpublish('大家来谈谈#{$search_key}#这个话题吧！')">推荐该话题给朋友</a></h2>
+      </div>
+      </gt>
+	  <php>}</php>
+ 
+        <gt name="mid" value="0">
+        <div class="right_box">
+          <h2>关注的话题</h2>
+          <ul class="topic_list">
+          	<volist id="vo" name="followTopic">
+            	<li><a href="{:U('home/user/topics',array('k'=>urlencode($vo['name'])))}" title="{$vo.name}">{$vo.name}</a></li>
+			</volist>
+ 
+          </ul>
+        </div>
+        </gt>
+		
+        <div class="right_box">
+    	{:W('HotTopic', array('type'=>'recommend'))}
+        </div>
+      </div>
+      <div class="mainbox_appC boxspace_L"> 
+        <div class="tab-menu"><!-- 切换标签 begin  -->
+          <gt name="mid" value="0">
+          <div class="right">
+            <php>if(!empty($search_key)){</php>
+                <input name="" class="btn_b" value="发微博" onclick="weibo.quickpublish('#{$search_key|preg_replace="/#/",'',###}# ')" type="button" />
+            <php>}</php>
+          </div>
+          </gt>
+          <ul>
+            <li><a class="on feed_item" href="{:U('home/user/search',array('k'=>urlencode($search_key)))}"><span>搜微博({$list.count})</span></a></li>
+            <li><a class="feed_item" href="{:U('home/user/searchuser',array('k'=>urlencode($search_key)))}"><span>搜人</span></a></li>
+             <li><a class="feed_item" href="{:U('home/user/searchtag',array('k'=>urlencode($search_key)))}"><span>标签</span></a></li>
+          </ul>
+        </div>
+        <div class="MenuSub">
+	        <volist name="weibo_menu" id="vo"><php>if ($i > 1) {</php>|<php>}</php><a
+		    href="{:U('home/User/search', array('k'=>urlencode($search_key),'type'=>$key))}" 
+		    <eq name="type" value="$key">class="on"</eq>>{$vo}</a></volist>
+		</div>
+        <form action="{:U('home/user/search')}" method="post" >
+		<div class="Search_box">
+          <div class="Search_bg">
+          <div>
+            <input type="text" name="k" class="text_findUser left" style="width:535px;_width:530px" maxlength="40" 
+             value="{$search_key}" onfocus="if(this.value == '{$search_key}')this.value='';" onblur="if(this.value == '')this.value='{$search_key}';" 
+            />
+            <input class="btn_search_big" type="submit" value="" />
+          </div>
+          </div>
+          <div class="lh35 left" style="width:100%">
+			<php>if(empty($search_key)) {</php>
+			请输入关键字后点击搜索
+			<php>}else {</php>
+			以下是关于"<span class="cRed">{$search_key}</span>"的微博{$list.count}条
+			<php>}</php>
+		  </div>
+        </div>
+		</form>
+		
+        <div class="feedBox">
+<php>if($list['data']){</php>
+		{:W('WeiboList', array('mid'=>$mid, 'list'=>$list['data'], 'insert'=>0))}
+<php>/*</php>
+          <ul class="feed_list">
+           <volist id="vo" name="list['data']">
+            <li class="lineD_top" id="list_li_{$vo.id}">
+              <div class="userPic"><space uid="vo.uid">{uavatar}</space></div>
+              <div class="feed_c">
+                <div class="msgCnt"><space uid="vo.uid">{uname}</space>{$vo.uid|getUserGroupIcon}：{$vo.content|format=true}</div>
+				<php>if( $vo['transpond_id'] ){</php>
+				<php>if($vo['expend']){</php>
+	                  <div class="feed_quote"> <img class="q_ico_arrow" src="__THEME__/images/zw_img.gif" />
+	                    <div class="q_tit"><img class="q_tit_l" src="__THEME__/images/zw_img.gif" /></div>
+	                    <div class="q_con"> <space uid="vo.expend.uid">@{uname}</space>：{$vo.expend.content|format=true} <a href="{:U('home/space/detail',array('id'=>$vo['expend']['id']))}">原文转发({$vo.expend.transpond}</a>)&nbsp;|&nbsp;<a href="{:U('home/space/detail',array('id'=>$vo['expend']['id']))}">原文评论({$vo.expend.comment})</a> {$vo.expend.expend} </div>
+	                    <div class="q_btm"><img class="q_btm_l" src="__THEME__/images/zw_img.gif" /></div>
+	                  </div>
+				   <php>}else{</php>
+	                  <div class="feed_quote"> <img class="q_ico_arrow" src="__THEME__/images/zw_img.gif" />
+	                    <div class="q_tit"><img class="q_tit_l" src="__THEME__/images/zw_img.gif" /></div>
+	                    <div class="q_con">此微博已被原作者删除</div>
+	                    <div class="q_btm"><img class="q_btm_l" src="__THEME__/images/zw_img.gif" /></div>
+	                  </div>
+				   <php>}</php>
+                <php>}else{</php>
+                	{$vo.expend|format}
+                <php>}</php>
+			    <div class="feed_c_btm"> 
+					<gt name="mid" value="0">
+					<span class="right">
+						<php>if( $vo['uid'] == $mid ){</php><a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条微博?')" callback="weibo.deleted({$vo.id})">删除</a>&nbsp;&nbsp;|&nbsp;&nbsp;<php>}</php>
+						<a href="javascript:void(0)" onclick="weibo.transpond({$vo.id})">转发({$vo.transpond})</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+						<php>if($vo['is_favorited']){</php>
+							<a href="javascript:void(0)" onclick="weibo.unFavorite({$vo.id},this)">已收藏</a>
+						<php>}else{</php>
+							<a href="javascript:void(0)" onclick="weibo.favorite({$vo.id},this)">收藏</a>
+						<php>}</php>
+						&nbsp;&nbsp;|&nbsp;&nbsp;
+						<a href="javascript:void(0)" rel="comment" minid="{$vo.id}" >评论({$vo.comment})</a>
+					</span>
+					</gt>
+					 <cite>
+					<a href="{:U('home/space/detail',array('id'=>$vo['id']))}">{$vo.ctime|friendlyDate}</a></cite> 来自 <cite><?php echo getFrom($vo['from'], $vo['from_data']);?></cite> 
+				</div>
+                <div id="comment_list_{$vo.id}" style=""></div>
+              </div>
+            </li>
+          </volist>
+          </ul>
+<php>*/</php>
+<php>}else{</php>
+	<php>if(!empty($search_key)) {</php>
+	<ul class="feed_list"><li>未搜索到相关的话题</li></ul>
+	<php>}</php>
+<php>}</php>
+        </div>
+		
+        <div class="c"></div>
+		<div class="page">{$list.html}</div>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+</div>
+<script>
+  var weibo = $.weibo({
+          timeStep : 60000
+    });
+</script>
+{:Addons::hook('weibo_js_plugin')}
+<!-- 内容 end --> 
+
+<include file="__THEME__/footer" /> 

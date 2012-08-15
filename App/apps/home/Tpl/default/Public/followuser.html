@@ -1,0 +1,63 @@
+<include file="__THEME__/header" />
+<link href="../Public/login.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="../Public/js/miniblog.js"></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l">
+    <div class="mainbox boxspace">
+    <div class="mainbox_appR">
+    <div class="reg_process">
+        <div class="reg_process_def"><div>1.填写基本信息</div></div>
+        <div class="reg_process_on"><div>2.看看推荐的人</div></div>
+        <div class="reg_process_def"><div>3.完成，进入我的首页</div></div>
+        </div>
+    </div>
+	
+	<form action="{:U('home/Public/followuser')}" method="post" >
+    <div class="mainbox_appC boxspace_L"> 
+        <div class="reg_box">
+        <h2 class="cBlue"><strong style="font-size:45px">02.</strong>关注你感兴趣的人，分享新鲜事</h2>
+        <p class="cGray lh20" style="padding:10px 0">关注其它人才能收到TA们分享的新鲜事。关注的人越多，交流越精彩。</p>
+        <h2 class="f14px lh35"> 人气用户推荐：TA们正在被很多人关注，也许是你感兴趣的朋友哦。</h2>
+	
+        <div class="feedBox">
+          <ul class="feed_list">
+           <volist id="vo" name="users">
+            <li>
+            <div class="left" style="width:25px; padding-top:20px;"><input name="followuid[]" type="checkbox" checked="checked" value="{$vo.uid}" /></div>
+              <div class="userPic"><a title="" href="{:U('home/space/index',array('uid'=>$vo['uid']))}" target="_blank"><img src="{$vo.uid|getUserFace='m'}" card="1"></a></div>
+              <div style="margin-left: 95px;" class="feed_c">
+                <div style="padding-bottom: 0pt;">
+                  <a href="{:U('home/space/index',array('uid'=>$vo['uid']))}" target="_blank">{$vo.uname}</a> ({$vo.count}人关注)
+                </div>
+                <div style="padding-top: 8px;" class="feed_c_btm lh18">
+                  <div>{$vo.location}</div>
+                </div>
+              </div>
+            </li>
+           </volist>
+          </ul>
+          <div  class="pt10 clearL"><span class="right"><a href="{:U('home/user/index')}">跳过&gt;&gt; </a></span>
+            <input name="" onclick="checkAllFollow(this)" type="checkbox" /> 
+           <input name="确定" type="submit" class="btn_green_w121" value="关注所选用户" /></div>
+        </div>
+        
+      </div>
+      </div>
+	  </form>
+    </div>
+  <div class="clear"></div>
+</div>
+</div>
+</div>
+<script>
+	function checkAllFollow(o){
+		if( o.checked == true ){
+			$("input[name='followuid[]']").attr('checked',true);
+		}else{
+			$("input[name='followuid[]']").removeAttr('checked');
+		}
+	}
+</script>
+<include file="__THEME__/footer" />

@@ -1,0 +1,59 @@
+<include file="_header" />
+<div class="so_main">
+  <include file="_tab" />
+  <div class="form2">
+  	<form method="post" action="{:U('weibo/admin/index')}">
+    <dl class="">
+      <dt>今日话题：</dt>
+      <dd>
+        <input name="todaytopic" type="text" value="{$todaytopic}">
+      </dd>
+    </dl>
+    <dl class="">
+      <dt>是否启用微博自动举报：</dt>
+      <dd>
+        <label><input name="openAutoDenounce" type="radio" value="1" <eq name="openAutoDenounce" value="1">checked</eq> >是</label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <label><input name="openAutoDenounce" type="radio" value="0" <eq name="openAutoDenounce" value="0">checked</eq> >否</label>
+		    <br />(作用：如果发布的微博内容含有需要过滤的敏感词，用户发布不成功且自动进入举报中的回收站列表)
+		    <br />(提示：1.需要开启敏感词过滤，设置位置：后台 - 全局 - 审核配置；2.需要过滤的敏感词不能为空)
+      </dd>
+    </dl>
+
+    <dl class="">
+      <dt>当前话题榜：</dt>
+      <dd>
+        <volist name="autoTopic" id="vo">
+        <a href="{:U('home/User/search',array('k'=>urlencode($vo['name'])))}" title="{$vo.name}" target="_blank">{$vo.name}({$vo.count})</a><br />
+        </volist>&nbsp;
+      </dd>
+    </dl>
+
+    <dl class="">
+      <dt>话题榜的时间范围：</dt>
+      <dd>
+        <input name="hotTopicTime" type="text" value="{$hotTopicTime}">天
+		    <br />(提示：0为无限制)
+      </dd>
+    </dl>
+
+    <dl class="">
+      <dt>当前推荐话题：</dt>
+      <dd>      	  
+        <volist name="recommendTopic" id="vo">
+        <a href="{:U('home/User/topics',array('k'=>urlencode($vo['name'])))}" title="{$vo.name}" target="_blank">{$vo.name}({$vo.count})</a><br />
+        <if condition="$vo['note']"><div class="topic_tips">
+	    	<div class="topic_arr"></div>
+	        <div class="topic_info">{$vo['note']}</div></div></if>
+        </volist>
+        <br >
+	     <a href="{:U('weibo/Admin/topics')}"> + 编辑推荐话题 </a>
+      </dd>
+    </dl>
+
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+    </form>
+  </div>
+</div>
+<include file="_footer" />

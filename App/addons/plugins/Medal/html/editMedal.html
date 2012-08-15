@@ -1,0 +1,182 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">勋章信息</div>
+  <eq name="ACTION_NAME" value="preinstall">
+    <form method="post" action="{:Addons::adminUrl('doInstallMedal')}">
+    <input type="hidden" name="path_name" value="{$path_name}" />
+  </eq>
+  
+  <div class="form2">
+    <dl class="lineD">
+      <dt>目录名：</dt>
+      <dd>
+        <input name="name" type="text" value="{$name}" disabled>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>应用名称：</dt>
+      <dd>
+        <php>if(ACTION_NAME=='preinstall') {</php>
+        <input name="app_name" type="text" value="{$app_name}" disabled>
+        <p>如需修改，请直接修改对应的目录名</p>
+        <php>}else {</php>
+        <input name="app_name" type="text" value="{$app_name}" id="app_name">
+        <p>如需修改，请直接修改对应的目录名, 然后再在这里修改应用名称</p>
+        <php>}</php>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>应用别名：</dt>
+      <dd>
+        <input name="app_alias" type="text" value="{$app_alias}">
+        <p>前台展示的应用名称</p>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>应用图标：</dt>
+      <dd>
+        <input name="icon_url" type="text" value="{$icon_url}">
+        <p>前台展示的应用图标（24X24）</p>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>应用图标大图：</dt>
+      <dd>
+        <input name="large_icon_url" type="text" value="{$large_icon_url}">
+        <p>应用安装时的应用图标（64X64）</p>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>应用类型：</dt>
+      <dd>
+        <input name="category" type="text" value="{$category}">
+        <p>应用安装时展示的的应用类型</p>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>应用简介：</dt>
+      <dd>
+        <textarea rows="5" cols="50" name="description">{$description}</textarea>
+        <p>前台展示的应用简介</p>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>应用状态：</dt>
+      <dd>
+        <php>$status = ($status=='0' || $status == '1')?$status:'2'</php>
+        <input name="status" type="radio" value="0" <eq name="status" value="0">checked</eq>>关闭<br/>
+        <input name="status" type="radio" value="1" <eq name="status" value="1">checked</eq>>默认<br/>
+        <input name="status" type="radio" value="2" <eq name="status" value="2">checked</eq>>可选
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>托管方式：</dt>
+      <dd>
+        {$host_type_alias}
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>前台入口：</dt>
+      <dd>
+        <input name="app_entry" type="text" value="{$app_entry}">
+        <p>使用“Action/act”格式 [ 谨慎修改 ]</p>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>后台入口：</dt>
+      <dd>
+        <input name="admin_entry" type="text" value="{$admin_entry}">
+        <p>使用“Action/act”格式 [ 谨慎修改 ]</p>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>统计入口：</dt>
+      <dd>
+        <input name="statistics_entry" type="text" value="{$statistics_entry}">
+        <p>使用“Model/method”格式 [ 谨慎修改 ]</p>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>附加链接名称：</dt>
+      <dd>
+        <input name="sidebar_title" type="text" value="{$sidebar_title}">
+        <p>如“博客”的“发表”</p>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>附加链接图标：</dt>
+      <dd>
+        <input name="sidebar_icon_url" type="text" value="{$sidebar_icon_url}">
+        <p>当附加链接的名称和图标都存在时，优先使用名称</p>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>附加链接入口：</dt>
+      <dd>
+        <input name="sidebar_entry" type="text" value="{$sidebar_entry}">
+        <p>如“博客”的“发表”的入口，使用“Action/act”格式 [ 谨慎修改 ]</p>
+      </dd>
+    </dl>
+    
+    <php>if($sidebar_support_submenu) {</php>
+    <dl class="lineD">
+      <dt>附加链接的子菜单：</dt>
+      <dd>
+        <input name="sidebar_is_submenu_active" type="radio" value="0" <eq name="sidebar_is_submenu_active" value="0">checked</eq>>禁用<br/>
+        <input name="sidebar_is_submenu_active" type="radio" value="1" <neq name="sidebar_is_submenu_active" value="0">checked</neq>>启用
+        <p>在应用列表中，当鼠标放在应用上时显示子菜单</p>
+      </dd>
+    </dl>
+    <php>}</php>
+    <php>if(!empty($homepage_url)){</php>
+    <dl class="lineD">
+      <dt>应用主页：</dt>
+      <dd><a href="{$homepage_url}" target="_blank">应用主页</a></dd>
+    </dl>
+    <php>}</php>
+    <dl class="lineD">
+      <dt>作者：</dt>
+      <dd>
+        {$author_name} 
+        <php>if(!empty($author_homepage_url)){</php>
+        <a href="{$author_homepage_url}" target="_blank">个人网站</a> 
+        <php>}</php>
+        <php>if(!empty($author_email)){</php>
+        <a href="mailto:{$author_email}">Email</a>
+        <php>}</php>
+      </dd>
+    </dl>
+    <php>if(!empty($contributor_name)){</php>
+    <dl class="lineD">
+      <dt>贡献者：</dt>
+      <dd>
+        {$contributor_name}
+      </dd>
+    </dl>
+    <php>}</php>
+    
+    <div class="page_btm">
+      <php>if(ACTION_NAME=='preinstall'){</php>
+      <input type="submit" class="btn_b" value="安装" />
+      <php>}else{</php>
+      <input type="submit" class="btn_b" value="保存" />
+      <php>}</php>
+    </div>
+  </div>
+  </form>
+</div>
+<include file="../Public/_footer" />

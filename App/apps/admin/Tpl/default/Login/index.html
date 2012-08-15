@@ -1,0 +1,123 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">登陆日志管理</div>
+  <div class="Toolbar_inbox">
+  	<div class="page right">{$html}</div>
+	<a href="javascript:void(0);" class="btn_a" onclick="deleteLog();"><span>删除选中日志</span></a>
+	<a href="javascript:void(0);" class="btn_a" onclick="deleteLogTime();"><span>删除三个月前日志</span></a>
+  </div>
+  <div class="list">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:30px;">
+		<input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+    	<label for="checkbox"></label>
+	</th>
+    <th class="line_l">用户ID</th>
+    <th class="line_l">用户名</th>
+    <th class="line_l">登陆IP</th>
+    <th class="line_l">登陆地点</th>
+    <th class="line_l">登录时间</th>
+    <th class="line_l">操作</th>
+  </tr>
+  <volist id="vo" name="data">
+	  <tr overstyle='on' id="login_record_{$vo['login_record_id']}">
+	    <td><input type="checkbox" name="checkbox" onclick="checkon(this)" value="{$vo.login_record_id}"></td>
+	    <td>{$vo.uid}</td>
+	    <td>
+			<div style="float:left;margin-right:10px;border:1px solid #8098A8;height:30px;padding:1px;width:30px;"><img src="{$vo.uid|getUserFace='s'}" width="30"></div>
+			<div style="float:left"><space uid="vo.uid" class="fn" target="_blank">{uname}</space></div></td>
+		<td>
+			{$vo.ip}
+		</td>
+	    <td>
+			{$vo.place}
+		</td>
+	    <td>{$vo.ctime|date="Y-m-d H:i",###}</td>
+	    <td>
+	    	<a href="javascript:void(0);"onclick="deleteLog({$vo['login_record_id']});">删除</a>
+		</td>
+	  </tr>
+  </volist>
+  </table>
+  </div>
+  <div class="Toolbar_inbox">
+  	<div class="page right">{$html}</div>
+	<a href="javascript:void(0);" class="btn_a" onclick="deleteLog();"><span>删除选中日志</span></a>
+	<a href="javascript:void(0);" class="btn_a" onclick="deleteLogTime();"><span>删除三个月前日志</span></a>
+  </div>
+<script>
+//鼠标移动表格效果
+$(document).ready(function(){
+	$("tr[overstyle='on']").hover(
+	  function () {
+	    $(this).addClass("bg_hover");
+	  },
+	  function () {
+	    $(this).removeClass("bg_hover");
+	  }
+	);
+});
+
+function checkon(o){
+	if( o.checked == true ){
+		$(o).parents('tr').addClass('bg_on') ;
+	}else{
+		$(o).parents('tr').removeClass('bg_on') ;
+	}
+}
+
+function checkAll(o){
+	if( o.checked == true ){
+		$('input[name="checkbox"]').attr('checked','true');
+		$('tr[overstyle="on"]').addClass("bg_on");
+	}else{
+		$('input[name="checkbox"]').removeAttr('checked');
+		$('tr[overstyle="on"]').removeClass("bg_on");
+	}
+}
+
+//获取已选择用户的ID数组
+function getChecked() {
+	var uids = new Array();
+	$.each($('table input:checked'), function(i, n){
+		uids.push( $(n).val() );
+	});
+	return uids;
+}
+
+
+//删除日志
+function deleteLog(login_record_id) {
+	login_record_id = login_record_id ? login_record_id : getChecked();
+	login_record_id = login_record_id.toString();
+	if(login_record_id == '' || !confirm('您是否要删除此数据？')) return false;
+	
+	$.post("{:U('admin/Login/doDeleteLog')}", {login_record_id:login_record_id}, function(res){
+		if(res == '1') {
+			login_record_id = login_record_id.split(',');
+			for(i = 0; i < login_record_id.length; i++) {
+				$('#login_record_'+login_record_id[i]).remove();
+			}
+			ui.success('操作成功');
+		}else {
+			ui.error('操作失败');
+		}
+	});
+}
+
+//删除三个月前日志
+function deleteLogTime(){
+	confirm('删除成功后将无法恢复，确认继续？');
+	$.post("{:U('admin/Login/doDeleteLogTime')}",function(res){
+		if(res == '1') {
+			setTimeout("location.href = location.href", 1000);
+			ui.success('操作成功');
+		}else {
+			ui.error('没有数据');
+		}
+	});
+}
+</script>
+
+<include file="../Public/_footer" />

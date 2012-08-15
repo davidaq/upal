@@ -1,0 +1,23 @@
+<if condition="$isAjax">
+	{:Addons::addonsHook($name,$page)}
+<else />
+	<include file="../Public/_header" />
+	<div class="so_main">
+		<div class="page_tit">{$addonName}</div>
+		<if condition="$menu">
+			<if condition="is_array($menu)">
+				<div class="tit_tab">
+				  	<ul>
+				  	<volist id="vo" name="menu">
+				  		 <li><a href="{:Addons::adminPage($key)}" <php>if($page == $key){</php>class="on"<php>}</php> >{$vo}</a></li>
+				  	</volist>
+				    </ul>
+				</div>
+			</if>
+			{:Addons::addonsHook($name,$page,array(),true)}
+		<else />
+			<span>该插件无管理面板</span>
+		</if>
+	</div>
+	<include file="../Public/_footer" />
+</if>

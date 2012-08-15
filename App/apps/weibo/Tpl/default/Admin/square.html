@@ -1,0 +1,37 @@
+<include file="_header" />
+<div class="so_main">
+	<include file="_tab" />
+  <div class="form2">
+  	<form method="post" action="{:U('weibo/admin/square')}">
+
+    <dl class="">
+      <dt>活跃用户：</dt>
+      <dd>
+        <input name="hotuser" type="text" value="{$hotuser}">
+        <br />(说明：指定过去天数范围内（ 至今日凌晨00:00）的活跃用户，默认：1，单位：天)
+      </dd>
+    </dl>
+
+    <dl class="">
+      <dt>热门转发：</dt>
+      <dd>
+        <input name="transpond" type="text" value="{$transpond}">
+        <br />(说明：指定过去天数范围内（ 至当前时刻）热门转发的微博，默认：7，单位：天)
+      </dd>
+    </dl>
+
+    <dl class="">
+      <dt>热门回复：</dt>
+      <dd>
+        <input name="comment" type="text" value="{$comment}">
+        <br />(说明：指定过去天数范围内（ 至当前时刻）热门回复的微博，默认：7，单位：天)
+      </dd>
+    </dl>
+
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+    </form>
+  </div>
+</div>
+<include file="_footer" />

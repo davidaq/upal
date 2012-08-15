@@ -1,0 +1,233 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/weibo.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.autocomplete.js"></script>
+<script src="../Public/js/slides.min.jquery.js"></script>
+
+<div class="content_holder"> 
+<div class="content"><!-- 内容 begin  --> 
+  <include file="__THEME__/apps" />
+  <div class="main">
+    <div class="mainbox">
+      <div class="mainbox_R">
+		<volist name="ts['ad']['right_top']" id="vo">
+		<div class="ke-post setskinbox lineS_btm">
+			{$vo['content']}
+		</div>
+		</volist>
+		  {:Addons::hook('home_index_right_top')}
+        <div class="right_box lineS_btm">
+          <h2><a href="javascript:void(0)" onclick="$('.quick_win').show()" class="right" style="font-weight:400;font-size:12px">添加</a>关注的话题</h2>
+          <div style="display:none;" class="quick_win">
+            <a href="javascript:void(0)" onclick="$('.quick_win').hide()" class="del" title="关闭"></a>
+            <p>
+              <input type="text" class="text" name="quick_name" style=" width:130px;display:block;margin:0 0 5px 0"/>
+              <input type="button" onclick="addFollowTopic()" value="保存" class="btn_b" />
+            </p>
+            <p class="cGray2">请添加想关注的话题</p>
+          </div>
+          <ul class="topic_list" rel="followTopicArea">
+            <volist id="vo" name="followTopic">
+              <li onmouseover="$(this).find('.del').show()" onmouseout="$(this).find('.del').hide()"><a class="del right" style="display:none" title="删除" href="javascript:void(0)" onclick="deleteFollowTopic(this,'{$vo.topic_id}')"></a><a href="{:U('home/user/topics',array('k'=>urlencode($vo['name'])))}" title="{$vo.name}">{$vo.name}</a></li>
+            </volist>
+          </ul>
+        </div>
+        <div class="right_box">
+          {:W('HotTopic', array('type'=>'recommend','limit'=>5))}
+          <php>if(ACTION_NAME == "index"){</php>
+          {:W('HotTopic', array('type'=>'auto','limit'=>5))}
+          <php>}</php>
+        </div>
+          {:Addons::hook('home_index_right_bottom')}
+        <php>if (Addons::requireHooks('home_index_right_advert')) {</php>
+        	{:Addons::hook('home_index_right_advert', array($ts['ad']['right']))}
+        <php>} else {</php>
+			<volist name="ts['ad']['right']" id="vo">
+			<div class="ad_right"><div class="ke-post lineS_btm">{$vo.content}</div></div>
+			</volist>
+		<php>}</php>
+      </div>
+      <div class="mainbox_C main_pad" style="padding-top:10px;">
+      <div class="clearfix">
+        <php>if ($announcement['is_open'] && !empty($announcement['content'])) {</php>
+        <div class="iine_warning" id="announcement"><a class="del right hover" href="javascript:void(0);" onclick="close_announcement();"></a><b class="ico_speaker"></b>
+          {$announcement['content']|formatUrl}
+        </div>
+        <php>}</php>
+        <switch name="ACTION_NAME">
+          <case value="index">
+          {:Addons::hook('home_index_middle_top')}
+          <div class="talkBox send_weibo" style="height:150px">
+            <form method="post" action="{:U('weibo/operate/publish')}" id="miniblog_publish" oncomplete="false">
+              <input type="hidden" name="publish_type" value="0">
+              <h2>
+                <div class="wordNum numObj">你还可以输入<strong id="strconunt">{$GLOBALS['ts']['site']['length']}</strong>字</div>
+                <span>记录是一种态度！</span>
+                <!--<div class="title"><img src="../Public/images/show_img.jpg" /></div>-->
+              </h2>
+              <div class="cntBox">
+                <input type="button" disabled="true" error="发布失败" class="btn_big_disable hand buttonObj" value="&nbsp;" id="publish_handle"  />
+                <textarea name="content" id="content_publish" cols="" rows="" class="contentObj" style="max-width:83.5%;min-width:83.5%;width:83.5%;height:55px; max-height:55px;min-height:55px;padding:5px; margin:0; _padding:5;overflow: hidden;overflow-x:hidden;overflow-y:auto;line-height:18px"></textarea>
+                <div class="txtShadow" style="z-index:-1000"></div>
+              </div>
+              <div class="funBox">
+                  <php>if(Addons::requireHooks("home_index_middle_publish")){</php>
+                  <div class="right" style="padding-bottom:5px;_margin-top:-8px; cursor:hand;width:80px;_padding-top:10px; cursor:pointer"  onclick='weibo.showAndHideMenu("Sync", this, "", "");'>
+                        同步<a href="#" class="ico_sync_on"></a>
+                    </div>
+                    <div id="Sync" style="display:none;position:absolute;right:23px;top:30px;z-index:9999">
+                        <div class="topic_app"></div>
+                        <div class="pop_inner">
+                                    {:Addons::hook('home_index_middle_publish')}
+                        </div>
+                    </div>
+                    <php>}</php>
+                <div id="publish_type_content_before" class="kind">
+                  {:Addons::hook('home_index_middle_publish_type',array('position'=>'index'))}
+                </div>
+              </div>
+        <input type="text" style="display:none" />
+            </form>
+          </div>
+            <php>if (Addons::requireHooks('home_index_middle_advert')) {</php>
+            {:Addons::hook('home_index_middle_advert', array($ts['ad']['middle']))}
+            <php>} else {</php>
+
+ <volist name="ts['ad']['middle']" id="vo"> 
+        <div class="ad_middle">
+          <div class="ke-post"> 
+            {$vo['content']}
+          </div>
+        </div>
+</volist>
+            <php>}</php>
+            
+      <form action="" method="get">
+      </form>
+            
+            <!--我关注的/群组动态/正在发生-->
+            <div class="tabMenu mt10">
+              <php>if(!empty($weibo_menu)){</php>
+              <a href="javascript:void(0)" class="right  ico_show_{$typeClass}" onclick='weibo.showAndHideMenu("MenuSub", this, "ico_show_off", "ico_show_on");'></a>
+              <php>}</php>              
+              <ul>
+                <li class="tab_dropdown">
+                <a href="{:U('home/user/index',array('type'=>UserAction::INDEX_TYPE_WEIBO,'weibo_type'=>$weibo_type,'follow_gid'=>$group_now['follow_group_id']))}" class="{$weibo_tab}"><span>{$group_now.title}<php>if(!empty($follow_group_list)){</php><b class="more"></b><php>}</php></span></a>
+                <php>if(!empty($follow_group_list)){</php>
+                  <div class="dropmenu">
+                        <dl class="Att_list">
+                            <volist name="follow_group_list" id="vo">
+                                <dd><a href="{:U('home/user/index',array('type'=>UserAction::INDEX_TYPE_WEIBO,'weibo_type'=>$weibo_type,'follow_gid'=>$vo['follow_group_id']))}">{$vo.title}</a></dd> 
+                            </volist>
+                        </dl>
+                  </div>
+                 <php>}</php>
+                </li>
+                <php>if($hasGroupWeibo){</php>
+                <li class="tab_dropdown"><a href="#" class="{$group_tab}"><span>群组动态<b class="more"></b></span></a>
+                  <div class="dropmenu">
+                        <dl class="Att_list">
+                            <volist name="group_list" id="vo">
+                                 <dd><a href="{:U('home/user/index',array('type'=>UserAction::INDEX_TYPE_GROUP,'gid'=>$vo['id'],'weibo_type'=>$weibo_type))}">{$vo.name}</a></dd>
+                                 <php>if($key>=4){
+                                     $hasMoreGroup = true;
+                                     break;
+                                     }</php>
+                            </volist>
+                            <php>if($hasMoreGroup){</php><dd><a href="{:U('group/SomeOne')}" class="right">更多&raquo;</a></dd><php>}</php>
+                        </dl>
+                  </div>
+                </li>
+                <php>}</php>
+                <li><a href="{:U('home/user/index',array('type'=>UserAction::INDEX_TYPE_ALL,'weibo_type'=>$weibo_type))}" class="{$all_tab}"><span>正在发生</span></a></li>
+                </ul>
+            </div>
+            <!--/我关注的/群组动态/正在发生-->
+      			<div class="MenuSub" id="MenuSub" style="display:{$view}">
+      			<!-- 切换标签 begin  -->
+      			<volist name="weibo_menu" id="vo">
+      				<a id="feed_all_item" rel="all" class="<eq name='weibo_type' value='$key'>on</eq> feed_item" href="{:U('home/User/index',array('follow_gid'=>$group_now['follow_group_id'],'type'=>$type,'weibo_type'=>$key))}"><span>{$vo}</span></a>
+      			</volist>
+      			</div>
+          </case>
+          <case value="atme">
+            <div class="tab-menu">
+              <ul>
+                <li><a href="###" class="on"><span>提到我的</span></a></li>
+              </ul>
+            </div>
+          </case>
+          <case value="collection">
+            <div class="tab-menu">
+              <ul>
+                <li><a href="###" class="on"><span>我收藏的</span></a></li>
+              </ul>
+            </div>
+          </case>
+        </switch>
+		<!-- 微博列表 feedbox  -->
+        <div class="feedBox">
+			<div id="countNew"></div>
+			<php>if($gid){</php>
+				{:W('WeiboList', array('mid'=>$mid, 'list'=>$list['data'], 'insert'=>1,'simple'=>2))}
+			<php>}else{</php>
+				{:W('WeiboList', array('mid'=>$mid, 'list'=>$list['data'], 'insert'=>1))}
+			<php>}</php>
+
+			<php>if(ACTION_NAME=="index"){</php>
+				<php>if($list['data']){</php>
+				<p class="moreFoot">
+					<a id="loadMoreDiv" href="javascript:void(0)"><span class="ico_morefoot"></span>更多</a>
+				</p>
+				<php>}else{</php>
+					<p class="moreFoot">没有任何数据</p>
+				<php>}</php>
+			<php>}else{</php>
+				<div class="page">{$list['html']}</div>
+			<php>}</php>
+        </div>
+		<!-- 微博列表 feedbox end  -->
+        </div>
+        <div class="c"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- 用@提到的人 end --> 
+<include file="__THEME__/footer" /> 
+<script>
+$(document).ready(function(){
+	$(".header_dropdown").hover(
+		function(){ $(this).addClass("hover"); },
+		function(){ $(this).removeClass("hover"); }
+	);
+});
+
+var weibo = $.weibo({
+      sinceId: parseInt('{$sinceId}'),
+      
+	  <php>if(ACTION_NAME=="index"){</php>
+      timeStep : 30000,
+      initForm:true,
+      <php>}</php>
+
+      lastId:parseInt('{$lastId}'),
+      show_feed:parseInt('{$show_feed}'),
+      follow_gid:parseInt('{$follow_gid}'),
+      gid:parseInt('{$gid}'),
+      weiboType:'{$weibo_type}',
+      type:parseInt('{$type}'),
+      typeList:{
+          WEIBO:parseInt(<php>echo UserAction::INDEX_TYPE_WEIBO;</php>),
+          GROUP:parseInt(<php>echo UserAction::INDEX_TYPE_GROUP;</php>),
+          ALL:parseInt(<php>echo UserAction::INDEX_TYPE_ALL;</php>)
+      }
+});
+	
+function close_announcement() {
+	$('#announcement').hide('slow');
+	$.post("{:U('home/User/closeAnnouncement')}",{},function(res){});
+}
+</script>
+{:Addons::hook('weibo_js_plugin')}

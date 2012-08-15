@@ -1,0 +1,102 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit"><eq name="type" value="edit">编辑节点<else/>添加节点</eq></div>
+  
+  <eq name="type" value="add">
+  <form method="post" action="{:U('admin/User/doAddNode')}">
+  <else/>
+  <form method="post" action="{:U('admin/User/doEditNode')}">
+  	<input type="hidden" name="node_id" value="{$node_id}" />
+  </eq>
+  
+  <div class="form2">
+    <dl class="lineD">
+      <dt>应用名：</dt>
+      <dd>
+        <input name="app_name" type="text" value="{$app_name}"> *
+        <p>如: “blog”或“admin”</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>应用别名：</dt>
+      <dd>
+        <input name="app_alias" type="text" value="{$app_alias}">
+        <p>如: “博客”或“管理后台”</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>模块名：</dt>
+      <dd>
+        <input name="mod_name" type="text" value="{$mod_name}"> *
+        <p>即Action名，如: “System”或“User”或“*”，“*”表示当前应用的所有模块</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>模块别名：</dt>
+      <dd>
+        <input name="mod_alias" type="text" value="{$mod_alias}">
+        <p>如: “系统”或“用户”</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>方法名：</dt>
+      <dd>
+        <input name="act_name" type="text" value="{$act_name}">
+        <p>
+        	即Action类中的方法名，如: “deleteBlog”或“*”，“*”表示所有方法<br/>
+			注：当模块名为“*”时，方法名将被忽略；其它时必填
+		</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>方法别名：</dt>
+      <dd>
+        <input name="act_alias" type="text" value="{$act_alias}">
+        <p>如: “删除博客”</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>关联的方法名：</dt>
+      <dd>
+      	<volist name="sub_node" id="vo">
+      		<input name="subAction[]" type="text" value="{$vo.act_name}" style="margin-bottom:5px">&nbsp; <br/>
+      	</volist>
+        <input name="subAction[]" type="text" value="" style="margin-bottom:5px">&nbsp; 
+		<a id="addSubNode" href="javascript:void(0)" onclick="addSubNode();">增加</a>
+        <p>
+        	如: “deleteBlog”的关联方法名包括“doDeleteBlog”等，两者具有相同的权限配置<br />
+			注1：当模块名或方法名为“*”时，关联的方法名将被忽略<br />
+			注2：当模块名或方法名不为“*”时，关联的方法名不可为“*”
+		</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>说明：</dt>
+      <dd>
+        <input name="description" type="text" value="{$description}">
+        <p>备忘说明</p>
+	  </dd>
+    </dl>
+	
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+  </div>
+  </form>
+</div>
+
+<script type="text/javascript">
+	var subNodeHtml = '<br/><input name="subAction[]" type="text" value="" style="margin-bottom:5px">&nbsp; ';
+	function addSubNode() {
+		$('#addSubNode').before(subNodeHtml);
+	}
+</script>
+
+<include file="../Public/_footer" />

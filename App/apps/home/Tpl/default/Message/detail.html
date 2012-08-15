@@ -1,0 +1,197 @@
+<include file="__THEME__/header" />
+<div class="content_holder">
+<div class="content pada20"><!-- 内容 begin  --> 
+  <div class="main no_l">
+    <div class="mainbox">
+      <div class="mainbox_C no_r boxMessage">
+      <div class="tab-menu">
+        <ul>
+        	<!--<a href="javascript:void(0)" onclick="ui.sendmessage();" class="btn_b right">发私信</a>-->
+			<include file="_tab" />
+        </ul>
+      </div>
+
+      <div class=""> 
+        <ul class="feed_list">
+          <li>
+            <a href="{:U('home/Message/index')}" class="right">&lt;&lt; 返回私信列表</a>
+            <span>
+              我和<volist name="message.to" id="mb">
+                <php>
+                if ($i > 10) continue;
+                if ($i > 1) echo '、';
+                </php>
+                {$mb.member_uid|getUserName}
+                </volist>
+              <php>
+                if(count($message['to']) > 5 ){
+                  echo ' 等...';
+                }
+              </php>
+              的私信(共 <span id="message_content_count">{$message['message_num']}</span> 条对话)
+            </span>
+          </li>
+          <!-- 快速回复 -->
+          <li class="send_msg lineS_btm">
+	             <div class="msgCnt" style="padding-bottom:0;">
+                   <div style="padding-left:70px">
+                   <strong>发私信给所有人:</strong>
+                   </div>
+				            <div class="mt5" style="position:relative">
+                     <div class="userPic"><space uid="ts['user']['uid']" target="_blank">{uavatar=m}</space></div>
+                     <div class="arr_left"></div>
+                     <div class="feed_massage">
+	                     <textarea id="reply_content" cols="" onblur="this.className='text_massage'" onfocus="this.className='text_massage_on'" class="text_massage"></textarea>
+	                     <div class="mt5">
+	                     	<input type="button" value="发送" class="btn_b mt5 right" onclick="doReply();"/>
+	                     	<a href="javascript:void(0)" target_set="reply_content" onclick="ui.emotions(this)" class="a52"><img class="icon_add_face_d" src="__THEME__/images/zw_img.gif" />表情</a>
+		            	 </div>
+                     </div>
+                   </div>
+	             </div>
+          </li>
+        </ul>
+        <!-- 会话列表 -->
+        <ul class="feed_list" id="feed_list"></ul>
+		<p class="moreFoot" id="moreFoot">
+			<a id="load_more_btn" onclick="load_more_message(this)" href="javascript:void(0)"><span class="ico_morefoot"></span>更多</a>
+		</p>
+        <p class="page">{$message.html}</p>
+      </div>
+      <div class="c"></div>
+    </div>
+  </div>
+  <div class="clear"></div>
+</div>
+</div>
+</div>
+<!-- 内容 end --> 
+
+<script type='text/javascript'>
+	var list_id    = "{$message['list_id']}";
+	var since_id = 0;
+	var max_id  = 0;
+	var timeout = null;
+	var type = '{$type}';
+
+	$(document).ready(function(){
+	    shortcut('ctrl+return',	function(){doReply();},{'target':'reply_content'});
+	    load_more_message('#load_more_btn');
+		timeout = setTimeout("load_new_message()", 4000);
+	});
+
+	function reply_message(name)
+	{
+		var $reply_content = $('#reply_content');
+		var reply_content  = $reply_content.val();
+		reply_content = reply_content ? reply_content + ' ' : '';
+		var reply_user     = '回复@' + name + '：';
+
+		if (-1 == reply_content.indexOf(reply_user)) {
+			$reply_content.val(reply_content + reply_user);
+		}
+
+		$reply_content.focus();
+	}
+
+	
+    function doReply() {
+        var reply_content = $('#reply_content').val();
+        if ('' == reply_content) {
+        	ui.error('{:L('Empty_Content')}');
+        	return false;
+        }
+        $.post("{:U('home/Message/doReply')}", {id:list_id, reply_content:reply_content}, function(res){
+            if(res != '0') {
+                $('#reply_content').val('');
+                load_new_message();
+                //ui.success('发送成功');
+            }else {
+                ui.error('发送失败');
+            }
+        });
+    }
+
+    function delSession(ids)
+    {
+        ids = ids.toString();
+        if (ids == '') return false;
+
+        $.post("{:U('home/Message/doDeleteSession')}", {ids:ids}, function(res){
+            if (res == '1') {
+                ui.success('删除成功');
+                ids = ids.split(',');
+				for(i = 0; i < ids.length; i++) {
+					$('#message_'+ids[i]).remove();
+				}
+				var $message_content_count = $('#message_content_count');
+                var message_content_count  = parseInt($message_content_count.html());
+                $message_content_count.html(message_content_count - ids.length);
+            }else {
+                ui.error('删除失败');
+            }
+        });
+    }
+
+	//加载更多
+	function load_more_message(o)
+	{
+		var type = 'old';
+		var $o = $(o);
+		$o.html('加载中...');
+		load_more(type);
+		$o.html('更多');	
+	}
+
+	// 加载最新
+	function load_new_message()
+	{
+		var type = 'new';
+		clearTimeout(timeout);
+		load_more(type);
+		timeout = setTimeout("load_new_message()", 4000);
+	}
+
+	function load_more(load)
+	{
+		if ('new' == load) {
+			var param = {since_id:since_id,list_id:list_id,type:type};
+		} else if ('old' == load) {
+            var param = {max_id:max_id,list_id:list_id,type:type};
+		}
+        $.post(U('home/message/loadMessage'), param, function(txt){
+            txt = eval('(' + txt + ')');
+            if(txt.data){
+                if ('new' == load) {
+                    $('#feed_list').prepend(txt.data);
+                    if(txt.since_id > 0)
+						since_id = txt.since_id;
+
+                    var $message_content_count = $('#message_content_count');
+                    var message_content_count  = parseInt($message_content_count.html());
+                    $message_content_count.html(message_content_count + txt.count);
+                } else if ('old' == load) {
+                    $('#feed_list').append(txt.data);
+                    max_id = txt.max_id;
+                    if (since_id <= 0) {
+                        since_id = txt.since_id;
+                    }
+                    if (0 == txt.max_id) {
+                        $('#moreFoot').css('display', 'none');
+                    }
+                }
+            }
+        });
+	}
+
+// 限制textarea文本框输入的大小
+$(function() {
+  $('#reply_content').keydown(function(event) {
+    if(this.value.length > 200 && event.which != '8' && event.which != '46') {
+      event.preventDefault();
+      return;
+    }
+  });
+});
+</script> 
+<include file="__THEME__/footer" /> 

@@ -1,0 +1,77 @@
+.app_line_w{padding:0}/*他人页面*/
+.friend_info{padding:0 0 20px 0;_padding:0 0 10px 0;overflow:hidden;*zoom:1;background-color:#fff}
+.friend_info_left{width:156px;float:left;text-align:center}
+	.friend_info_left dt{width:150px;height:150px;padding:2px;border:1px solid #ccc;overflow:hidden}
+	.friend_info_left dt img{width:150px;height:150px}
+	.friend_info_left dd{float:left;width:49%;padding-top:8px} 
+.friend_info_right{margin-left:175px}
+.friend_info_right a{display:inline;}
+	.friend_info_right h2{font-size:30px; font-family:Microsoft YaHei}
+	.info_deta{float:left;width:100%}
+	.info_deta dl{padding-top:10px;clear:left;width:100%;padding-bottom:10px}
+	.info_deta dt{font-size:12px;font-weight:bold;line-height:30px}
+	.info_deta dd{float:left;width:100%; line-height:20px;margin-bottom:6px}
+	.info_deta dd .c1{float:left;width:60px;color:#999;text-align:right;padding-right:5px}
+	.info_deta dd .c2{color:#333;margin-left:70px}
+	
+.avatar_num{padding:10px 0;float:left;width:100%}
+	.avatar_num span{width:96px;display:block;float:left}
+	.avatar_num .lineR{border-right:1px solid #ececec}
+	.avatar_num a{display:block;padding:2px 5px;margin:0 2px}
+	.avatar_num a:hover{background-color:#f3f5f8}
+	.avatar_num a strong{font-size:14px}
+.SpacePicList{clear: left;background-color:#fff;overflow:hidden;*zoom:1}
+.SpacePicList dt{background-color:#F7F7F7;line-height: 30px;padding: 0 15px}
+.SpacePicList dt a{font-size:12px}
+.SpacePicList dd{float: left;padding: 15px 0 15px 15px;display:inline}
+.SpacePicList dd img{border: 1px solid #EEEEEE; padding: 2px;width: 135px}
+
+.BlogBox .LogList li{overflow:hidden;*line-height:auto;*zoom:1;padding-bottom:10px;line-height:23px}
+.pollBox .LogList li{overflow:hidden;*line-height:auto;*zoom:1;padding-bottom:10px;line-height:23px}
+.pollBox .LogList li .OverH{padding:5px 0 0 0}
+.BlogBox .LogList li .userinfo{margin:0 0 0 70px;*margin:0 0 0 10px;*float:left}
+.pollBox .LogList li .userinfo{margin:0 0 0 70px;*margin:0 0 0 10px;*float:left}
+.vline{margin:0 5px;color:#999;font-style:normal;}
+/*---快速发言弹窗---*/
+.pop_quick_publish{padding:10px 0;width:400px;text-align:left}
+.pop_quick_publish dd,.pop_quick_publish dt{padding:10px 0 0;margin:0 20px;clear:both}
+.pop_quick_publish .btn_big_disable{width:60px;height:26px;background-position:left top}
+.visitor_list .userface img{padding:0;border: 1px solid #fff;height: 50px;padding: 1px;width: 50px;}
+/*---感兴趣的人---*/
+.interest_person{margin:10px 0 0;overflow:hidden;*zoom:1}
+.interest_person li{overflow:hidden;padding:0 5px 10px 0;float:left;*display:inline;*float:none}
+.interest_person li .interest_info{margin-left:5px;white-space:nowrap;width:55px}
+.interest_person li .interest_info p{margin-bottom:2px}
+.interest_person li .interest_info .guanzhu{background-color:#a2a2a2;padding:1px 4px;border-radius:2px 2px 2px 2px;color:#fff}
+.interest_person .userPic img{border:#fff solid 1px;padding:0}
+.interest_person li .interest_info .username{display:block;font-weight:400;height:18px;line-height:18px;overflow:hidden}
+/*他人的粉丝*/
+.fans_person {overflow:hidden;*zoom:1}
+.fans_person li{float:left}
+.fans_person .userPic img{width:25px;height:25px;border:#fff solid 1px;padding:0;margin:0 10px 10px 0}
+/*设置分组弹窗*/
+.layerBox{width:400px;overflow:hidden;*zoom:1;padding:20px 10px 20px;}
+.layerBox .mt_btn{text-align:center;margin:20px 0 0}
+.pop_Set_group{text-align:left;border:#ddd solid 1px;background-color:#f3f3f3;padding:10px;margin:0 10px}
+.pop_Set_group dt{padding:0 0 10px 0}
+.pop_Set_group dd{background-color: #FFFEBD;border: 1px solid #C8C8C8;padding: 10px}
+.pop_Set_group .ck{vertical-align:middle;margin:-2px 0 0 0}
+.message_text{padding:5px}
+/*微博回复列表*/
+.comment_Box{padding:0 20px}
+.comment_list{padding:10px 0;margin:0;overflow: hidden;clear: both;border-bottom:1px dashed #D8D8D8;_zoom: 1}
+.comment_list dt{float: left;display: inline;width: 50px;padding: 3px 0 0}
+.q_con .comment_list dt{float: left;display: inline;width: 30px;padding: 3px 0 0}
+.comment_list dt img{width: 50px;height:50px;border:1px solid #ccc;padding:1px}
+.comment_list dd img{vertical-align:top;}
+.q_con .comment_list dt img{width: 30px;height:30px;border:1px solid #ccc;padding:1px}
+.comment_list dd{margin: 0 0 0 64px;line-height: 21px;word-wrap: break-word;zoom: 1}
+.q_con .comment_list dd{margin: 0 0 0 44px;line-height: 21px;word-wrap: break-word;zoom: 1}
+.comment_list dd .info{padding: 0;line-height: 15px;overflow: hidden}
+.mod-group-list{display:block;padding:5px 0;}
+.mod-group-list label{cursor:pointer;display:block;height:22px;overflow:hidden;padding:0 10px;}
+/*申请朋友弹窗*/
+.shenqing{width:200px; height:30px;line-height:30px; text-align:center}
+.shengqing a{margin:0 20px 0 10px}
+
+

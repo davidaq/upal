@@ -1,0 +1,23 @@
+<include file="../Public/header_list" />
+<script>
+//当前页面轮循显示留言板内容
+//function showNew(){
+//	var nowMaxID = '{$maxWeioboID}';
+//	var url = "{:U('w3g/Index/countnew')}";
+//	$.post(url,{nowMaxID:nowMaxID},function(txt){
+//		if(txt>0){
+//			$('#haveNewText').html('有'+txt+'条新微博，点击刷新');
+//			$('#haveNew').show();
+//		}
+//	});
+//}
+//
+//document.addEventListener('DomContentLoaded', 
+//	function(){
+//		window.setInterval("showNew()",30000);
+//	}
+//);
+</script>
+<!-- <a href="{:U('w3g/Index/index')}" id="haveNew" style="display:none;"><div class="h_news"><span id="haveNewText">有3条新微博</span></div></a> -->
+<include file="../Public/weibolist" />
+<include file="../Public/footer" />

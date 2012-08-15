@@ -1,0 +1,134 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <!-------- 模板列表 -------->
+  <div class="page_tit">模板管理</div>
+  <div class="Toolbar_inbox">
+  	<div class="page right">{$html}</div>
+	<a href="{:U('admin/Content/addTemplate')}" class="btn_a"><span>添加模板</span></a>
+	<a href="javascript:void(0);" class="btn_a" onclick="deleteTpl();"><span>删除模板</span></a>
+  </div>
+  
+  <div class="list">
+  	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:30px;">
+		<input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+    	<label for="checkbox"></label>
+	</th>
+    <th class="line_l">ID</th>
+    <th class="line_l">名称</th>
+    <th class="line_l">别名</th>
+    <th class="line_l">标题模板</th>
+    <th class="line_l">内容模板</th>
+    <th class="line_l">语言</th>
+    <th class="line_l">模板类型</th>
+    <th class="line_l">模板类型2</th>
+    <th class="line_l">是否默认缓存</th>
+    <th class="line_l">创建时间</th>
+    <th class="line_l">操作</th>
+  </tr>
+  <volist id="vo" name="data">
+	  <tr overstyle='on' id="tpl_{$vo['tpl_id']}">
+	    <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.tpl_id}"></td>
+	    <td>{$vo.tpl_id}</td>
+	    <td>{$vo.name}</td>
+		<td>{$vo.alias}</td>
+	    <td>{$vo.title}&nbsp;</td>
+	    <td>{$vo.body}</td>
+	    <td>{$vo.lang}</td>
+	    <td>{$vo.type}</td>
+	    <td>{$vo.type2}</td>
+	    <td>{$vo.is_cache}</td>
+	    <td>{$vo.ctime|date="Y-m-d H:i",###}</td>
+	    <td>
+			<a href="{:U('admin/Content/editTemplate',array('tid'=>$vo['tpl_id']))}">编辑</a> 
+	    	<a href="javascript:void(0);" onclick="deleteTpl({$vo['tpl_id']});">删除</a>
+		</td>
+	  </tr>
+  </volist>
+  
+    </table>
+
+  </div>
+  <div class="Toolbar_inbox">
+	<div class="page right">{$html}</div>
+	<a href="javascript:void(0);" class="btn_a" onclick="window.open('{:U("admin/Content/addTemplate")}','_self');"><span>添加模板</span></a>
+	<a href="javascript:void(0);" class="btn_a" onclick="deleteTpl();"><span>删除模板</span></a>
+  </div>
+</div>
+<script>
+	//鼠标移动表格效果
+	$(document).ready(function(){
+		$("tr[overstyle='on']").hover(
+		  function () {
+		    $(this).addClass("bg_hover");
+		  },
+		  function () {
+		    $(this).removeClass("bg_hover");
+		  }
+		);
+	});
+	
+	function checkon(o){
+		if( o.checked == true ){
+			$(o).parents('tr').addClass('bg_on') ;
+		}else{
+			$(o).parents('tr').removeClass('bg_on') ;
+		}
+	}
+	
+	function checkAll(o){
+		if( o.checked == true ){
+			$('input[name="checkbox"]').attr('checked','true');
+			$('tr[overstyle="on"]').addClass("bg_on");
+		}else{
+			$('input[name="checkbox"]').removeAttr('checked');
+			$('tr[overstyle="on"]').removeClass("bg_on");
+		}
+	}
+
+	//获取已选择用户的ID数组
+	function getChecked() {
+		var ids = new Array();
+		$.each($('table input:checked'), function(i, n){
+			ids.push( $(n).val() );
+		});
+		return ids;
+	}
+	
+	//删除用户
+	function deleteTpl(ids) {
+		ids = ids ? ids : getChecked();
+		ids = ids.toString();
+		if(ids == '') ui.error('请先选择模板');
+		if(ids == '' || !confirm('删除成功后将无法恢复，确认继续？')) return false;
+		//alert(ids);return false;
+		$.post("{:U('admin/Content/doDeleteTemplate')}", {ids:ids}, function(res){
+			if(res == '1') {
+				ids = ids.split(',');
+				for(i = 0; i < ids.length; i++) {
+					$('#tpl_'+ids[i]).remove();
+				}
+				ui.success('删除成功');
+			}else {
+				ui.error('删除失败');
+			}
+		});
+	}
+	
+	//添加模板
+	var isSearchHidden = <neq name="type" value="searchUser">1<else/>0</neq>;
+	function searchUser() {
+		if(isSearchHidden == 1) {
+			$("#searchUser_div").slideDown("fast");
+			$(".searchUser_action").html("隐藏搜索");
+			isSearchHidden = 0;
+		}else {
+			$("#searchUser_div").slideUp("fast");
+			$(".searchUser_action").html("搜索用户");
+			isSearchHidden = 1;
+		}
+	}
+</script>
+
+<include file="../Public/_footer" />

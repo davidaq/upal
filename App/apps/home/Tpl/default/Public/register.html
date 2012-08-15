@@ -1,0 +1,120 @@
+<include file="__THEME__/header" />
+<link href="../Public/login.css" rel="stylesheet" type="text/css" />
+<!--表单验证-->
+<script type="text/javascript" src="../Public/js/jquery.validator.reg.js"></script>
+<script type="text/javascript" src="../Public/js/jquery.corners.min.js"></script>
+<script type="text/javascript" src="../Public/js/register.js" ></script>
+<php>$regInfo=model('Xdata')->lget('register');</php>
+<php>if($invite_info){</php>  	  
+<!-- 邀请加入显示邀请人的信息 -->
+    <div class="invite_userInfo">
+		<div class="left mt10 ml10" style="width:100px;">
+			<a href="{:U('home/Space/index', array('uid'=>$invite_info['uid']))}" target="_blank">
+               <img style="width:80px; height:80px;" src="{$invite_info.uid|getUserFace='big'}" />
+            </a>
+		</div>
+		<div class="left mt10 ml10">
+			<div class="info">
+	  		    <div class="f14px lh30 mb10"><strong>hi, 我是{$invite_info.uid|getUserName}</strong></div>
+                <div class="f14px lh20">这里貌似挺给力的，快来注册一个吧！</div>
+    		</div>
+		</div>
+    </div>	
+<php>}</php> 
+<!-- 邀请加入显示邀请人的信息结束 -->
+<div class="content_holder">
+ <div class="content">
+  <!-- 内容 begin  -->
+  <div class="main no_l">
+    <div class="mainbox boxspace">
+      <div class="mainbox_appR">
+        <div style="padding:10px;">
+          <p class="pb10">已有帐号？请直接登录</p>
+          <p class="pb10"><a href="{:U('home/Public/login')}" class="btn_b">登录</a></p>
+          <div class="login_other_mode">{:Addons::hook('login_input_footer',array('regInfo'=>$regInfo))}</div>
+		</div>
+      </div>
+      <div class="mainbox_appC boxspace_L">
+        <div class="reg_box">
+        <div class="left" style="width:100%;">
+          <h2 class="cBlue"><strong>快速注册</strong></h2>
+          </div>
+          <form action="{:U('home/Public/doRegister')}" method="post" id="regform" name="reg">
+            <php>if ($invite_code) {</php>
+                <input type="hidden" name="invite_code" value="{$invite_code}">
+            <php>}</php>
+            <ul class="form_list">
+              <li class="form_li">
+                <div class="reg_li_1">登录邮箱：<em>*</em></div>
+                <div class="reg_li_2">
+                  <input type="text" class="text35" style="width:250px;" value="" name="email" require="true" datatype="email|ajax" url="{:U('home/Public/isEmailAvailable')}" msg="请填有效邮箱地址，以完成注册|邮箱已被占用"/>
+                </div>
+                <div class="reg_li_3">
+                  <div id="success_email" style="display:none;"> <span class="ico_cue_ok"></span> </div>
+                  <div class="error_email" style="position: relative;display:none;"> <span class="ico_cue_no"></span><span id="error_email"></span> </div>
+                </div>
+              </li>
+              <li class="form_li">
+                <div class="reg_li_1">站内昵称：<em>*</em></div>
+                <div class="reg_li_2">
+                  <input type="text" class="text35" style="width:250px;" value="" name="nickname" min="3" max="10" maxLength="10" require="true" datatype="require|ajax" url="{:U('home/Public/isValidNickName')}"  msg="重要！请填写用户名"/>
+                </div>
+                <div class="reg_li_3">
+                  <div id="success_nickname" style="display:none;"><span class="ico_cue_ok"></span></div>
+                  <div class="error_nickname" style="position: relative;display:none;"><span class="ico_cue_no"></span><span id="error_nickname"></span></div>
+                </div>
+              </li>
+              <li class="form_li">
+                <div class="reg_li_1">登录密码：<em>*</em></div>
+                <div class="reg_li_2">
+                  <input type="password" class="text35" style="width:250px;" name="password" id="password" require="true" value="" datatype="limit"  min="6" max="16" msg="密码由6-16个字符组成"/>
+                </div>
+                <div class="reg_li_3">
+                  <div id="success_password"  style="display:none;"> <span class="ico_cue_ok"></span> </div>
+                  <div class="error_password" style="position: relative;display:none;"> <span class="ico_cue_no"></span> <span id="error_password"></span> </div>
+                </div>
+              </li>
+              <li class="form_li">
+                <div class="reg_li_1">确认密码：<em>*</em></div>
+                <div class="reg_li_2">
+                  <input type="password" class="text35" style="width:250px;" name="repassword" require="true" value="" datatype="repeat|limit"  min="6" max="16" to="password" msg="两次输入的密码须一样|密码由6-16个字符组成"/>
+                </div>
+                <div class="reg_li_3">
+                  <div id="success_repassword"  style="display:none;"> <span class="ico_cue_ok"></span> </div>
+                  <div class="r error_repassword" style="position: relative;display:none;"> <span class="ico_cue_no"></span> <span id="error_repassword"></span> </div>
+                </div>
+              </li>
+              <eq name="register_verify_on" value="1">
+              <li class="form_li" style="position:relative">
+                <div class="reg_li_1">验证码：</div>
+                <div class="reg_li_2">
+                  <input type="text" class="text35" style="width:100px;vertical-align:middle;" name="verify" require="true" value="" datatype="require|ajax"  msg="验证码不能为空" url="{:U('home/Public/isVerifyAvailable')}" />
+                  <img src="__ROOT__/public/captcha.php" id="verifyimg" alt="换一张" style="cursor: pointer;vertical-align:middle;" onclick="changeverify()" /> </div>
+                <div class="reg_li_3">
+                  &nbsp;&nbsp;
+                  <a href="###" onclick="changeverify()">换一换</a>
+                  <div id="success_verify" style="position:absolute;left:350px;display:none;top:18px;_top:5px;"> <span class="ico_cue_ok"></span> </div>
+                  <div class="r error_verify" style="position:absolute;left:350px;top:8px;width:200px;display:none;"> <span class="ico_cue_no"></span> <span id="error_verify"></span> </div>
+                </div>
+              </li>
+              </eq>
+              <li class="form_li">
+                <div class="reg_li_1">&nbsp;</div>
+                <div class="reg_li_2"> 
+                <if condition="$_SERVER['HTTP_REFERER']">
+                    <input type="hidden" name="HTTP_REFERER" value="{$_SERVER['HTTP_REFERER']}">
+                </if>
+				<input type="submit" class="btn_green_w121" value="创建帐号">
+                </div>
+              </li>
+            </ul>
+          </form>
+        </div>
+        <div class="c"></div>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+</div>
+<include file="__THEME__/footer" /> 

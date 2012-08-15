@@ -1,0 +1,19 @@
+<!-- certif -->
+{:Addons::hook('home_space_right_top', array('uid'=>$uid))}
+<div class="right_box">
+    <div class="user_follow_detail app_line_w" style="padding:0">
+	  	<span class="app_lineR_w"><a href="{:U('home/space/follow',array('uid'=>$uid,'type'=>'following'))}"><strong>{$spaceCount.following|intval}</strong><br>关注</a></span>
+	    <span class="app_lineR_w"><a href="{:U('home/space/follow',array('uid'=>$uid,'type'=>'follower'))}"><strong>{$spaceCount.follower|intval}</strong><br>粉丝</a></span>
+	    <span><a href="{:U('home/Space/index',array('uid'=>$uid))}"><strong>{$spaceCount.miniblog|intval}</strong><br>微博</a></span>
+    </div>
+</div>
+{:Addons::hook('home_space_right_middle', array('uid'=>$uid))}
+<div class="right_box app_line_w">
+    <h2>{$uid|getUserName}的标签</h2>
+    <p class="tags">
+    	<volist id="vo" name="usertags">
+        	<a tagid="{$vo.tag_id}" href="{:U('home/user/searchtag',array('k'=>urlencode($vo['tag_name'])))}">{$vo.tag_name}</a>&nbsp;
+    	</volist>
+    </p>
+</div>
+{:Addons::hook('home_space_right_bottom', array('uid'=>$uid))}

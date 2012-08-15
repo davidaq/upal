@@ -1,0 +1,125 @@
+ <div class="feed_quote feed_wb" > <img class="q_ico_arrow2" src="__THEME__/images/zw_img.gif" />
+  <div class="q_tit"><img class="q_tit_l" src="__THEME__/images/zw_img.gif" /></div>
+  <div class="q_con">
+    
+<php>if($privacy['weibo_comment']){</php>
+    <div class="new_position" id="comment_list_before_{$weibo_id}">
+<form action="{:U('weibo/Operate/addcomment')}" rel="miniblog_comment" <neq name="callback" value="">callback="{$callback}"</neq> method="post">
+	<input type="hidden" name="weibo_id" value="{$weibo_id}">
+	<input type="hidden" name="reply_comment_id" id="replyid_{$randtime}">
+		 <a class="faceicon1" href="javascript:void(0)" onclick="ui.emotions(this)" target_set="comment_{$randtime}"></a>
+      <textarea class="left text"  name="comment_content" rows="1" style="word-wrap;height:8px\9;" id="comment_{$randtime}" ></textarea>
+      <input type="submit" value="确定" class="N_but" style="*vertical-align:middle;">
+      <div style="clear:both; color:#666; margin-left:32px;">
+        <label>
+          <input name="transpond" type="checkbox" value="1" />
+          同时发一条微博</label><br />
+      <if condition="$data['transpond_id']">
+        <label>
+          <input name="transpond_weibo_id" type="checkbox" value="{$data['transpond_id']}" />
+          同时评论给原文作者</label>
+      </if>{:Addons::hook('weibo_comment_input_bottom', array($uid))}
+      </div>
+	  </form>
+    </div>
+<php>}else{</php>
+	<div class="new_position" >您没有权限评论此微博</div>
+<php>}</php>
+	<volist id="vo" name="list['data']">
+    <dl class="comment_list" id="comment_list_c_{$vo.comment_id}">
+    <dt><space uid="vo.uid" target="_blank" class="pic userface">{uavatar=s}</space></dt>
+      <dd>
+      <p><space uid="vo.uid" class="null" target="_blank">{uname}</space>{$vo.uid|getUserGroupIcon} : {$vo.content|formatComment=true} ({$vo.ctime|friendLydate})</p>
+      <p class="info">
+      <span class="right">
+		<php>if($ts['isSystemAdmin']){</php>
+			<a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条评论?')" callback="delComment({$vo.comment_id})" style="color:red">删除</a>
+		<php>}elseif( $vo['uid']==$mid || $data['uid']==$mid){</php>
+			<a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条评论?')" callback="delComment({$vo.comment_id})">删除</a>
+		<php>}</php>
+		<php>if($privacy['weibo_comment']){</php>&nbsp;&nbsp;<a href="javascript:void(0)" onclick="reply('{$vo.uid|getUserName}',{$randtime},{$vo.comment_id})">回复</a><php>}</php>
+        </span>
+        </p>
+        </dd>
+    </dl>
+	</volist>
+	<div class="c"></div>
+	<php>if($list['totalPages']>1){</php>
+	<div class=""><a href="{:U('home/space/detail',array('id'=>$weibo_id))}">查看更多&raquo;</a></div>
+	<php>}</php>
+  </div>
+  <div class="q_btm"><img class="q_btm_l" src="__THEME__/images/zw_img.gif" /></div>
+</div>
+
+<script>
+	$(document).ready(function(){
+		var $comment_content = $("#comment_{$randtime}");
+		$comment_content.jGrow();
+		$comment_content.keyup(function(event){
+			if(event.keyCode==32 || event.keyCode==8 || event.keyCode==13){
+				checkCommentLength(this, _LENGTH_);
+			}
+		}).keypress(function(){
+			checkCommentLength(this, _LENGTH_);
+		}).blur(function(){
+			checkCommentLength(this, _LENGTH_);
+		}).keydown(function(){
+			checkCommentLength(this, _LENGTH_);
+		}).keyup(function(){
+			checkCommentLength(this, _LENGTH_);
+		}).focus();
+	    <php>if($quick_reply){</php>
+	    	reply('{$quick_reply_uname}',{$randtime},'{$quick_reply_comment_id}');
+	    <php>}</php>
+
+	    <?php if($privacy['weibo_comment']) { ?>
+		    shortcut('ctrl+return',	function(){ $('#comment_list_before_{$weibo_id} form').submit();},{'target':'comment_<?php echo $randtime; ?>'});
+
+			var url = "{:U('home/User/searchTips')}";
+			userAutoTips({id:'comment_<?php echo $randtime; ?>',url: url});
+		<?php } ?>
+	});
+
+
+
+	function checkCommentLength(obj,num){
+  	 	var $obj = $(obj);
+		var str  = $obj.val();  
+		var len  = getLength(str);
+		if( len > num ){
+			$obj.val(subStr(str, num));
+		}
+	}
+	//回复
+	function reply( name, weibo_id ,id){
+		$("#comment_"+weibo_id).val( '回复@'+name+' : ' ).focus();
+		$("#replyid_"+weibo_id).val(id);
+		
+		var textArea = document.getElementById("comment_"+weibo_id);
+		var strlength = textArea.value.length;
+		if (document.selection) { //IE
+			 var rng = textArea.createTextRange();
+			 rng.collapse(true);
+			 rng.moveStart("character",strlength);
+			 rng.moveEnd("character",0);
+			 rng.select();
+		}else if (textArea.selectionStart || (textArea.selectionStart == '0')) { // Mozilla/Netscape…
+	        textArea.selectionStart = strlength;
+	        textArea.selectionEnd = strlength;
+	    }		
+	}
+
+	//删除回复
+	function delComment(id){
+		$.post( U('weibo/operate/docomments'),{id:id},function(txt){
+			txt = eval('('+txt+')');
+			if(txt.boolen){
+				$("#comment_list_c_"+id).slideUp('fast');
+				$("a[rel='comment'][minid='{$data.weibo_id}']").html( "评论("+txt.count+")" );
+			}else{
+				alert('删除失败');
+			}
+		 })
+		
+	}
+</script>

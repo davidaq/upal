@@ -1,0 +1,157 @@
+.header,.footer{ width:980px}
+
+/*快速注册*/
+.M_login{}
+.reg_box{display:block; overflow:visible}
+.reg_box h2{font-size:18px; font-family: "微软雅黑", "宋体"}
+.reg_box h2 span{color:#999; font-size:12px}
+.reg_box .form_list{padding-bottom:20px}
+.reg_box .form_list em{color:#f00;vertical-align:-4px}
+.reg_box .form_li{float: left; width:100%; padding:10px 0; line-height:35px; font-size:14px}
+.reg_box .form_li .reg_li_1{ float:left; text-align:right;width:85px;padding-right:10px}
+.reg_box .form_li .reg_li_2{ float:left; }
+.reg_box .form_li .reg_li_3{float:left;padding-left:10px}
+.reg_box .feed_list li{width:50%;float:left;border-bottom:#eee solid 1px}
+
+/*注册流程*/
+.reg_process{font-weight: bold}
+.reg_process_def{ height:35px; line-height:33px; color:#666666; padding-left:20px}
+.reg_process_on{color:#3488AD;height:35px; line-height:33px; position:relative}
+.reg_process_on div{ position:absolute;color:#fff;top:0; width:240px; height:35px;padding-left:20px}
+
+/*快速登录框样式*/
+.main_quike_login{padding:10px 0;margin:0 10px;overflow:hidden;*zoom:1;text-align:left}
+.box_quike_login{width:270px;float:left;border-right:#fff solid 1px}
+.box_quike_login .ck{vertical-align:middle;margin:-3px 5px 0 0}
+.box_quike_reg{padding:0 0 0 20px;margin:0 0 0 270px;text-align:center}
+.box_quike_reg span{display:block}
+.list_login{border-right:#ddd solid 1px}
+.list_login dt{padding:0 0 10px 0}
+.list_login dd{padding:0 0 10px 0;overflow:hidden;*zoom:1;text-align:left}
+.list_login label{float:left;display:block;padding:0 10px 0 0;width:40px;text-align:right;line-height:25px}
+.list_login .options_login{margin:0 0 0 50px;}
+.list_login .line_tips{width:188px;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;background-color:#FFFFCC;border:#F5C83C solid 1px;margin:0 0 0 50px;padding:5px;color:#f60}
+.login_other_mode{padding:10px 0;margin:0;color:#999}
+
+/*other*/
+.slogan {height:301px;padding:4px 0 0;margin:0 auto;*zoom:1;position:relative;z-index:9; text-align:left; width:980px;background:url(images/slogan_bg.jpg) no-repeat 0 0; border:1px solid #D0D0D0; border-bottom:0 none}
+.slobgs {overflow:hidden;width:960px;margin:0 auto -350px;height:350px; }
+
+.login {height:326px;background:url(images/login.png) no-repeat 0 -326px;_background:url(images/login.gif) no-repeat left -326px;width:253px; position:absolute; right:10px; top:-12px}
+.regbtn {margin:27px auto 14px;width:226px;position:relative}
+.regbtn a {display:block;background-image:url(images/141_ie.png);background-repeat:no-repeat;width:226px;height:62px;text-indent:-999em}
+.regbtn a:hover {background-position:0 -64px;text-decoration:none}
+.regbtn a:focus,.regbtn a:active {background-position:0 -128px}
+
+.talking{bottom:10px; left:10px; line-height:25px; position: absolute; color:#fff;width:680px;height:25px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap}
+.talking a:link,.talking a:visited{ margin-right:5px; color:#fff}
+.logform {padding:9px 26px 0px 26px}
+.logform .frm { }
+.logform .frm .text {margin:0 0 8px 0; *margin:0 0 6px 0;padding: 6px 5px; width: 191px; }
+.form_label{color: #999;left: -1px;line-height: 30px;padding-left: 8px;position: absolute;top: 0;width: 198px;cursor: text}
+
+.ppsel ul li.tit {background:#f0f0f0;color:#999;padding:4px 6px}
+.ppsel ul li a {padding:3px 6px;display:block;*zoom:1;color:#656565}
+.ppsel ul li a.active,.ppsel ul li a:hover {background:#48b5ec!important;color:#fff!important;text-decoration:none}
+
+.ppWaitMsg {text-align:center;padding-top:40px;width:228px;height:150px}
+
+.logloading .loginBg {position:relative}
+.logloading .png {top:-319px;position:relative;overflow:hidden}
+.logloading .logform {position:relative}
+
+.logform .frm .fuc0 {margin-left:19px;color:#3284ae}
+.logbtn {background-image:url(images/login_btn.gif);background-repeat:no-repeat;width:85px;height:27px; border:0 none; color:#fff; margin:0px; padding:0px}
+.logbtn:hover {background-position:0 -28px}
+.logbtn:focus,.logbtn:active {background-position:0 -57px}
+.regbtn2{color: #999;left: 0;line-height: 46px;position: absolute;top: 0;width: 198px;cursor: text;width:202px;height:46px;margin-bottom:10px;background-image:url(images/regbtn.png);	
+background-repeat:no-repeat;}
+.regbtn2 a { display:block;background-image:url(images/regbtn.png);	background-repeat:no-repeat}
+.regbtn2 a:hover { display:block;background-image:url(images/regbtn.png);background-repeat:no-repeat;background-position:left -48px; text-decoration:none}
+.blur {color:#999}
+
+.pptitle2,.middle,.bottom{ display:none}
+.pptitle2 {font-size:12px;height:31px;line-height:35px;color:#666}
+.pptitle2 .ppthree {float:right}
+.pptitle2 .exit {margin-left:5px}
+.listContA {padding:20px 0 20px 15px}
+.listContA li {color:#666;height:25px;line-height:25px}
+.middle {color:#666;height:25px;margin-left:-5px}
+.middle li {float:left;padding-right:5px}
+.middle li a {margin-left:4px}
+.middle li img {display:none}
+.bottom {clear:both;color:#666;height:25px;margin-left:-5px}
+.bottom li {float:left;padding-right:5px}
+.bottom li a {margin-left:5px}
+
+/*main*/
+.login_main { background-color:#fff;overflow:hidden;margin:0 auto;clear:both;position:relative;z-index:10; text-align:left; width:980px; border:1px solid #D0D0D0; border-top:0 none}
+.colL {width:248px;float:left;padding:0 15px}
+.colC {width:420px;float:left;position:relative;overflow:hidden;border-right:1px solid #efefef;border-left:1px solid #efefef;}
+.colR {width:218px;float:left;padding:0 15px}
+
+.tit {border-bottom:1px solid #efefef;color:#666}
+.tit .opt {float:right;font-size:12px;padding-top:20px;color:#999}
+.tit h3 {font-size:14px;padding:18px 0 6px;font-weight:bold}
+.tit h4 {font-size:12px;padding:5px 0;font-weight:bold}
+
+.imgrot {height:250px;width:242px;margin:12px 0 30px;background:url(images/154.gif) no-repeat}
+.imgrot .imgb {margin:0 4px;width:234px!important;padding-top:4px}
+.imgrot .imgs {height:221px;overflow:hidden;position:relative}
+.imgrot .imgInt {float:left;width:234px;height:221px;position:relative}
+.imgrot img {display:block;width:234px;height:221px;float:left}
+.imgrot .imgtit {position:absolute;bottom:0;left:0;height:30px;width:234px;background:#000;opacity:.1;filter:alpha(opacity=10)}
+.imgrot .imgfnt {position:absolute;bottom:0;left:0;height:30px;line-height:30px;color:#fff;padding:0 10px;width:214px;filter:alpha(opacity=70);opacity:0.7; background-color:#000}
+.imgrot .imgInt a:hover {text-decoration:none}
+.imgrot .pagination {height:25px;text-align:center;  margin-left: 96px}
+.imgrot .pagination li{ float:left;width:19px; background:url(images/151.png) no-repeat 0 -60px; height:19px; margin-top:3px;overflow:hidden}
+.imgrot .pagination a { display:block;width:19px;  height:19px; margin-top:3px; text-indent: 100px; overflow:hidden}
+.imgrot .pagination li:hover {background-position:0 -80px}
+.imgrot .pagination li.current {background-position:0 -100px}
+.imgrot .imgmask{display:none}
+.mobi{height:170px}
+.mobi dt {padding:0 0 10px;border-bottom:#efefef solid 1px;font-size:14px;font-weight:bold}
+.mobi dd {padding:20px 0 0;overflow:hidden;*zoom:1}
+.mobi dd a {display:block;float:left;margin:0 5px;border:#fff solid 1px}
+.mobi dd a:hover {background-color:#fff;filter:alpha(opacity=50); /*IE*/-moz-opacity:0.5; /*MOZ , FF*/opacity:0.5;border:#ccc solid 1px}
+
+/* twis */
+.colC .tit {margin:0 20px;border:none 0}
+.colC .twis {margin:0 20px;overflow:hidden}
+.colC .twis .list_weibo{border-top:#eee solid 1px;padding:10px 0}
+.colC .twis .list_weibo dd img{vertical-align:top}
+.colC .mask {height:50px;background:url(images/148.png) repeat-x left bottom;position:absolute;left:0;bottom:0;width:100%;z-index:100}
+
+
+.ugc,.ps,.pgc,.uri,.url,.nm a,.nm b,.atfake,.drop3 li,.twit,.twic {word-wrap:break-word;word-break:break-all}
+
+.apt {font-size:14px;color:#666;font-weight:bold;line-height:35px;border-bottom:1px solid #efefef}
+.clist {padding:0 20px;width:420px}
+.twis {overflow:hidden;_zoom:1}
+
+.colR .tit {margin-bottom:7px;border:none 0}
+.tpl {height:460px;overflow:hidden; width: 217px;*zoom:1}
+.tpl li {height:45px;padding:0 3px; overflow:hidden; float:left; width:211px;border-top:#eee solid 1px;*zoom:1}
+.tpl li a {display:block;height:44px}
+.tpl li a:hover {text-decoration:none;background:#f8f8f8}
+.tpl li.hover {background:#f8f8f8 url(images/hr_dt_b0.gif) repeat-x 0 bottom}
+.tpl li .num {display:block;width:56px;float:right;color:#999;text-align:right;padding-top:11px}
+.tpl li var {display:block;width:32px;height:32px;margin:0 0 -32px -32px;position:relative;background:url(images/147.png) no-repeat;left:32px;top:6px;font-size:20px;font-family:Tahoma;text-align:center;line-height:32px;color:#b1b0b0}
+.tpl li a:hover var {background-position:0 -32px;color:#fff}
+.tpl li .avt {margin:6px 0 6px 37px;width:32px;height:32px;display:block}
+.tpl li .avt img {width:32px;height:32px}
+.tpl li .avt .png {z-index:0;width:32px;height:32px;background:url(images/146.png) no-repeat;_background:url(images/146_ie.png) no-repeat;margin:-32px 0 0}
+.tpl li .nm {display:block;float:right;width:6em;text-align:left;padding-top:11px;overflow:hidden}
+.tpl li em {margin:0 95px -43px 40px}
+
+.footer .c0 {text-align:center;line-height:20px;color:#666;padding:10px 0 15px }
+.footer .c0 a {color:#666}
+.text_Pop{padding:5px;vertical-align:middle}
+.popPage{background-color:#F8F8F8;border:#666 solid 1px;box-shadow: 0px 0px 2px rgba(0,0,0,.3);width:494px;text-align:left}
+.popPage h4{background-color:#eee;line-height:30px;border-radius:3px 3px 0px 0px;padding:0 10px}
+.popPage .block_apply_s{background:url(images/bg_apply_success.png) no-repeat center center;padding:20px;height:150px}
+.popPage .del{margin:10px 5px 0 0}
+
+a.username, .username{vertical-align:top}
+
+

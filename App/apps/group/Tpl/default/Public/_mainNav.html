@@ -1,0 +1,52 @@
+<div class="page_tit">
+  <h2><img src="{$ts['app']['icon_url']}" /> {$ts['app']['app_alias']}</h2>  
+  <ul class="tit_tab">
+    <li>
+    	<a href="{:U('group/Index/newIndex')}" class="{$index_class}">{$ts['app']['app_alias']}首页</a>
+    </li>
+    <li id="dropdown_my_group">
+    	<a href="{:U('group/SomeOne')}" class="{$my_class} hover">我的{$ts['app']['app_alias']} <span class="more"></span></a>
+    	<div class="mg_lapinfo" style="width:120px">
+    	    <volist name="all_my_app" id="vo">
+    		  <a href="{:U('group/Group/index',array('gid'=>$vo['id']))}" class="g" style="">
+    			<img src="__ROOT__/thumb.php?w=80&h=80&url={$vo['logo']|get_photo_url}" class="mg_lpimg">
+				<div style="width:70px;height:18px;line-height:18px;overflow:hidden;margin-left:20px;cursor:pointer">{$vo.name|getShort=11,'...'}</div>
+    		  </a>
+    		  <php>if($key>=4){
+    		      $hasMoreGroup = true;
+    		      break;
+    		      }</php>
+        	</volist>
+	  	  <if condition="$config['createGroup']">
+          <php>$_class = empty($all_my_app) ? '' : 'lineS_top';</php>
+      	  <div class="{$_class} group_add" style="width:120px">
+      	    <php>if($hasMoreGroup){</php><a href="{:U('group/SomeOne/index')}" class="g right">查看»</a><php>}</php>
+      		<a href="{:U('group/Index/add')}" class="g">创建群组</a>
+      	  </div>
+      	  </if>
+        </div>
+    </li>
+    <li id="dropdown_group_massage">
+    	<a href="{:U('group/Index/message')}" class="{$message_class} hover">群组消息 <span class="more"></span></a>
+    	<div class="mg_lapinfo" style="width:120px">
+    		  <a href="{:U('group/Index/comment')}" class="g">评论</a>
+    		  <a href="{:U('group/Index/atme')}" class="g">@提到我的</a>
+    		  <a href="{:U('group/Index/bbsNotify')}" class="g">帖子消息</a>
+        </div>
+    </li>
+    <!--<li><a href="{:U('group/Index/find')}" class="{$find_class}">发现{$ts['app']['app_alias']}</a></li>-->
+  </ul>
+  <div class="c"></div>
+</div>
+<script>
+$(document).ready(function(){
+	$("#dropdown_my_group").hover(
+		function(){ $(this).addClass("hover"); },
+	    function(){ $(this).removeClass("hover"); }
+	);
+	$("#dropdown_group_massage").hover(
+		function(){ $(this).addClass("hover"); },
+	    function(){ $(this).removeClass("hover"); }
+	);
+});
+</script>

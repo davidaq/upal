@@ -1,0 +1,236 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('weibo/plugins/init')}"></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <include file="__THEME__/apps" />
+  <div class="main">
+    <div class="mainbox">
+      <div class="mainbox_R">
+	    <volist name="ts['ad']['right_top']" id="vo">
+		<div class="ke-post setskinbox lineS_btm">
+			{$vo['content']}
+		</div>
+		</volist>
+	    {:Addons::hook('home_index_right_top')}
+        <div class="right_box">
+          <h2><a href="javascript:void(0)" onclick="$('.quick_win').show()" class="right" style="font-weight:400;font-size:12px">添加</a>关注的话题</h2>
+          <div style="display:none;" class="quick_win">
+            <a href="javascript:void(0)" onclick="$('.quick_win').hide()" class="del" title="关闭"></a>
+            <p>
+              <input type="text" class="text" name="quick_name" style=" width:130px;display:block;margin:0 0 5px 0"/>
+              <input type="button" onclick="addFollowTopic()" value="保存" class="btn_b" />
+            </p>
+            <p class="cGray2">请添加想关注的话题</p>
+          </div>
+          <ul class="topic_list" rel="followTopicArea">
+            <volist id="vo" name="followTopic">
+              <li onmouseover="$(this).find('.del').show()" onmouseout="$(this).find('.del').hide()"><a class="del right" style="display:none" title="删除" href="javascript:void(0)" onclick="deleteFollowTopic(this,'{$vo.topic_id}')"></a><a href="{:U('home/user/topics',array('k'=>urlencode($vo['name'])))}" title="{$vo.name}">{$vo.name}</a></li>
+            </volist>
+          </ul>
+        </div>
+		
+        <div class="right_box">
+    	{:W('HotTopic', array('type'=>'recommend'))}
+        </div>
+      </div>
+      <div class="mainbox_C main_pad">
+      <div class="tab-menu"><!-- 切换标签 begin  -->
+        <ul>
+          <li><a id="feed_colleague_item" rel="colleague" class="<eq name='type' value='receive'>on</eq> feed_item" href="{:U('home/user/comments',array('type'=>'receive','from_app'=>$from_app))}"><span>收到的评论</span></a></li>
+          <li><a id="feed_all_item" rel="all" class="<eq name='type' value='send'>on</eq> feed_item" href="{:U('home/user/comments',array('type'=>'send','from_app'=>$from_app))}"><span>发出的评论</span></a></li>
+
+        </ul>
+      </div>
+      <div class="MenuSub ">
+	      <span class="right pr5">共{$list.count}条</span>
+	      <a href="{:U('home/user/comments',array('type'=>$type, 'from_app'=>'weibo'))}" <eq name="from_app" value="weibo">class="on"</eq> >微博<php>if($type == 'receive' && $userCount['weibo_comment'] > 0) {</php><em> (<font color="red">{$userCount['weibo_comment']}</font>)</em><php>}</php></a> | 
+		  <a href="{:U('home/user/comments',array('type'=>$type, 'from_app'=>'other'))}" <eq name="from_app" value="other">class="on"</eq> >其它应用<php>if($type == 'receive' && $userCount['global_comment'] > 0) {</php> <em> (<font color="red">{$userCount['global_comment']}</font>)</em><php>}</php></a>
+	  </div>
+      <div class="feedBox"> 
+        <ul class="feed_list">
+        <php>if($type=='send' && !empty($list['data'])){</php>
+        <li class="t"><span class="left" style="padding:0px 5px 0 6px;"><input onclick="checkAllReply(this)" type="checkbox" /></span>
+        <a href="#">全选</a> | <a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除所选评论?')" callback="doDelete()">删除</a>
+        </li>
+        <php>}</php>
+<volist id="vo" name="list.data">
+<php>if($from_app=='weibo') {</php><!-- 微薄的评论 -->
+    
+	<php>if($type=='send'){</php>
+            <li class="lineD_btm">
+            <div class="left" style="padding:0px 5px 0 6px;"><input name="id[]" type="checkbox" value="{$vo.comment_id}" /></div>
+              <div class="userPic"><space uid="vo.reply_uid">{uavatar}</space></div>
+              <div class="feed_c" style="margin-left:90px">
+                <div class="msgCnt" style="padding-bottom:0; font-size:12px">{$vo.content|format}({$vo.ctime|date='m月d日 H:i',###})</div>
+
+			    <div class="feed_c_btm"> 
+				<php>if($vo['ismini']){</php>
+					 回复 <space uid="vo.reply_uid">{uname}</space> 的微博："{$vo.mini.content|format=true}"
+			    <php>}else{</php>
+					 回复 <space uid="vo.reply_uid">{uname}</space> 的评论: "{$vo.comment.content|formatComment=true}"
+				<php>}</php>
+				</div>
+                <div class="alR"><a href="{:U('home/Space/detail',array('id'=>$vo['weibo_id']))}">查看</a><span style="color:#666;"> | </span><a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条评论?')" callback="doDelete({$vo.comment_id})" >删除</a></div>
+              </div>
+            </li>
+	<php>}else{</php>
+            <li class="lineD_btm">
+            <div class="left" style="padding:0px 5px 0 6px;"></div>
+              <div class="userPic"><space uid="vo.uid">{uavatar}</space></div>
+              <div class="feed_c">
+                <div class="msgCnt" style="padding-bottom:0; font-size:12px"><space uid="vo.uid">{uname}</space>: {$vo.content|formatComment=true}({$vo.ctime|friendlyDate})
+
+                </div>
+
+			    <div class="feed_c_btm"> 
+				<php>if($vo['ismini']){</php>
+					 回复我的微博："{$vo.mini.content|format=true}"
+			    <php>}else{</php>
+					 回复我的评论: "{$vo.comment.content|formatComment=true}"
+				<php>}</php>
+				</div>
+                <div class="alR"><a href="{:U('home/Space/detail',array('id'=>$vo['weibo_id']))}">查看</a><span style="color:#666;"> | </span><a href="javascript:void(0)" rel="comment_reply" callback="dosuccess" uname="{$vo.uid|getUserName}" commentid="{$vo.comment_id}" minid="{$vo.mini.id}">回复</a></div>
+                <div id="comment_list_{$vo.comment_id}"></div>
+              </div>
+            </li>
+	<php>}</php>
+	
+<php>}else {</php>
+
+    <!-- 其它应用的评论 -->
+    <php>if($type=='send'){</php>
+            <li class="lineD_btm">
+            <div class="left" style="padding:0px 5px 0 6px;"><input name="id[]" type="checkbox" value="{$vo.id}" /></div>
+              <div class="userPic"><space uid="vo.to_uid">{uavatar}</space></div>
+              <div class="feed_c" style="margin-left:90px">
+                <div class="msgCnt" style="padding-bottom:0; font-size:12px">{$vo.comment|formatComment=true}({$vo.cTime|date='m月d日 H:i',###})</div>
+                <div class="feed_c_btm"> 
+                    来自{$vo.type|getAppAlias}: <a href="{$vo.data.url}">{$vo.data.title}</a>
+                </div>
+                <div class="alR"><a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条评论?')" callback="doDelete({$vo.id})" >删除</a></div>
+              </div>
+            </li>
+    <php>}else{</php>
+            <li class="lineD_btm">
+              <div class="userPic"><space uid="vo.uid">{uavatar}</space></div>
+              <div class="feed_c" style="margin-left:90px">
+                <div class="msgCnt" style="padding-bottom:0; font-size:12px">
+                    <space uid="vo.uid">{uname}</space>: {$vo.comment|formatComment=true}({$vo.cTime|friendlyDate})
+                </div>
+                <div class="feed_c_btm"> 
+                    来自{$vo.type|getAppAlias}: <a href="{$vo.data.url}">{$vo.data.title}</a>
+                </div>
+                <div class="alR"><a href="javascript:void(0)" rel="comment_reply" callback="dosuccess" commentid="{$vo.id}" >回复</a></div>
+                <div id="comment_list_{$vo.id}"></div>
+              </div>
+            </li>
+    <php>}</php>
+
+<php>}</php>
+</volist>
+<php>if($type=='send' && !empty($list['data'])){</php>
+           <li class="t"><span class="left" style="padding:0px 5px 0 6px;"><input onclick="checkAllReply(this)" type="checkbox" /></span>
+        <a href="#">全选</a> | <a href="javascript:void(0)" onclick="doDelete()">删除</a>
+        </li>
+        <php>}</php>
+        </ul>
+      </div>
+      <div class="c"></div>
+      <div class="page">{$list.html}</div>
+    </div>
+  </div>
+  <div class="clear"></div>
+</div>
+</div>
+</div>
+<!-- 内容 end --> 
+<script>
+	$(document).ready(function(txt){
+	<php>if($from_app=='weibo') {</php>
+	    $("a[rel='comment_reply']").live('click',function(){
+	    	var id         = $(this).attr('minid');
+	        var comment_id = $(this).attr('commentid');
+	        var uname      = $(this).attr('uname');
+	        var callback   = $(this).attr('callback');
+		    if( $("#comment_list_"+comment_id).html()=='' ){
+			    $("#comment_list_"+comment_id).html('<div class="feed_quote feed_wb" style="text-align:center"><img src="'+ _THEME_+'/images/icon_waiting.gif" width="15"></div>');
+			    $.post( U("weibo/Index/loadcomment"),{id:id,quick_reply:"1",quick_reply_comment_id:comment_id,quick_reply_uname:uname,callback:callback},function(txt){
+				    $("#comment_list_"+comment_id).html( txt ) ;
+			    });
+		    }else{
+		  	    $("#comment_list_"+comment_id).html('');
+		    }
+	    });
+	<php>}else {</php>
+	    $("a[rel='comment_reply']").live('click',function(){
+            var comment_id = $(this).attr('commentid');
+            var callback   = $(this).attr('callback');
+            if( $("#comment_list_"+comment_id).html()=='' ){
+                $("#comment_list_"+comment_id).html('<div class="feed_quote feed_wb" style="text-align:center"><img src="'+ _THEME_+'/images/icon_waiting.gif" width="15"></div>');
+                $.post( U("home/Comment/quickReply"),{to_id:comment_id,callback:callback},function(txt){
+                    $("#comment_list_"+comment_id).html( txt ) ;
+                });
+            }else{
+                $("#comment_list_"+comment_id).html('');
+            }
+        });
+	<php>}</php>
+	})
+
+
+	//选择全部评论
+	function checkAllReply(o){
+		if(o.checked){
+			$("input[name='id[]']").attr('checked',true);
+		}else{
+			$("input[name='id[]']").removeAttr('checked');
+		}
+	}
+	
+	 function dosuccess(txt){
+		$("#comment_list_"+txt.data['reply_comment_id']).html('');
+		ui.success('回复成功');
+	 }
+	
+	//提交删除
+	function doDelete(id){
+		var selectid ='';
+		if(id==undefined){
+			$("input[name='id[]']:checked").each(function(){
+				selectid+=$(this).val()+',';
+			});
+		}else{
+			selectid = id;
+		}
+		if(selectid==''){
+			ui.error('未选择评论');
+			return false;
+		}
+		
+		var url = "<php>echo $from_app=='weibo' ? U('weibo/Operate/deleteMuleComment') : U('home/Comment/doDelete');</php>";
+		
+		$.post(url,{id:selectid},function(txt){
+			ui.success('删除成功');
+			setInterval("location.reload()",1000);
+		})
+	}
+	
+	// 其它应用的评论的快速回复
+	function quickReply(id) {
+		var comment = $('#comment_'+id).val();
+		var with_new_weibo = $('#with_new_weibo_'+id).attr('checked') ? '1' : '0';
+		if(comment=='') {
+			ui.error('评论不能为空');
+			return ;
+		}
+		$.post(U("home/Comment/doQuickReply"),{to_id:id,comment:comment,with_new_weibo:with_new_weibo},function(res){
+			if(res==1){
+				ui.success('回复成功');
+				$('#comment_'+id).val('');
+				$('#comment_quick_reply_'+id).toggle();
+			}
+		});
+	}
+</script>
+<include file="__THEME__/footer" /> 

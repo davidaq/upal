@@ -1,0 +1,27 @@
+<!-- 排行榜 -->
+<volist id="vo" name="list">
+<div class="lt_toplist">
+<div class="box_rankShow"><php>$name = keyWordFilter($vo['name']);</php>
+	<div class="tit_rank"><span class="time_rt">{:date('Y')}年</span>{$name}</div>
+<div class="col_cate">
+<php>$title = keyWordFilter(unserialize($vo['title']));</php>
+	<span class="time_cate">{$title.2}</span>
+	<span class="tit_cate">{$title.0}</span>
+	<span class="topic_cate">{$title.1}</span>
+</div>
+<dl class="top_topic_list">
+	<dd>
+	<php>$date = unserialize($vo['content']);</php>
+		<volist name="date" id="date">
+		<dd><php>$value = keyWordFilter($date['value']); $keyval= keyWordFilter($date['key']);</php>
+			<span class="time_list">{$value}</span>
+			<php> if($key>2){ $class='no'; }else{ $class='no top'.($key+1); }</php>
+			<span class="{$class}">{$key+1}</span>
+			<span class="topic_list">{$keyval}</span>
+		</dd>
+		</volist>
+	</dd>
+</dl>
+</div>
+</div>
+</volist>

@@ -1,0 +1,43 @@
+<include file="__THEME__/header" />
+<link rel="stylesheet" type="text/css" href="../Public/css/square.css"/>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('weibo/plugins/init')}"></script>
+<script type="text/javascript" src="../Public/js/slides.min.jquery.js"></script>
+<script type="text/javascript" src="../Public/js/square.js"></script>
+<script>
+$(document).ready(function(){
+	$(".checkall").click(function(){
+		var div = '#star_box_'+$(this).attr("cid");
+		if( this.checked == true ){
+			$(div+" input[name='followuid[]']").attr('checked',true);
+		}else{
+			$(div+" input[name='followuid[]']").removeAttr('checked');
+		}
+	});
+});
+</script>
+<script language="javascript"> 
+  function over(){ 
+  document.getElementByIdx("card").style.display="block"; 
+  } 
+  function out(){ 
+  document.getElementByIdx("card").style.display="none"; 
+  } 
+</script> 
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  -->
+  <include file="_left" />
+  <div class="main" style="_float:left;_margin:0">
+    <div class="mainbox">
+      <div class="mainbox_C main_pad"  style="margin:0;padding-top:0">
+        <div class="squareTop clearfix">
+        	{:Addons::hook('toprank')}
+        	{:Addons::hook('showdefinedrank')}
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<include file="__THEME__/footer" />

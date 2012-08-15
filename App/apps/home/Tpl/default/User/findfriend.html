@@ -1,0 +1,120 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('weibo/plugins/init')}"></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l">
+    <div class="mainbox boxspace">
+      <div class="mainbox_appR">
+      <!--粉丝榜-->
+        <div class="right_box">
+            <h2>粉丝榜</h2>
+            <ul class="fans_toplist">
+                <volist id="vo" name="topfollow">
+                     <php>if($key>2){ $class='no'; }else{ $class='no top'.($key+1); }</php>
+                     <li class="lineD_btm lh25">
+                     <span class="right">{$vo.count}</span>
+                     <em class="{$class}">{$key+1}</em>
+                     <space uid="vo.uid">{uname}</space></li>
+                </volist>
+            </ul>
+        </div>
+      <!--/粉丝榜-->
+      </div>
+      <div class="mainbox_appC boxspace_L"> 
+        <!-- ========== 搜人 begin ============= -->
+        <div class="Search_box">
+        	<div><h1 class="f18px fB lh30" style="height:30px;">查找用户</h1></div>
+          <div class="cGray2 lh30"  style=" height:30px;">输入朋友的名称或昵称，如：小A</div>
+          <div class="Search_bg">
+          <div>
+          <form action="{:U('home/user/searchuser')}" method="post">
+            <input type="text" class="text_findUser left" style="width:535px;*width:537px;_width:530px" name="k" value="输入朋友的名称或昵称，如：小A"  onfocus="if(this.value == '输入朋友的名称或昵称，如：小A')this.value='';" onblur="if(this.value == '')this.value='输入朋友的名称或昵称，如：小A';" />
+            <input class="btn_search_big left" type="submit" value="" />
+          </form>
+          </div>
+          </div>
+        </div>
+        <div class="tab-menu"><!-- 切换标签 begin  -->
+          <ul>
+            <li><a class="on feed_item" href="###"><span>热门推荐</span></a></li>
+          </ul>
+        </div>
+        <div class="MenuSub">
+        	<a href="{:U('home/user/findfriend',array('type'=>'newjoin'))}" <eq name="type" value="newjoin">class="on"</eq> >最新加入</a>| 
+        	<a href="{:U('home/user/findfriend',array('type'=>'understanding'))}" <eq name="type" value="understanding">class="on"</eq> >可能认识</a> 
+        	<!--<a href="{:U('home/user/findfriend',array('type'=>'followers'))}" <eq name="type" value="followers">class="on"</eq> >粉丝最多</a>| 
+        	<a href="{:U('home/user/findfriend',array('type'=>'hot'))}" <eq name="type" value="hot">class="on"</eq> >活跃用户</a>-->
+        </div>
+        <div class="feedBox">
+        <form action="{:U('home/public/followuser')}" id="followuser" method="post">
+        <input type="hidden" name="doajax" value="1">
+          <ul class="feed_list">
+          <volist id="vo" name="list">
+            <li class="lineD_btm" style="width:50%;height:70px;float:left;padding:10px 0;_width:49%">
+            <div class="left" style="width:25px; padding-top:20px;*padding-top:17px;"><input name="followuid[]" type="checkbox" checked="checked" value="{$vo.uid}" /></div>
+              <div class="userPic"><space uid="vo.uid">{uavatar}</space></div>
+              <div style="margin-left: 95px;_margin-left:90px" class="feed_c">
+                <div style="padding-bottom: 0pt;">
+                  <!-- 
+                  <div class="right pr10" style="display:none;" id="follow_list_{$vo.uid}">
+					<script>document.write(followState('{$vo.followstate}','dolistfollow',{$vo.uid}))</script>
+				  </div>
+				   -->
+                  <space uid="vo.uid">{uname}</space> {$vo.uid|getUserGroupIcon} ( {$vo.follower}人关注 )</div>
+                <div style="padding-top: 8px;" class="feed_c_btm lh18">
+                  <div>{$vo.location}&nbsp;</div>
+                  <switch name="type">
+                  <case value="newjoin">
+                  	<div>加入时间:{$vo.ctime|friendLydate}</div>
+                  </case>
+                  <case value="hot">
+                  	<div>微博数:{$vo.weibo_num}</div>
+                  </case>
+                  </switch>
+                </div>
+              </div>
+            </li>
+  		  </volist>
+  		  
+          </ul>
+          <div  class="pt10 flw100"> 
+             <input name="" onclick="checkAllFollow(this)" type="checkbox"  checked="checked" style="*margin-bottom:5px" />
+            <label for="checkbox"></label>
+          <input name="" type="button" onclick="dofollow()" class="btn_green_w121" value="关注所选用户"  /></div>
+        </div>
+        
+        <!-- ========== 搜人 end ============= --> 
+        <div class="c"></div>
+        </form>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+</div>
+<!-- 内容 end -->
+<script>
+	function checkAllFollow(o){
+		if( o.checked == true ){
+			$("input[name='followuid[]']").attr('checked','checked');
+		}else{
+			$("input[name='followuid[]']").removeAttr('checked');
+		}
+	}
+	
+	function dofollow(){
+		if( $("input[name='followuid[]']:checked").size() ==0){
+			ui.error('请选择要关注的人');
+			return '';
+		}
+		var options = {
+			    success: function(txt) {
+					ui.success('关注成功');
+					setInterval("location.reload()",1000);
+			    } 
+			};		
+			$('#followuser').ajaxSubmit( options );
+	}
+</script>
+<include file="__THEME__/footer" /> 

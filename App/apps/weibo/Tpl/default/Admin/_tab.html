@@ -1,0 +1,14 @@
+<div class="page_tit">微博</div>
+<div class="tit_tab">
+  	<ul>
+    <li><a href="{:U('weibo/admin/index')}" <eq name="ACTION_NAME" value="index">class="on"</eq> >微博配置</a></li>
+    <li><a href="{:U('weibo/admin/square')}" <eq name="ACTION_NAME" value="square">class="on"</eq> >广场配置</a></li>
+    <li><a href="{:U('weibo/admin/star')}" <eq name="ACTION_NAME" value="star">class="on"</eq> >名人堂</a></li>
+    <li><a href="{:U('weibo/admin/weibolist')}" <eq name="recycle" value="0">class="on"</eq> >微博列表</a></li>
+    <li><a href="{:U('weibo/admin/topiclist')}" <eq name="ACTION_NAME" value="topiclist">class="on"</eq> >话题列表</a></li>
+    <li><a href="{:U('weibo/admin/topics')}" <eq name="ACTION_NAME" value="topics">class="on"</eq>
+        <eq name="ACTION_NAME" value="editTopicsTab">class="on"</eq> >推荐话题</a></li>
+    <li><a href="{:U('weibo/admin/fileList')}" <eq name="ACTION_NAME" value="fileList">class="on"</eq> >附件列表</a></li>
+    <li><a href="{:U('weibo/admin/weibolist',array('recycle'=>1))}" <eq name="recycle" value="1">class="on"</eq> >微博回收站</a></li>
+    </ul>
+</div>

@@ -1,0 +1,22 @@
+<h2>{$title}</h2> 
+<ul class="topic_list lineS_btm">
+  <if condition="'recommend' eq $type">
+  <volist id="vo" name="hotTopic">
+    <li>
+		<a href="{:U('home/User/topics',array('k'=>urlencode($vo['name'])))}" title="{$vo.name}">{$vo.name}({$vo.count})</a><br />
+	    <if condition="$vo['note']">
+	    <div class="topic_tips">
+	    	<div class="topic_arrt"><div class="topic_arr"></div></div>
+	        <div class="topic_info">{$vo['note']}</div>
+	    </div>
+	    </if>
+    </li>
+  </volist>
+  <else />
+  <volist id="vo" name="hotTopic">
+    <li>
+    	<a href="{:U('home/User/topics',array('k'=>urlencode($vo['name'])))}" title="{$vo.name}">{$vo.name}({$vo.count})</a><br />
+    </li>
+  </volist>
+  </if>
+</ul>

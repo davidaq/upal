@@ -1,0 +1,55 @@
+<include file="__THEME__/header" />
+<link rel="stylesheet" href="../Public/gift.css" type="text/css" media="screen" charset="utf-8" />
+<link href="__PUBLIC__/js/pagination/pagination.css" rel="stylesheet" type="text/css" />
+<if condition="$tpl_data">
+{:W('Weibo',array('tpl_name'=>'gift_send_weibo','button_title'=>'分享'))} 
+<script>
+$(document).ready(function(){
+    _widget_weibo_start('', '{$tpl_data}');
+});
+</script>
+</if>
+<div class="content_holder">
+<div class="content no_bg">
+<include file="../Public/_mainNav" />
+  <div class="main no_l">
+    <div class="mainbox">
+      <div class="mainbox_appC" style="margin-right:0">
+        <div class="tab-menu"> 
+          <!-- 切换标签 begin  -->
+          <ul>
+            <li><a href="{:U('gift/Index/receivebox')}"><span>收到的礼物</span></a></li>
+            <li><a class="on" href="{:U('gift/Index/sendbox')}"><span>送出的礼物</span></a></li>
+          </ul>
+        </div>
+        <!-- 切换标签 end  -->
+        <div class="gift_list">
+          <volist name="gifts['data']" id='gift'>
+            <div class="gift_box">
+            <div style=" overflow:hidden; width:100%;">
+              <div class="left" style="width:90px;"><img src="{$gift.giftImg|realityImageURL}" width="70" height="70"/></div>
+              <div class="left" style="width:560px;">
+                <div class="lh20"><space uid="gift.fromUserId" class="fn" target="_blank">我</space> 在 {$gift.cTime|friendlyDate} 花费了 {$gift.giftPrice}点{$type} 赠送给<space uid="gift.toUserId" class="fn" target="_blank">{uname}</space>的礼物。<br />
+                  <div class="cGray2 lh30">我还给
+                    <php>echo getUserWo($gift['toUserId'],$mid);</php>
+                    留言说：</div>
+                  <div class="quote" style="margin:0;">
+                    <p>{$gift.sendInfo}<span class="quoteR">&nbsp;</span></p>
+                  </div>
+                </div>
+              </div>
+              <div class="c"></div>
+            </div>
+            </div>
+          </volist>
+          <div id="Pagination" class="page">{$gifts.html}</div>
+        </div>
+      </div>
+      <!-- 画布 end  -->
+      <div class="c"></div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- 内容 end --> 
+<include file="__THEME__/footer" />

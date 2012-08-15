@@ -1,0 +1,53 @@
+.mainbox_R{padding:10px}
+.projectlist {background: #E8EFD2;border: 1px solid #C5D39F;height: 80px;margin: 0px;overflow: hidden;padding: 10px;word-wrap: break-word;}
+.iconItemClose{background: url(images/del.gif) no-repeat;height: 12px;width: 12px; display:block;}
+
+/*设置页面*/
+.setItems{background:#fff; margin-top:10px;  float:left; width:100%;}
+.setFold{background:#E9EDF4 url(images/fold.gif) 95% center no-repeat; padding:8px 15px; border:1px #C0C7D9 solid; cursor:pointer; overflow:hidden}
+.setUnfold{background:#D2DBEA url(images/unfold.gif) 95% center no-repeat; padding:8px 15px; border:1px #C0C7D9 solid; cursor:pointer; overflow:hidden;_zoom:1}
+.setFold h2{ font-weight: bold; font-size:14px; line-height:25px; display:block}
+.setHover{border:2px #a0ced5 solid; padding:7px 14px}
+.setStep{height:20px}
+.setStep .txt1{display:inline-block; float:left; color:#666; line-height:20px}
+.proBar{background:url(images/lodebg.gif) no-repeat; height:14px; width:159px; display:inline-block; float:left; margin:3px 0; *margin:2px 0;}
+.proBar span{background:url(images/color.gif) repeat-x; display:inline-block; height:8px}
+.proText{color:#333; font-weight:bold; display:inline-block; float:left; padding:0 10px; line-height:20px}
+.setItemsInfo{border:1px #C0C7D9 solid; border-top:0px none; padding:15px; overflow:hidden;_zoom:1}
+.data{overflow:hidden;_zoom:1}
+.data ul{padding: 0px; overflow:hidden}
+.data ul li{overflow:hidden;width: 100%; line-height: 24px; padding-top: 5px; padding-bottom: 5px;*zoom:1; }
+.data dl{padding: 0px; margin-top: 10px; margin-right: auto; margin-bottom: 5px; margin-left: auto}
+.data dl dt{font-size: 12px; line-height: 20px; font-weight: bold; color: #000000; padding-left: 70px}
+.data dl dd{clear: both; display:table; overflow: hidden; width: 100%; line-height: 20px}
+.data dl dd .c1{width: 150px; text-align: right; float: left; color: #999999}
+.data dl dd .c2{width: 20px; float: left; text-align: center; padding-top: 3px; line-height: normal}
+.data dl dd .c3{width: 600px; float: left}
+
+.data .set_basic{padding: 0px; overflow:hidden;*zoom:1}
+.data .set_basic dd{overflow:hidden;*zoom:1; width: 100%; line-height: 24px; padding-top: 5px; padding-bottom: 5px}
+.data .set_basic dd label{float:left;width:15%;text-align:right;padding-right:10px;display:block}
+.data .set_basic dd .left{width:70%}
+.data .set_basic dd .left label{width:auto;_width:80px;display:inline;text-align:left;float:none}
+
+/*个人标签*/
+.setupTag_box{height:135px;margin-top:10px;overflow:hidden}
+.setupTag_boxL{float:left;padding-top:30px;padding-right:5px;width:330px}
+.setupTag_boxR{float:left;padding-left:3px;width:300px;border-left:1px dotted #999999}
+.setupTag_boxR p{padding-left:16px;color:#666}
+.setupTag_list01{clear:both;*zoom:1;margin-top:6px;overflow:hidden;width:240px}
+.setupTag_list01 a{display:inline-block;line-height:20px;padding:2px 5px}
+.setupTag_list01 a em{color:#ccc;font-family:Arial;font-size:17px;margin-right:2px;vertical-align:-2px}
+.setupTag_list01 a:hover{background-color:#548CC8;color:#fff;text-decoration:none}
+.setupTag_list01 a:hover em{color:#fff;cursor:pointer;font-size:17px;font-weight:bold}
+
+.setupTag_list02{clear:both;padding-bottom:10px;padding-top:8px}
+.setupTag_list02 .tagList{width:100%}
+.tagList{display:block;font-size:12px;width:480px}
+.setupTag_list02 .tagList li{overflow:visible}
+.tagList li{-moz-background-clip:border;-moz-background-inline-policy:continuous;-moz-background-origin:padding;background:#EAEAEA none repeat scroll 0 0;float:left;height:20px;line-height:20px;margin:2px 2px 2px 0;white-space:nowrap}
+.tagList li a.a1{line-height:20px;padding:0 7px;vertical-align:10px;_vertical-align:3px;_float:left;_display:inline}
+.tagList li a.a1 .del,.tagList li a.a2 .del{margin-bottom:5px;margin-right:5px;_margin:0}
+.tagList li.bg {background:#548CC8}
+.tagList li.bg a.a1{line-height:20px;padding:0 7px;vertical-align:10px;_vertical-align:3px;color:#fff;text-decoration:none}
+.tagList li.bg a.a1 .del,.tagList li.bg a.a2 .del{margin-bottom:5px;margin-right:5px;_margin:0}

@@ -1,0 +1,130 @@
+<include file="__THEME__/header" />
+<link  href="../Public/group.css" rel="stylesheet" type="text/css"/>
+<!-- 微博 -->
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('group/WeiboPlugins/init')}"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.autocomplete.js"></script>
+
+<div class="content_holder">
+<div class="content no_bg"> 
+  <!-- 内容 begin  -->
+<include file="../Public/_mainNav" />
+  <div class="main no_l"> 
+    <!-- 右侧内容 begin  -->
+    <div class="mainbox">
+    <include file="../Public/_indexRight" />
+      <div class="mainbox_appC">
+        <div class="tab-menu"> 
+          <!-- 切换标签 begin  -->
+          <ul>
+            <switch name="ACTION_NAME">
+              <case value="atme">
+                <li><a href="{:U('group/Index/atme')}" class="on"><span>群内@提到我的</span></a></li>
+              </case>
+              <default />
+              <li><a href="{:U('group/Index/message')}" class="{$newly}"><span> 最近更新</span></a></li>
+              <li><a href="{:U('group/Index/post')}" class="{$postly}"><span>我发布的</span></a></li>
+              <li><a href="{:U('group/Index/replied')}" class="{$replied}"><span>我评论的</span></a></li>
+            </switch>
+          </ul>
+        </div>
+        <!-- 切换标签 end  -->
+        <php>if($byGroup){</php>
+        <div class="MenuSub"> <a href="{:U('group/Index/message',array('order'=>'group'))}" class="on">按群组查看</a> | <a href="{:U('group/Index/message',array('order'=>'ctime'))}">按时间查看</a> </div>
+        
+        <!--按群组查看内容 begin-->
+        <div class="gc_list">
+          <if condition="$index_list">
+            <ul class="fW100_ul">
+              <volist name="index_list" id="vo">
+                <li class="lineD_btm" style="padding:10px 0px">
+                  <div class="group_pic"><a href="{:U('group/Group/index', array('gid'=>$vo['group_info']['id']))}"><img src="__ROOT__/thumb.php?w=60&h=60&t=f&url={$vo['group_info']['logo']|get_photo_url}"></a></div>
+                  <div style=" margin-left:75px;">
+                    <h3 class="lh20 mb5"> <span class="right"> <a href="{:U('group/Group/index', array('gid'=>$vo['group_info']['id']))}">今日微博({$vo['new_weibo_count']|intval})</a> <span class="cGray2">|</span> <a href="{:U('group/Topic/index', array('gid'=>$vo['group_info']['id']))}">新帖({$vo['new_topic_count']|intval})</a> <span class="cGray2">|</span> <a href="{:U('group/Dir/index', array('gid'=>$vo['group_info']['id']))}">新文档({$vo['new_file_count']|intval})</a> <span class="cGray2">|</span> <a href="{:U('group/Member/index', array('gid'=>$vo['group_info']['id'],'order'=>'new'))}">新成员({$vo['new_member_count']|intval})</a> </span> <a href="{:U('group/Group/index', array('gid'=>$vo['group_info']['id']))}"><strong>{$vo['group_info']['name']}</strong></a> <span class="cGray2">成员 ({$vo['group_info']['membercount']})</span> </h3>
+                    <if condition="$vo['weibo_list']">
+                      <ul>
+                        <volist name="vo['weibo_list']" id="_weibo">
+                          <li class="mb10">
+                            <div> <em class="right lh20">{$_weibo['ctime']|friendlyDate=###,'mohu'}</em>
+                              <space uid="_weibo['uid']" target="_blank" class="alM mr10 dispayIB">{uavatar=s}</space>
+                              <space uid="_weibo['uid']" class="fn" target="_blank">{uname}</space>
+                              ： <a href="{:U('group/Group/index', array('gid'=>$vo['group_info']['id']))}#weibo{$_weibo['weibo_id']}" class="cGray">{$_weibo['content']|getShort=###,18}</a> </div>
+                          </li>
+                        </volist>
+                      </ul>
+                      <else />
+                      <div class="cGray lh35" >群还没人发微博呢…… </div>
+                    </if>
+                  </div>
+                  
+                </li>
+              </volist>
+            </ul>
+            <else />
+            <div class="cGray lh35" >群还没人发微博呢…… </div>
+          </if>
+        </div>
+        <!--按群组查看内容 end-->
+        <php>}else{</php>
+        <php>if($byCtime){</php>
+          <div class="MenuSub"> <a href="{:U('group/Index/message',array('order'=>'group'))}">按群组查看</a> | <a href="{:U('group/Index/message',array('order'=>'ctime'))}" class="on">按时间查看</a> </div>
+        <php>}</php>
+        
+        <!--按时间查看内容 begin-->
+        <div class="feedBox">
+          <ul class="feed_list" id="feed_list">
+            <volist name="index_list['data']" id="vo">
+              <li class="lineD_btm" style="padding:10px 0px" id="list_li_{$vo.id}">
+                <div class="userPic">
+                  <space uid="vo.uid" >{uavatar}</space>
+                </div>
+                <div class="feed_c">
+                  <div class="msgCnt"><a name="weibo{$vo.id}"></a>
+                    <space uid="vo.uid" >{uname}</space>
+                    {$vo.uid|getUserGroupIcon}：{$vo.content|group_weibo_format=###,$vo['gid'],true}</div>
+                  <php>if( $vo['transpond_id'] ){</php>
+                  <php>if($vo['expend']){</php>
+                  <div class="feed_quote"> <img class="q_ico_arrow" src="__THEME__/images/zw_img.gif" />
+                    <div class="q_tit"><img class="q_tit_l" src="__THEME__/images/zw_img.gif" /></div>
+                    <div class="q_con">
+                      <space uid="vo.expend.uid" class="null" >@{uname}</space>
+                      ：{$vo.expend.content|group_weibo_format=###,$vo['expend']['gid'],true} <a href="{:U('group/Group/detail',array('gid'=>$vo['expend']['gid'],'id'=>$vo['expend']['id']))}">原文转发({$vo.expend.transpond}</a>)&nbsp;|&nbsp;<a href="{:U('group/Group/detail',array('gid'=>$vo['expend']['gid'],'id'=>$vo['expend']['id']))}">原文评论({$vo.expend.comment})</a> {$vo.expend.expend} </div>
+                    <div class="q_btm"><img class="q_btm_l" src="__THEME__/images/zw_img.gif" /></div>
+                  </div>
+                  <php>}else{</php>
+                  <div class="feed_quote"> <img class="q_ico_arrow" src="__THEME__/images/zw_img.gif" />
+                    <div class="q_tit"><img class="q_tit_l" src="__THEME__/images/zw_img.gif" /></div>
+                    <div class="q_con">此微博已被原作者删除</div>
+                    <div class="q_btm"><img class="q_btm_l" src="__THEME__/images/zw_img.gif" /></div>
+                  </div>
+                  <php>}</php>
+                  <php>}else{</php>
+                  {$vo.expend}
+                  <php>}</php>
+                  <div class="feed_c_btm"> <span class="right">
+                    <php>if( $vo['uid'] == $mid ){</php>
+                    <a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条微博?')" callback="weibo.deleted({$vo.id}, {$vo.gid})">删除</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <php>}</php>
+                    <a href="javascript:void(0)" onclick="weibo.transpond({$vo.id}, {$vo.gid})">转发({$vo.transpond})</a>&nbsp;&nbsp;|&nbsp;&nbsp; <a href="javascript:void(0)" onclick="weibo.share({$vo.id}, {$vo.gid})">分享</a>&nbsp;&nbsp;|&nbsp;&nbsp; <a href="javascript:void(0)" rel="comment" minid="{$vo.id}" groupid="{$vo.gid}">评论({$vo.comment})</a> </span> <cite> <a href="{:U('group/Group/detail',array('gid'=>$vo['gid'],'id'=>$vo['id']))}">{$vo.ctime|friendlyDate}</a></cite> 来自 <cite><a href="{:U('group/Group/index', array('gid'=>$vo['gid']))}">{$group_names[$vo['gid']]}</a></cite> </div>
+                  <div id="comment_list_{$vo.id}" style=""></div>
+                </div>
+              </li>
+            </volist>
+          </ul>
+          <p class="page">{$index_list.html}</p>
+        </div>
+        <div class="c"></div>
+      </div>
+    </div>
+    <!--按时间查看内容 end -->
+    <php>}</php>
+  </div>
+  <div class="c"></div>
+</div>
+</div>
+</div>
+<!-- 右侧内容 end  -->
+</div>
+<!-- 内容 end --> 
+
+<include file="__THEME__/footer" />

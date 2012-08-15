@@ -1,0 +1,121 @@
+
+<div class="so_main">
+
+<div class="form2">
+	
+		<span>自定义排行榜：</span>
+		<span>
+		<a href="javascript:void(0);" onclick="upstatus('{$vo.id}')" >开启</a> | 
+		<a href="javascript:void(0);" onclick="stopstatus('{$vo.id}')" >关闭</a>
+		</span>
+	<div class="list">
+	
+        <table  width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+          	<th style="width:30px;">
+                <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                <label for="checkbox"></label>
+            </th>
+            <th>ID</th>
+            <th>名称</th>
+            <th>时间</th>
+            <th>状态</th>
+            <th>操作</th>
+          </tr>
+          <volist name="list" id="vo">
+          <tr id="list_{$vo.id}">
+          	<td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+            <td>{$vo.id}</td>
+            <td>{$vo.name}</td>
+            <td>{$vo.cTime|date="Y-m-d H:i:s",###}</td>
+            <php>if($vo['status'] == 0){</php><td><span>未启用</span></td><php>}else{</php><td><span>启用</span></td><php>}</php>
+            <td>
+                <a href="{:Addons::adminUrl('editDefine',array('id'=>$vo['id']))}" >编辑</a>
+                <a href="javascript:void(0);" onclick="del('{$vo.id}')">删除</a>
+             </td>
+          </tr>
+          </volist>
+        </table>
+    </div>
+</div>
+</div>
+<script>
+function checkon(o){
+    if( o.checked == true ){
+        $(o).parents('tr').addClass('bg_on') ;
+    }else{
+        $(o).parents('tr').removeClass('bg_on') ;
+    }
+}
+function checkAll(o){
+    if( o.checked == true ){
+        $('input[name="checkbox"]').attr('checked','true');
+        $('tr[overstyle="on"]').addClass("bg_on");
+    }else{
+        $('input[name="checkbox"]').removeAttr('checked');
+        $('tr[overstyle="on"]').removeClass("bg_on");
+    }
+}
+</script>
+
+<script>
+function getChecked() {
+    var ids = new Array();
+    $.each($('table input:checked'), function(i, n){
+        ids.push( $(n).val() );
+    });
+    return ids;
+}
+function upstatus(id){
+    var id = id ? id : getChecked();
+    id = id.toString();
+    if(id=='' || id==0){
+    	ui.error("请选择要起开启的排行榜！");return false;
+    } 
+    if( confirm("确认开启所选排行榜？") ){
+      $.post( '{:Addons::adminUrl('upStatus')}',{id:id},function(text){
+          if( text == 1 ){
+              ui.success( "多个排行榜状态开启成功" );
+              window.location.reload(true);
+          }else if( text == 2 ){
+              ui.success( "单个排行榜开启成功" );
+              window.location.reload(true);
+          }else{
+              ui.error( "开启失败" );
+          }
+      });
+    }
+}
+function stopstatus(id){
+	var id = id ? id : getChecked();
+    id = id.toString();
+    if(id=='' || id==0){
+    	ui.error("请选择要起关闭的排行榜！");return false;
+    } 
+    if( confirm("确认关闭所选排行榜？") ){
+      $.post( '{:Addons::adminUrl('stopStatus')}',{id:id},function(text){
+          if( text == 1 ){
+              ui.success( "多个排行榜状态关闭成功" );
+              window.location.reload(true);
+          }else if( text == 2 ){
+              ui.success( "单个排行榜关闭成功" );
+              window.location.reload(true);
+          }else{
+              ui.error( "关闭失败" );
+          }
+      });
+    }	
+}
+function del(id){
+	if(confirm("是否删除此信息？") ){
+		 $.post( '{:Addons::adminUrl('doDelete')}',{id:id},function(date){
+			 if(date !== ''){
+			 	ui.success( "删除成功" );
+			  	window.location.reload(true);
+	      	}else{
+	    	  ui.error( "删除失败" );
+	      }
+		 })
+	}
+}
+</script>

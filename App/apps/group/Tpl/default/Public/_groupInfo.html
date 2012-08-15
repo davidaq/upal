@@ -1,0 +1,45 @@
+<div class="mainbox_appR">
+      <!--文涛修改-群公告<div class="right_box">
+      <h2>
+          <php>if ($isadmin) {</php>
+          <span class="right f12px"><a href="{:U('group/Manage/announce', array('gid'=>$gid))}">修改</a></span>
+          <php>}</php>
+          群公告
+      </h2>
+      <p style="word-break:break-all">{$groupinfo['announce']}</p>
+      <if condition="$isadmin">
+      </if>
+    </div>-->
+    <div class="groupInfo">
+      <h2 class="pub_line">群信息</h2>
+      <ul class="topic_list pub_line" style="padding:10px 0">
+        <li><span class="topic_list_tit">创建者：</span><space uid="groupinfo['uid']" class="fn" target="_blank">{uname}</space></li>
+        <li><span class="topic_list_tit">创建时间：</span>{$groupinfo['ctime']|friendlyDate=###,'ymd'}</li>
+        <li><span class="topic_list_tit">群分类：</span>{$groupinfo['path']}</li>
+        <li><span class="topic_list_tit">群状态：</span>{$groupinfo['type_name']}</li>
+        <li><span class="topic_list_tit">群标签：</span><volist name="groupinfo['tags']" id="tag"><a href="{:U('group/Index/search', array('k'=>urlencode($tag['tag_name'])))}">{$tag['tag_name']}</a>&nbsp;</volist></li>
+      </ul>
+    </div>
+    <div class="mod_hot_topic">
+      <h2>群内热议话题</h2>
+      <ul class="topic_list">
+      <volist name="hot_weibo_topic_list" id="weibo_topic">
+        <li><a href="{:U('group/Group/search', array('gid'=>$gid,'k'=>urlencode('#' . $weibo_topic['name'] . '#')))}" title="{$weibo_topic['name']}">{$weibo_topic['name']}({$weibo_topic['count']})</a></li>
+      </volist>    
+      </ul>
+    </div>
+    <div class="mod_join">
+    <h2>最新加入</h2>
+    <ul>
+    <volist name="new_member_list" id="new_member">      
+    <li style="height:70px;">
+         <div class="userPic"><space uid="new_member['uid']" target="_blank">{uavatar=m}</space></div>
+         <div style="margin-left:60px">
+            <p><space uid="new_member['uid']" class="fn" target="_blank">{uname}</space></p>
+          	<p class="cGray2">{$new_member['ctime']|date="Y-m-d H:i:s",###}</p>
+          </div>
+     </li>
+     </volist>
+     </ul>
+        </div>
+      </div>

@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>微博秀</title>
+<script type="text/javascript">
+	var _UID_   = '{$uid}';
+	var _MID_   = '{$mid}';
+	var _ROOT_  = '__ROOT__';
+	var _THEME_ = '__THEME__';
+	var _PUBLIC_ = '__PUBLIC__';
+	var _LENGTH_ = {$GLOBALS['ts']['site']['length']};
+	var $CONFIG = {
+	    $uid  : "{$uid}"
+	};
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="../Public/js/weiboshow.wall.js"></script>
+<link href="__THEME__/public.css?20110429" rel="stylesheet" type="text/css" />
+<link href="__THEME__/layout.css?20110429" rel="stylesheet" type="text/css" />
+<link href="__THEME__/main.css?20110429" rel="stylesheet" type="text/css" />
+<link href="../Public/css/weiboshow.css?20111205" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="weibo_show_con" class="tblog_wrap {$style['skin']}" style="height:{$style['height']}px;"><!-- 宽度这里控制 -->
+    <b class="wrap_top"></b>
+    <div class="tblog_main" style="height:{:$style['height'] - 12}px;"><!-- 高度这里控制 -->
+        <!-- 标题栏 -->
+	    <!-- 如不显示标题栏，将这段删除 -->         
+	    <div id="weibo_title" class="tblog_header" >
+	        <h1>
+	        	<a href="{:U('home/Index/index')}" class="title" target="_blank">{$ts['site']['site_name']}</a>
+	        </h1>
+        </div>
+        <!-- 标题栏 -->
+        <!-- 个人信息栏 -->
+        <div class="fans_top" id="weibo_head">
+            <div class="fansphoto"><space uid="uid" target="_blank">{uavatar}</space></div>
+	        <ul>
+	            <li><space uid="uid" target="_blank">{uname}</space> <span class="gray9">{$user['location']}</span></li>
+	            <li class="btn">
+					<div id="follow_list_{$uid}" >
+						<script>document.write(followState('{:getFollowState($mid, $uid)}','dolistfollow',{$uid}))</script>
+					</div>
+				</li>
+            </ul>
+        </div>         
+        <div class="blog_list" id="weibo_con" >
+        	<!-- 游标上箭头 -->
+            <a href="javascript:;" id="weibo_upbtn" class="bg_arrow arrow_up"
+              ><img height="4" width="8" src="__THEME__/apps/home/Public/images/transparent.gif" class="arrow" title="" style="display:none"
+            ></a>
+            <!-- 游标上箭头 --> 
+            <div class="list_wrap" id="weibo_list_con">
+                <ul id="weibo_list">
+				  <volist name="weibolist" id="weibo">
+                	<li gosrc="{:U('home/Space/detail',array('id'=>$weibo['weibo_id']))}">
+	                    <dl>
+		                    <dd class="msg">
+			                    <a href="{:U('home/Space/detail',array('id'=>$weibo['weibo_id']))}" target="_blank"></a>
+			                    <span class="mbTxtB" >
+			                    	{$weibo['content']|getShort=###,140,'...'}
+				                    <php>
+									if(1 == $weibo['type']) {
+									if(isset($weibo['type_data']['picurl'])){
+									</php>
+								        <br /><img src="{$weibo['type_data']['thumburl']}" width="100" />
+								    <php>
+									}else{
+										foreach($weibo['type_data'] as $data){
+										</php>
+								        <br /><img src="{$data['thumburl']}" width="100" />
+								        <php>
+										}
+									}
+									}
+									</php>
+				                    <php>if ($weibo['transpond_id'] > 0) {</php>
+				                    [转发] {$weibo['transpond_data']['content']|getShort=###,140,'...'}
+				                      <php>
+									  if(1 == $weibo['transpond_data']['type']) {
+									   if(isset($weibo['transpond_data']['type_data']['picurl'])){
+									  </php>
+								        <br /><img src="{$weibo['transpond_data']['type_data']['thumburl']}" width="100" />
+								      <php>
+										}else{
+										foreach($weibo['transpond_data']['type_data'] as $data){
+										</php>
+								        <br /><img src="{$data['thumburl']}" width="100" />
+								        <php>
+										}
+										}
+									   }
+									  </php>
+				                    <php>}</php>
+                    			</span>
+		                    </dd>
+		                    <dd>
+		                        <p class="wbLinkC"><a href="{:U('home/Space/detail',array('id'=>$weibo['weibo_id']))}" target="_blank" >{$weibo['ctime']}</a></p>
+		                        <span class="act wbLinkB">
+		                            <a href="{:U('home/Space/detail',array('id'=>$weibo['weibo_id']))}" target="_blank">转发({$weibo['transpond']})</a>
+		                            <em>|</em>
+		                            <a href="{:U('home/Space/detail',array('id'=>$weibo['weibo_id']))}" target="_blank">评论({$weibo['comment']})</a>
+		                        </span>
+		                    </dd>
+	                    </dl>
+	                </li>
+	              </volist>
+				</ul>								
+            </div> 
+            <!-- 游标下箭头 -->
+            <a href="javascript:;" id="weibo_downbtn" class="bg_arrow arrow_down"
+              ><img height="4" width="8" src="__THEME__/apps/home/Public/images/transparent.gif" class="arrow" title="" style="display:none"
+            ></a>
+        	<!-- 游标下箭头 -->
+        </div>
+        <!-- /日志内容列表 -->
+        <!-- 微博粉丝列表 -->
+        <div class="fans_list" id="fans_list_con">
+            <h4>
+                <span>TA 的粉丝(<em><strong>{$follower.totalRows}</strong>人</em>)</span>
+                <a href="{:U('home/Space/follow', array('type'=>'follower','uid'=>$uid))}" class="all" target="_blank">全部&gt;&gt;</a>
+            </h4>
+            <ul>
+              <volist name="follower.data" id="f">
+	            <li><space uid="f.fid" class="pic" target="_blank">{uavatar}</space><space uid="f.fid" class="name" target="_blank">{uname}</space></li>
+              </volist>
+            </ul>
+        </div>
+        <!-- /微博粉丝列表 -->
+            </div>
+    <b class="wrap_bottom"></b>
+</div>
+</body>
+</html>

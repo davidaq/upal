@@ -1,0 +1,19 @@
+@charset "utf-8";
+/*-----------超链接样式-------------------------------------------
+ 说明: 伪类:link :visited :hover分别代表超链接的通常、被访问后、和鼠标接触链接是的样式
+ a标签代表通用超链接样式
+------------------------------------------------------------ */
+/*链接样式*/
+/*链接样式*/
+a:link {color:#3B5998;text-decoration:none }
+a:visited {color:#3B5998;text-decoration:none }
+a:active {color:#3B5998 }
+
+.cWhite, .cWhite:visited, a.cWhite {color:#fff }
+.cYellow, .cYellow:visited {color:#ff0 }
+.cGray, .cGray:visited, a.cGray {color:#7F7F7F }
+.cGray2, .cGray2:visited, a.cGray2 {color:#999; }
+.cBlack, .cBlack:visited, a.cBlack {color:#000 }
+.cBlue, .cBlue:visited, a.cBlue {color:#3488AD }
+.cRed, .cRed:visited, a.cRed {color:#b85b00 }
+.cGreen, a.cGreen:link, a.cGreen:visited {color:#008000}

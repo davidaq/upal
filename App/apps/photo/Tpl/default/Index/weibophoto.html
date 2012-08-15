@@ -1,0 +1,236 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('weibo/Plugins/init')}"></script>
+<link href="../Public/css/photo.css" rel="stylesheet" type="text/css" />
+<link href="../Public/css/mark_photo.css" rel="stylesheet" type="text/css" />
+<style>
+#imgslide img{ width:550px;}
+#pre{display:block; float:left; height:100%; background:#003366;filter:Alpha(Opacity=0);opacity:0; z-index:2; width:330px;  cursor:url(../Public/images/pre.cur),auto; }
+#next{z-index:2; display:block; float:left; background:#00CC99;filter:Alpha(Opacity=0);opacity:0; height:100%; width:330px; float:left; cursor:url(../Public/images/next.cur), auto;}
+.xhbsjy_left_centent h1{float:left;}
+</style>
+{* 修改所有地址 *}
+<script type="text/javascript">
+	var photo_id		=	'{$photo.id}';
+	var photo_name		=	'{$photo.name}';
+	var album_id		=	'{$album.id}';
+	var now_index_id	=	'{$now}';
+	var uid				=	'{$uid}';
+	var now_play		=	'{$play}';
+	var nextid          =   '{$next.id}';
+	var APPNAME         =   '{$ts.app.app_alias}';
+	/**
+	//载入大图
+	$(document).ready(function(){
+		//大图预载
+		var maxWidth	=	700; // 最大宽度700
+		var image_url	=	"__ROOT__/thumb.php?w=700&h=700&t=f&url={$photo.savepath|get_photo_url}";
+		image			=	new Image();
+		image.onload	=	function(){
+			$('#big_pic').attr('src',image_url);
+			if(	$('#big_pic').attr('width') > 700 ){
+				$('#big_pic').css('width','700px');
+			}
+		}
+		image.src		=	image_url;
+	});
+	**/
+</script>
+<script type="text/javascript" src="../Public/js/drag_sort.js"></script>
+<script type="text/javascript" src="../Public/js/photo.js"></script>
+<div class="content no_bg">
+<include file="../Public/_mainNav" />
+  <div class="main no_l">
+    <div class="mainbox">
+      <include file="../Public/_isHotList" />
+      <a name="show_pic" id="show_pic"></a>
+      <div class="mainbox_appC">
+		<div class="person_info"> <!-- page_title begin -->
+			<div class="userPic">
+				<a href="{:U('home/Space/index',array(uid=>$uid))}"><img src="{$uid|getUserFace}" /></a>
+			</div>
+			<div  style="padding-left:70px;">
+				<h2><a href="{:U('home/Space/index',array(uid=>$uid))}">{$userName}</a>的微博照片</h2>
+				<p><em>时间：{$photo.uploadTime|friendlyDate}</em></p>
+    			<p><a href="{:U('/Index/weiboalbum',array('uid'=>$uid))}" title="返回微博相册">返回微博相册</a></p>
+			</div>
+		</div><!-- page_title end -->
+		<div class="lineS_btm lh30 mLR15" style="height:30px;">
+			<div class="right">
+			<if condition="$photo['userId'] eq $mid">
+			<!-- <div>
+				<div class="left mr10"><a href="javascript:dbrotate(-1);">左旋 <img alt="左旋" src="../Public/images/xz_l.gif" align="absmiddle" /></a></div>
+				<div class="left"><a href="javascript:dbrotate(1);"><img alt="右旋" src="../Public/images/xz_r.gif" align="absmiddle" /> 右旋 </a></div>
+			</div> -->
+			</if> 
+			<a href="{*UPLOAD_URL}/{$photo.savepath}{$photo.savename}" target="_blank"><span class="ico_Preview"></span>查看原图</a>
+          	<if condition="$photo['privacy'] eq 1">            
+			{:W('Weibo',array('tpl_name'=>'photo_share_weibo','button_title'=>'分享'))}
+            <php>
+                $tpl_data = array('author'=>getUserName($photo['userId']),'title'=>$photo['name'],'url'=>U('photo/Index/weibophoto',array('id'=>$photo['id'],'aid'=>$photo['albumId'],'uid'=>$photo['userId'])),'type'=>1,'type_data'=>$photo['savepath']);
+                $tpl_data = urlencode(serialize($tpl_data));
+       		</php>
+			<input type="button" value="分享" class="BtnShare" onclick="_widget_weibo_start('', '{$tpl_data}');" id="BtnShare_{$photo.id}"/>
+            </if>
+			</div>
+            <span class="photo_tit"><strong>{$album.name}</strong></span>
+			<span>（第<span class="cRed">{$now}</span> / <span class="cRed">{$photoCount}</span>张）</span>
+			</div>
+	<div class="photoBox">
+		<div class="view">
+			<!-- 滚动小图 -->
+			<div class="c2">
+              <ul>
+				<volist name="previews" id="p">
+				<li><a href="{:U('photo/Index/weibophoto', array('id'=>$p['id'], 'uid'=>$p['userId']))}#show_pic"><img src="__ROOT__/thumb.php?w=50&h=50&url={*UPLOAD_URL}/{$p.savepath}small_{$p.savename}" <if condition=" $p[id] eq  $photo[id]">style="border:solid 2px #0000ff;"</if> /></a></li>
+				</volist>
+              <ul>
+			</div>
+			
+			<!-- 主图 -->
+			<div class="c1" >
+				<div class="alC" id="big_photo" style="position:relative">
+                	<h1 style="float:none">
+                	<php>$photoUrl = $photo['savepath'].'middle_'.$photo['savename'];</php>
+                	<img onload="$('#pre').css('height',this.height);$('#next').css('height',this.height);" src="__ROOT__/thumb.php?w=560&h=560&t=f&url={$photoUrl|get_photo_url}" pid="{$photo.id}" rel="{$photo.id}" id="big_pic" />
+                	<span id="pre" onclick="rollPic({$pre.id},{$uid});" style="height:50px;position:absolute;top:0;left:0">上一张</span>
+                    <span id="next" onclick="rollPic({$next.id},{$uid});" style="height:50px;position:absolute;right:0;top:0">下一张</span>
+                	</h1>
+                   
+                    <br /><span class="lh30 cGray photoName">{$photo.name}</span>
+					<br /><span class="lh30 cGray photoName">来自{$weibo.uid|getUserSpace}的微博: {$weibo.content}</span>
+                </div>
+			</div>
+			
+             <div class="clear" style="height:10px;"></div>
+		</div>
+		<div class="viewRC">
+		<div class="c1">
+			<php>if ($mid <= 0) {</php> 
+				  <div class="message"><div style="margin:5px"><a href="{:U('home')}" target="_blank">登录</a>后方可发表评论</div></div>  
+			<php>} else if ($privacy['weibo_comment']){</php>   
+				  <form action="{:U('weibo/Operate/addcomment')}" method="post" callback="addDetailComment" rel="miniblog_comment">
+				  <input type="hidden" name="weibo_id" value="{$weibo.weibo_id}">
+				  <input type="hidden" name="reply_comment_id" id="replyid_{$weibo.weibo_id}">	  	
+				  <div class="message">
+							<h2><em>共{$comment.count}条</em>评论</h2>
+							<div style="margin:5px"><textarea class="message_text" id="comment_{$weibo.weibo_id}" style="width:99%;" name="comment_content" cols="" rows=""></textarea></div>
+							<div style="margin:5px; height:24px;">
+								<input type="submit" class="N_but right" value="确定">
+								<span><a class="faceicon1" href="javascript:void(0)" onclick="ui.emotions(this)" target_set="comment_{$weibo.weibo_id}"></a></span>
+								<span><label><input type="checkbox" value="1" name="transpond"> 同时发一条微博</label></span>
+								<if condition="$weibo['transpond_id']">
+								  <br /><span style="margin-left:35px;"><label><input name="transpond_weibo_id" type="checkbox" value="{$weibo['transpond_id']}" />同时评论给原文作者</label>
+								</if>{:Addons::hook('weibo_comment_box_bottom', array($uid))}
+							</div>
+						</div> 
+				  </form>
+			<php>} else {</php>
+				  <div class="message"><div style="margin:5px">您没有权限评论此微博</div></div>
+			<php>}</php>
+
+				  <div class="feedBox"> 
+					<ul class="feed_list">
+
+			<volist id="vo" name="comment['data']">
+					   <li class="lineD_btm">
+						  <div class="userPic"><space uid="vo.uid">{uavatar}</space></div>
+						  <div class="feed_c" style="margin-left:65px">
+							<div class="msgCnt" style="padding-bottom:0; font-size:12px;"><space uid="vo.uid">{uname}</space>{$vo.uid|getUserGroupIcon}<em> {$vo.ctime|date='m月d日 H:i',###}</em>
+							</div>
+							<div class="feed_c_btm"> 
+								<span class="right">
+									<php>if ($mid > 0 && ($vo['uid'] == $mid || $weibo['uid'] == $mid)) {</php>
+									<a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条评论?')" callback="doDelComment({$vo.comment_id})">删除</a> |
+									<php>}</php>
+									
+									<php>if($mid > 0 && $privacy['weibo_comment']){</php> 
+										<a href="javascript:void(0)" onclick="reply('{$vo.uid|getUserName}',{$vo.comment_id})">回复</a>
+									 <php>}</php>
+								</span> {$vo.content|formatComment=true}
+							</div>
+						  </div>
+						</li>
+			</volist>
+
+					</ul>
+				  </div>
+				  <div class="page">{$comment.html}</div>
+				  <div class="c"></div>
+
+		</div>
+      </div>
+	</div>
+     <div class="clear"></div>
+  </div>
+  <div class="c"></div>
+  </div>
+</div>
+</div>
+ <script>
+ 
+ $(document).ready(function(){
+    <php>if ($mid > 0) {</php>
+	    $("#comment_{$weibo.weibo_id}").keyup(function(event){
+			if(event.keyCode==32 || event.keyCode==8 || event.keyCode==13){
+				checkInputLength(this, _LENGTH_);
+			}
+		}).keypress(function(){
+			checkInputLength(this, _LENGTH_);
+		}).blur(function(){
+			checkInputLength(this, _LENGTH_);
+		}).keydown(function(){
+			checkInputLength(this, _LENGTH_);
+		}).keyup(function(){
+			checkInputLength(this, _LENGTH_);
+		});
+
+	    shortcut('ctrl+return',	function(){ $("form[rel='miniblog_comment']").submit();},{'target':'comment_<?php echo $weibo['weibo_id']; ?>'});
+    <php>}</php>
+ });
+ 
+ 
+ function checkInputLength(obj,num){
+	 	var $obj = $(obj);
+		var str  = $obj.val();  
+		var len  = getLength(str);
+		if( len > num ){
+			$obj.val(subStr(str, num));
+		}
+}
+ 
+ function reply( name,id){
+	$("#comment_{$weibo.weibo_id}").val( '回复@'+name+' : ' ).focus();
+	$("#replyid_{$weibo.weibo_id}").val(id);
+	
+	var textArea = document.getElementById("comment_{$weibo.weibo_id}");
+	var strlength = textArea.value.length;
+	if (document.selection) { //IE
+		 var rng = textArea.createTextRange();
+		 rng.collapse(true);
+		 rng.moveStart("character",strlength)
+	}else if (textArea.selectionStart || (textArea.selectionStart == '0')) { // Mozilla/Netscape…
+		textArea.selectionStart = strlength;
+		textArea.selectionEnd = strlength;
+	}		
+}
+
+function addDetailComment(txt){
+	ui.success('回复成功');
+	setTimeout("location.reload()",1000);
+}
+
+//删除某条回复
+function doDelComment(id){
+	$.post( U('weibo/operate/docomments') , {id:id} ,function(txt){
+		ui.success('删除成功');
+		setTimeout("location.reload()",1000);
+	});
+}
+
+function rollPic(id,uid){
+	window.location.href=U('photo/Index/weibophoto&id='+id+'&uid='+uid+'#show_pic');
+}
+</script>
+
+<include file="__THEME__/footer" />

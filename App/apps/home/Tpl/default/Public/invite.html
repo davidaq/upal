@@ -1,0 +1,49 @@
+<include file="__THEME__/header" />
+<div class="content_holder">
+<div class="content">
+	<!-- 内容 begin  -->
+	<include file="__THEME__/apps" />
+	<div class="main">
+		<!-- 画布 begin  -->
+		<div class="left" style="width:510px;">
+			<div class="left" style="width:120px;">
+				<span class="headpic100"><a href="#"><img src="{$invite['fromuid']|getUserFace='middle'}" /></a></span>
+				<div class="alC lh30">{$invite['fromuid']|getUserName}</div>
+			</div>
+			<div class="left" style=" margin:0 0 0 10px;width:380px;">
+				<div class="border" style="padding:10px;">
+					<div class="info"><strong>{$template['title']}</strong>
+						
+						<p>{$template['body']}</p>
+						
+					</div>
+				</div>
+				<div class="mt10">
+					<input type="button" class="btn_b" value="注册加入" onclick="window.location.href='{:U('home/Public/register',array('validationid'=>$invite['validationid'],'validationcode'=>$invite['code']))}'" />
+				</div>
+			</div>
+		</div>
+		<div class="cr">
+			<!-- cr begin  -->
+			<div class="UserList">
+				<div class="tit">已有{$totalRows}位好友</div>
+				<div class="ListBox">
+					<ul>
+						<volist name="data" id="vo">
+						<a href="#">
+						<li> <span><img src="{$vo['id']|getUserFace}" /></span>
+							<div>{$vo['funame']}</div>
+						</li>
+						</a>
+						</volist>
+					</ul>
+				</div>
+				<div class="btm"></div>
+			</div>
+		</div>
+		<div class="c"></div>
+	</div>
+	<div class="c"></div>
+</div>
+</div>
+<include file="__THEME__/footer" /> 

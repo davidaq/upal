@@ -1,0 +1,58 @@
+<include file="../Public/header_detail" />
+<div class="dta_tit">
+	<span class="icon_jian" style="margin:20px 10px 0 0; "></span>
+	<div class="dta_tit_b"></div>
+	<div class="userPic"><img align="absmiddle" src="{$weibo['uid']|getUserFace='s'}"  /></div>
+	<a href="{:U('w3g/Index/weibo',array('uid'=>$weibo['uid']))}"><div class="dta_tit_f"> {$weibo['uname']}</div></a>
+</div>
+
+
+<div class="dta">
+    <div class="dta_con">
+        <div>{$weibo['content']}</div>
+    <php>if($weibo['type']==1) {</php>
+        <div><a href="{:U('w3g/Index/image',array('weibo_id'=>$weibo['weibo_id']))}"><img src="{$weibo['type_data']['thumburl']}" width="100" /></a></div>
+    <php>}</php>
+</div>
+</div>	
+
+<php>if ($weibo['transpond_id'] != 0) {</php>
+<!-- 转发 -->
+<php>$forward = $weibo['transpond_data'];</php>
+<div class="feed_quote" style="border-left:2px solid #ccc;background:#f1f1f1;padding:5px;margin:5px;"> 
+<a href="{:U('w3g/Index/weibo',array('uid'=>$forward['uid']))}">@{$forward['uname']}</a>：{$forward['content']}
+<br />
+<php>if($forward['type']==1) {</php>
+<a href="{:U('w3g/Index/image',array('weibo_id'=>$weibo['weibo_id']))}"><img src="{$forward['type_data']['thumburl']}" width="100" /></a>
+<php>}</php>
+</div>
+<php>}</php>
+
+<div class=" con_forum pb5 ml10"> 来自 {$from_type[$weibo['from']]}</div>
+<div class="alC mb10">
+<span class="cont_btn mr10"> <a class="as_h" href="{:U('w3g/Index/forward', array('weibo_id'=>$weibo['weibo_id']))}">{$weibo['transpond']}</a> </span>
+<span class="cont_btn"> <a class="as_z" href="{:U('w3g/Index/comment',array('weibo_id'=>$weibo['weibo_id'],'uid'=>$weibo['uid']))}">{$weibo['comment']}</a> </span>
+</div>
+
+<volist name="comment" id="vo">
+<hr></hr>
+<div class="dta">
+<div class="dta_con dta_con_name"><div><span class="R" style="color:#666; font-weight:normal; font-size:11px;">{$vo['ctime']}</span><a  href="{:U('w3g/Index/weibo',array('uid'=>$vo['uid']))}">{$vo['uname']}</a></div>
+<div class="dta_con_h">{$vo['content']}</div>
+</div>
+</div>
+
+</volist>
+<div>
+    <php>
+        $has_pre   = $page > 1;
+        $has_after = count($comment) >= $item_count;
+    </php>
+    <php>if($has_pre) {</php>
+    <a href="{:U('w3g/Index/detail',array('weibo_id'=>$weibo['weibo_id'],'page'=>$page-1))}" data-icon="arrow-l" data-role="button">上一页</a>
+    <php>}</php> 
+    <php>if($has_after) {</php>
+    <a href="{:U('w3g/Index/detail',array('weibo_id'=>$weibo['weibo_id'],'page'=>$page+1))}" data-icon="arrow-r" data-role="button">下一页</a>
+    <php>}</php>
+</div>
+<include file="../Public/footer" />

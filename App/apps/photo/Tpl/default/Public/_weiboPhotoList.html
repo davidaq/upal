@@ -1,0 +1,16 @@
+<script>
+	var photo_preview = '{$photo_preview}';
+</script>
+<div class="photoBox">
+  <ul class="piclist">
+    <volist name="photos.data" id="li">
+      <li>
+        <dl>
+          <dt><a href="{:U('photo/Index/weibophoto',array(id=>$li['id'],uid=>$li['userId']))}#show_pic" rel="{*UPLOAD_URL}/{$li.savepath}middle_{$li.savename}"  class="preview" ><img src="{*UPLOAD_URL}/{$li.savepath}small_{$li.savename}" /><br />
+          {$li.name|getShort='10'}</a> </dt>
+        </dl>
+      </li>
+    </volist>
+  </ul>
+</div>
+<div class="page">{$photos['html']}</div>

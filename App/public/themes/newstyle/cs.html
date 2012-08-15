@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="layout.css" rel="stylesheet" type="text/css" />
+<link href="http://www.qiniao.com/tsweb/apps/group/Tpl/default/Public/group.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div class="search_log">
+	  <div class="search_log_box">
+	  	<div class="c1">搜索话题：</div>
+		<div class="c2 alL">
+			<input type="text" class="text" id="title" onFocus="this.className='text2'" onBlur="this.className='text'" size="40" name="keywords" value="{$keywords}"/>
+			<input type="hidden" name="searchSubmit" value="1">
+			<input type="submit" value="搜索"  class="btn_b"/><br /><input value="cort" name="type" type="radio" <eq name="type" value="cort">checked</eq> />标题或内容  
+			<input name="type" type="radio" value="name" <eq name="type" value="name">checked</eq> />作者</div>
+	  </div>
+      </div>
+</body>
+</html>

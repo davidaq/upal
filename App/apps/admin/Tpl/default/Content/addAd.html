@@ -1,0 +1,194 @@
+<include file="../Public/_header" />
+
+<!-- 编辑器样式文件 -->
+<link href="__PUBLIC__/js/editor/editor/theme/base-min.css" rel="stylesheet"/>
+<!--[if lt IE 8]>
+<link href="__PUBLIC__/js/editor/editor/theme/cool/editor-pkg-sprite-min.css" rel="stylesheet"/>
+<![endif]-->
+<!--[if gte IE 8]><!-->
+<link href="__PUBLIC__/js/editor/editor/theme/cool/editor-pkg-min-datauri.css" rel="stylesheet"/>
+<!--<![endif]-->
+
+<include file="__THEME__/editor" />
+
+<div class="so_main">
+  <div id="editTpl_div">
+  	<div class="page_tit"><eq name="type" value="edit">编辑<else/>添加</eq>广告</div>
+	<div class="form2">
+	<form method="post" action="{:U('admin/Content/doEditAd')}" enctype="multipart/form-data">
+	<eq name="type" value="edit"><input type="hidden" name="ad_id" value="{$ad_id}"></eq>
+    <dl class="lineD">
+      <dt>标题：</dt>
+      <dd>
+        <input name="title" type="text" value="{$title}"> *
+	  </dd>
+    </dl>
+	
+	<dl class="lineD">
+      <dt>位置：</dt>
+      <dd>
+        <select name="place">
+			<php>if(!in_array($place,array(0,1,2,3,4,5))) $place = 0;</php>
+			<option value="0" <eq name="place" value="0">selected</eq>>中部</option>
+			<option value="1" <eq name="place" value="1">selected</eq>>头部</option>
+			<option value="4" <eq name="place" value="4">selected</eq>>底部</option>
+			<option value="2" <eq name="place" value="2">selected</eq>>左下</option>
+			<option value="3" <eq name="place" value="3">selected</eq>>右下</option>
+			<option value="5" <eq name="place" value="5">selected</eq>>右上</option>
+		</select>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>是否有效：</dt>
+      <dd>
+        <input type="radio" name="is_active" value="0" <neq name="is_active" value="1">checked</neq>>否<br />
+		<input type="radio" name="is_active" value="1" <eq name="is_active" value="1">checked</eq>>是
+	  </dd>
+    </dl>
+
+<!-- 	<dl class="lineD">
+      <dt>是否可关闭：</dt>
+      <dd>
+        <input type="radio" name="is_closable" value="0" <neq name="is_closable" value="1">checked</neq>>否<br />
+		<input type="radio" name="is_closable" value="1" <eq name="is_closable" value="1">checked</eq>>是
+	  </dd>
+    </dl> -->
+<!--     <dl class="lineD">
+      <dt>广告代码：</dt>
+      <dd>
+        <textarea name="adcode" id="adcode" ></textarea>
+      </dd>
+    </dl> -->
+    <dl class="lineD">
+      <dt>广告类型：</dt>
+      <dd>
+       <eq name='type_id' value="">
+       <label><input type="radio" name="display_type" value="1" onclick="changeStyle('1')" checked>html</label>
+       <label><input type="radio" name="display_type" value="2" onclick="changeStyle('2')">代码</label>  
+       <label><input type="radio" name="display_type" value="3" onclick="changeStyle('3')">轮播</label>
+       </eq>
+       <eq name='type_id' value="1">html</eq>
+       <eq name='type_id' value="2">代码</eq>
+       <eq name='type_id' value="3">轮播</eq>
+      </dd>
+    </dl>
+    
+    <dl class="">
+      <dt></dt>
+      <dd>
+        <div id="content3" style="display:none">
+        <div class="mdiv" id="mdiv"> 
+            <div class="iptdiv" > 
+            <volist name="content" id="vo">
+            <li id="banner_{$i}"> Banner图片：{$vo.img} &nbsp;&nbsp;&nbsp;链接地址： {$vo.url} 
+             <a href="javascript:void(0);" onclick="deleteBanner({$i});">删除</a>
+             <input type="hidden" name="bannerOld[]" value="{$vo.img}"  id="banner"/>
+             <input type="hidden" name="bannerUrlOld[]" value="{$vo.url}" id="bannerUrl"></li>
+             <br><br>
+            </volist>
+            Banner图片：<input type="file" name="banner[]" value=""  id="banner"/><span style="color:red">*</span>
+             链接地址：<input type="text" name="bannerUrl[]" value="" id="bannerUrl"><span style="color:red">*</span>
+            <a href="javascript:addimg()"  >添加</a><br> 
+            </div> 
+        </div>
+        <br>
+        </div>
+        <neq name="type_id" value="3">
+      	<textarea name="content" id="content" style="width:650px;height:200px">{$content}</textarea>
+        <textarea name="content" id="content1" style="width:650px;height:200px">{$content}</textarea>
+        </neq>
+	  </dd>
+    </dl>
+	
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+	</form>
+  </div>
+  </div>
+</div>
+
+<script type="text/javascript" > 
+var typeId = "{$type_id}";
+$(document).ready(function(){
+  bindListener();
+ });
+function bindListener(){
+    $("a[name=rmlink]").unbind().click(function(){
+        $(this).parent().remove(); 
+    })
+}
+function delImg(obj) {
+  var pObj = $(obj).parent();
+  pObj.remove();
+}
+
+function addimg(){ 
+  var banner =  $("input[id=banner]").val();
+  var url = $("input[id=bannerUrl]").val();
+   $("#mdiv").append('<div> <span style="color:red">*</span>Banner图片：<input type="file" name="banner[]" value=""  id="banner"/><span style="color:red">*</span> 链接地址：<input type="text" name="bannerUrl[]" value="" id="bannerUrl"><a href="javascript:void(0);" onclick="delImg(this)" name="rmlink">删除</a> <br></div>');
+   bindListener();
+} 
+</script>
+
+<script>
+$(document).ready(function(){
+	loadEditor("content");
+  changeStyle(typeId);
+});
+
+function changeStyle(value){
+  if(value == "" || value == "1"){
+    $('#content1').hide();
+    $('#content1').attr('name','hide');
+
+    var changeInfo=document.getElementById("content3");
+        changeInfo.style.display='none';
+
+    $('.ke-editor-wrap').show();
+  }
+  if(value == "2"){
+    $('.ke-editor-wrap').hide();
+    $('#content').attr('name','hide');
+    var changeInfo=document.getElementById("content3");
+        changeInfo.style.display='none';
+    $('#content1').show();
+  }
+  if(value == "3"){
+    $('.ke-editor-wrap').hide();
+    $('#content').attr('name','hide');
+    $('#content1').hide();
+    $('#content1').attr('name','hide');
+    // $('#content3').show();
+    var changeInfo=document.getElementById("content3");
+      changeInfo.style.display='block';
+  }
+}
+function deleteBanner(ids) { 
+        var length = 0;
+      if(ids) {
+        length = 1;       
+      }else {
+        ids    = getChecked();
+        length = ids.length;
+            ids    = ids.toString();
+      }
+      if(ids=='') {
+        ui.error('请先选择一个广告');
+        return ;
+      }
+      if(confirm('您将删除'+length+'条记录，确定继续？')) {
+        $.post("{:U('admin/Content/deleteBanner')}",{id:ids},function(res){
+          if(res=='1') {
+            ui.success('删除成功');
+             $('#banner_'+ids).remove();
+          }else {
+            ui.error('删除失败');
+          }
+        });
+      }
+    }
+
+</script>
+<include file="../Public/_footer" />

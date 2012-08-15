@@ -1,0 +1,69 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">附件配置</div>
+  
+  <div class="form2">
+  	<form method="post" action="{:U('admin/Global/attachConfig')}">
+    <dl class="lineD">
+      <dt>目录规则：</dt>
+      <dd>
+        <input name="attach_path_rule" type="text" value="{$attach_path_rule}">
+        <p>注：不建议修改</p>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>最大允许值：</dt>
+      <dd>
+        <input name="attach_max_size" type="text" value="{$attach_max_size}">
+        <p>单位：兆(M) 允许使用小数点。如：0.5或2等</p>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>扩展名限定：</dt>
+      <dd>
+        <input name="attach_allow_extension" type="text" value="{$attach_allow_extension}">
+        <p>多个使用英文的“,”分割</p>
+      </dd>
+    </dl>
+    <dl class="lineD">
+    	<dt>是否开启水印：</dt>
+    	<dd>
+        <p><label>
+        	<input name="attach_watermark_closed" type="radio" value="0" <eq name="attach_watermark_closed" value="0">checked</eq>>关闭
+        </label></p>
+       <p>
+        <label>
+        	<input name="attach_watermark_closed" type="radio" value="1" <eq name="attach_watermark_closed" value="1">checked</eq>>开启
+        </label></p>
+    	</dd>
+    </dl>
+    <dl class="lineD">
+    	<dt>水印添加条件：</dt>
+    	<dd>
+    		宽 <input name="attach_watermark_minwidth" type="text" size="10" value="{$attach_watermark_minwidth}" />
+    		X 高 <input name="attach_watermark_minheight" type="text" size="10" value="{$attach_watermark_minheight}" />
+    		PX
+    	</dd>
+    </dl>
+    <dl class="lineD">
+    	<dt>文本水印内容：</dt>
+    	<dd>
+			<textarea name="attach_watermark_txt" cols="40" rows="2">{$attach_watermark_txt}</textarea>
+    		<p>水印类型为文本水印时，该设置生效。可选变量 {uid} {uname} {space} </p>
+    	</dd>
+    </dl>
+    <dl class="lineD">
+    	<dt>文本水印字号：</dt>
+    	<dd>
+			<input type="text" name="attach_watermark_fontsize" value="{$attach_watermark_fontsize}" />
+    		<p>雅黑字体推荐12号字，其他字号可能会模糊，请多尝试。</p>
+    	</dd>
+    </dl>
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+    </form>
+  </div>
+
+</div>
+<include file="../Public/_footer" />

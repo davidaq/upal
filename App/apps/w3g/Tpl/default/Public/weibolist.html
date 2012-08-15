@@ -1,0 +1,53 @@
+<div class="cont_bg">
+	<volist name="weibolist" id="weibo">
+		<div class="feedBox">
+			<ul class="feed_list">
+				<li>
+					<div class="userPic"><a href="{:U('w3g/Index/weibo',array('uid'=>$weibo['uid']))}"><img align="absmiddle" src="{$weibo['uid']|getUserFace=s}"  /></a></div>
+					
+					<div class="feed_c" onclick="window.location.href='{:U('w3g/Index/detail',array('weibo_id'=>$weibo['weibo_id']))}'">
+
+						<!-- 原创 -->
+						<php>if($hideUsername!=1){</php>
+						<div class="msgCnt"><span class="R" style="color:#666; font-weight:normal; font-size:11px;margin-right:5px;">{$weibo['ctime']}</span>{$weibo['uname']}</div><php>}</php>
+						<div class="msgCnt">{$weibo['content']}</div>
+
+						<!-- 小图 -->
+						<php>if($weibo['type']==1) {</php>
+						<div class="feed_img"><a href="{:U('w3g/Index/detail',array('weibo_id'=>$weibo['weibo_id']))}"><img src="{$weibo['type_data']['thumburl']}" width="100" /></a></div>
+						<php>}</php>
+
+						<!-- 转发 -->
+						<php>if ($weibo['transpond_id'] != 0) {</php>
+						<php>$forward = $weibo['transpond_data'];</php>
+						<div class="feed_quote" style="border-left:2px solid #ccc;background:#f1f1f1;padding:5px;"> 
+						@{$forward['uname']}：{$forward['content']}
+						<br />
+						<!-- 转发的图 -->
+						<php>if($forward['type']==1) {</php>
+						<a href="{:U('w3g/Index/image',array('weibo_id'=>$weibo['weibo_id']))}"><img src="{$forward['type_data']['thumburl']}" width="100" /></a>
+						<php>}</php>
+						</div>
+						<php>}</php>
+
+					</div>
+				</li>
+			</ul>
+			<hr />
+		</div>
+	</volist>
+</div>
+<div>
+    <php>
+        $has_pre   = $page > 1;
+        $has_after = count($weibolist) >= $item_count;
+    </php>
+    <php>if($has_pre) {</php>
+    <php>$url = U('w3g/Index/'.ACTION_NAME,array('page'=>$page-1));</php>
+    <p class="pages"><a class="" href="<php>echo $url;</php>" data-icon="arrow-l" data-role="button">上一页</a></p>
+    <php>}</php> 
+    <php>if($has_after) {</php>
+    <php>$url = U('w3g/Index/'.ACTION_NAME,array('page'=>$page+1));</php>
+    <p class="pages" style="margin-bottom:5px;"><a href="<php>echo $url;</php>" data-icon="arrow-r" data-role="button">下一页</a></p>
+    <php>}</php>
+</div>

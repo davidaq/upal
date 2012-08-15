@@ -1,0 +1,138 @@
+<include file="__THEME__/header" />
+
+<link href="../Public/css/photo.css" rel="stylesheet" type="text/css" />
+<link href="../Public/css/mark_photo.css" rel="stylesheet" type="text/css" />
+<style>
+#imgslide img{ width:550px;}
+#pre{display:block; float:left; height:100%; background:#003366;filter:Alpha(Opacity=0);opacity:0; z-index:2; width:330px;  cursor:url(../Public/images/pre.cur),auto; }
+#next{z-index:2; display:block; float:left; background:#00CC99;filter:Alpha(Opacity=0);opacity:0; height:100%; width:330px; float:left; cursor:url(../Public/images/next.cur), auto;}
+.xhbsjy_left_centent h1{float:left;}
+</style>
+<script type="text/javascript">
+	var photo_id		=	"{$photo.id}";
+	var photo_name		=	"{$photo.name}";
+	var album_id		=	"{$album.id}";
+	var now_index_id	=	"{$now}";
+	var uid				=	"{$uid}";
+	var now_play		=	"{$play}";
+	var nextid          =   "{$next.id}";
+	var APPNAME         =   "{$ts.app.app_alias}";
+	/**
+	//载入大图
+	$(document).ready(function(){
+		//大图预载
+		var maxWidth	=	700; // 最大宽度700
+		var image_url	=	"__ROOT__/thumb.php?w=700&h=700&t=f&url={$photo.savepath|get_photo_url}";
+		image			=	new Image();
+		image.onload	=	function(){
+			$('#big_pic').attr('src',image_url);
+			if(	$('#big_pic').attr('width') > 700 ){
+				$('#big_pic').css('width','700px');
+			}
+		}
+		image.src		=	image_url;
+	});
+	**/
+</script>
+<script type="text/javascript" src="../Public/js/drag_sort.js"></script>
+<script type="text/javascript" src="../Public/js/photo.js"></script>
+<div class="content_holder">
+<div class="content no_bg">
+<include file="../Public/_mainNav" />
+  <div class="main no_l">
+    <div class="mainbox">
+      <include file="../Public/_isHotList" />
+      <a name="show_pic" id="show_pic"></a>
+      <div class="mainbox_appC">
+		<div class="person_info"> <!-- page_title begin -->
+			<div class="userPic">
+				<a href="{:U('home/Space/index',array(uid=>$photo['userId']))}"><img src="{$photo['userId']|getUserFace}" /></a>
+			</div>
+			<div  style="padding-left:70px;">
+				<if condition=" ($type eq 'mAll') || ($type eq 'fAll') ">
+					<h2><a href="{:U('home/Space/index',array(uid=>$uid))}">{$userName}</a>的图片</h2>
+				<else />
+					<h2><a href="{:U('/Index/photos',array('uid'=>$uid))}" title="返回{$userName}的图片">{$userName}</a>的{$ts['app']['app_alias']}“{$album.name}”</h2>
+				</if>
+                <p><em>时间：{$photo.cTime|friendlyDate}</em></p>
+    			<p><a href="{:U('/Index/album',array('uid'=>$photo['userId'],'id'=>$album['id']))}" title="返回{$ts['app']['app_alias']}{$album.name}">返回该{$ts['app']['app_alias']}</a>
+			</if></p>
+			</div>
+		</div><!-- page_title end -->
+		<div class="lineS_btm lh30 mLR15" style="height:30px;">
+
+				<div class="right">
+			<!-- <if condition="$setting['open_camera'] eq 1"><div><a href="javascript:exif('{:base64_encode('../../data/uploads/'.$p['savepath'])}')">查看EXIF信息</a></div></if>
+			<div><a href="javascript:tag();" title="图片里出现了自己或者朋友？  圈出来，朋友就会自动看到哦">圈出图片中的人物</a></div> -->
+			<if condition="$photo['userId'] eq $mid">
+			<!-- <div>
+				<div class="left mr10"><a href="javascript:dbrotate(-1);">左旋 <img alt="左旋" src="../Public/images/xz_l.gif" align="absmiddle" /></a></div>
+				<div class="left"><a href="javascript:dbrotate(1);"><img alt="右旋" src="../Public/images/xz_r.gif" align="absmiddle" /> 右旋 </a></div>
+			</div> -->
+			<span id="divdelphoto"><a href="javascript:delphoto();" class="mr10"><span class="ico_Del"></span>删除</a></span>
+            <a href="javascript:setcover();"  class="mr10"><span class="ico_Img"></span>设为封面</a>
+            <a href="javascript:editphotoTab();"  class="mr10"><span class="ico_Modify"></span>修改</a>
+			</if> <a href="{$photo.savepath|get_photo_url}" target="_blank"><span class="ico_Preview"></span>查看原图</a>
+          	<if condition="$photo['privacy'] eq 1">            
+			{:W('Weibo',array('tpl_name'=>'photo_share_weibo','button_title'=>'分享'))}
+            <php>
+                $tpl_data = array('author'=>getUserName($photo['userId']),'title'=>html_entity_decode($photo['name'], ENT_QUOTES),'source'=>getUserName($photo['userId']).'的相册','url'=>U('photo/Index/photo',array('id'=>$photo['id'],'aid'=>$photo['albumId'],'uid'=>$photo['userId'])),'type'=>1,'type_data'=>$photo['savepath']);
+                $tpl_data = urlencode(serialize($tpl_data));
+       		</php>
+			<input type="button" value="分享" class="BtnShare" onclick="_widget_weibo_start('', '{$tpl_data}');" id="BtnShare_{$photo.id}"/>
+            </if>
+			</div>
+            <span class="photo_tit"><strong>{$album.name}</strong></span>
+			<span>（第<span class="cRed">{$now}</span> / <span class="cRed">{$photoCount}</span>张）</span>
+			</div>
+	<div class="photoBox">
+		<div class="view">
+        <!-- 滚动小图 -->
+			<div class="c2">
+              <ul>
+				<volist name="previews" id="p">
+                <php>
+                if ($type != '')
+                    $url = U('photo/Index/photo', array('id'=>$p['id'], 'aid'=>$p['albumId'], 'uid'=>$photo['userId'], 'type'=>$type));
+                else
+                    $url = U('photo/Index/photo', array('id'=>$p['id'], 'aid'=>$p['albumId'], 'uid'=>$photo['userId']));
+                </php>
+				<li><a href="{$url}#show_pic"><img src="__ROOT__/thumb.php?w=50&h=50&url={$p.savepath|get_photo_url}" <if condition=" $p[id] eq  $photo[id]">style="border:solid 2px #0000ff;"</if> /></a></li>
+				</volist>
+              <ul>
+			</div>
+			<div class="c1" >
+				<!-- 主图 -->
+				<div class="alC" id="big_photo" style="position:relative">
+                	<h1 style="float:none"><img onload="$('#pre').css('height',this.height);$('#next').css('height',this.height);" src="__ROOT__/thumb.php?w=560&h=560&t=f&url={$photo.savepath|get_photo_url}" pid="{$photo.id}" rel="{$photo.id}" id="big_pic" />
+                	<span id="pre" onclick="rollPic({$pre.id},{$uid},{$pre.albumId});" style="height:50px;position:absolute;top:0;left:0">上一张</span>
+                    <span id="next" onclick="rollPic({$next.id},{$uid},{$next.albumId});" style="height:50px;position:absolute;right:0;top:0">下一张</span></h1>
+                   
+                    
+        
+                    <br /><span class="lh30 cGray photoName">{$photo.name}</span>
+                </div>
+
+			</div>
+			
+             <div class="clear" style="height:10px;"></div>
+		</div>
+		<div class="viewRC">
+		<div class="c1">
+            {:W('Comment',array('type'=>'photo','appid'=>$photo['id'],'author_uid'=>$uid,'title'=>$album['name'], 'url'=>U('photo/Index/photo',array('id'=>$photo['id'],'aid'=>$album['id'],'uid'=>$uid.'#show_pic')), 'table'=>'photo','id_field'=>'id','comment_count_field'=>'commentCount'))}
+		</div>
+      </div>
+	</div>
+     <div class="clear"></div>
+  </div>
+  <div class="c"></div>
+  </div>
+</div>
+</div>
+</div>
+<script>
+function rollPic(id,uid,albumId){
+	window.location.href=U('photo/Index/photo&id='+id+'&aid='+albumId+'&uid='+uid+'#show_pic');
+}
+</script>
+<include file="__THEME__/footer" />

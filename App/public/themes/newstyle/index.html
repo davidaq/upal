@@ -1,0 +1,246 @@
+<include file="__THEME__/header" />
+<link href="__THEME__/login.css?20110625" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../Public/js/slides.min.jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/json2select.js" ></script>
+<script>
+$(document).ready(function(){
+	setInterval(function(){
+		if('' != $('#email').val())$('#_login_email_label').hide();
+		if('' != $('#password').val())$('#_login_password_label').hide();
+	}, 100);
+});
+</script>
+<!-- 验证码js -->
+<script type="text/javascript">
+function demo(obj) {
+	var verify = obj.value;
+	$.post("{:U('home/Public/isVerifyAvailableLogin')}", {verify:verify}, function(msg) {
+		if(msg == 'success') {
+			$('#copyverify').html('验证码正确！');
+		} else {
+			$('#copyverify').html("验证码错误！");
+		}
+	});
+}
+function  checkVerify(form){
+	var verify = $('#verify').val();
+	if("undefined" != typeof(form.email) && form.email.value == ''){
+		// $('#copyverify').html("帐号不能为空！");
+		ui.error("帐号不能为空！");
+		return false;
+	}
+	if(form.password.value == ''){
+		// $('#copyverify').html("密码不能为空！");
+		ui.error("密码不能为空！");
+		return false;
+	}
+	if(form.verify.value == ''){
+		// $('#copyverify').html("验证码不能为空！");
+		ui.error("验证码不能为空！");
+		return false;
+	}
+	$.post("{:U('home/Public/isVerifyAvailableLogin')}", {verify:verify}, function(msg) {
+		if(msg == 'success') {
+			form.submit();
+		} else {
+			// $('#copyverify').html("验证码错误！");
+			ui.error("验证码错误，请重新输入！");
+		}
+	});
+	return false;
+}
+</script>
+<!-- 验证码js -->
+<div class="M_login">
+<div class="slogan" style="background:url(<php>if(isset($ts['site']['banner_logo'])){ echo $ts['site']['banner_logo'];}else{ echo __THEME__.'/images/login_bg.jpg';}</php>)">
+  <php>if (!empty($hot_topic)) {</php>
+  <div class="talking"> <strong>正在热议：</strong>
+    <volist name="hot_topic" id="vo"><a href="{:U('home/User/topics', array('k'=>urlencode($vo['name'])))}" title="{$vo.name}" target="_blank">{$vo.name}</a></volist>
+  </div>
+  <php>}</php>
+  <div class="login">
+    <div id="ppcontid" class="logform">
+        <form action="{:U('home/Public/doLogin')}" method="post" onsubmit="return checkVerify(this)">
+           <div class="regbtn2"  style="height:46px;*height:auto; position:relative"><a href="{:U('home/Public/register')}" title="立即注册"> &nbsp;</a></div>
+	        <div class="frm" style="position:relative">
+	        	<label id="_login_email_label" class="form_label" style="display:block;" onclick="$(this).hide();$('#email').focus();">帐号</label>
+	        	<input type="text" id="email" name="email" class="text" title="邮箱" autocomplete="off" value="" onblur="if($(this).val()=='') $('#_login_email_label').show();" onfocus="$('#_login_email_label').hide();" />
+      </div>
+	        <div class="frm" style="position:relative">
+        	  <label id="_login_password_label" class="form_label" style="display:block;" onclick="$(this).hide();$('#password').focus();" >密码</label>
+	        	<input type="password" title="密码" value="" id="password" name="password" class="text" style="display: inline;" onblur="if($(this).val()=='') $('#_login_password_label').show();" onfocus="$('#_login_password_label').hide();" />
+	        </div>
+            <eq name="login_verify_on" value="1">
+            <div class="frm" style="height:29px;*height:auto;"><input onblur="code()" name="verify" type="text" class="text alM" title="验证码" id="verify" style="width:50px;height:22px;padding:0 3px;vertical-align:middle;padding:5px 0;height:19px;line-height:19px;" value="" />
+              &nbsp;<a href="###" onclick="changeverify()"><img style="vertical-align:middle;margin:0 0 8px" src="__ROOT__/public/captcha.php" id="verifyimg" alt="换一张" class="alM" /></a>&nbsp;&nbsp;<a  href="###" onclick="changeverify()">换一换</a></div><!-- <div id='copyverify'></div> -->
+            </eq>
+          <div class="frm" style="padding:5px 0 0;">
+	          <label>
+	            <input name="remember" type="checkbox" value="1" />
+	            记住登录状态</label>
+	          <a class="fuc0" href="{:U('home/Public/sendPassword')}">忘记密码？</a>
+          </div>
+	        
+	        <div class="frm" style="margin:0px auto; padding:5px 0 0; width:85px"><input type="submit" value="登 录" class="logbtn hand" /> </div>
+        </form>
+        {:Addons::hook('login_input_footer',array('regInfo'=>$regInfo))}
+    </div>
+  </div>
+</div>
+<div class="login_main">
+  <div class="colL">
+    <div class="tit">
+      <h3>图片微博</h3>
+    </div>
+    <div class="imgrot" id="tw_img_scroll">
+      <div id="slides">
+		<div class="imgb">
+		<volist name="pic_weibo" id="vo">
+			<div class="imgInt">
+				<a href="{:U('home/Space/detail',array('id'=>$vo['weibo_id']))}" target="_blank">
+                  <php>$img_src = SITE_URL . '/thumb.php?w=234&h=221&url=./data/uploads/' . $vo['type_data']['picurl'];</php>
+				  <img src="{$img_src}" width="234" height="221">
+				</a>
+				<div class="imgfnt" style="bottom:0">
+					<p>{$vo.uid|getUserName}：{$vo.content|getShort=10}</p>
+				</div>
+			</div>
+		</volist>
+		</div>
+	  </div>
+    </div>
+   
+    <dl class="mobi">
+      <dt>用手机上微博</dt>
+      <dd><a href="http://www.thinksns.com/iPhone.html" target="_blank"><img src="../Public/images/apple.gif" /></a><a href="http://www.thinksns.com/Android.html " target="_blank"><img src="../Public/images/android.gif" /></a><a href="{:U('w3g')}" target="_blank"><img src="../Public/images/3G.gif" /></a><a href="{:U('wap')}" target="_blank"><img src="../Public/images/wap.gif" /></a></dd>
+    </dl>
+  </div>
+  <div class="colC">
+    <div class="tit">
+      <h3>正在发生</h3>
+    </div>
+    <!--微博列表-->
+    <div class="twis" id="tw_content">
+    <volist name="lastest_weibo" id="vo">
+      <dl class="list_weibo">
+        <dt class="userPic"><space uid="vo['uid']" target="_blank">{uavatar=m}</space></dt>
+        <dd style="margin-left:70px;">
+        <div style="min-height: 33px; _height:33px; _overflow:visible;">
+            <strong style="vertical-align:top"><space uid="vo['uid']" target="_blank">{uname}</space>: </strong>
+            <span class="ugc" style="vertical-align:middle;display:inline">{$vo.content|getShort=60|login_emot_format}</span>
+        </div>
+        <div class="mt10"><em title="{$vo.ctime|date='Y-m-d H:i',###}">{$vo.ctime|friendlyDate}</em></div>
+        </dd>
+      </dl>
+    </volist>
+    </div>
+    <!--/微博列表-->
+    <div class="mask"></div>
+  </div>
+  <div class="colR">
+    <div class="tit">
+      <div class="opt">粉丝数</div>
+      <h3>人气推荐</h3>
+    </div>
+    <ul class="tpl">
+      <volist name="hot_user" id="vo">
+        <li> 
+        	<a target="_blank" href="{:U('home/Space/index',array('uid'=>$vo['uid']))}"> 
+        	<i class="num">{$vo.count}</i> 
+        	<strong class="nm">{$vo.uid|getUserName}</strong> 
+        	<var><php>echo $key + 1;</php></var> 
+        	<span class="avt"> <img alt="{$vo.uid|getUserName}" src="{$vo.uid|getUserFace}"> <i class="png"></i> </span> 
+        	</a> 
+        </li>
+      </volist>
+    </ul>
+  </div>
+</div>
+</div>
+<include file="__THEME__/footer" />
+ 
+<script type="text/javascript">
+var since_id = "{$since_id}";
+
+$(function(){
+	init();
+});
+
+function init() {
+	$("ul.tpl").find("li").hover(function(){
+		$(this).addClass("hover");
+	},function(){
+		$(this).removeClass("hover");
+	});
+	
+	$('#slides').slides({
+		preload: true,
+		//preloadImage: '../Public/images/loading.gif',
+		play: 5000,
+		pause: 2500,
+		hoverPause: true,
+		container: "imgb",
+		animationStart: function(current){
+			$('.caption').animate({
+				bottom:-35
+			},100);
+		},
+		animationComplete: function(current){
+			$('.caption').animate({
+				bottom:0
+			},200);
+		},
+		slidesLoaded: function() {
+			$('.caption').animate({
+				bottom:0
+			},200);
+		}
+	});
+}
+
+setInterval("showRecent()",60000);
+
+function showRecent() {
+	$.post("{:U('home/Public/fetchNew')}", {since_id:since_id}, function(txt){
+		if (txt != 0) {
+			var obj = eval('(' + txt + ')');
+			var html = '';
+			html += '<div class="lineD_btm pm10 mt10 pb5" id="weibo_'+obj.weibo_id+'">';
+	        html += '<div class="userPic">'+obj.user_pic+'</div>';
+	        html += '<div style="margin-left:70px"><div style="min-height: 33px;_height:33px; _overflow:visible;"><strong>'+obj.uname+': </strong><span class="ugc">'+obj.content+'</span></div>';
+	        html += '<div class="mt10">';
+	        html += '<em title="'+obj.friendly_date+'" class="tm">'+obj.friendly_date+'</em>';
+	        html += '</div>';
+	        $('#tw_content').prepend(html);
+	        since_id = obj.weibo_id;
+		}
+	});
+}
+</script>
+
+<script type="text/javascript">
+/*
+	-需要：引入一个jquery的包
+	-原理：
+		隐藏第一组<span></span>标签（包含里面的内容），然后用slideDown效果渐渐下滑显示出来
+		再把最后一组<span></span>标签插入到最前面并隐藏，形成循环
+*/
+$(function() {
+var interval = 4000;
+var slide    =  setInterval(slideIt,interval);
+	function slideIt() {
+	  var obj = $('dl','#tw_content');//定义一个变量obj，把id为guduk里的所有<span></span>标签赋给它
+	  obj.last().hide().prev().hide();//倒数2个隐藏
+	  obj.last().insertBefore(obj.first()).slideDown(1000);//把id为guduk里的最后一组<span></span>标签插到最前面（这样容器里的<span></span>标签就可以循环起来）
+	  obj.last().prev().fadeOut(500);//第5个span淡出	
+	};
+
+	$('#tw_content').mouseover(function() {
+		clearInterval(slide);//当鼠标移上去的时候停止下滑
+	}).mouseout(function() {
+		slide = setInterval(slideIt,interval);//当鼠标移开的时候继续下滑
+	});
+
+	slideIt();
+});
+</script>

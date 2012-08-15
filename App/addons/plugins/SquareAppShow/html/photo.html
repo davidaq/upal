@@ -1,0 +1,61 @@
+<link href="{:SITE_URL}/apps/{$app_show}/Tpl/default/Public/css/photo.css" rel="stylesheet" type="text/css" />
+<script src="{:SITE_URL}/apps/{$app_show}/Tpl/default/Public/js/preview.js" type="text/javascript"></script>
+<script>
+	var photo_preview = '{$photo_preview}';
+</script>
+
+<div class="mainbox_R">
+  <div class="box_create"><a href="{:U('photo/Upload/flash')}" class="btn_photo_s"></a></div>
+  <div class="right_box">
+    <h2>推荐相册</h2>
+    <ul class="list_Recalbums">
+    <div class="tit"><a href="#" class="ico_down"></a></div>
+      <volist name="IsHotList" id="li"> 
+   	    <li>
+          <div class="albums_img"><a href="{:U('photo/Index/album',array(uid=>$li['userId'],id=>$li['id']))}" target="_blank"><img src="{$li.id|get_album_cover=###,$li,66,66}" /></a></div>
+          <div class="albums_info">
+            <dl>
+              <dt><a href="{:U('photo/Index/album',array(uid=>$li['userId'],id=>$li['id']))}" target="_blank" class="OverH">{$li.name}</a> 共{$li.photoCount}张</dt>
+              <dd>作者:<a href="{:U('home/Space/index',array(uid=>$li[userId]))}">{$li.userId|getUserName}</a></dd>
+              <dd>时间:2011-12-7</dd>
+            </dl>
+          </div>
+        </li>
+	  </volist>
+    <div class="btm"><a href="#" class="ico_up"></a></div>
+    </ul>
+  </div>
+</div>
+<div class="mainbox_C main_pad">
+<div class="tab-menu">
+	<ul>
+	<php>if('new' == $_GET['order']){</php>
+		<li><a href="{:U('home/Square/photo', array_merge((array)$_GET, array('order'=>'hot')))}"><span>热门图片</span></a></li>
+        <li><a href="#" class="feed_item on"><span>最新图片</span></a></li>
+	<php>}else{</php>
+		<li><a href="#" class="feed_item on"><span>热门图片</span></a></li>
+        <li><a href="{:U('home/Square/photo', array_merge((array)$_GET, array('order'=>'new')))}"><span>最新图片</span></a></li>
+	<php>}</php>
+    </ul>
+</div>
+<div class="photoBox">
+  <ul class="piclist">
+    <volist name="photos.data" id="li">
+      <li>
+        <dl>
+          <dt><a href="{:U('photo/Index/photo',array(id=>$li['id'],aid=>$li['albumId'],uid=>$li['userId']))}<neq name="type" value="">&type={$type}</neq>#show_pic" target="_blank"
+                 rel="__ROOT__/thumb.php?w=400&h=400&t=f&url={$li.savepath|get_photo_url}" title="{$li.name}"
+                 class="preview"><img src="__ROOT__/thumb.php?w=170&h=170&url={$li.savepath|get_photo_url}" />
+          </a> </dt>
+          <dd><a href="{:U('photo/Index/photo',array(id=>$li['id'],aid=>$li['albumId'],uid=>$li['userId']))}<neq name="type" value="">&type={$type}</neq>#show_pic" target="_blank"
+                 rel="__ROOT__/thumb.php?w=400&h=400&t=f&url={$li.savepath|get_photo_url}" title="{$li.name}"
+                 class="preview">{$li.name|getShort='10'}</a></dd>
+          <dd>发图者：<space uid="li['userId']" class="fn" target="_blank">{uname}</space></dd>
+        </dl>
+      </li>
+    </volist>
+  </ul>
+</div>
+<div class="page">{$photos['html']}</div>
+</div>
+<div class="c"></div>

@@ -1,0 +1,20 @@
+<?php foreach($_SITE_CONFIG['ad']['footer'] as $v) { ?>
+<div class="ad_footer"><?php echo $v['content']; ?></div>
+<?php } ?>
+<div class="footer_bg">
+<div class="footer">
+	<div class="menu">
+	<?php
+		foreach($_SITE_CONFIG['footer_document'] as $k => $v) {
+			$v['url'] = isset($v['url']) ? $v['url'] : U('home/Public/document',array('id'=>$v['document_id']));
+			$_SITE_CONFIG['footer_document'][$k] = '<a href="'.$v['url'].'" target="_blank">'.$v['title'].'</a>';
+		}
+		echo implode('&nbsp;&nbsp;|&nbsp;&nbsp', $_SITE_CONFIG['footer_document']);
+	?>
+    </div>
+ <div>  Powered by <a href="http://www.thinksns.com" target="_blank">ThinkSNS</a>&nbsp;&nbsp;<?php echo $_SITE_CONFIG['site_icp'];?></div>
+</div>
+</div>
+</div>
+</body>
+</html>

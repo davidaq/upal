@@ -1,0 +1,142 @@
+<include file="__THEME__/header" />
+<link rel="stylesheet" type="text/css" href="../Public/css/square.css"/>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('weibo/plugins/init')}"></script>
+<script type="text/javascript" src="../Public/js/slides.min.jquery.js"></script>
+<script type="text/javascript" src="../Public/js/square.js"></script>
+<!--单选框样式-->
+<script type="text/javascript" src="../Public/js/script.js"></script>
+<script type="text/javascript" src="../Public/js/jquery.tzCheckbox.js"></script>
+<!--/单选框样式-->
+
+<script>
+var showCount = {$showCount};
+$(document).ready(function(){
+	$(".checkall").click(function(){
+		var div = '#star_box_'+$(this).attr("cid");
+		if( this.checked == true ){
+			$(div+" input[name='followuid[]']").attr('checked',true);
+		}else{
+			$(div+" input[name='followuid[]']").removeAttr('checked');
+		}
+	});
+	var lastHideKey = {};
+	
+	$('.list_square').each(function(){
+	    var count = 0;
+	    var self = $(this);
+	    lastHideKey[$(this).attr('id')] = -1;
+	    $(this).children('li').each(function(key){
+	       count++;
+	       if(count <= showCount ){
+	           $(this).show();
+	           lastHideKey[self.attr('id')] = key;
+	       }
+	    });
+	});
+	$('.changes').each(function(){
+	    $(this).click(function(){
+	        var count = 0;
+	        var target = $(this).attr('star_target');
+	        var nowLast = lastHideKey[target];
+	        var size = $('#'+target).children('li').size();
+	        var self = $(this);
+	        $('#'+target).children('li').each(function(key){
+	             $(this).hide();
+	             if(key > nowLast && key <= nowLast +showCount){
+	                 $(this).show();
+	                 lastHideKey[target] = key;
+	                 if(key>=size-1){
+	                     self.hide();
+	                 }
+	                 //if($(this).eq(last)) self.hide();
+	             }
+	        });
+	    });
+	})
+});
+</script>
+<link href="../Public/css/checkbox.css" rel="stylesheet" type="text/css" />
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  -->
+  <include file="_left" />
+  <div class="main">
+    <div class="mainbox">
+      <div class="main_pad M_star" style="_margin:0">
+        <div class="squareStar">
+        <div class="type_square">
+        <if condition="$user_list">
+        分类：
+          <php>$j = 0;</php>
+          <volist name="user_list" id="g">
+            <php>++$j;</php>
+            <php>if($j>1){</php>&nbsp;|&nbsp;<php>};</php><a href="#star_box_{$g.star_group_id}">{$g.title}</a>
+            <volist name="g.son_list" id="s">
+              <php>if($i>1)</php>&nbsp;|&nbsp;<php>;</php><a href="#star_box_{$s.star_group_id}">{$s.title}</a>
+            </volist>
+          </volist>
+          </if>
+          </div>
+          <div style="*zoom:1;overflow:hidden">
+          <volist name="user_list" id="g">
+          <a name="star_box_{$g.star_group_id}"></a>
+          <div id="star_box_{$g.star_group_id}" class="Share_box">
+            <form action="{:U('home/public/followuser')}" method="post">
+              <input type="hidden" name="doajax" value="1">
+              <div class="topic_tit2">
+                <gt name="mid" value="0">
+                  <span class="right" style="position:relative;padding:0 0 0 20px">
+                      <php>if(count($g['user_list'])>$showCount){</php>
+                    <a class="changes" href="javascript:void(0)" star_target="list_{$g.star_group_id}">换一换</a>
+                      <php>}</php>
+                    <label>
+                    <input type="checkbox" class="checkall checkbox1" cid="{$g.star_group_id}" value="b{$g.star_group_id}">
+                    全选
+                    </label>
+                    <!--<input type="button" value="关注已选" class="btn_b" onclick="dofollow('#star_box_{$g.star_group_id}')" />-->
+                     | <a href="javascript:void(0)" onclick="dofollow('#star_box_{$g.star_group_id}')">关注已选</a>
+                    </span>
+                  </gt>
+                <strong class="font_stroke">{$g.title}</strong>
+                </div>
+              <ul class="list_square" id="list_{$g.star_group_id}">
+                <volist name="g.user_list" id="u">
+                  <li style="display:none;">
+                    <div class="userPic relative">
+                     <gt name="mid" value="0">
+                     <input name="followuid[]" type="checkbox" value="{$u.uid}" class="ckbox" />
+                     </gt>
+                    <space uid="u.uid">{uavatar}</space>
+                    </div>
+                    
+                    <div id="star_{$u.uid}" class="title">
+                      <space uid="u.uid">{uname}</space>
+                      </div>
+                    </li>
+                  </volist>
+                <volist name="g.son_list" id="s">
+                  <volist name="s.user_list" id="u">  
+                    <div style="width:16%; overflow:hidden;" class="left alC">
+                      <div class="userPic" style="float:none; margin:0 auto">
+                      <gt name="mid" value="0">
+                          <input name="followuid[]" type="checkbox" value="{$u.uid}" />
+                      </gt>
+                      <space uid="u.uid">{uavatar}</space>
+                      </div>
+                      <div><space uid="u.uid">{uname}</space></div>
+                      </div>
+                    </volist>
+                  </volist>
+                <div class="c"></div>
+                </ul>
+              </form>
+          </div>
+		  </volist>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<include file="__THEME__/footer" /> 

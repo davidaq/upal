@@ -1,0 +1,9 @@
+<div class="topic_tab">
+		<ul>
+		<li><a href="{:U('home/Square/index')}" <if condition="'index' eq ACTION_NAME">class="on"</if>>广场首页</a></li>
+		<li><a href="{:U('home/Square/top')}" <if condition="'top' eq ACTION_NAME">class="on"</if>>风云榜</a></li>
+		<li><a href="{:U('home/Square/star')}" <if condition="'star' eq ACTION_NAME">class="on"</if>>名人堂</a></li>
+			<volist name="expend_menu" id="vo">
+				<li><a href="{:U('home/Square/' . $vo['act'], $vo['param'])}" <if condition="ACTION_NAME eq $vo['act']">class="on"</if>>{$vo['name']}</a></li>
+			</volist>
+</div>

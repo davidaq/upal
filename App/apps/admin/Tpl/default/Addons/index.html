@@ -1,0 +1,121 @@
+<include file="../Public/_header" />
+<script type="text/javascript">
+//鼠标移动表格效果
+$(document).ready(function(){
+    $("tr[overstyle='on']").hover(
+      function () {
+        $(this).addClass("bg_hover");
+      },
+      function () {
+        $(this).removeClass("bg_hover");
+      }
+    );
+});
+
+function move(id, direction) {
+	var baseid  = direction == 'up' ? $('#'+id).prev().attr('id') : $('#'+id).next().attr('id');
+    if(!baseid) {
+        direction == 'up' ? ui.error('已经是最前面了') : ui.error('已经是最后面了');
+    }else {
+        $.post("{:U('admin/Plugin/doMedalOrder')}", {id:id, baseid:baseid}, function(res){
+            if(res == '1') {
+                //交换位置
+                direction == 'up' ? $('#'+id).insertBefore('#'+baseid) : $("#"+id).insertAfter('#'+baseid);
+                ui.success('保存成功');
+            }else {
+                ui.error('保存失败');
+            }
+        });
+    }
+}
+</script>
+<php>
+foreach($list as $type=>$value){</php>
+	<div class="so_main">
+  <div class="page_tit">{$value['name']}</div>
+  <div class="Toolbar_inbox">
+  </div>
+  <div class="list">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th class="line_l">插件名称</th>
+    <th class="line_l">作者</th>    
+    <th class="line_l">版本号</th>
+    <th class="line_l">描述</th>
+    <th class="line_l">操作</th>
+	<th class="line_l">卸载</th>
+  </tr>
+  
+  <php>if(empty($value['data'])) {</php>
+    <tr>
+    <td>暂无{$value['name']}</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+	<td></td>
+    
+    </tr>
+  <php>}</php>
+  
+  <volist id="vo" name="value.data">
+      <tr overstyle='on' id="{$vo['name']}">
+        <td>{$vo['pluginName']}</td>
+        <td>{$vo['author']}
+        	<php>if(isset($vo['site'])){</php>
+        	<br /> <a href="{$vo['site']}">{$vo['site']}</a>
+        	<php>}</php>
+        </td>
+        <td>{$vo['version']}</td>
+        <td>{$vo['info']}</td>
+        <td>
+          <php>if($type == "valid"){</php>
+         	<php>
+	        $stop_href = U('admin/Addons/stopAddon',array('addonId'=>$vo['addonId']));
+	        $stop_alert_1 = '确定停用该插件?';
+	        </php>
+            <a href="javascript:void(0);" onclick="if(confirm('{$stop_alert_1}') /*&& confirm('{$stop_alert_2}')*/) location.href='{$stop_href}';return false;">停用</a>
+          <php>}else{</php>
+            <php>
+	        $install_href = U('admin/Addons/startAddon',array('name'=>$vo['name']));
+	        if($vo['sqlfile']){
+	        	$install_alert_1 = '初次启用该插件时将会进行sql操作，且无法恢复，强烈建议您备份数据库后再启用，确定继续?';
+	        }else{
+	        	$install_alert_1 = '确定启用该插件？';
+	        }
+	        </php>
+			<php>if(isset($vo['addonId'])){</php>
+			<a href="javascript:void(0);" onclick="if(confirm('{$install_alert_1}')) location.href='{$install_href}';return false;">启用</a>
+			 <php>}else{</php>
+			 <a href="javascript:void(0);" onclick="if(confirm('{$install_alert_1}')) location.href='{$install_href}';return false;">安装</a>
+			 <php>}</php>
+            
+         <php>}</php>
+
+         <php>if(isset($vo['admin']) && $type == "valid"){</php>
+          <php>
+            $href = U('admin/Addons/admin',array('pluginid'=>$vo['addonId']));
+          </php>
+            <a href="javascript:void(0);" onclick="location.href='{$href}';return false;">管理</a>
+		  <php>}</php>
+		</td>
+        <td>
+		<php>if(isset($vo['addonId'])){</php>
+		    <php>
+	        $uninstall_href = U('admin/Addons/uninstallAddon',array('name'=>$vo['name']));
+	        $uninstall_alert_1 = '确定卸载该插件?';
+	        $uninstall_alert_2 = '卸载后, 您将丢失所有插件相关的数据, 强烈建议您备份数据库后再卸载!! 确定继续?';
+	        </php>
+            <a href="javascript:void(0);" onclick="if(confirm('{$uninstall_alert_1}') && confirm('{$uninstall_alert_2}') ) location.href='{$uninstall_href}';return false;">卸载</a>
+		<php>}</php>
+		</td>
+      </tr>
+      
+  </volist>
+  </table>
+    <div class="Toolbar_inbox">
+  </div>
+  </div>
+</div>
+<php>}</php>
+<include file="../Public/_footer" />

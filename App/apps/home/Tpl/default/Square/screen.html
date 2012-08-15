@@ -1,0 +1,151 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('weibo/plugins/init')}"></script>
+<script type="text/javascript" src="../Public/js/slides.min.jquery.js"></script>
+<script type="text/javascript" src="../Public/js/square.js"></script>
+<script>
+$(document).ready(function(){
+	$(".checkall").click(function(){
+		var div = '#star_box_'+$(this).attr("cid");
+		if( this.checked == true ){
+			$(div+" input[name='followuid[]']").attr('checked',true);
+		}else{
+			$(div+" input[name='followuid[]']").removeAttr('checked');
+		}
+	});
+});
+</script>
+<script language="javascript"> 
+  function over(){ 
+  document.getElementByIdx("card").style.display="block"; 
+  } 
+  function out(){ 
+  document.getElementByIdx("card").style.display="none"; 
+  } 
+</script> 
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  -->
+<div class="user_app">
+	<div class="celerity_menu">
+		<ul>
+		<li><a href="{:U('home/Square/index')}"><span class="ico_side ico_square"></span>广场首页</a></li>
+		<li><a href="{:U('home/Square/top')}" class="on"><span class="ico_side ico_billboard"></span>风云榜</a></li>
+		<li><a href="{:U('home/Square/star')}"><span class="ico_side ico_hall"></span>名人堂</a></li>
+		<li><a href="{:U('home/Square/index')}"><span class="ico_side ico_screen"></span>微薄大屏幕</a></li>
+		</ul>
+	</div>
+	<div class="celerity_menu app_line">
+		<ul>
+		<li><a href="{:U('home/Square/blog')}"><b>发布</b><span class="ico_side ico_journal"></span>日志</a></li>
+		<li><a href="{:U('home/Square/photo')}"><b>上传</b><span class="ico_side ico_album"></span>相册</a></li>
+		<li><a href="{:U('home/Square/group')}"><span class="ico_side ico_group"></span>群组</a></li>
+		</ul>
+	</div>
+</div>
+  <div class="main">
+    <div class="mainbox">
+      <div class="mainbox_C main_pad"  style="margin:0">
+        <div class="squareTop clearfix">
+        <div class="lt_toplist">
+            <div class="box_rankShow">
+            	<div class="tit_rank"><span class="time_rt">{:date('Y')}年</span>热门话题</div>
+                <div class="col_cate">
+                <span class="time_cate">热议次数</span>
+                <span class="tit_cate">排名</span>
+                <span class="topic_cate">话题</span>
+                </div>
+              <dl class="top_topic_list">
+				<volist id="vo" name="top_topics">
+				<php> if($key>2){ $class='no'; }else{ $class='no top'.($key+1); }</php>
+				<dd>
+					<span class="{$class}">{$key+1}</span>
+					<span class="topic_list"><a href="{:U('home/User/topics',array('k'=>$vo['name']))}">#{$vo.name}#</a></span>
+					<span class="time_list">{$vo.count}</span>
+				</dd>
+				</volist>
+                </dl>
+            </div>
+        </div>
+        <div class="rt_toplist">
+            <div class="box_rankShow box_rankShow_rt">
+            	<div class="tit_rank"><span class="time_rt">{:date('Y')}年</span>月度话题榜</div>
+                <div class="col_cate">
+                <span class="hot_cate_rt">热度</span>
+                <span class="tit_cate_rt">排名</span>
+                <span class="topic_cate_rt">话题</span>
+                <span class="time_cate_rt">热议次数</span>
+                </div>
+              <dl class="top_topic_list">
+				<volist id="vo" name="top_monthly_topics">
+				<php> if($key>2){ $class='no'; }else{ $class='no top'.($key+1); }</php>
+				<dd>
+					<span class="{$class}">{$key+1}</span>
+					<span class="topic_list_rt"><a href="{:U('home/User/topics',array('k'=>$vo['name']))}">#{$vo.name}#</a></span>
+					<span class="time_list_rt">{$vo.count}<!--<em class="icoup"></em>--></span>
+					<span class="percent_rt"><em style="width:{$vo.rating}%"></em></span>
+				</dd>
+				</volist>
+                </dl>
+            </div>
+        </div>
+        </div>
+        <div class="squareTop clearfix mt20">
+        <div class="lt_toplist">
+            <div class="box_rankShow">
+            	<div class="tit_rank">粉丝榜</div>
+                <div class="col_cate">
+                <span class="time_cate">粉丝数量</span>
+                <span class="tit_cate">排名</span>
+                <span class="topic_cate">昵称</span>
+                </div>
+				<dl class="top_topic_list">
+					<volist id="vo" name="top_users_by_follower">
+					<php> if($key>2){ $class='no'; }else{ $class='no top'.($key+1); }</php>
+					<dd>
+						<span class="{$class}">{$key+1}</span>
+						<span class="topic_list">
+							<span class="cardshow_list">
+								<a href="{:U('home/space/index',array('uid'=>$vo['uid']))}"><img src="{$vo.uid|getUserFace}" class="photo_list" /></a>
+							</span>
+							<space uid="vo.uid">{uname}</space>
+						</span>
+						<span class="time_list">{$vo.count}</span>
+					</dd>
+					</volist>
+				</dl>
+            </div>
+        </div>
+        <div class="rt_toplist">
+            <div class="box_rankShow box_rankShow_rt">
+            	<div class="tit_rank">人气榜</div>
+                <div class="col_cate">
+                <span class="hot_cate_rt">热度</span>
+                <span class="tit_cate_rt">排名</span>
+                <span class="topic_cate_rt">昵称</span>
+                <span class="time_cate_rt">指数</span>
+                </div>
+				<dl class="top_topic_list">
+			  	<volist id="vo" name="top_users_by_rating">
+					<php> if($key>2){ $class='no'; }else{ $class='no top'.($key+1); }</php>
+					<dd>
+						<span class="{$class}">{$key+1}</span>
+						<span class="topic_list_rt">
+							<a href="{:U('home/space/index',array('uid'=>$vo['uid']))}"><img src="{$vo.uid|getUserFace}" class="photo_list" /></a>
+							<space uid="vo.uid">{uname}</space>
+						</span>
+
+
+						<span class="time_list_rt">{$vo.rating}<!--<em class="icodown"></em>--></span>
+						<span class="percent_rt"><em style="width:{$vo.hot_rating}%"></em></span>
+					</dd>
+				</volist>
+				</dl>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<include file="__THEME__/footer" />

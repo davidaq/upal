@@ -1,0 +1,96 @@
+<script type="text/javascript">
+// 动态加载
+$(document).ready(function(){
+	var url = "<?php echo U('home/Widget/hooksAjax', array('addons'=>'Medal')); ?>";
+	$.post(url, {uid:'<?php echo $uid; ?>',show_alert:'1'}, function(res){
+		$('#_widget_medal').html(res);
+	});
+});
+</script>
+<div class="user_app"><!-- 用户组件列表 begin -->
+	<div class="user_app_top"></div>
+    <div class="user_app_box">
+    <div class="userinfo">
+    	<div class="userpic" onmouseover="this.className='userpic over'" onmouseout="this.className='userpic'" >
+    	    <span id="my_face">
+    	        <a href="<?php echo U('home/User/index'); ?>" ><img src="<?php echo getUserFace($_SITE_CONFIG['uid'], 'b') . '?' . time(); ?>" /></a>
+            </span>
+		    <a class="pic" href="<?php echo U('home/Account/index') . '#face'; ?>">上传头像</a>
+		  </div>
+      <div class="user_name">
+        <h2><?php echo getUserName($_SITE_CONFIG['uid']);echo getUserVerifiedIcon($_SITE_CONFIG['uid']);echo $user_name_end;echo getUserGroupIcon($_SITE_CONFIG['uid']); ?></h2>
+        <?php
+            $userCredit = getUserCredit($_SITE_CONFIG['uid']);
+            foreach($userCredit as $v) {
+        ?>
+        <p><? echo $v['alias']; ?>：<span class="cRed"><?php echo $v['credit']; ?></span></p>
+        <?php } ?>
+      </div>
+    </div>
+	<div style="padding:0 10px;"><div id="_widget_medal"></div></div>
+  <!--关注-->
+  <div class="user_follow app_line">
+  	<?php $followInfo = getUserFollow($_SITE_CONFIG['uid']); ?>
+  	<span class="lineR"><a href="<?php echo U('home/Space/follow',array('type'=>'following')); ?>"><strong><?php echo $followInfo['following'];?></strong><br />关注</a></span>
+    <span class="lineR"><a href="<?php echo U('home/Space/follow',array('type'=>'follower')); ?>"><strong><?php echo $followInfo['follower'];?></strong><br />粉丝</a></span>
+    <span><a href="<?php echo U('home/Space/index'); ?>"><strong id="miniblog_count"><?php echo getWeiboCount($_SITE_CONFIG['uid']); ?></strong><br />微博</a></span>
+  </div>
+  <!--关注 end-->
+  <?php
+  function getMenuState($type){
+    $type = split('/',$type);
+    if( strtolower(MODULE_NAME)==strtolower($type[0]) && ( strtolower(ACTION_NAME)==strtolower($type[1]) || $type[1]=='*') ){
+      return 'class="on"';
+    }
+  }
+  ?>
+  <div class="celerity_menu app_line">
+  	<a href="<?php echo U('home/user/index'); ?>" <?php echo getMenuState('user/index'); ?>>我的首页</a>
+	  <a href="<?php echo U('home/user/atme'); ?>" <?php echo getMenuState('user/atme'); ?>>@提到我的
+      <?php if($_SITE_CONFIG['userCount']['atme'] > 0) {?>
+      (<font color="red"><?php echo $_SITE_CONFIG['userCount']['atme'];?></font>)
+      <?php } ?>
+    </a>
+    <a href="<?php echo U('home/user/collection'); ?>" <?php echo getMenuState('user/collection'); ?>>我的收藏</a>
+    <a href="<?php echo U('home/user/comments'); ?>" <?php echo getMenuState('user/comments'); ?>>我的评论
+      <?php if($_SITE_CONFIG['userCount']['comment'] > 0) {?>
+      (<font color="red"><?php echo $_SITE_CONFIG['userCount']['comment'];?></font>)
+      <?php } ?>
+    </a>
+  </div>
+
+    <div class="user_app_list app_line">
+		<ul>
+		<?php $myop_app = getUserApp($_SITE_CONFIG['uid']);?>
+		<?php foreach ($myop_app as $type => $apps) { ?>
+		<?php foreach ($apps as $app) { ?>
+		    <li>
+		        <?php if(!$_SITE_CONFIG['site_appalias_wordwrap']) $app['app_alias'] = mb_substr($app['app_alias'],0,4,'UTF8');?>
+		        <?php if($type == 'local_app' || $type == 'local_default_app') { ?>
+			    <a href="<?php echo $app['app_entry'];?>" class="a14">
+			        <img src="<?php echo $app['icon_url'];?>" />
+                    <?php echo $app['app_alias'];?>
+                </a>
+                <?php }else { ?>
+                <a href="<?php echo MYOP_URL;?>/userapp.php?id=<?php echo $app['app_id'];?>" class="a14">
+                    <img src="http://appicon.manyou.com/icons/<?php echo $app['app_id'];?>" />
+                    <?php echo $app['app_alias'];?>
+                </a>
+                <?php }?>
+			</li>
+		<?php } ?>
+        <?php } ?>
+		</ul>
+	</div>
+    
+    <div class="app_add app_line">
+    <span class="right"><span class="ico_app_manage"></span><a href="<?php echo MYOP_URL;?>/cp.php?op=menu">管理应用</a></span>
+    <span><span class="ico_app_add"></span><a href="<?php echo U('home/Index/addapp'); ?>">添加应用</a>
+    </span>
+    </div>
+    </div>
+	<div class="user_app_btm"></div>
+	<?php foreach($_SITE_CONFIG['ad']['left'] as $v) { ?>
+	<div class="ad_left"><?php echo $v['content']; ?></div>
+	<?php } ?>
+</div><!-- 用户组件列表 end -->

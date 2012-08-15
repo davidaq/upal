@@ -1,0 +1,102 @@
+<link href="{:SITE_URL}/apps/{$app_show}/Tpl/default/Public/blog.css" rel="stylesheet" type="text/css" />
+<div class="mainbox_R">
+  <div class="box_create"><a href="{:U('blog/Index/addBlog')}" class="btn_blog_s"></a></div>
+  <div class="right_box">
+    <h2>推荐日志</h2>
+    <php>if(empty($relist)){</php>暂无推荐日志<php>} else {</php>
+    <volist name="relist" id="vo">
+        <p class="mb10"><a href="{:U('blog/Index/show', array('id'=>$vo['id'], 'mid'=>$vo['uid']))}" target="_blank">{$vo.title}</a></p>
+    </volist>
+    <php>}</php>
+  </div>
+</div>
+<!-- 切换标签 end  -->
+<div class="mainbox_C main_pad clearfix" >
+<div class="tab-menu">
+	<ul>
+    <php>if('new' == $_GET['order']){</php>
+        <li><a href="{:U('home/Square/blog', array_merge((array)$_GET, array('order'=>'hot')))}"><span>热门日志</span></a></li>
+        <li><a href="#" class="feed_item on"><span>最新日志</span></a></li>
+    <php>}else{</php>
+        <li><a href="#" class="feed_item on"><span>热门日志</span></a></li>
+        <li><a href="{:U('home/Square/blog', array_merge((array)$_GET, array('order'=>'new')))}"><span>最新日志</span></a></li>
+    <php>}</php>
+    </ul>
+</div>
+{:W('Weibo',array('tpl_name'=>'blog_share_weibo','button_title'=>'分享'))}
+<div class="BlogBox">
+  <div class="LogList"><!-- 好友日志 begin  -->
+    <ul>
+      <php>foreach( $data as $vo){</php>
+      <li class="lineD_btm">
+        <div class="userPic">
+        <space uid="vo.uid" >{uavatar}</space></div>
+        <div style=" margin-left:70px;">
+          <php>if( !((3 == $vo['private'] && $vo['uid'] != $mid) || (1 == $vo['private'] && !friend_areFriends( $mid,$vo['uid'] ))) ){</php>
+          <h3 class="f14px mb5" style="width: auto; _width:99%">
+            <span class="right">
+                <php>
+                $tpl_data = array('author'=>getUserName($vo['uid']),'title'=>$vo['title'],'url'=>U('blog/Index/show',array('id'=>$vo['id'],'mid'=>$vo['uid'])));
+                $tpl_data = urlencode(serialize($tpl_data));
+                //$param_data = urlencode(serialize(array('has_status'=>1,'is_success_status'=>1,'status_title'=>'发布成功')));
+                </php>
+                <input type="button" name="Submit" value="分享" class="BtnShare" onclick="_widget_weibo_start('', '{$tpl_data}', '{$param_data}');"/>
+            </span><a href="{:U('blog/Index/show', array('id'=>$vo['id'], 'mid'=>$vo['uid']))}"><strong>{$vo['title']}</strong></a>
+          </h3>
+          <php>}</php>
+          <p>
+          <php>if(ACTION_NAME == 'my' && $vo['uid']==$ts['user']['uid']) {</php>
+            <a href="{:U('blog/Index/edit', array('id'=>$vo['id'], 'mid'=>$vo['uid']))}">编辑</a> | <a href="javascript:deleteBlog('{:U('blog/Index/doDeleteBlog', array('id'=>$vo['id']))}')">删除</a>&nbsp;&nbsp;
+          <php>}else {</php>
+            <space uid="vo.uid" target="_blank">{uname}</space>
+            {$vo.uid|getUserGroupIcon} 
+          <php>}</php>
+            <span class="cGray2">{$vo['cTime']|friendlyDate}</span>
+          </p>
+          <php>if( 3 == $vo['private'] && $vo['uid'] != $mid ){</php>
+          <div class="bg_msg">
+            <div class="bg_msg_btm">
+              <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="40" align="center"><img src="../Public/images/ico_yaoshi.png" width="20" height="20" /></td>
+                  <td>本{$ts['app']['app_alias']}需要密码才能访问</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <php>}elseif( 1 == $vo['private'] && !friend_areFriends( $mid,$vo['uid'] ) && $vo['uid'] != $mid){</php>
+          <div class="bg_msg">
+            <div class="bg_msg_btm">
+              <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="40" align="center"><img src="../Public/images/ico_suo.png" width="20" height="20" /></td>
+                  <td>只有主人的好友可以查看此{$ts['app']['app_alias']}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <php>}else{</php>
+            <php>
+            // 过滤HTML代码
+            $vo['content'] = getShort(strip_tags(html_entity_decode($vo['content'], ENT_QUOTES)), 214, '...');
+            </php>
+            <p style="margin:5px 0px;word-break:break-all; overflow:hidden" class="roundbgF6">{$vo['content']}</p>
+          <php>}</php>
+          <p class="cGray2 alR">分类:
+            <php>
+            if ($vo['uid'] == $ts['user']['uid'])
+                $url = U('blog/Index/my', array('cateId'=>$vo['category']));
+            else
+                $url = U('blog/Index/personal', array('cateId'=>$vo['category'], 'uid'=>$vo['uid']));
+            </php>
+            <a href="{$url}">{$vo['category_title']}</a>&nbsp;&nbsp;|&nbsp;&nbsp; <a href="{:U('blog/Index/show', array('id'=>$vo['id'], 'mid'=>$vo['uid']))}">阅读</a>({$vo['readCount']})&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{:U('blog/Index/show', array('id'=>$vo['id'], 'mid'=>$vo['uid']))}#comment">评论</a>({$vo['commentCount']})</p>
+        </div>
+      </li>
+      <php>}</php>
+    </ul>
+    <div class="page">{$html}</div>
+  </div>
+  <!-- 好友日志 end  --> 
+  <div class="c"></div>
+</div>
+</div>

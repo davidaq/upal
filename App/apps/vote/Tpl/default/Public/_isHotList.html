@@ -1,0 +1,8 @@
+<div class="mod_recommend">
+    <h2>推荐</h2>
+    <ul>
+	<volist name="IsHotList" id="vo">
+   		<p class="mb10"><a href="{:U('home/space/index', array('uid'=>$vo['uid']))}">{$vo.username}</a>：<a href="{:U('vote/Index/pollDetail', array('id'=>$vo['id']))}">{$vo.title} </a><em>(共{$vo.vote_num}票)</em></p>
+	</volist>
+	</ul>
+</div>

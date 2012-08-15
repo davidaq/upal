@@ -1,0 +1,75 @@
+<include file="__THEME__/header" />
+<div class="content_holder">
+<div class="content_share">
+    <div class="mainbox boxspace">
+    <!--右边栏-->
+    
+      <div class="mainbox_appR">
+      <strong>分享者信息</strong>：<br><br>
+      <div class="right_box">
+      <div class="userinfo_detail">
+    	<div class="userpic"><span id="my_face"><img src="{$uid|getUserFace='b'}"></span>
+		</div>
+  		<div class="user_name">
+        	<h3>{$userinfo.uname}<php>Addons::hook('user_name_end', array('uid'=>$uid, 'html'=>& $user_name_end));echo $user_name_end;</php>{$userinfo.uid|getUserGroupIcon}</h3>
+        	<p>{$userinfo.location}</p>
+            <!--加关注-->
+            <div id="follow_list_{$uid}">
+            <php>if ($mid > 0 && $mid != $uid) {</php>
+              <script>document.write(followState('{:getFollowState($mid,$uid)}','dolistfollow',{$uid}))</script>
+            <php>}</php>
+            </div>
+            <!--/加关注-->
+            </div>
+  </div>
+  </div>
+  <div class="right_box">
+<div class="user_follow_detail app_line_w">
+  	<span class="app_lineR_w"><a href="{:U('home/Space/follow',array('uid'=>$mini['uid'],'type'=>'following'))}"><strong>{$spaceCount.following}</strong><br>关注</a></span>
+    <span class="app_lineR_w"><a href="{:U('home/Space/follow',array('uid'=>$mini['uid'],'type'=>'follower'))}"><strong>{$spaceCount.follower}</strong><br>粉丝</a></span>
+    <span><a href="{:U('home/Space/index',array('uid'=>$mini['uid']))}"><strong>{$spaceCount.miniblog}</strong><br>微博</a></span>
+  </div>
+  </div>
+  <div class="right_box app_line_w">
+  	<div class="friInfoDetails">
+          <strong>个人标签</strong>：<br>
+		  <volist id="vo" name="usertags">
+		  	<a href="{:U('home/User/searchtag',array('k'=>$vo['tag_name']))}">{$vo.tag_name}</a>&nbsp;
+		  </volist>
+		  
+          <div class="alR">
+          	<php>if($mid==$mini['uid']){</php>
+				<span><a href="{:U('home/Account/index')}">修改</a>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+			<php>}</php>
+			<a href="{:U('home/Space/profile',array('uid'=>$mini['uid']))}">更多&raquo;</a></div>
+        </div>
+        </div>
+	
+        
+      </div>
+    <!--/右边栏-->
+    
+    <!--左边栏-->
+    <div class="mainbox_appS boxdown_l">
+    	<!--文档分享区-->
+        <div class="Share radius5">
+            <div class="feed_quote">
+                  <div class="q_tit"><span class="ico_{$data.extension}"></span></div>
+                  <div class="q_con1" style="margin-left:56px">
+                  	<dl class="list_shareFile">
+                      <dt><a href="{:U('home/Attach/download', array('id'=>$data['id'], 'uid'=>$data['userId']))}" target="_blank">{$data.name}</a></dt>
+                      <dd><span>大小：</span>{$data.size|byte_format}</dd>
+                      <!-- <dd><span>下载：</span>38次</dd> -->
+                      <dd><span>分享时间：</span>{$data.uploadTime|friendlyDate}</dd>
+                      <dd class="mt10"><a class="btn_download" href="{:U('home/Attach/download', array('id'=>$data['id'], 'uid'=>$data['userId']))}"></a></dd>
+                  	</dl>
+                  </div>
+                  <div class="q_btm"><img class="q_btm_l" src="__THEME__/images/zw_img.gif" /></div>
+            </div>
+        </div>
+   	  <!--/文档分享区--></div>
+    <!--左边栏-->
+    </div>
+</div>
+</div>
+<include file="__THEME__/footer" />

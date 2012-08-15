@@ -1,0 +1,122 @@
+<dl style="margin:10px 0 5px;  height:25px;line-height:25px;">
+      <dt class="left alR " style="width:70px;display:block;float:left">用户组：</dt>
+      <dd style="margin:0 0 0 70px"><input type="text"  maxlength="20"  id="title" value="{$user_group['title']}">
+      </dd>
+</dl>
+<dl style="margin:10px 0 5px; height:25px;line-height:25px;">
+      <dt class="left alR " style="width:70px;display:block;float:left">图标：</dt>
+      <dd>
+      	<volist name='iconlist' id='i'>
+      		<label> <input type ='radio' name='icon' value='{$i.filename}' <php> if($i['filename'] == $user_group['icon']){</php>  checked="checked"<php>}</php> >
+      			<img src="__THEME__/images/usergroup_icon/{$i.filename}" ></label>
+      	</volist>	
+      </dd>
+</dl>
+
+
+<div style="background:#F8F8F8; border-top:1px solid #E6E6E6; padding:5px;" class="alR">
+  <php>if (isset($user_group)) {</php>
+  <input type="button" class="btn_b" onclick="editUserGrop()" value="确定" />
+  <php>}else {</php>
+  <input type="button" class="btn_b" onclick="addUserGrop()" value="确定" />
+  <php>}</php>
+  <input type="button" class="btn_w" onclick="cancel()" value="取消" />
+</div>
+<script type="text/javascript">
+var themePath = "__THEME__/images/usergroup_icon/";
+//添加用户组
+function addUserGrop() {
+	var icon	= $('input:radio[name="icon"]:checked').val();
+
+	var title	= $('#title').val();
+	if(title=='') {
+        ui.error('请输入用户组名称');
+        return ;
+    }
+
+	//判断是否有重名
+	$.post("{:U('admin/User/isUserGroupExist')}", {title:title}, function(res){
+		if(res == '1') {
+			if( !confirm("该用户组名称已存在，是否继续？") ) {
+				return false;
+			}
+		}
+		//提交修改
+		$.post("{:U('admin/User/doAddUserGroup')}", {title:title,icon:icon}, function(res){
+			if (res == '0') {
+				ui.error('保存失败');
+            }else if (res == '-1') {
+            	ui.error('用户组名已存在');
+			}else {
+				var new_group_html = '';
+				new_group_html += '<tr id="group_'+res+'" overstyle="on">';
+				new_group_html += '<td><input type="checkbox" value="'+res+'" onclick="checkon(this)" id="checkbox2" name="checkbox"></td>';
+				new_group_html += '<td>'+res+'</td>';
+				new_group_html += '<td><div style="float: left;">'+title+'</div></td>';
+				if(icon != ''){
+				new_group_html += '<td><img src="'+themePath+icon+'"></td>';
+				}else{
+				new_group_html += '<td></td>';	
+				}
+				new_group_html += '<td><php>echo date("Y-m-d H:i");</php></td>';
+				new_group_html += '<td><a href="javascript:void(0);" onclick="edit('+res+')">编辑</a> ';
+				new_group_html += '<a href="javascript:void(0);" onclick="del('+res+');">删除</a></td>';
+				new_group_html += '</tr>';
+				$('#user_group_list').append(new_group_html);
+				ui.success('添加成功');
+				ui.box.close();
+			}
+		});
+	});
+}
+
+//编辑用户组
+function editUserGrop() {
+	var title	= $('#title').val();
+	var icon	= $('input:radio[name="icon"]:checked').val();
+	var gid		= "{$user_group['user_group_id']}";
+	
+	if(title=='') {
+        ui.error('请输入用户组名称');
+        return ;
+    }
+	
+	//判断名称是否有变化
+	/*if(title == "{$user_group['title']}") {
+		ui.success('名称无变化，未提交修改');
+		ui.box.close();
+		return false;
+	}*/
+
+	//判断是否有重名
+	$.post("{:U('admin/User/isUserGroupExist')}", {gid:gid, title:title}, function(res){
+		if(res == '1') {
+			if( !confirm("该用户组名称已存在，是否继续？") ) {
+				return false;
+			}
+		}
+		//提交修改
+		$.post("{:U('admin/User/doEditUserGroup')}", {gid:gid, title:title,icon:icon}, function(res){
+			if (res == '0') {
+				ui.error('保存失败');
+			}else if (res == '-1') {
+				ui.error('用户组名已存在');
+			}else {
+				$('#user_group_name_'+gid).html(title);
+				if(icon != ''){
+				$('#user_group_icon_'+gid).html('<img src="'+themePath+icon+'">');
+				}else{
+				$('#user_group_icon_'+gid).html('');	
+				}
+			
+				ui.success('保存成功');
+				ui.box.close();
+			}
+		});
+	});
+}
+
+function cancel() {
+	ui.box.close();
+}
+</script>

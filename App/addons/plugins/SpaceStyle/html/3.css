@@ -1,0 +1,48 @@
+/* 
+    Document   : 1
+    Created on : 2012-2-10, 12:46:29
+    Author     : alan QQ:8510001
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.fakesay.com
+*/
+/*---导航菜单样式---*/
+.page_home,.body_bg{background: url(3/body_bg1.png) no-repeat top center #EADBA4}
+.content{background:url(3/content_bg.png)}
+/*---导航菜单样式---*/
+.header_holder,.header_bg{z-index:9999;width:100%;min-width:1000px;background:url(3/head_bg.png) repeat-x 0 0 transparent;left:0;top:0;-moz-opacity:1;opacity:1}
+.header_holder0{z-index:9999;width:100%;min-width:1000px;background:url(0/head_bg.png) repeat-x 0 0 transparent;left:0;top:0;-moz-opacity:1;opacity:1}
+.header_holder1{z-index:9999;width:100%;min-width:1000px;background:url(1/head_bg.png) repeat-x 0 0 transparent;left:0;top:0}
+.header_holder2{z-index:9999;width:100%;min-width:1000px;background:url(2/head_bg.png) repeat-x 0 0 transparent;left:0;top:0}
+.header_holder4{z-index:9999;width:100%;min-width:1000px;background:url(4/head_bg.png) repeat-x 0 0 transparent;left:0;top:0}
+.header .nav ul li.hover .dropmenu,.header .person li.hover .dropmenu{background-color: #fff;border: 1px solid #c99f47;border-top:none 0}
+.header .nav ul li.hover .dropmenu a:hover,.header .person li.hover .dropmenu a:hover{background-color: #EADBA4;text-decoration: none;display:block}
+.header .nav ul li.hover .dropmenu .app_list dd a:hover {background-color:#EADBA4}
+.header .nav ul li a.fb14:hover,.header .person li a.fb14:hover{background-color:#95744a;text-decoration:none;white-space:nowrap;display: block;}
+
+.user_app .user_follow strong{color:#AA6600}
+.user_app .user_follow span{margin:0}
+.user_app .celerity_menu a:link,.user_app .celerity_menu a:visited {color:#AA6600}
+.user_app .celerity_menu a:hover {background-color:#EBE5DE;color:#AA6600}
+.user_app .celerity_menu a.on,.user_app .celerity_menu a.on:visited {background-color:#9B7E58;color:#fff}
+.user_app_box .app_line_w{background:none}
+.user_app .userinfo .user_name h2, .user_app .userinfo .user_name h2 a{color:#AA6600}
+.wrap_index_r .app_line{border-bottom: 0 none;padding: 10px 0 0}
+.user_app .app_line, .tab_square .app_line{background:url(3/app_line.jpg) repeat-x left top}
+.lineS_btm{border-bottom:#D9C6A7 solid 1px}
+.app_lineL {background:none;border-left:#D9C6A7 solid 1px}
+
+/*---链接样式--- */
+a:link { color:#a60; text-decoration:none }
+a:visited { color:#a60; text-decoration:none }
+a:hover { color:#a60; text-decoration:underline }
+a:active { color:#a60 }
+.btn_b, a.btn_b, a.btn_b:hover, a.btn_b:visited {color: #FFFFFF}
+a.add_atn,a.add_atn:visited{color:#fff}
+.btn_w, a.btn_w, a.btn_w:hover, a.btn_w:visited {color: #333}
+.feed_list .feed_quote .q_con .comment a:link,.feed_list .feed_quote .q_con .comment a:visited{color:#7498C0}
+.feed_list .feed_quote .q_con .comment a:hover{color:#BA2636}	

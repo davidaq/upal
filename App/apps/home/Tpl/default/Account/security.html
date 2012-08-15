@@ -1,0 +1,185 @@
+<include file="__THEME__/header" />
+<link href="../Public/account.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l"> <!-- 右侧内容 begin  -->
+    <div class="mainbox">
+      <div class="mainbox_appC no_r">
+    <!-- page_title end -->
+    <include file="_tab" />
+    <!-- 切换标签 end  -->
+    
+    <div class="mainbox_C_C">
+		<div class="setupBox">
+		  <!-- 修改密码 -->
+          <div class="setItems">
+            <div class="setFold setUnfold" rel="base" >
+              <h2>修改密码</h2>
+            </div>
+            <div style="display: block;" class="setItemsInfo">
+		      <div class="data"><!-- 修改密码 begin  -->
+		            <dl class="set_basic">
+		                <form action="{:U('home/Account/doModifyPassword')}" method="post" class="form_validator" id="regform">
+		                <dd>
+		                    <label>原始密码：</label>
+		                    <div class="left">
+		                      <div class="left mr5"><input name="oldpassword" type="password" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
+		                    </div>
+		                </dd>
+		                <dd>
+		                    <label>新密码：</label>
+		                    <div class="left">
+		                      <div class="left mr5"><input name="password" type="password" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
+		                    </div>
+		                </dd>
+		                <dd>
+		                    <label>确认密码：</label>
+		                    <div class="left">
+		                      <div class="left mr5"><input name="repassword" type="password" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
+		                    </div>
+		                </dd>
+		                <dd><label>&nbsp;</label><input type="submit" class="btn_b" value="保存" /></dd>
+		            </form> 
+		           </dl>
+		        </div><!-- 修改密码 end  -->
+            </div>
+          </div>
+
+		  <!-- 修改密码 -->
+          <div class="setItems">
+            <div class="setFold" rel="email" >
+              <h2>修改帐号</h2>
+            </div>
+            <div style="display:none;"  class="setItemsInfo">
+		      <div class="data"><!-- 修改密码 begin  -->
+		            <dl class="set_basic">
+		                <dd>
+		                    <label>原始Email：</label>
+		                    <div class="left">
+		                      <div class="left mr5"><input id="oldemail" type="text" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
+		                    </div>
+		                </dd>
+		                <dd>
+		                    <label>新Email：</label>
+		                    <div class="left">
+		                      <div class="left mr5"><input id="newemail" type="text" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
+		                    </div>
+		                </dd>
+		                <dd>
+		                	<label>&nbsp;</label>
+		                	<input type="submit" class="btn_b" value="保存" id="btn_submit" onclick="modifyEmail();" />
+		                </dd>
+		           </dl>
+		        </div><!-- 修改密码 end  -->
+            </div>
+          </div>
+
+		  <if condition="$set_ucenter_username">
+          <!-- 设置UCenter帐号-->
+          <div class="setItems">
+            <div class="setFold setUnfold" rel="ucenter" >
+              <h2>设置UCenter帐号</h2>
+            </div>
+            <div style="display: block;" class="setItemsInfo">
+		      <div class="data"><!-- 修改密码 begin  -->
+		            <form action="{:U('home/Account/doModifyUCenter')}" method="post" class="form_validator">
+		              <ul>
+		                <li>
+		                    <div class="left alR" style="width: 15%;">UCenter：</div>
+		                    <div class="left" style="width: 50%;">
+		                      <div class="left mr5"><input name="username" type="text" value="{$uc_username}" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" <if condition="$uc_username">readonly</if> /></div>
+		                    </div>
+		                </li>
+		                <li>
+		                    <div class="left alR" style="width: 15%;">UCenter：</div>
+		                    <div class="left" style="width: 50%;">
+		                      <div class="left mr5"><input name="email" type="text" value="{$uc_email}" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
+		                    </div>
+		                </li>
+		                <li>
+		                    <div class="left alR" style="width: 15%;">本站密码：</div>
+		                    <div class="left" style="width: 50%;">
+		                      <div class="left mr5"><input name="password" type="password" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
+		                    </div>
+		                </li>
+		                <li>
+		                	<div class="left alR" style="width: 15%;">&nbsp;</div>
+		                	<div class="left" style="width: 50%;"><input type="submit" class="btn_b" value="保存" /></div>
+		                	<div class="left" style="width: 20%;">&nbsp;</div>
+		                	<div class="left" style="width: 15%;">&nbsp;</div>
+		                </li>
+		             </ul>
+		           </form> 
+		      </div><!-- 修改密码 end  -->
+            </div>
+          </div>
+          </if>
+
+          {:Addons::hook('home_account_security_bottom')}
+        <div class="c"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 右侧内容 end  -->
+  <div class="c"></div>
+</div>
+</div>
+<!-- 内容 end --> 
+<include file="__THEME__/footer" />
+
+<script>
+	$(document).ready(function(){
+		var hs = document.location.hash;
+		changeModel( hs.replace('#','') );
+		$('.setFold').click(function(){
+			if( $(this).attr('class')=='setFold' ){
+				changeModel( $(this).attr('rel') );
+			}else{
+				$(this).removeClass('setUnfold');
+				$(this).next('.setItemsInfo').hide();
+			}
+			location.href='#'+$(this).attr('rel');
+		})
+		
+	
+	});
+	
+	//切换操作模块
+	function changeModel( type ){
+		var t = type || 'base';
+		$('.setFold').removeClass('setUnfold');
+		$('.setItemsInfo').hide();
+		var handle = $('div[rel="'+t+'"]');
+		handle.addClass('setUnfold');
+		handle.next('.setItemsInfo').show();
+	}
+
+	function modifyEmail() {
+		$('#btn_submit').attr('disabled','true');
+		var oldemail = $('#oldemail').val();
+		var email = $('#newemail').val();
+		$.post("{:U('home/Account/modifyEmail')}", {oldemail:oldemail,email:email}, function(res) {
+			if (res == '-1') {
+				ui.error('Email地址不能为空，且格式必须正确');
+			}else if (res == '-2') {
+				ui.error('原始Email错误');
+			}else if (res == '-3') {
+				ui.error('新Email已存在');
+			}else if (res == '-4') {
+                ui.error('验证邮件发送失败');
+			}else if (res == '0') {
+				ui.error('保存失败');
+			}else if (res == '1') {
+				alert('保存成功, 请重新登录');
+			}else if (res == '2') {
+				alert('激活邮件已发送，请通过邮件激活本次修改');
+			}
+			$('#btn_submit').removeAttr('disabled');
+		});
+	}
+	
+</script>

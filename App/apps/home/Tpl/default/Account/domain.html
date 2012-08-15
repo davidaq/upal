@@ -1,0 +1,47 @@
+<include file="__THEME__/header" />
+<link href="../Public/account.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l"> <!-- 右侧内容 begin  -->
+
+      <div class="mainbox">
+      <div class="mainbox_appC no_r">
+    <!-- page_title end -->
+    <include file="_tab" />
+    <!-- 切换标签 end  -->
+    <div class="mainbox_C_C">
+		<div class="setupBox">
+		  <!-- 修改密码 -->
+          <div class="setItems" style=" margin:20px 0;">
+          <php>if($userDomain){</php>
+          <h3 class="mt10 mb10">您的个性化域名地址为: </h3>
+         	  <div class="line_box mt10" style="padding:10px 5px">{:U('home/Space/index',array('uid'=>$userDomain))}</div>
+          <php>}else{</php>
+	          <div>
+	          <h3 class="mt10 mb10">记得自己的微博客地址是什么吗？设置个性域名，让朋友更容易记住！</h3>
+	          <ul class="lh20">
+	          <li>－可以输入2至20位的英文或数字（必须以英文字符开头）</li>
+	          <li>－保存后就不能修改了</li>
+	          </ul>
+	          <form action="" method="Post">
+	          	<div class="line_box mt10" style="padding:10px 5px">{:SITE_URL}/@<input type="text" maxlength=20 name="domain" class="text">
+	          	<input type="submit" value="保存" class="N_but"></div>
+	          </form>
+	          </div>
+          <php>}</php>
+           </div>
+        <div class="c"></div>
+        </div>
+        </div>
+      </div>
+  </div>
+  </div>
+  <!-- 右侧内容 end  -->
+  <div class="c"></div>
+</div>
+</div>
+<!-- 内容 end --> 
+<include file="__THEME__/footer" />
+

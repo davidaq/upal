@@ -1,0 +1,82 @@
+<include file="__THEME__/header" />
+<link href="../Public/css/space.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<!--<script type="text/javascript" src="{:U('weibo/plugins/init')}"></script>-->
+<script type="text/javascript" src="__PUBLIC__/js/weibo.js"></script>
+<style>
+.autoimage{
+	max-width: 420px;
+	height:auto;
+	width:expression(this.width > 420 ? "420px" : this.width);
+}
+</style>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l">
+    <div class="mainbox boxspace">
+      <div class="mainbox_appR">
+		<include file="../Space/space_right" />
+      </div>
+      <div class="mainbox_appC boxspace_L">
+        <div class="friend_info">
+         <include file="../Space/userMenu" />
+		</div>
+		  {:Addons::hook('home_space_profile_middle', array($uid))}
+          <div class="friend_info_right">
+            <div class="info_deta lineS_top">
+                <dl class="lineD_top">
+                	<dt>个人情况</dt>
+					<volist id="vo" name="userInfo.intro.list">
+                    	<php>if($vo['value']){</php></php><dd><div class="c1">{$vo.name}:</div><div class="c2">{$vo.value}</div></dd><php>}</php>
+					</volist>
+                </dl>
+                <dl class="lineD_top">
+                	<dt>联系方式</dt>
+					<volist id="vo" name="userInfo.contact.list">
+                    	<php>if($vo['value']){</php></php><dd><div class="c1">{$vo.name}:</div><div class="c2">{$vo.value}</div></dd><php>}</php>
+					</volist>
+                </dl>
+                <php>if($userInfo['profile'] && $userInfo['profile']['list']){</php>
+                <dl class="lineD_top">
+                  <dt>教育、工作情况</dt>
+                  <volist id="vo" name="userInfo.profile.list"></php>
+                      <dd>
+                          <switch name="vo['module']">
+                              <case value="education">
+                                  <div class="projectlist">
+                                      <h3>
+                                      [教育]&nbsp;&nbsp;<a target="_blank">{$vo.school}</a>
+                                      </h3><p>{$vo.year}入学 - {$vo.classes}</p>
+                                  </div>
+                              </case>
+                              <case value="career">
+                                  <div class="projectlist">
+                                      <h3>
+                                      [公司/机构]&nbsp;&nbsp;<a target="_blank">{$vo.company}</a>
+                                      </h3><p>{$vo.begintime} 至 {$vo.endtime}<br>{$vo.position}</p>
+                                  </div>
+                              </case>
+                          </switch>
+                      </dd>
+                  </volist>
+                </dl>
+                <php>}</php>
+            </div>
+          </div>
+          <div class="c"></div>
+		  {:Addons::hook('home_space_profile_bottom', array($uid))}
+      </div>
+
+    </div>
+  </div>
+  <div class="clear"></div>
+</div>
+</div>
+<!-- 内容 end --> 
+<script>
+var weibo = $.weibo({
+      timeStep : 10000
+});
+</script>
+{:Addons::hook('weibo_js_plugin')}
+<include file="__THEME__/footer" /> 

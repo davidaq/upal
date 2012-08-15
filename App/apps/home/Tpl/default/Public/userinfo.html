@@ -1,0 +1,128 @@
+<include file="__THEME__/header" />
+<link href="../Public/login.css" rel="stylesheet" type="text/css" />
+
+<!--日期-->
+<script  type="text/javascript" src="../Pulbic/js/rcalendar.js" ></script>
+<!--表单验证-->
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/js/jquery.validator.reg.js"></script>
+<script type="text/javascript" src="../Public/js/jquery.corners.min.js"></script>
+<link href="__PUBLIC__/js/form_check/type.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="../Public/js/register.js" ></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l">
+    <div class="mainbox boxspace">
+    <div class="mainbox_appR">
+    	<div class="reg_process">
+        <div class="reg_process_on"><div>1.填写基本信息</div></div>
+        <div class="reg_process_def"><div>2.看看推荐的人</div></div>
+        <div class="reg_process_def"><div>3.完成，进入我的首页</div></div>
+        </div>
+    </div>
+    <div class="mainbox_appC boxspace_L">
+    <div class="reg_box">
+    <div class="left lineS_btm" style="width:100%">
+    
+        <h2 class="cBlue"><strong style="font-size:45px">01.</strong>完善个人资料，开通微博鲜事</h2>
+        <p class="cRed f16px" style="margin: 10px 0 20px 80px;">你已成功注册。</p>
+</div>
+        <form action="{:U('home/Public/userinfo')}" method="post" id="regform" name="reg">
+			<php>if(!empty($invite)) {</php>
+			<php>}</php>
+          
+            <ul class="form_list">
+                <li class="form_li">
+                    <div class="reg_li_1">站内昵称：</div>
+                    <div class="reg_li_2">
+                      <!--<input type="text" readonly="readonly" name="nickname" value="{$nickname}" class="text35" style="width:250px;" min="2" max="10" maxLength="10" require="true" datatype="require|ajax" url="{:U('home/Public/isValidNickName')}" msg="重要！请填写昵称|昵称不符合要求或已被使用!" />-->
+                      <span>{$nickname}</span>
+                      <if condition="UC_SYNC">(注: 昵称只能由2-10个中英文、数字、下划线和中划线组成)</if>
+                    </div>
+                    <div class="reg_li_3">
+                        <div id="success_nickname" style="display:none;">
+                            <span class="ico_cue_ok"></span>
+                        </div>
+                        <div class="error_nickname" style="position: relative;display:none;">
+                                <span class="ico_cue_no"></span><span id="error_nickname"></span>
+                        </div>
+                    </div>
+                   
+                </li>
+                <li class="form_li">
+                    <div class="reg_li_1">所在地：</div>
+                    <div class="reg_li_2">
+                      <script>ui.getarea('area','',11,1);</script>
+                    </div>
+       				<div class="reg_li_3">
+                        <div id="success_area_province"  style="display:none;">
+                            <span><img src="../Public/images/fzcg_dh[1].gif" /></span>
+                        </div>
+                        <div class="r error_area_province" style="position: relative;display:none;">
+                            <div>
+                                <span><img src="../Public/images/th_ju[1].gif" /></span>
+                                <div class="clue"><p id="error_area_province"></p><span class="clue_btm"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="form_li">
+       <div class="reg_li_1">性别：</div>
+                    <div class="reg_li_2">
+                        <label><input name="sex" type="radio" value="1"  checked /> 男</label> &nbsp;&nbsp;&nbsp;
+                        <label><input name="sex" type="radio" value="0" /> 女</label>
+                    </div>
+                    <div class="reg_li_3">
+                        <div id="success_sex"  style="display:none;">
+                            <span><img src="../Public/images/fzcg_dh[1].gif" /></span>
+                        </div>
+                        <div class="r error_sex" style="position: relative;display:none;">
+                            <div>
+                                <span><img src="../Public/images/th_ju[1].gif" /></span>
+                                <div class="clue"><p id="error_sex"></p><span class="clue_btm"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>	
+	 
+            	<eq name="register_verify_on" value="1">
+                <li class="form_li">
+                    <div class="reg_li_1">验证码：</div>
+                    <div class="reg_li_2">
+                        <input type="text" class="text35"  style="width: 60px; margin-right:5px; float:left;" name="verify" require="true" datatype="require|ajax" url="__URL__/checkVerify" msg="验证码不能为空|验证码输入有误，请重输！"/>
+                        <div class="left">
+                            <img src="__URL__/verify" id="verifyimg"/><a href="javascript:void(0);" onclick="changeverify()"><br />看不清 换一张</a>
+                        </div>
+
+                    </div>
+                    <div class="reg_li_3">
+                        <div id="success_verify"  style="display:none;">
+                            <span><img src="../Public/images/fzcg_dh[1].gif" /></span>
+                        </div>
+                        <div class="r error_verify" style="position: relative;display:none;">
+                            <div>
+                                <span><img src="../Public/images/th_ju[1].gif" /></span>
+                                <div class="clue"><p id="error_verify"></p><span class="clue_btm"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                </eq>
+                
+                <li class="form_li">
+                <div class="reg_li_1">&nbsp;</div><div class="reg_li_2">
+					<input type="submit" class="btn_green_w121" value="创建帐号">
+					</div>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div class="c"></div>
+    </div>
+    </div>
+  <div class="clear"></div>
+</div>
+</div>
+</div>
+<include file="__THEME__/footer" />

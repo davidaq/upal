@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+<?php
+if(!empty($_SITE_CONFIG['page_title'])) {
+    echo "{$_SITE_CONFIG['page_title']} - ";
+}
+echo "漫游平台 - {$_SITE_CONFIG['site_name']}";
+?>
+</title>
+<link rel="shortcut icon" href="<?php echo THEME_URL;?>/favicon.ico" />
+<meta name="keywords" content="=<?php echo $_SITE_CONFIG['site_header_keywords'];?>" />
+<meta name="description" content="<?php echo $_SITE_CONFIG['site_header_description'];?>" />
+<script>
+	var _UID_   = <?php echo (int) $uid; ?>;
+	var _MID_   = <?php echo (int) $mid; ?>;
+	var $CONFIG = {};
+		$CONFIG['uid'] = _UID_;
+		$CONFIG['mid'] = _MID_;
+</script>
+<!-- 全局风格CSS -->
+<link href="<?php echo THEME_URL;?>/layout.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo PUBLIC_URL;?>/js/tbox/box.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo THEME_URL;?>/public.css?20110429" rel="stylesheet" type="text/css" />
+<link href="<?PHP echo THEME_URL;?>/layout.css?20110429" rel="stylesheet" type="text/css" />
+<link href="<?php echo THEME_URL;?>/main.css?20110429" rel="stylesheet" type="text/css" />
+<!-- 核心JS加载 -->
+<script type="text/javascript" src="<?php echo PUBLIC_URL;?>/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo PUBLIC_URL;?>/js/common.js"></script>
+<script type="text/javascript" src="<?php echo PUBLIC_URL;?>/js/tbox/box.js"></script>
+</head>
+<body class="body_bg">
+
+<div class="div_body">
+<div class="header_holder">
+ <div class="header">
+ <div class="logo_holder">
+    <div class="logo"><a href="<?php echo U('home');?>" >
+    <img src="<?php echo ($_SITE_CONFIG['site_logo'])?$_SITE_CONFIG['site_logo']:THEME_URL.'/images/logo.gif'; ?>" /></a></div>
+    <form action="<?php echo U(('home/user/search')); ?>" id="quick_search_form" method="post">
+    <div class="soso br3"><label id="_header_search_label" style="display: block;" onclick="$(this).hide();$('#_header_search_text').focus();">搜名字/标签/微博</label><input type="text" class="so_text" value="" name="k" id="_header_search_text" onblur="if($(this).val()=='') $('#_header_search_label').show();"/><input name="" type="button" onclick="$('#quick_search_form').submit()" class="so_btn hand br3"/></div>
+	</form>
+    <div class="nav">
+      <ul>
+        <li><a href="<?php echo U(('home')); ?>" class="fb14">首页</a></li>
+		<li class="header_dropdown"><a href="<?php echo U(('home/Square')); ?>" class="application">广场<span class="ico_arrow"></span></a>
+          <div class="dropmenu">
+                <dl class="square_list">
+                <dd><a href="<?php echo U(('home/Square/top')); ?>"><span class="ico_pub ico_pub_billboard"></span>风云榜</a></dd>
+                <dd><a href="<?php echo U(('home/Square/star')); ?>"><span class="ico_pub ico_pub_hall"></span>名人堂</a></dd>
+            </dl>
+          </div>
+        </li>
+      </ul>
+    </div>
+	</div>
+	<!--个人信息区-->
+	<ul class="person">
+		<li>
+		 <a target="_self" class="fb14 username nocard" uid="<?php echo $_SITE_CONFIG['userInfo']['uid'];?>" rel="face" href="<?php echo U('home/Space',array('uid'=>$_SITE_CONFIG['userInfo']['uid']));?>http://zuity/index.php?app=home&amp;mod=Space&amp;act=index&amp;uid=yisheng"><?php echo $_SITE_CONFIG['userInfo']['uname'];?></a>
+		</li>
+		<li class="header_dropdown"><a href="<?php echo U('home/message/index');?>" class="application">消息<span class="ico_arrow"></span></a>
+          <div class="dropmenu">
+                <ul class="message_list_container message_list_new">
+                </ul>
+                <dl class="message">
+					<dd><a href="<?php echo U('home/message/index');?>">查看私信<?php echo $_SITE_CONFIG['userCount']['message'] >0 ? "({$_SITE_CONFIG['userCount']['message']})" :'';?></a></dd> 
+					<dd><a href="<?php echo U('home/user/atme'); ?>">查看@我<?php echo $_SITE_CONFIG['userCount']['atme'] >0 ? "({$_SITE_CONFIG['userCount']['atme']})" :'';?></a></dd> 
+					<dd><a href="<?php echo U('home/user/comments');?>">查看评论<?php echo $_SITE_CONFIG['userCount']['comment'] >0 ? "({$_SITE_CONFIG['userCount']['comment']})" :'';?></a></dd> 
+					<dd><a href="<?php echo U('home/message/notify');?>">系统通知<?php echo $_SITE_CONFIG['userCount']['notify'] >0 ? "({$_SITE_CONFIG['userCount']['notify']})" :'';?></a></dd> 
+					<dd><a href="<?php echo U('home/message/appmessage');?>">应用消息<?php echo $_SITE_CONFIG['userCount']['appmessage'] >0 ? "({$_SITE_CONFIG['userCount']['appmessage']})" :'';?></a></dd> 
+                </dl>
+                <dl class="message_add">
+                <dd><a href="javascript:ui.sendmessage(0)">发私信</a></dd>
+                </dl>
+          </div>
+        </li>
+		<li class="header_dropdown"><a href="<?php echo U('home/Account');?>" class="application">帐号<span class="ico_arrow"></span></a>
+          <div class="dropmenu">
+                <dl class="setup">
+                <dd><a href="<?php echo U('home/User/findfriend');?>"><span class="ico_pub ico_pub_find"></span>找人</a></dd>
+                <dd><a href="<?php echo U('home/Account');?>"><span class="ico_pub ico_pub_set"></span>设置</a></dd>
+                <dd><a href="<?php echo U('home/Account/invite');?>"><span class="ico_pub ico_pub_invitation"></span>邀请</a></dd>
+                <dd><a href="<?php echo U('home/Account/weiboshare');?>"><span class="ico_pub ico_pub_tool"></span>小工具</a></dd>
+                </dl>
+                <dl class="setup_add">
+                <dd><a href="<?php echo U('home/Public/logout');?>"><span class="ico_pub ico_pub_signout"></span>退出</a></dd>
+                </dl>
+          </div>
+        </li>
+    </ul>
+	<!--/个人信息区-->
+    <div id="message_list_container" class="layer_massage_box" style="display:none;">
+    	<ul class="message_list_container">
+        </ul>
+        <a href="javascript:void(0)" onclick="ui.closeCountList(this)" class="del"></a>
+    </div>
+  </div>
+</div>
+<script>
+if($('#_header_search_text').val()=='')
+	$('#_header_search_label').show();
+else
+	$('#_header_search_label').hide();
+
+$(document).ready(function(){
+	$(".header_dropdown").hover(
+		function(){ $(this).addClass("hover"); },
+		function(){ $(this).removeClass("hover"); }
+		);
+	
+		ui.countNew();
+		setInterval("ui.countNew()",100000);
+	});
+</script>
+		<!--搜索 END-->
+ </div>
+	<!--消息提示框-->
+    <div id="message_list_container" class="layer_massage_box" style="display:none;">
+    	<ul class="message_list_container">
+        </ul>
+        <a href="javascript:void(0)" onclick="ui.closeCountList(this)" class="del"></a>
+    </div>
+	<!--/消息提示框-->
+  </div>
+</div>
+<?php foreach($_SITE_CONFIG['ad']['header'] as $v) { ?>
+<div class="ad_header"><?php echo $v['content']; ?></div>
+<?php } ?>

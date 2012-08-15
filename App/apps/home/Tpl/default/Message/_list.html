@@ -1,0 +1,179 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<div class="content_holder">
+<div class="content pada20"><!-- 内容 begin  --> 
+  <div class="main no_l">
+    <div class="mainbox">
+      <div class="mainbox_C no_r boxMessage">
+      <div class="tab-menu">
+        <a href="javascript:void(0)" onclick="ui.sendmessage();" class="btn_b right">发私信</a>
+        <ul>
+          <li><a class="feed_item <eq name="type" value="inbox">on</eq>"  href="{:U('home/Message/inbox')}" ><span>收件箱</span></a></li>
+          <li><a class="feed_item <eq name="type" value="outbox">on</eq>" href="{:U('home/Message/outbox')}"><span>发件箱</span></a></li>
+		  <li><a class="feed_item " href="{:U('home/Message/notify')}"><span>系统通知</span></a></li>
+          <li><a class="feed_item " href="{:U('home/Message/appmessage')}"><span>应用消息</span></a></li>
+        </ul>
+      </div>
+
+      <div class=""> 
+        <ul class="feed_list">
+            <li class="t">
+                <span class="right pr10">共<eq name="type" value="inbox">收到<else/>发送</eq> <span id="message_count_1">{$count}</span> 封私信 </span>
+                <span class="left" style="padding:0px 5px 0 6px;"><input name="" type="checkbox" value="0" onclick="checkAll(this);" id="checkbox_checkAll"/></span>
+                <a href="javascript:void(0)" onclick="checkAll();">全选</a> | 
+                <eq name="type" value="inbox">
+                <a href="javascript:void(0)" onclick="setIsUnread();">标记未读</a> | 
+                <a href="javascript:void(0)" onclick="setIsRead();">标记已读</a> |
+                </eq> 
+                <a href="javascript:void(0)" onclick="delMessage();">删除</a>
+            </li>
+            
+            <php>if(empty($data)) {</php>暂无信息<php>}</php>
+            
+            <volist name="data" id="vo">
+            <li class="lineD_btm <php>if($type=='inbox' && $vo['is_read']==0){</php>bg_warning<php>}</php>" overstyle='on' id="message_{$vo['source_message_id']}">
+                <php>$role_uid = $type == 'inbox' ? $vo['from_uid'] : $vo['to_uid'];</php>
+          	    <div class="left" style="padding:16px 5px 0 6px;"><input type="checkbox" value="{$vo.source_message_id}" onclick="checkon(this);"/></div>
+                <div class="userPic"><a href="{:U('home/Space/index', array('uid'=>$role_uid))}"><img card="1" src="{$role_uid|getUserFace}"></a></div>
+                <div class="feed_c" style="margin-left:100px">
+                	<a href="javascript:void(0);" onclick="ui.confirm(this,'确认删除私信?')" callback="delMessage({$vo['source_message_id']})" class="hover ico_close"></a>
+                    <div class="msgCnt">
+                    	<div style="padding:0 0 10px 0">
+                        <space uid="role_uid" class="fn">{uname}:</space>
+                        <a href="{:U('home/Message/detail', array('id'=>$vo['source_message_id'],'type'=>$type))}">{$vo.title}</a>
+                        </div>
+                        <div>{$vo.summary}</div>
+                    </div>
+        		    <div>
+                    <span style="color:#999">{$vo.ctime|date="Y-m-d H:i:s",###}</span>
+                    <span class="right pr10">
+                        共{$session_count[$vo['source_message_id']]}条对话 | 
+        		        <a href="{:U('home/Message/detail', array('id'=>$vo['source_message_id'],'type'=>$type))}#message_reply">回复</a> 
+                    </span></div>
+                </div>
+            </li>
+            </volist>
+           
+           <li class="t">
+               <span class="right pr10">共<eq name="type" value="inbox">收到<else/>发送</eq> <span id="message_count_2">{$count}</span> 封私信 </span>
+               <span class="left" style="padding:0px 5px 0 6px;"><input name="" type="checkbox" value="0" onclick="checkAll(this);" id="checkbox_checkAll"/></span>
+               <a href="javascript:void(0)" onclick="checkAll();">全选</a> | 
+               <eq name="type" value="inbox">
+               <a href="javascript:void(0)" onclick="setIsUnread();">标记未读</a> | 
+               <a href="javascript:void(0)" onclick="setIsRead();">标记已读</a> |
+               </eq> 
+               <a href="javascript:void(0)" onclick="delMessage();">删除</a>
+           </li>
+        </li>
+        </ul>
+        <p class="page">{$html}</p>
+      </div>
+      <div class="c"></div>
+    </div>
+  </div>
+  <div class="clear"></div>
+</div>
+</div>
+</div>
+<!-- 内容 end --> 
+
+<script type="text/javascript">
+    //鼠标移动表格效果
+	$(document).ready(function(){
+		$("li[overstyle='on']").hover(
+		  function () {
+		    $(this).addClass("bg_hover");
+		  },
+		  function () {
+		    $(this).removeClass("bg_hover");
+		  }
+		);
+	});
+	
+	function checkon(o){
+		if( o.checked == true ){
+			$(o).parents('li').addClass('bg_on') ;
+		}else{
+			$(o).parents('li').removeClass('bg_on') ;
+		}
+	}
+	
+	function checkAll(o){
+		if( !o || o.checked == true ) {
+			$('input[type="checkbox"]').attr('checked','true');
+			$('ul[overstyle="on"]').addClass("bg_on");
+		}else if ( o.checked == false ) {
+			$('input[type="checkbox"]').removeAttr('checked');
+			$('ul[overstyle="on"]').removeClass("bg_on");
+		}
+	}
+
+	//获取已选择用户的ID数组
+	function getChecked() {
+		var ids = new Array();
+		$.each($('ul input:checked'), function(i, n){
+			ids.push( $(n).val() );
+		});
+		return ids;
+	}
+    
+    
+    
+    function setIsUnread() {
+        var ids = getChecked();
+        if (ids == '') return false;
+        
+        $.post("{:U('home/Message/doSetIsUnread')}", {ids:ids.toString()}, function(res){
+            if (res == '1') {
+                ui.success('保存成功');
+                
+				for(i = 0; i < ids.length; i++) {
+					$('#message_'+ids[i]).addClass('bg_warning');
+				}
+            }else {
+                ui.error('保存失败');
+            }
+        });
+    }
+    
+    function setIsRead() {
+        var ids = getChecked();
+        if (ids == '') return false;
+        
+        $.post("{:U('home/Message/doSetIsRead')}", {ids:ids.toString()}, function(res){
+            if (res == '1') {
+                ui.success('保存成功');
+                
+				for(i = 0; i < ids.length; i++) {
+					$('#message_'+ids[i]).removeClass('bg_warning');
+				}
+            }else {
+                ui.error('保存失败');
+            }
+        });
+    }
+    
+    function delMessage(ids) {
+        ids = ids ? ids : getChecked();
+        ids = ids.toString();
+        if (ids == '') return false;
+        
+        $.post("{:U('home/Message/doDelete')}", {ids:ids}, function(res){
+            if (res == '1') {
+                ui.success('删除成功');
+                ids = ids.split(',');
+				for(i = 0; i < ids.length; i++) {
+					$('#message_'+ids[i]).remove();
+				}
+                var message_count = parseInt( $('#message_count_1').html() );
+                if (message_count >= 0) {
+                    $('#message_count_1').html(message_count - 1);
+                    $('#message_count_2').html(message_count - 1);
+                }
+            }else {
+                ui.error('删除失败');
+            }
+        });
+    }
+</script>
+<include file="__THEME__/footer" /> 

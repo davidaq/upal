@@ -1,0 +1,31 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">短网址管理</div>
+  
+  <form method="post" action="{:U('admin/Plugin/doshorturl')}">
+  <div class="form2">
+    <dl class="lineD">
+      <dt>短网址服务方：</dt>
+      <dd>
+        <select name="shorturl_type">
+        	<option value="close" <eq name="shorturl_type" value="close">selected</eq> >关闭短网址</option>
+            <option value="google"<eq name="shorturl_type" value="google">selected</eq>  >google短网址</option>
+            <option value="thinksns" <eq name="shorturl_type" value="thinksns">selected</eq>  >thinksns短网址</option>
+            <option value="customize" <eq name="shorturl_type" value="customize">selected</eq>  >自定义</option>
+        </select>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>自定义地址：</dt>
+      <dd>
+        <input name="customize_url"type="text" value="{$customize_url}">
+      </dd>
+    </dl>
+    
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+  </div>
+  </form>
+</div>
+<include file="../Public/_footer" />

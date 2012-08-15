@@ -1,0 +1,33 @@
+<volist name="ts['ad']['footer']" id="vo">
+	<div class="ad_footer"><div class="ke-post">{$vo['content']}</div></div>
+</volist>
+<div class="footer_bg">
+<div class="footer">
+	<div class="menu">
+		<php>
+        foreach($ts['footer_document'] as $k => $v) {
+            $v['url'] = isset($v['url']) ? $v['url'] : U('home/Public/document',array('id'=>$v['document_id']));
+            $ts['footer_document'][$k] = '<a href="'.$v['url'].'" target="_blank">'.$v['title'].'</a>';
+        }
+        echo implode('&nbsp;&nbsp;|&nbsp;&nbsp', $ts['footer_document']);
+        </php>
+	</div>
+	<div>
+		Powered by <a href="http://www.thinksns.com/" target="_blank" title="ThinkSNS开源微博系统">ThinkSNS</a>&nbsp;&nbsp; {$ts['site']['site_icp']} 
+		<php>if(isMobile()) {</php>
+			<a href="{:U('home/Public/toWap')}">访问WAP版</a>
+		<php>}</php>
+	</div>
+</div>
+</div>
+</div>
+<php>
+$ts['cnzz'] = getCnzz(false);
+if (!empty($ts['cnzz'])) {</php>
+<div style="display:none;">
+<script src="http://s87.cnzz.com/stat.php?id={$ts['cnzz']['cnzz_id']}&web_id={$ts['cnzz']['cnzz_id']}" language="JavaScript" charset="gb2312"></script>
+</div>
+<php>}</php>
+{:Addons::hook('public_footer')}
+</body>
+</html>

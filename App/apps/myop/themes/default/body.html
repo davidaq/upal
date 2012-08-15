@@ -1,0 +1,207 @@
+<?php if ( $_GET['op'] == 'menu' ) { ?>
+<!-- 前台管理应用 -->
+<!-- 已失效，由home统一管理应用 -->
+
+    <div class="main">
+        <div class="mainbox">
+          <div class="mainbox_R">
+          <div class="right_box">
+          <h2>使用助手：</h2> 
+            <ul>
+              <li class="mb10">1.您可以自由拖拽 <img src="<?php echo THEME_URL;?>/images/drag.gif" /> 排列应用顺序； </li>
+              <li class="mb10">2.排列越上面的应用在菜单中显示的越靠前； </li>
+              <li class="mb10">3.您可以管理您已经添加的应用，可以设置某个应用的权限、移除某个应用； </li>
+              <li class="mb10">4.如果您要管理您的空间、日志、相册等隐私，请到您的空间隐私设置； </li>
+              <li class="mb10">5.默认应用只能进行相关设置与移除，但移除后仍然会显示在你的左侧菜单中。 </li>
+            </ul>
+            </div>
+          </div>
+          <div class="mainbox_C">
+          <div class="tab-menu">
+            <ul>
+              <li><a href="<?php echo MYOP_URL;?>/cp.php?op=menu" class="feed_item on"><span>应用管理</span></a></li>
+            </ul>
+          </div>
+          <div class="app_manage">
+          <?php
+          $myop_app = getUserApp($_SITE_CONFIG['uid']);
+          $app_type_alias = array('local_app'=>'本地应用','myop_app'=>'我的漫游应用','myop_default_app'=>'默认漫游应用');
+          ?>
+          
+          <?php foreach($myop_app as $type => $apps) { ?>
+          <dl class="app_manage_list">
+              <dt class="lineD_btm"><span><?php echo $app_type_alias[$type]; ?></span></dt>
+              <?php foreach($apps as $app) { ?>
+                  <dd class="lineD_btm">
+                  <?php if($type == 'myop_app'){ ?>
+                  <span class="right ml10">
+                      <a href="javascript:void(0);" onclick="remove('<?php echo $app['app_id'];?>');">卸载</a>
+                  </span>
+                  <?php }else if($type == 'local_app'){ ?>
+                  <span class="right ml10">
+                      <a href="<?php echo U('home/Index/uninstall',array('app_id'=>$app['app_id'])); ?>">卸载</a>
+                  </span>
+                  <?php }?>
+                  <?php if($type == 'myop_app' || $type == 'myop_default_app'){ ?>
+                  <span class="right mr10">
+                      <a href="<?php echo MYOP_URL;?>/cp.php?my_suffix=%2Fuserapp%2FmodifyPrivacy%3FappId%3D<?php echo $app['app_id'];?>">编辑设置</a>
+                  </span>
+                  <span>
+                      <img class="alM mr5" src="http://appicon.manyou.com/icons/<?php echo $app['app_id'];?>" />
+                      <a href="<?php echo MYOP_URL;?>/userapp.php?id=<?php echo $app['app_id'];?>"><?php echo $app['app_alias'];?></a>
+                  </span>
+                  <?php }else {?>
+                  <span>
+                      <img class="alM mr5" src="<?php echo $app['icon_url'];?>" />
+                      <a href="<?php echo $app['app_entry'];?>"><?php echo $app['app_alias'];?></a>
+                  </span>
+                  <?php }?>
+                  </dd>
+              <?php } // END foreach?>
+          </dl>
+          <?php } // END foreach?>
+          <div class="alC">
+              <!--
+              左侧菜单显示个性应用的数量 
+              <select name="menunum">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="30">30</option>
+                <option value="999">全部</option>
+              </select>
+              --> 
+              <input type="submit" class="btn_b" value="保存" name="ordersubmit"> 
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="c"></div>
+    </div>
+    <script type="text/javascript">
+        function remove(appid) {
+            ui.box.load("<?php echo MYOP_URL;?>/cp.php?op=deleteapp&appid="+appid, {title:'移除应用'});
+        }
+    </script>
+      
+<?php } else if( $_GET['op'] == 'deleteapp' ) { ?>
+<!-- 前台移除应用 -->
+
+    <dl id="<?php echo $_GET['appid'];?>" class="pop_del_app">
+    	<form id="reportform" name="reportform" method="post" action="<?php echo MYOP_URL;?>/cp.php?ac=userapp&my_suffix=%2Fuserapp%2Funinstall%3FappId%3D<?php echo $_GET['appid'];?>">
+    		<dt>移除后，您的个人主页、开始菜单、管理我的应用将不会显示此应用，您以后需要重新添加才能使用。确定继续吗？</dt>
+    		<dd >
+    			<input type="hidden" name="refer" value="<?php echo MYOP_URL;?>/cp.php?ac=userapp&op=menu" />
+    			<input type="submit" name="delappsubmit" value="确定" class="btn_b" />
+    		</dd>
+    	   <input type="hidden" name="formhash" value="<?php echo formhash();?>" />
+    	</form>
+    </dl>
+
+<?php } else { ?>
+
+    <?php if ( $is_admin && !$_SITE_CONFIG['my_status'] ) { ?>
+    <!-- 后台漫游关闭中 -->
+    
+    <form method="post" action="<?php echo MYOP_URL;?>/myop.php">
+	<input type="hidden" name="formhash" value="<?php echo formhash(); ?>" />
+	<table width="100%">
+		<tr><td>
+			<strong>MYOP用户多应用功能简介</strong><br>
+			开启用户应用功能后，用户可以自由选择各种不同的或好玩有趣、或实用的等应用（诸如停车位、好友买卖、电影、送礼物......）在站内进行使用。<br>
+			面对如此众多的好玩好用的应用，作为站长，您可以:<br><br>
+			1. 可选择全部开启模式，用户可以自由选择MYOP上面的全部应用；<br>
+			2. 可选择自定义开启模式，由你按照自己的站点情况，选择自己想要的特定应用来提供给站点用户；<br>
+			<br>
+			<strong>本多应用功能由 <a target="_blank" href="http://www.manyou.com">MYOP开放平台</a> 提供</strong>。<br>
+			Manyou Open Platform(Manyou开放平台/MYOP)服务是由Comsenz公司为应用开发者提供的开放平台。<br>
+			作为UCenter Home使用网站的开放平台应用开发标准（API），Manyou将为您站点UCenter Home的用户提供各种个性化的互联网应用。<br><br>
+			启用服务前，<a href="http://wiki.developer.manyou.com/wiki/index.php?title=MYOP%E7%BD%91%E7%AB%99%E6%9C%8D%E5%8A%A1%E5%8D%8F%E8%AE%AE&printable=yes" target="_blank">请先阅读MYOP网站服务协议</a><br><br>
+		</td></tr>
+		<tr><td>
+		<input type="hidden" name="my_hidden" value="1">
+		<input type="submit" name="mysubmit" value="启用服务" class="submit"><b>注：启用漫游后请更新缓存！</b>
+		</td></tr>
+	</table>
+	</form>
+    
+    <?php }else if ( $is_admin ) {?>
+    <!-- 后台漫游开启中 -->
+    <div style="font-size:14px; line-height:30px;"><strong>本站MYOP应用管理</strong></div>
+    <div style="font-size:12px; line-height:20px;">如果用户应用功能无法与ManYou通讯，请重新同步站点信息；如果想要关闭用户应用功能，点击“关闭用户应用功能”；注意：关闭用户应用功能后当前所有的应用都将处于禁用状态。</div>
+    <div style="font-size:12px; height:30px;">
+                <form method="post" action="<?php echo MYOP_URL;?>/myop.php" style="float:left; margin-right:5px">
+					<input type="hidden" name="formhash" value="<?php echo formhash(); ?>" />
+					<input type="hidden" name="my_hidden" value="1">
+					<input type="submit" name="mysubmit" value="同步信息" class="submit" >
+				</form>
+				<form method="post" action="<?php echo MYOP_URL;?>/myop.php" >
+					<input type="hidden" name="formhash" value="<?php echo formhash(); ?>" />
+					<input type="hidden" name="my_hidden" value="1">
+					<input type="submit" name="closemysubmit" value="关闭用户应用功能" class="submit"><b>注：关闭漫游后请更新缓存！</b>
+				</form>
+            </div>
+    <?php }else if($is_app_manage == 1) { ?>
+    <!-- 前台添加应用 -->
+    
+    <div class="tab-menu">
+        <a href="<?php echo U('home/Index/editapp'); ?>" class="right mt10">管理应用</a>
+        <ul>
+            <li><a class="feed_item" href="<?php echo U('home/Index/addapp');?>"><span>本地应用</span></a></li>
+            <li><a class="feed_item on" href="<?php echo MYOP_URL;?>/myop.php?my_suffix=%2Fapp%2Flist"><span>漫游平台</span></a></li>
+        </ul>
+    </div>
+    
+    <?php } ?>
+    
+    <?php if ($_SITE_CONFIG['my_status']) { ?>
+    <script type="text/javascript" src="http://static.manyou.com/scripts/my_iframe.js"></script>
+    <script language="javascript">
+    var prefixURL = "<?php echo $my_prefix;?>";
+    var suffixURL = "<?php echo $my_suffix;?>";
+    var queryString = '';
+    var url = "<?php echo $url;?>";
+    var oldHash = null;
+    var timer = null;
+    var server = new MyXD.Server("ifm0");
+    server.registHandler('iframeHasLoaded');
+    server.registHandler('setTitle');
+    server.start();
+    
+    function iframeHasLoaded(ifm_id) {
+    	MyXD.Util.showIframe(ifm_id);
+        document.getElementById('loading').style.display = 'none';
+    }
+    function  htmlspecialchars_decode(string) {
+    string = string.toString();
+    string = string.replace(/&amp;/g, '&');
+    string = string.replace(/&lt;/g, '<');
+    string = string.replace(/&gt;/g, '>');
+    string = string.replace(/&quot;/g, '"');
+    string = string.replace(/&#039;/g, "'");
+    return string;
+    
+    }
+    function setTitle(x) {
+    <?php $my_site_name=htmlspecialchars($_SITE_CONFIG['site_name'], ENT_QUOTES); ?>
+    var my_site_name = htmlspecialchars_decode('<?php echo $my_site_name;?>');
+    
+    x = htmlspecialchars_decode(x);
+    document.title = x + ' - test - ' + my_site_name + ' - Powered by UCenter Home';
+    }
+    </script>
+    <div class="bgFFF" style="width:100%; float:left;">
+        <div id="loading" style="display:block; padding:100px 0 100px 0;text-align:center;color:#999999;font-size:12px;">
+        	<img src="image/my/loading.gif" alt="loading..." style="position:relative;top:11px;"/>  页面加载中...
+    	</div>
+        <center>
+            <iframe id="ifm0" frameborder="0" width="960px" _width="790px" scrolling="no" height="810px" style="position:absolute; top:-5000px; left:-5000px; " src="<?php echo $url;?>"></iframe>
+        </center>
+        
+    </div>
+    <div class="c"></div>
+    <?php } ?>
+
+<?php } ?>

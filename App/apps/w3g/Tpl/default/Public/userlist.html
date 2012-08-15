@@ -1,0 +1,39 @@
+<volist name="userlist" id="vo">
+  <div class="feedBox">
+    <ul class="feed_list">
+      <li>
+      <div class="R mt15">
+            <php>if($vo['user']['uid'] != $ts['user']['uid']) {</php>
+            <!-- {$follow_status[$vo['user']['is_followed']]}&nbsp;-->
+            <php>if($vo['user']['is_followed']=='unfollow'){</php>
+            <a class="btn_b" style=" color:#fff" href="{:U('w3g/Index/doFollow',array('from'=>$type,'type'=>'follow','key'=>$keyword,'page'=>$page,'user_id'=>$vo['user']['uid']))}">+关注</a>
+            <php>}else {</php>
+            <a class="btn" href="{:U('w3g/Index/doFollow',array('from'=>$type,'type'=>'unfollow','key'=>$keyword,'page'=>$page,'user_id'=>$vo['user']['uid']))}">取消关注</a>
+            <php>}</php>
+            <php>}</php>
+          </div>
+        <div class="userPic"> <a href="{:U('w3g/Index/weibo',array('uid'=>$vo['user']['uid']))}" class="pl"><img src="{$vo['user']['face']}" alt="头像" width="48" height="48"/></a></div>
+        <div class="feed_c">
+          <div class="msgCnt"><a href="{:U('w3g/Index/weibo',array('uid'=>$vo['user']['uid']))}" class="nk">{$vo['user']['uid']|getUserName}</a> {$vo['user']['uname']} </div>
+          <div class="msgCnt"> 粉丝 <span>{$vo['user']['followers_count']} </span>人</div>
+        </div>
+      </li>
+    </ul>
+    <hr>
+    </hr>
+  </div>
+</volist>
+<div>
+    <php>
+        $has_pre   = $page > 1;
+        $has_after = count($weibolist) >= $item_count;
+    </php>
+    <php>if($has_pre) {</php>
+    <php>$url = U('w3g/Index/'.ACTION_NAME,array('page'=>$page-1));</php>
+    <p class="pages"><a class="" href="<php>echo $url;</php>" data-icon="arrow-l" data-role="button">上一页</a></p>
+    <php>}</php> 
+    <php>if($has_after) {</php>
+    <php>$url = U('w3g/Index/'.ACTION_NAME,array('page'=>$page+1));</php>
+    <p class="pages" style="margin-bottom:5px;"><a href="<php>echo $url;</php>" data-icon="arrow-r" data-role="button">下一页</a></p>
+    <php>}</php>
+</div>

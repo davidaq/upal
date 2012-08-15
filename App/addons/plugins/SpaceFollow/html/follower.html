@@ -1,0 +1,11 @@
+<div class="person_Fans app_line">
+    <h2>{$uname}的粉丝</h2>
+    <ul class="fans_person">
+    <volist name="list.data" id="vo">
+         <li>
+            <div class="userPic"><space uid="vo.fid">{uavatar}</space></div>
+        </li>
+    </volist>
+    </ul>
+    <div class="right"><a href="{:U('home/space/follow',array('uid'=>$uid,'type'=>'follower'))}">更多&raquo;</a> </div>
+</div>

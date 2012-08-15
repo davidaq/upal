@@ -1,0 +1,158 @@
+<include file="__THEME__/header" />
+<link href="../Public/account.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l"> <!-- 右侧内容 begin  -->
+    <div class="mainbox">
+      <div class="mainbox_appC no_r">
+    <!-- page_title end -->
+    <include file="_tab" />
+    <!-- 切换标签 end  -->
+    
+    <div class="mainbox_C_C">
+		<div class="setupBox">
+		  <!-- 修改密码 -->
+          <div class="setItems">
+            <div class="setFold setUnfold" rel="base" >
+              <h2>隐私设置</h2>
+            </div>
+            <div style="display: block;" class="setItemsInfo">
+		      <div class="data"><!-- 修改密码 begin  -->
+		            <form action="{:U('home/Account/privacy')}" method="post" class="form_validator" id="regform" oncomplete="false">
+		            <dl class="set_basic">
+		                <dd>
+		                    <label>评论：</label>
+		                    <div class="left">
+		                      <div class="left mr5">设置谁可以评论我的微博</div>
+		                    </div>
+		                </dd>
+		                <dd>
+		                    <label>&nbsp;</label>
+		                    <div class="left">
+		                      <div class="left mr5"><input type="radio" name='userset[weibo_comment]' value="0" <eq name="userset['weibo_comment']" value="0">checked="true"</eq> >所有人(不包括你的黑名单用户)</div><br>
+		                      <div class="left mr5"><input type="radio" name='userset[weibo_comment]' value="1" <eq name="userset['weibo_comment']" value="1">checked="true"</eq> >我关注的人</div>
+		                    </div>
+		                </dd>
+		                <dd>
+		                    <label>私信：</label>
+		                    <div class="left" style="width: 50%;">
+		                      <div class="left mr5">设置谁可以给我发私信</div>
+		                    </div>
+		                </dd>
+		                <dd>
+		                    <label>&nbsp;</label>
+		                    <div class="left">
+		                      <div class="left mr5"><input type="radio" name='userset[message]' value="0" <eq name="userset['message']" value="0">checked="true"</eq> >所有人(不包括你的黑名单用户)</div><br>
+		                      <div class="left mr5"><input type="radio" name='userset[message]' value="1" <eq name="userset['message']" value="1">checked="true"</eq> >我关注的人</div>
+		                    </div>
+		                </dd>
+                        <dd>
+                            <label>空间：</label>
+                            <div class="left" style="width: 50%;">
+                              <div class="left mr5">设置谁可以查看我的个人空间</div>
+                            </div>
+                        </dd>
+                        <dd>
+                            <label>&nbsp;</label>
+                            <div class="left">
+                              <div class="left mr5"><input type="radio" name='userset[space]' value="0" <eq name="userset['space']" value="0">checked="true"</eq> >所有人(不包括你的黑名单用户)</div><br>
+                              <div class="left mr5"><input type="radio" name='userset[space]' value="1" <eq name="userset['space']" value="1">checked="true"</eq> >我关注的人</div>
+                            </div>
+                        </dd>
+		           </dl>
+						{:Addons::hook('home_account_privacy')}
+		           <dl class="set_basic"><dd><label>&nbsp;</label><input type="submit" class="btn_b" value="保存" /></dd></dl>
+		           </form> 
+		        </div><!-- 修改密码 end  -->
+            </div>
+          </div>
+
+		  <!-- 修改密码 -->
+          <div class="setItems">
+            <div class="setFold" rel="email" >
+              <h2>黑名单</h2>
+              <span class="txt1">被加入黑名单的用户将无法关注你、评论你。如果你已经关注TA，也会自动解除关系。</span>
+            </div>
+            <div style="display:none;"  class="setItemsInfo">
+		      <div class="data"><!-- 修改密码 begin  -->
+		            <ul>
+		            <php>if($blacklist){</php>
+		            <volist id="vo" name="blacklist">
+		                <li id="black_{$vo.fid}">
+		                    <div class="left alR" style="width: 15%;"><space uid="vo.fid" target="_blank">{uname}</space>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="release('{$vo.fid}')">解除</a></div>
+		                    <div class="left" style="width: 50%;">
+		                      <div class="right mr5">{$vo.ctime|friendLyDate}</div>
+		                    </div>
+		                </li>
+		             </volist>
+		             <php>}else{</php>
+		             	<li>
+		                    <div class="left" style="width: 50%;">
+		                      黑名单列表暂为空
+		                    </div>
+		                </li>
+		             <php>}</php>
+		             <li>
+		             	<form action="__URL__&act=setBlack" method="POST" >
+			            <input type="text" name="blackname" value="">
+			            <input type="submit" name="submit" value="添加">
+			            </form>
+		             </li>
+		           </ul>
+		        </div><!-- 修改密码 end  -->
+            </div>
+          </div>
+          {:Addons::hook('home_account_privacy_bottom')}
+        <div class="c"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 右侧内容 end  -->
+  <div class="c"></div>
+</div>
+</div>
+<!-- 内容 end --> 
+<include file="__THEME__/footer" />
+
+<script>
+	$(document).ready(function(){
+		var hs = document.location.hash;
+		changeModel( hs.replace('#','') );
+		$('.setFold').click(function(){
+			if( $(this).attr('class')=='setFold' ){
+				changeModel( $(this).attr('rel') );
+			}else{
+				$(this).removeClass('setUnfold');
+				$(this).next('.setItemsInfo').hide();
+			}
+			location.href='#'+$(this).attr('rel');
+		})
+	});
+	
+	//切换操作模块
+	function changeModel( type ){
+		var t = type || 'base';
+		$('.setFold').removeClass('setUnfold');
+		$('.setItemsInfo').hide();
+		var handle = $('div[rel="'+t+'"]');
+		handle.addClass('setUnfold');
+		handle.next('.setItemsInfo').show();
+	}
+
+	//解除黑名单
+	function release(id){
+          $.get(U('home/Account/release'),{id:id},function(msg){
+             if(msg == 0){
+                ui.error('解除失败！');
+             }else{
+                ui.success('解除成功！');
+                $('#black_'+id).remove();
+                setTimeout("location.href = location.href",1000);               
+             }   
+          });  
+	}	
+</script>

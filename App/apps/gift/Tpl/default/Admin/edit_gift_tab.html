@@ -1,0 +1,82 @@
+<form action="{:U('/Admin/edit_gift')}" onsubmit="return checkGift();" enctype="multipart/form-data" method="post">
+    <table cellpadding=3 cellspacing=3>
+    <if condition="$gift">
+    <tr>
+        <td align="right">图片：</td>
+        <td align="left">
+        	<img src="{$gift.img|realityImageURL}">
+        	<input name="id" value="{$gift.id}" type="hidden">
+        </td>
+    </tr>
+    </if>    
+    <tr>
+        <td align="right">上传：</td>
+        <td align="left">
+        <input name="files[]" id="face" type="file"><br />
+        <span style="color:#666;font-size:10px;">大小：70像素x70像素</span>
+        </td>
+    </tr>    
+    <tr>
+        <td align="right">分类：</td>
+        <td align="left">
+          <select name="categoryId" id="categoryId">
+          <volist name='categorys' key='cId' id='cName'>
+          <php>if($gift['categoryId']==$key) { </php>
+            <option value="{$key}" selected="selected">{$cName}</option>
+          <php> } else { </php>	
+            <option value="{$key}">{$cName}</option>
+          <php> }</php>	
+          </volist>	  
+          </select>	
+        </td>
+    </tr>    
+    <tr>
+        <td align="right">名称：</td>
+        <td align="left"><input type="text" name="name"  value="{$gift.name}" id="giftName">
+        </td>
+    </tr>    
+    <tr>
+        <td align="right">价格：</td>
+        <td align="left"><input type="text" name="price" value="{$gift.price}" id="giftPrice"></td>
+    </tr>    
+    <tr>
+        <td align="right">数量：</td>
+        <td align="left"><input type="text" name="num"  value="{$gift.num}" id="giftNum">
+        </td>
+    </tr>
+    <tr>
+        <td align="right">状态：</td>
+        <td align="left">
+        <select name="status">
+            <option value="1" <eq name="gift.status" value="1">selected="selected"</eq>>启用</option>
+            <option value="0" <eq name="gift.status" value="0">selected="selected"</eq>>禁用</option>
+        </select>
+    	</td>
+    </tr>
+    </table>
+    <div >
+        <input type="submit" class="btn_b" value="确定">
+        <input type="reset" class="btn_b" value="重置">
+    </div>
+</form>
+<script>
+function checkGift(){
+	var name = $("#giftName").val();
+	var price = $("#giftPrice").val();
+	var num = $("#giftNum").val();
+	if(!name || getLength(name.replace(/\s+/g,"")) == 0){
+		alert("礼物名称不能为空");
+		$("#giftName").focus();
+		return false;
+	}else if(!price || getLength(price.replace(/\s+/g,"")) == 0){
+		alert("礼物价格不能为空");
+		$("#giftPrice").focus();
+		return false;
+	}else if(!num || getLength(num.replace(/\s+/g,"")) == 0){
+		alert("礼物数量不能为空");
+		$("#giftNum").focus();
+		return false;
+	}
+}
+
+</script>

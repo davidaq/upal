@@ -1,0 +1,75 @@
+<div id="group_share_weibo">
+  <!-- <div><a href="javascript:;" onclick="share_weibo_tab('tab_myweibo')">我的微博</a> 
+  <a href="javascript:;" onclick="share_weibo_tab('tab_mygroup')">我的群组</a></div> -->
+  <form action="{:U('home/Widget/doShare')}" method="post" id="transpondForm">
+	<div class="tab_mygroup" style="display:none;">
+		<select name="gid" id='postGid'>		
+    	    <volist name="all_my_app" id="vo">
+    	    	<if condition="$vo['id'] neq $gid"><option value="{$vo['id']}">{$vo.name}</option></if>
+        	</volist>
+		</select>
+	</div>
+    <!--转发弹窗-->
+    <dl class="pop_weibo_transmit">
+        <dt><span class="right numObj wordNum" id="transpond_count"></span></dt>
+        <dd>
+            <textarea id="transpond_content_{$data.weibo_id}" name="content" class="contentObj"
+            style="font-family: Tahoma,宋体; overflow: hidden; border: 1px solid #ccc; background-color:#F8F8F8; word-wrap: break-word; font-size: 12px;line-height: 18px; height: 65px; width:368px;padding:5px"
+            ><php>
+              if ($data['transponInfo']) {
+            </php>//@{$data.transponInfo.uid|getUserName}:{$data.transponInfo.content}<php>
+                } else {
+            </php>//@{$data.uid|getUserName}:{$data.content}<php>
+                }
+            </php> [原文地址：{:getShortUrl(U('group/Group/detail',array('gid'=>$data['gid'], 'id'=>$data['weibo_id'])))} ]</textarea>
+        </dd>
+        <dd>
+       <input type="button" error="分享失败" id="transpond_button" class="btn_b right buttonObj" value="确定">
+			<a href="javascript:void(0)" target_set="transpond_content_{$data.weibo_id}" onclick="ui.emotions(this);" class="a52 left" style="display:inline"><img class="icon_add_face_d" src="__THEME__/images/zw_img.gif" />表情</a>
+        </dd>
+        <!--<dd>
+		      <php>if ($data['transponInfo']['type'] == 1) {</php>
+		      	<input type="hidden" name="type" value="1" />
+		      	<input type="hidden" name="typedata" value="{$data['transponInfo']['type_data']['picurl']}" />
+		      <php>} else if ($data['type'] == 1) {</php>
+		      	<input type="hidden" name="type" value="1" />
+		      	<input type="hidden" name="typedata" value="{$data['type_data']['picurl']}" />
+		      <php>}</php>
+        </dd>-->
+    </dl>
+ 
+  </form>
+</div>
+
+<script>
+$(document).ready(function(){
+   var default_transpond_string = "分享微博 [原文地址：{:getShortUrl(U('group/Group/detail',array('gid'=>$data['gid'], 'id'=>$data['weibo_id'])))} ]";
+   weibo.initForm("transpondForm",{       
+        blur:function(formObj,buttonObj,contentObj,numObj){
+            if(contentObj.val() == '') {
+                contentObj.val(default_transpond_string);
+            }
+        },
+        focus:function(formObj,buttonObj,contentObj,numObj){
+            if(contentObj.val() == default_transpond_string) {
+                contentObj.val('');
+                return true;
+            }
+        },
+        enter:function(formObj,buttonObj,contentObj,numObj,txt){
+            ui.success('分享成功');
+            ui.box.close();
+        },
+        after:function(formObj,buttonObj,contentObj,numObj){
+                if (contentObj.val() == '') {
+                    contentObj.val(default_transpond_string);
+                }else {
+                  weibo.contentFirst('transpond_content_{$data.weibo_id}');
+               }
+        }
+   },{
+       emotions:true,
+       topic:false
+   });
+});
+</script>

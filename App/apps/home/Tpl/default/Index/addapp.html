@@ -1,0 +1,48 @@
+<include file="__THEME__/header" />
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l">
+    <div class="mainbox">
+	<div class="mainbox_appC no_r">
+      <div class="mainbox_C no_r">
+          <div class="tab-menu">
+          <a href="{:U('home/Index/editapp')}" class="right mt10">管理应用</a>
+            <ul>
+              <li><a class="feed_item on" href="{:U('home/Index/addapp')}"><span>本地应用</span></a></li>
+              <php>if($ts['site']['my_status']) {</php>
+              <li><a class="feed_item " href="__ROOT__/apps/myop/myop.php?my_suffix=%2Fapp%2Flist"><span>漫游平台</span></a></li>
+              <php>}</php>
+            </ul>
+          </div>
+          <div class="add_app">
+          <volist name="data" id="vo">
+          <dl class="add_app_list">
+            <php>if(empty($vo['large_icon_url'])) $vo['large_icon_url'] = $vo['icon_url'];</php>
+            <dt><img src="{:getAppIconUrl($vo['large_icon_url'],$vo['app_name']);}" width="64px" height="64px"/></dt>
+            <dd class="lineD_btm">
+                <h3><a href="{:U($vo['app_name'].'/'.$vo['app_entry'])}">{$vo['app_alias']}</a></h3>
+                <p style="margin-right:100px;">{$vo['description']}</p>
+                <p class="cGray2">
+	                <php>if(in_array($vo['app_id'],$installed) || $vo['status']==1) {</php>
+	                <span class="right">已添加</span>
+	                <php>}else {</php>
+	                <a href="{:U('home/Index/install',array('app_id'=>$vo['app_id']))}" class="right">我要添加</a>
+	                <php>}</php>
+             <!--    作者: <a href="{$vo['homepage_url']}">{$vo['author_name']}</a> &nbsp; -->
+                    作者: {$vo['author_name']} &nbsp;
+                    <php>if(!empty($vo['contributor_name'])) {</php>
+                    贡献者:{$vo['contributor_name']}
+                    <php>}</php>
+                </p>
+            </dd>
+           </dl>
+           </volist>
+        </div>
+        </div>
+    </div>
+  </div>
+  </div>
+  <div class="c"></div>
+</div>
+</div>
+<include file="__THEME__/footer" /> 

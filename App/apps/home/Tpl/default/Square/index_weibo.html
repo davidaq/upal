@@ -1,0 +1,9 @@
+<if condition="$list">
+	<div class="feedBox">
+		{:W('WeiboList', array('mid' => $mid, 'list' => $list['data'], 'type' => 'index' == $type ? '' : $type, 'insert'=>'index' == $type ? 1 : 0))}
+	</div>
+	<div class="c"></div>
+	<div class="page" id="square_list_page">{$list.html}</div>
+<else />
+	{:Addons::hook('home_square_index_list', array($type))}
+</if>

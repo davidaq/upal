@@ -1,0 +1,40 @@
+<div style="width:280px; padding:20px;">
+<form action="__URL__&act=editStarGroup" method="post" id="edit_star_group" onsubmit="return edit_star_group();">
+分组名称：
+  <input type="text" name="title" value="" />
+  <input type="hidden" name="gid" value="" /><br />
+  <br /><br />
+  <input type="submit" value="保存" class="btn_b">
+</form>
+</div>
+<script>
+$(document).ready(function(){
+	$("input[name='title']").val(gtitle);
+	$("input[name='gid']").val(gid);
+});
+function edit_star_group(){
+	var title = $("input[name='title']").val();
+	if(title.length == 0){
+		ui.error('请输入分组标题！');
+	}else if(title.length>10){
+		ui.error('分组标题字数不能超过10个字符！');
+	}else{
+		var options = {
+				success: function(txt) {
+					if(txt == -2){
+						ui.error('分组是不存在！');
+					}else if(txt == -1){
+						ui.error('该分组名称已经存在！');
+					}else if(txt == 1){
+						ui.success('操作成功！');
+						setInterval("location.reload()",500);
+					}else{
+						ui.error('操作失败！');
+					}
+				} 
+			};		
+		$('#edit_star_group').ajaxSubmit( options );
+	}
+	return false;
+}
+</script>

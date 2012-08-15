@@ -1,0 +1,34 @@
+/* Tag List(?) */
+#photoPan {position:relative}
+div#frameDiv { position:absolute; border:1px dashed #005eac; display:none; z-Index:1000; }
+div#panDiv { position:absolute; width:200px; background-color:#fff; border:solid #005eac; border-width:1px 1px 2px; display:none; z-Index: 999; }
+
+div#out { width:90%; height:50px; background-color:#d8dfea; }
+div#target {z-Index: 1011;}
+div#inner { border:1px dashed #fff; position:absolute; left:0; top:0; right:1px; bottom:1px;z-Index:1002;}
+div#leftTop, div#rightTop, div#leftBottom, div#rightBottom {background-color:#fff; border:1px solid #005eac; width:8px; height:8px; margin:-1px; position:absolute; z-index: 1011; font-size:0;}
+div#leftTop { left:0px; top:0px; }
+div#rightTop { right:0px; top:0px; }
+div#leftBottom { left:0px; bottom:0px; }
+div#rightBottom { right:0px; bottom:0px; }
+
+div#photoNote { margin:10px auto; padding:10px; background-color:#fffBE2 ;border:1px solid #FFE222; display:none; }
+#target .target-title { padding-bottom:1px; }
+*+html #target .target-title {padding-top:3px;}
+#target .target-title h3 { padding:2px 5px; color:gray; }
+#target .target-title input { margin:1px 5px; border:1px solid #7f9db9; padding:2px 3px 1px;  }
+#target .target-body { background:#eee; border-top:1px solid #ccc; border-bottom:1px solid #ccc; line-height:22px; }
+#target .target-body li {padding:0 5px;}
+#target .target-body li.myself {border-bottom:1px solid #838383;}
+#target .target-body input {margin-right:3px;background:#eee; border:0; }
+#target .note { background-color:#d8dfea; padding:5px; margin-bottom:5px}
+#target .inputbutton {margin-right:20px; font-size:12px}
+#target ul {list-style:none}
+#target .target-action {text-align:center; padding:5px 0; }
+#tagNote .title {font-weight:bold; color:#008000; margin-top:0;font-size:14px}
+#targetId { width:160px }
+
+.tagcloud { margin:10px 0;padding:0 10px;}
+div.operation {text-align:center; margin:10px 0}
+div.operation input{margin-right:20px}
+.tagger_css {position:absolute; background:#fffbe2; border:#ffe222 1px solid; width:200px; height:20px;padding:2px 8px;display:none}

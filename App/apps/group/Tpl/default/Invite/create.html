@@ -1,0 +1,58 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/Js/common.js"></script>
+<script>
+	var checkFriend = function(){
+		if($('#ui_fri_ids').val()!=''){
+			return true;
+		}else{
+			ui.error('请选择好友');
+			return false;
+		}
+		
+	}
+</script>
+<link  href="../Public/group.css" rel="stylesheet" type="text/css"/>
+<div class="content_holder">
+<div class="content no_bg">
+  <!-- 内容 begin  -->
+<include file="../Public/_mainNav" />
+  <!-- 内容 begin  -->
+  <div class="main no_l">
+    <!-- 右侧内容 begin  -->
+    <div class="mainbox"><include file="../Public/_groupInfo" />
+      <div class="mainbox_appC">
+        <div class=page_title style="height:60px; overflow:hidden;*zoom:1">
+            <h2><a href="{:U('/Group/',array('gid'=>$groupinfo['id']))}" class="right">进入该群首页>></a>
+            <img src="__ROOT__/thumb.php?w=60&h=60&url={$groupinfo['logo']|get_photo_url}" style="width:60px; height:60px; border:1px #ddd solid;" />
+            <a href="{:U('/Group/',array('gid'=>$groupinfo['id']))}">{$groupinfo['name']}</a> >>群组邀请
+            </h2>
+        </div>
+        <!-- page_title end -->
+        <!-- 切换标签 end  -->
+        <div class="groupBox">
+          <php>if($from == 'create') {</php><div class="f16px mb10"> 您已成功创建群"{$groupinfo['name']}" &nbsp;</div><php>}</php>
+          <div class="create_box" style="*zoom:1;height:30px">
+            <div class="left l250"><php>if ($groupinfo['membercount'] > 1) {</php>该群有{$groupinfo['membercount']}名成员，继续邀请好友加入>> <php>} else {</php>该群还没有其它成员，邀请好友加入>> <php>}</php></div>
+            <div class="left l400">
+              <form action="{:U('group/Invite/create',array('gid'=>$groupinfo['id']))}" method="post" name="group_invite" id="group_invite" onsubmit="return checkFriend(this)">
+	              <!-- 添加好友-->
+	              <div class="left w300">{:W('SelectFriends')}</div>
+	              <div class="left">
+		              <input type="hidden" value="1" name="sendsubmit" />
+		              <input type="submit" class="btn_b" value="发送邀请" />
+	              </div>
+              </form>
+            </div>
+          </div>
+          <!--create_box-->
+        </div>
+      </div>
+      <div class="c"></div>
+    </div>
+  </div>
+  <!-- 右侧内容 end  -->
+</div>
+</div>
+<!-- 内容 end -->
+<include file="__THEME__/footer" />

@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* ---------------------------------------------------------
+CSS Document 
+Design By niuwentao
+Ver:thinksns 2.5
+
+------------------------------------------------------------ */
+
+/* = import css
+public		公用样式一些常用样式
+layout    	网站布局样式
+form    	网站表单和按钮样式
+link    	网站字体链接样式
+menu		网站菜单样式
+skin01		网站主体样式
+
+------------------------------------------------------------ */
+@import url("form.css");
+@import url("link.css");
+@import url("menu.css");

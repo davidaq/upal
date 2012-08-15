@@ -1,0 +1,110 @@
+    <!--帖子分享弹窗-->
+    <dl class="pop_share_post">
+        <dt>
+            <div id="_widget_weibo_tab" class="group_pop_tab">
+                <a href="javascript:;" onclick="_widget_weibo_tab('tab_myweibo', this)" class="on">我的微博</a>
+                <a href="javascript:;" onclick="_widget_weibo_tab('tab_mygroup', this)">当前群组</a>
+            </div>
+			<input type="hidden" name="url" value="{:U('home/Widget/doShare')}" />
+        </dt>
+        <dd>
+            <php>if(isset($has_status)){</php>
+            <php>$status_class = $is_success_status ? 'ico_cue_ok' : 'ico_cue_no';</php>
+            <div class="iine_warning"  style="padding:10px; margin:10px;"><span class="{$status_class} alM mr5" style="margin-top:0"></span>{$status_title}</div>
+            <php>}</php>
+            <span class="right" id="_widget_weibo_words_count" style="color:#008800">还可以输入<php> echo $ts['site']['length']; </php>个汉字</span>
+        </dd>
+        <dd>
+        	<textarea id="_widget_weibo_content" name="content" style="font-family: Tahoma,宋体; overflow: hidden; border: 1px solid #ccc; background-color:#F8F8F8; word-wrap: break-word; font-size: 12px; line-height: 18px; height: 65px; width:380px;">{$content}</textarea>
+        </dd>
+        <dd>
+              <php>if($type==1){
+                if(file_exists('./data/uploads/' . $type_data)){
+              </php>
+                <img src="__ROOT__/thumb.php?w=32&h=32&t=f&url=./data/uploads/{$type_data}" />
+              <php>}elseif(file_exists($type_data)){</php>
+                <img src="__ROOT__/thumb.php?w=32&h=32&t=f&url={$type_data}" />
+              <php>}}</php>
+            <input type="button" onclick="_widget_weibo_do_post()" id="_widget_weibo_post_button" class="btn_b right" value="{$button_title}">
+            <a href="javascript:void(0)" target_set="_widget_weibo_content" onclick="ui.emotions(this);" class="a52"><img class="icon_add_face_d" src="__THEME__/images/zw_img.gif" />表情</a>	
+        </dd>
+    </dl>
+    <!--End 帖子分享弹窗-->
+<script>
+$(document).ready(function(){
+	var $_widget_weibo_content = $("#_widget_weibo_content");
+	var Interval;
+	$_widget_weibo_content.keypress(function(event){
+		var key = event.keyCode?event.keyCode:event.which?event.which:event.charCode;
+        if (key == 27) {
+        	clearInterval(Interval);
+        }
+    	_widget_weibo_check_words_count(this,<php> echo $ts['site']['length']; </php>);
+    }).blur(function(){
+		clearInterval(Interval);
+		_widget_weibo_check_words_count(this,<php> echo $ts['site']['length']; </php>);
+	}).focus(function(){
+		//微博字数监控
+		clearInterval(Interval);
+	    Interval = setInterval(function(){
+	    	_widget_weibo_check_words_count('#_widget_weibo_content',<php> echo $ts['site']['length']; </php>);
+		},300);
+	});
+	
+	_widget_weibo_check_words_count($_widget_weibo_content,<php> echo $ts['site']['length']; </php>);
+	$_widget_weibo_content.focus();
+    shortcut('ctrl+return', function(){_widget_weibo_do_post();clearInterval(Interval);},{'target':'_widget_weibo_content'});
+
+	var url = "{:U('home/User/searchTips')}";
+	userAutoTips({id:'_widget_weibo_content', url:url});
+});
+
+//标签切换
+var _widget_weibo_tab = function(tab_name, e)
+{
+	var $url = $('input[name="url"]');
+	if (tab_name == 'tab_myweibo') {
+		$url.val('{:U('home/Widget/doShare')}');
+	} else if (tab_name == 'tab_mygroup') {
+		$url.val('{:U('group/WeiboOperate/doShare')}');
+	}
+	$('#_widget_weibo_tab a').removeClass('on');
+	$(e).addClass('on');
+};
+
+function _widget_weibo_do_post() {
+	var url = $('input[name="url"]').val();
+	var content = $('#_widget_weibo_content').val();
+	var type = '{$type}';
+	var typedata = '{$type_data}';
+	var $_widget_weibo_post_button = $('#_widget_weibo_post_button');
+	$_widget_weibo_post_button.attr('disabled', 'true');
+	$.post(url, {content:content,type:type,typedata:typedata,gid:<?php echo $gid; ?>}, function(res)
+	{
+		if(res=='1'){
+			ui.box.close();
+			ui.success('发布成功');
+		}else {
+			ui.error('发布失败');
+		}
+		$_widget_weibo_post_button.removeAttr('disabled');
+	});
+}
+
+function _widget_weibo_check_words_count(obj,num) {
+	var len = getLength($(obj).val(), true);
+	var post_button_obj = $('#_widget_weibo_post_button');
+	var word_count_obj  = $('#_widget_weibo_words_count');
+	
+    if(len==0){
+        post_button_obj.attr('disabled',true).attr('class','btn_b_disable');
+        word_count_obj.html('你还可以输入'+ (num-len) + '字');
+    }else if( len > num ){
+        post_button_obj.attr('disabled',true).attr('class','btn_b_disable');
+        word_count_obj.css('color','red').html('已超出'+ (len-num) +'字');
+    }else if( len <= num ){
+        post_button_obj.removeAttr('disabled').attr('class','btn_b');
+        word_count_obj.css('color','#008800').html('你还可以输入'+ (num-len) + '字');
+    }
+}
+</script>

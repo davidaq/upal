@@ -1,0 +1,83 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <!-------- 添加/编辑模板 -------->
+  <div id="editTpl_div">
+  	<div class="page_tit"><eq name="type" value="edit">编辑模板<else/>添加模板</eq></div>
+	
+	<div class="form2">
+	<eq name="type" value="edit"><form method="post" action="{:U('admin/Content/doEditTemplate')}">
+	<else/><form method="post" action="{:U('admin/Content/doAddTemplate')}"></eq>
+	<input type="hidden" name="tpl_id" value="{$template['tpl_id']}">
+    <dl class="lineD">
+      <dt>名称：</dt>
+      <dd>
+        <input name="name" type="text" value="{$template['name']}"> *
+        <p>使用英文，保证唯一性。建议：“类型_动作”，如“blog_add”或“credit_blog_add”</p>
+	  </dd>
+    </dl>
+	
+	<dl class="lineD">
+      <dt>别名：</dt>
+      <dd>
+        <input name="alias" type="text" value="{$template['alias']}">
+        <p>简单达意，如“发表博客”</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>标题模板：</dt>
+      <dd>
+        <input name="title" type="text" value="{$template['title']}">
+        <p>使用“{”和“}”包含变量名，如“{actor}做了{action}”</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>内容模板：</dt>
+      <dd>
+      	<textarea name="body" cols="50" rows="5">{$template['body']}</textarea>
+        <p>使用“{”和“}”包含变量名，如“{actor}做了{action}增加了{volume}个{credit_type}”</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>语言：</dt>
+      <dd>
+        <input name="lang" type="text" value="{$template['lang']}"> *
+        <p>与全局语言包一致，如“en”、“zh”等</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>模板类型：</dt>
+      <dd>
+        <input name="type" type="text" value="{$template['type']}">
+        <p>如“blog”、“credit”等</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>模板类型2：</dt>
+      <dd>
+        <input name="type2" type="text" value="{$template['type2']}">
+        <p>备用类型，可留空。如“credit_blog”等</p>
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>是否默认缓存：</dt>
+      <dd>
+        <input name="is_cache" type="radio" value="1" <neq name="template['is_cache']" value="0">checked</neq>>是
+        <input name="is_cache" type="radio" value="0" <eq  name="template['is_cache']" value="0">checked</eq> >否
+		<p>是否使用默认的模板缓存系统</p>
+	  </dd>
+    </dl>
+	
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+	</form>
+  </div>
+  </div>
+</div>
+<include file="../Public/_footer" />

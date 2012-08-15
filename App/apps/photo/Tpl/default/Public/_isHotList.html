@@ -1,0 +1,91 @@
+<div class="mainbox_appR">
+  <div class="box_create"><a href="{:U('photo/Upload/flash')}" class="btn_photo_c"></a></div>
+  <div class="right_box">
+    <h2>推荐{$ts['app']['app_alias']}</h2>
+    <div class="mod-recalbums">
+    <div class="tit"><a href="javascript:void(0);" onclick="ablumMove('down');" id="down" class="ico_down"></a></div>
+      <ul class="list_topalbums">
+      <volist name="IsHotList" id="li"> 
+   	    <li class="album_key" rel="{$key}" id="album_{$key}" style="display:none;">
+          <div class="albums_img" ><a href="{:U('/Index/album',array(uid=>$li['userId'],id=>$li['id']))}"><img src="{$li.id|get_album_cover=###,$li,66,66}"/></a></div>
+          <div class="albums_info" style="width:50%">
+            <dl>
+              <dt><a href="{:U('/Index/album',array(uid=>$li['userId'],id=>$li['id']))}" class="OverH" style="width:8em; display:block;"><strong>{$li.name}</strong></a></dt>
+              <dd>图片：({$li.photoCount})</dd>
+              <dd><a href="{:U('home/Space/index',array(uid=>$li[userId]))}">{$li.userId|getUserName}</a></dd>
+              <dd>时间:{$li.cTime|date='Y-m-d',###}</dd>
+            </dl>
+          </div>
+        </li>
+	  </volist>
+    </ul>
+    <div class="btm"><a href="javascript:void(0);" onclick="ablumMove('up');" id="up" class="ico_up"></a></div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+// 初始化相册中的显示
+var num = 5;
+var liCount = 0;
+$(function(){
+  $('.album_key').each(function() {
+    liCount++;
+    var relVal = $(this).attr('rel');
+    if(relVal < num) {
+      $(this).css('display', '');
+    }
+  });
+  if(num >= liCount) {
+    $('#up').removeClass('ico_up');
+    $('#down').removeClass('ico_down');
+  } else {
+    $('#down').removeClass('ico_down');
+  }
+});
+
+function ablumMove(type) {
+  var showArr = new Array();
+  $('.album_key').each(function() {
+    var displayVal = $(this).css('display');
+    if(displayVal != 'none') {
+      var relVal = $(this).attr('rel');
+      showArr.push(relVal);
+    }
+  });
+  var lastVal = 0;
+  switch(type) {
+    case 'down':
+      lastVal = showArr.shift();
+      if(lastVal - num == 0) {
+        $('#down').css('display', 'none');
+        $('#up').css('display', '');
+      } else {
+        $('#down').css('display', '');
+        $('#up').css('display', '');
+      }
+      $('.album_key').css('display', 'none');
+      for(var i = 0; i < num; i++) {
+        lastVal--;
+        $('#album_' + lastVal.toString()).css('display', '');
+      }
+      break;
+    case 'up':
+      $('#down').addClass('ico_down');
+      lastVal = showArr.pop();
+      if(parseInt(lastVal) + parseInt(num) < liCount - 1) {
+        $('#down').css('display', '');
+        $('#up').css('display', '');        
+      } else {
+        $('#down').css('display', '');
+        $('#up').css('display', 'none');
+      }
+      $('.album_key').css('display', 'none');
+      for(var i = 0; i < num; i++) {
+        lastVal++;
+        $('#album_' + lastVal.toString()).css('display', '');
+      }
+      break;
+  }
+}
+</script>

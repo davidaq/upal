@@ -1,0 +1,70 @@
+<div class="so_main">
+    <div class="page_tit">
+        允许发布的微博类型
+    </div>
+    <div class="form2">
+        <form method="post" action="{:Addons::adminUrl('saveConfig')}">
+            <dl class="lineD">
+                <dt>
+                    允许的微博类型：
+                </dt>
+                <dd>
+                    <php>
+                        foreach($validType as $key=>$value){
+                            $checked ="";
+                            if(in_array($key,$config['open'])) $checked = 'checked="true"';
+                    </php>
+                    <label>
+                        <input type="checkbox" name="open[]" {$checked} value="{$key}"/>
+                        <php>
+                            echo $alias[$key]
+                        </php></label>
+                    <php>
+                        }
+                    </php>
+                    <br />
+                    <br />
+                    <p>
+                        开启的微博类型将出现在前台发布框的底部。投票和博客应用必须站点安装该应用才会出现勾选选项
+                    </p>
+                </dd>
+            </dl>
+            <dl class="">
+                <dt>
+                    图片上传允许个数：
+                </dt>
+                <dd>
+                    <input name="image[limit]" type="text" value="{$config.image.limit}">
+                    <p>
+                        在上传图片的过程中，限制总共的上传图片的数量。注意。这个限制先对上传组件进行限制，如果超过该限制数的上传图片将在发布图片时清除.默认为0。无限制
+                    </p>
+                </dd>
+            </dl>
+            <dl class="">
+                <dt>
+                    图片上传允许大小：
+                </dt>
+                <dd>
+                    <input name="image[size]" type="text" value="{$config.image.size}">
+                    <p>
+                        在上传图片的过程中，限制文件的大小。请根据服务器的大小来进行控制。单位KB.默认为0，无限制
+                    </p>
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>
+                    图片上传允许格式：
+                </dt>
+                <dd>
+                    <input name="image[ext]" type="text" value="{$config.image.ext}">
+                    <p>
+                        在上传图片的过程中，限制图片的格式。默认和有效格式为：JPG、GIF、PNG、JPEG.请根据情况来进行控制。留空为默认的图片格式.请以分号(;)分割。某些服务器不支持bmp文件的信息读取
+                    </p>
+                </dd>
+            </dl>
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+            </div>
+        </form>
+    </div>
+</div>

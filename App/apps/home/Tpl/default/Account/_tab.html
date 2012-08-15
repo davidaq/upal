@@ -1,0 +1,7 @@
+    <div class="tab-menu"><!-- 切换标签 begin  -->
+      <ul>
+        <volist id="vo" name="accountmenu">
+      		<li><a href="{:U('home/Account/'.$vo['act'], $vo['param'])}" <php>if(ACTION_NAME==$vo['act']){</php>class="on"<php>}</php> ><span>{$vo.name}</span></a></li>
+      	</volist>
+      </ul>
+    </div>

@@ -1,0 +1,68 @@
+<include file="__THEME__/header" />
+<link href="../Public/css/weiboshow.css" rel="stylesheet" type="text/css" />
+<link href="../Public/css/square.css" rel="stylesheet" type="text/css" />
+
+<script>
+	var _HOST_ = 'http://{$_SERVER['HTTP_HOST']}';
+</script>
+<link href="../Public/account.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<script type="text/javascript" src="../Public/js/weiboshow.js"></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l"> <!-- 右侧内容 begin  -->
+    <div class="mainbox">
+      <div class="mainbox_appC no_r">
+        <div class="tab-menu">
+            <include file="../Public/_toolTab" />
+        </div>
+    <!-- 切换标签 end  -->
+    <div class="mainbox_C_C" style="width:100%">
+		<div class="setItems">
+        <div class="side_basicPreview">
+        	<h4>效果预览</h4>
+        	<div id="weiboshow"></div>
+        </div>
+		<div class="side_basicSet">
+        	<h4>基本设置</h4> 
+            <div class="box_basicSet">
+            	<dl class="list_setSize">
+                    <dt>设置尺寸</dt>
+                    <dd>宽<input id="width" type="text" style="width:50px"  class="ml5 mr5"/>px 高<input id="height" type="text" style="width:50px"  class="ml5 mr5" />px<dd>
+                    <dd><span id="wh_error">宽度190-1024px,高度75-800px</span><dd>
+                    <dd><label><input id="autowidth" type="checkbox" style="vertical-align:middle" />宽度自动适应</label><dd>
+                </dl>
+                <h4 class="mt10">外观方案</h4>
+                <ul id="template_skins" class="list_showSkin">
+                    <li class="on"><a href="javascript:;" class="skin01"></a></li>
+                    <li><a href="javascript:;" class="skin02"></a></li>
+                    <li><a href="javascript:;" class="skin03"></a></li>
+                    <li><a href="javascript:;" class="skin04"></a></li>
+                    <li><a href="javascript:;" class="skin05"></a></li>
+                    <li><a href="javascript:;" class="skin06"></a></li>
+                    <li><a href="javascript:;" class="skin07"></a></li>
+                    <li><a href="javascript:;" class="skin08"></a></li>
+                    <li><a href="javascript:;" class="skin09"></a></li>
+                    <li><a href="javascript:;" class="skin10"></a></li>
+                </ul>
+            </div>
+        	<h4 class="mt10">设置完成,获得嵌入代码:</h4> 
+            <div class="box_Embed_code">
+            <textarea id="input_copyhtml" name="" cols="" rows="3" style="width:500px;height:100px;overflow:hidden;" class="text">
+            </textarea>
+            <div class="mt10"><input id="copy" type="button" value="复制代码" class="btn_w mr5" style="vertical-align:middle" />请将代码添加到您的网站</div>
+            </div>
+        </div>
+        </div>
+		  
+      </div><div class="c"></div>
+    </div>
+  </div>
+  <!-- 右侧内容 end  -->
+  <div class="c"></div>
+</div>
+</div>
+</div>
+<!-- 内容 end --> 
+<include file="__THEME__/footer" />

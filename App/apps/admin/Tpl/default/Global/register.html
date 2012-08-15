@@ -1,0 +1,78 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">注册配置</div>
+  
+  <div class="form2">
+  	<form method="post" action="{:U('admin/Global/doSetRegisterOpt')}">
+    <dl class="lineD">
+      <dt>注册方式：</dt>
+      <dd>
+        <label>
+        	<input name="register_type" type="radio" value="closed" <eq name="register_type" value="closed">checked</eq>>关闭注册
+        </label>
+        <br>
+        <label>
+        	<input name="register_type" type="radio" value="invite" <eq name="register_type" value="invite">checked</eq>>邀请注册
+        </label>		
+        <br />
+        <label>
+        	<input name="register_type" type="radio" value="open" <eq name="register_type" value="open">checked</eq>>公开注册
+        </label>
+      </dd>
+    </dl>
+    <dl class="lineD">
+        <dt>邀请方式：</dt>
+        <dd>
+            <label><input name="invite_set" type="radio" value="close" <eq name="invite_set" value="close">checked</eq>>关闭邀请</label><br>
+            <label><input name="invite_set" type="radio" value="invitecode" <eq name="invite_set" value="invitecode">checked</eq>>使用邀请码</label><br>      
+            <label><input name="invite_set" type="radio" value="common" <eq name="invite_set" value="common">checked</eq>>普通邀请</label>
+            <p>当“注册方式”为“邀请注册”时有效</p>
+        </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>注册后需要邮件激活：</dt>
+      <dd>
+        <label>
+        	<input name="register_email_activate" type="radio" value="0" <eq name="register_email_activate" value="0">checked</eq>>否
+        </label>
+        <br>
+        <label>
+        	<input name="register_email_activate" type="radio" value="1" <eq name="register_email_activate" value="1">checked</eq>>是
+        </label>
+      </dd>
+    </dl>
+    <dl>
+      <dt>默认关注的用户ID：</dt>
+      <dd>
+        <input name="register_auto_friend" type="text" value="{$register_auto_friend}">
+        <p>多个时以英文的“,”分割</p>
+    </dl>
+    <!-- 
+    <dl class="lineD">
+      <dt>开启真实姓名检查：</dt>
+      <dd>
+        <label>
+        	<input name="register_realname_check" type="radio" value="0" <eq name="register_realname_check" value="0">checked</eq>>否
+        </label>
+        <br>
+        <label>
+        	<input name="register_realname_check" type="radio" value="1" <eq name="register_realname_check" value="1">checked</eq>>是
+        </label>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>姓氏：</dt>
+      <dd>
+        <textarea name="register_lastname" cols="50" rows="5">{$register_lastname}</textarea>
+        <p>以英文的“,”分割</p>
+      </dd>
+    </dl>
+     -->
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+    </form>
+  </div>
+
+</div>
+<include file="../Public/_footer" />

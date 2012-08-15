@@ -1,0 +1,21 @@
+<div class="pop" style="width:300px;margin:15px 0 10px 0;">
+  <table  border="0" cellspacing="2" cellpadding="0">
+  <tr>
+    <th>图片标题：</th>
+    <td><input type="text" name="name" id="name" value="{$photo.name}" /></td>
+  </tr>
+  <tr>
+    <th>所属{$ts['app']['app_alias']}：</th>
+    <td align="left" height="24">
+		{:W('AlbumList',array('uid'=>$mid,'selected'=>intval($_GET['aid']),'form_id'=>'albumId'))}
+    </td>
+  </tr>
+  </table>
+  <input type="hidden" name="photoId" id="photoId" value="{$photo.id}" />
+</div>
+<div style="padding:0 0 10px 0">
+	<input type="button" onclick="do_update_photo()" class="btn_b" value="确定">
+</div>
+<script>
+	var albumIdold = $('#albumId').val();
+</script>

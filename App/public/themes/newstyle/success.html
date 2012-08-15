@@ -1,0 +1,68 @@
+<php>if($isAdmin != '1'){</php>
+<include file="__THEME__/header" />
+<php>}else {</php>
+<body>
+<link href="__THEME__/public.css?20110429" rel="stylesheet" type="text/css" />
+<link href="__THEME__/layout.css?20110429" rel="stylesheet" type="text/css" />
+<link href="__THEME__/main.css" rel="stylesheet" type="text/css" />
+<php>}</php>
+<script>
+function Jump(){
+    window.location.href = '{$jumpUrl}';
+}
+document.onload = setTimeout("Jump()" , {$waitSecond}* 1000);
+</script>
+<link href="{$publicCss}" rel="stylesheet" type="text/css">
+<base target="_self" />
+
+<eq name="status" value="1">
+  <div class="Prompt">
+  <div class="Prompt_top"></div>
+  <div class="Prompt_con">
+    <dl>
+      <dt>提示信息</dt>
+      <dd><span class="Prompt_ok"></span></dd>
+      <dd>
+        <h2>{$message}</h2>
+        <present name="closeWin" >
+          <p>系统将在 <span style="color:blue;font-weight:bold">{$waitSecond}</span> 秒后自动关闭，如果不想等待,直接点击 <A HREF="{$jumpUrl}">这里</A> 关闭</p>
+        </present>
+        <notpresent name="closeWin" >
+          <p>系统将在 <span style="color:blue;font-weight:bold">{$waitSecond}</span> 秒后自动跳转,如果不想等待,直接点击 <A HREF="{$jumpUrl}">这里</A> 跳转<br/>
+            或者 <a href="<php>if(APP_NAME=='admin' || ACTION_NAME=='Admin'){echo U('admin/Index/index'); }else{echo "__ROOT__/" ;}</php>">返回首页</a></p>
+        </notpresent>
+      </dd>
+    </dl>
+    <div class="c"></div>
+    </div>
+    <div class="Prompt_btm"></div>
+  </div>
+</eq>
+<eq name="status" value="0">
+  <div class="Prompt">
+    <div class="Prompt_top"></div>
+  <div class="Prompt_con">
+    <dl>
+      <dt>提示信息</dt>
+      <dd><span class="Prompt_x"></span></dd>
+      <dd>
+      <h2 style="color:red">{$message}</h2>
+        <present name="closeWin" >
+      <p>系统将在 <span style="color:blue;font-weight:bold">{$waitSecond}</span> 秒后自动关闭，如果不想等待,直接点击 <A HREF="{$jumpUrl}">这里</A> 关闭</p>
+      </present>
+      <notpresent name="closeWin" >
+        <p>系统将在 <span style="color:blue;font-weight:bold">{$waitSecond}</span> 秒后自动跳转,如果不想等待,直接点击 <A HREF="{$jumpUrl}">这里</A> 跳转<br/>
+          或者 <a href="<php>if(APP_NAME=='admin' || ACTION_NAME=='Admin'){echo U('admin/Index/index'); }else{echo "__ROOT__/" ;}</php>">返回首页</a></p>
+      </notpresent>
+      </dd>
+    </dl>
+    <div class="c"></div>
+    </div>
+    <div class="Prompt_btm"></div>
+  </div>
+</eq>
+<php>if($isAdmin != '1'){</php>
+    <include file="__THEME__/footer" />
+<php>}else {</php>
+    </body>
+<php>}</php>

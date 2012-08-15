@@ -1,0 +1,66 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">平台配置</div>
+  
+  <div class="form2">
+  	<form method="post" action="{:U('admin/Global/platform')}">
+    <dl class="">
+      <dt>新浪WB_AKEY：</dt>
+      <dd>
+        <input name="sina_wb_akey" type="text" value="{$sina_wb_akey}">
+        <label>申请地址：<a href="http://open.weibo.com/" target="_blank">http://open.weibo.com/</a></label>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>新浪WB_SKEY：</dt>
+      <dd>
+        <input name="sina_wb_skey" type="text" value="{$sina_wb_skey}">
+      </dd>
+    </dl>
+    <dl class="">
+      <dt>豆瓣Key：</dt>
+      <dd>
+        <input name="douban_key" type="text" value="{$douban_key}">
+        <label>申请地址：<a href="http://www.douban.com/service/apidoc/connect" target="_blank">http://www.douban.com/service/apidoc/connect</a></label>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>豆瓣密钥：</dt>
+      <dd>
+        <input name="douban_secret" type="text" value="{$douban_secret}">
+      </dd>
+    </dl>
+    <dl class="">
+      <dt>腾讯微博Key：</dt>
+      <dd>
+        <input name="qq_key" type="text" value="{$qq_key}">
+        <label>申请地址：<a href="http://open.t.qq.com/websites/" target="_blank">http://open.t.qq.com/websites/</a></label>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>腾讯微博密钥：</dt>
+      <dd>
+        <input name="qq_secret" type="text" value="{$qq_secret}">
+      </dd>
+    </dl>
+        <dl class="">
+      <dt>腾讯QQKey：</dt>
+      <dd>
+        <input name="qzone_key" type="text" value="{$qzone_key}">
+        <label>申请地址：<a href="http://connect.qq.com/" target="_blank">http://connect.qq.com/</a></label>
+      </dd>
+    </dl>
+    <dl class="">
+      <dt>腾讯QQ密钥：</dt>
+      <dd>
+        <input name="qzone_secret" type="text" value="{$qzone_secret}">
+      </dd>
+    </dl>
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+    </form>
+  </div>
+
+</div>
+<include file="../Public/_footer" />

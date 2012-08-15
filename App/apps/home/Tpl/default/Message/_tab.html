@@ -1,0 +1,5 @@
+        <ul>
+          <li><a class="feed_item <if condition="in_array(ACTION_NAME, array('index', 'detail'))">on</if>"  href="{:U('home/Message/index')}" ><span>我的私信</span></a></li>
+		  <li><a class="feed_item <eq name="ACTION_NAME" value="notify">on</eq>" href="{:U('home/Message/notify')}"><span>系统通知</span></a></li>
+          <li><a class="feed_item <eq name="ACTION_NAME" value="appmessage">on</eq>" href="{:U('home/Message/appmessage')}"><span>应用消息</span></a></li>
+        </ul>

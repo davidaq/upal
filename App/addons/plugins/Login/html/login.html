@@ -1,0 +1,44 @@
+<include file="__THEME__/header" />
+<div class="o_login alL">
+  <div style="width:40%; float: left; margin-left:20px;_margin-left:10px;">
+    <div class="lineD_btm  mb10 pb10"> 
+      <p>你好，{$user.uname}<br>
+      欢迎你通过 <img src="__ROOT__/addons/plugins/Login/html/image/btn_{$type}.gif"> 来到{$ts['site']['site_name']}！</p>
+    </div>
+    <div class="lh20">
+    <ul>
+    <li>* 如果您第一次来这里，需要设定在这里登录的昵称、Email和密码，完成注册。</li>
+    <li>* 如果您已经在这里注册，需要输入您在这里的昵称、Email、密码，完成绑定。</li>
+	<li>* 注册或绑定以后，您可以使用平台帐号也可以使用绑定帐号登录。</li>
+    <li>* 谢谢您的阅读，完善右侧信息，开启您的愉快之旅吧！</li>
+    </ul>
+</div>
+  </div>
+  <form name="createNew" action="{:Addons::createAddonShow('Login','sync_bind')}" method="post">
+    <input type="hidden" name="type" value="{$type}" />
+  <div style="margin: 10px; width: 55%;" class="right">
+  <div style="background-color: rgb(239, 239, 239);"><img src="__ROOT__/addons/plugins/Login/html/image/btn_{$type}.gif"></div>
+  <div style="border: 2px solid rgb(239, 239, 239); padding: 20px;">
+      <p>
+        <label class="f_label" for="email">绑定昵称：</label>
+        <input type="text" class="f_txt2 text" name="uname" value="{$user.uname}">
+      </p>
+      <p>
+        <label class="f_label" for="email">绑定Email：</label>
+        <input type="text" class="f_txt2 text" name="email">
+      </p>
+      <p>
+        <label class="f_label" for="password">设置密码：</label>
+        <input type="password" class="f_txt2 text" name="passwd">
+      </p>
+      <p>
+         <label class="f_label" for="password"></label>
+        <input type="submit" value="确定" class="btn_b" />
+      </p>
+
+  </form>
+  </div>
+  </div>
+  <div class="c"></div>
+  </div>
+<include file="__THEME__/footer" /> 

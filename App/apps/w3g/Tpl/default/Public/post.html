@@ -1,0 +1,7 @@
+<div style=="padding:10px;">
+<form action="{:U('w3g/Index/doPost')}" name="postweibo" method="post" enctype="multipart/form-data" />
+<textarea rows="10" style="width:100%;" name="content">{$keyword}{$content}</textarea>
+<!--请选择要上传的图片(注：需要浏览器支持): <input type="file" name="pic" />-->
+<input type="submit" class="btn_s R" value="发布" onclick="this.value='提交中...';this.disabled=true;postweibo.submit();" />
+</form>
+</div>

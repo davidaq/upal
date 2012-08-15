@@ -1,0 +1,121 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/weibo.js"></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  -->
+  <div class="main no_l">
+    <div class="mainbox boxspace">
+      <div class="mainbox_appR">
+       {:Addons::hook('home_topic_detail_right_top')}
+		<php>if(!empty($search_key)){</php>
+		  <gt name="mid" value="0">
+			<div class="right_box">
+             <span class="ico_tuijian"></span><span id="followTopic" style="font-size:14px; font-weight:bold"><php>if($followState){</php><a href="javascript:void(0)" onclick="weibo.unfollowTopic('{$search_key_id}','{$search_key}')">已关注该话题</a><php>}else{</php><a href="javascript:void(0)" onclick="weibo.followTopic('{$search_key}')">关注该话题</a>
+				<php>}</php>
+			  </span>
+			  <h2><span class="ico_follow"></span><a href="javascript:void(0)" onclick="weibo.quickpublish('大家来谈谈#{$search_key}#这个话题吧！')">推荐该话题</a></h2>
+			</div>
+		  </gt>
+		  <div class="right_box">
+		    <h2>其他关注该话题的人</h2>
+		    <ul class="visitor_list">
+		      <volist name="other_following" id="of">
+		        <li>
+		          <div class="userPic">
+		            <space uid="of['uid']" target="_blank">{uavatar=m}</space>
+	              </div>
+		            <space uid="of['uid']" class="fn" target="_blank">{uname}</space>
+	            </li>
+	          </volist>
+	        </ul>
+	    </div>
+		  <!-- <input type="button" class="btn_green_w121 hand mr10" value="关注该话题" onclick="weibo.followTopic('{$search_key}')" />
+          已关注该话题 <a href="#" class="mr10">取消</a>
+          <input type="button" class="btn_green_w121 hand " value="分享该话题" /> -->
+		<php>}</php>
+        <div class="right_box">
+        {:W('HotTopic', array('type'=>'auto'))} {:W('HotTopic', array('type'=>'recommend'))}</div>
+        {:Addons::hook('home_topic_detail_right_bottom')}
+      </div>
+      <div class="mainbox_appC boxspace_L" >
+        {:Addons::hook('home_topic_detail_left_top')}
+        <if condition="$topics['topic_id']">
+        <div class="topics_info">
+          <if condition="$topics['pic']"><img alt="#{$topics.name}#" src="thumb.php?url={:SITE_URL}/data/uploads/{$topics.pic}&w=625&h=170" /></if>
+          <dl class="topics_info_dl">
+            <dt>#{$topics.name}#</dt>
+            <dd>{$topics.content}<if condition="$topics['link']"><a href="{$topics.link}" target="_blank">&gt;&gt;详细</a></if></dd>
+          </dl>
+        </div>
+        </if>
+        {:Addons::hook('home_topic_detail_left_middle')}
+        <div class="talkBox" style="height:160px">
+          <form method="post" action="{:U('weibo/operate/publish')}" id="miniblog_publish" class="formObj" oncomplete="false">
+            <input type="hidden" name="publish_type" value="0">
+            <h2>
+              <div class="wordNum numObj"></div>
+              <span>快来说点什么吧……</span></h2>
+            <div class="cntBox">
+              <input type="button" disabled="true" class="btn_big_disable hand buttonObj" value="&nbsp;" id="publish_handle"  />
+              <textarea name="content" id="content_publish" class="contentObj" cols="" rows="" style="width:85%;max-width:85%;min-width:85%;height:55px;max-height:55px;min-height:55px;*height:52px;padding:5px; margin:0; _padding:5;overflow: hidden;overflow-x:hidden;overflow-y:auto;line-height:18px">#{$topics.name}#</textarea>
+              <div class="txtShadow" style="z-index:-1000"></div>
+            </div>
+                  <div class="funBox">
+                    <php>if(Addons::requireHooks("home_index_middle_publish")){</php>
+                    <div class="right" style="padding-bottom:5px; cursor:hand;width:80px; cursor:pointer"  onclick='weibo.showAndHideMenu("Sync", this, "", "");'>
+                        同步<a href="#" class="ico_sync_on"></a>
+                    </div>
+                    <div id="Sync" style="display:none;position:absolute;right:23px;top:30px;z-index:9999">
+                        <div class="topic_app"></div>
+                        <div class="pop_inner">
+                                    {:Addons::hook('home_index_middle_publish')}
+                        </div>
+                    </div>
+                    <php>}</php>
+                  <div id="publish_type_content_before" class="left">
+                    {:Addons::hook('home_index_middle_publish_type',array('position'=>'other'))}
+                  </div>
+            </div>
+          </form>
+        </div>
+        <div class="tab-menu"><!-- 切换标签 begin  -->
+          <ul>
+            <li><a href="###" class="on feed_item"><span>热议网友</span></a></li>
+          </ul>
+        </div>
+        <div class="MenuSub alR">
+        	<span class="left cGray">该话题共有"<span class="cRed">{$list.count}</span>"条相关微博</span>
+	        <volist name="weibo_menu" id="vo"><php>if ($i > 1) {</php>|<php>}</php><a
+	        href="{:U('home/user/topics', array('k'=>urlencode($search_key),'type'=>$key))}" 
+	        <eq name="type" value="$key">class="on"</eq>>{$vo}</a></volist>
+	    </div>
+        <div class="feedBox">
+          {:W('WeiboList', array('mid'=>$mid, 'list'=>$list['data'], 'insert'=>1))}
+        </div>
+        <div class="c"></div>
+        <div class="page">{$list.html}</div>
+        {:Addons::hook('home_topic_detail_left_bottom')}
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+</div>
+<script>
+var weibo = $.weibo({
+    initForm:false
+    });
+var default_string = "#{$topics.name}#";
+weibo.initForm("miniblog_publish",{       
+        enter:function(formObj,buttonObj,contentObj,numObj,txt){
+        	var content = $('#content_publish').val();
+        	var isTopics = content.search(default_string);
+        	if(isTopics != -1) {
+	            $('#feed_list').prepend( txt ).slideDown('slow');
+        	}
+            contentObj.val(default_string);
+        }
+   });
+</script>
+{:Addons::hook('weibo_js_plugin')}
+<include file="__THEME__/footer" /> 

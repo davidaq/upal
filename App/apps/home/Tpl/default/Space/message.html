@@ -1,0 +1,53 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="{:U('weibo/plugins/init')}"></script>
+
+<style>
+.autoimage{
+	max-width: 420px;
+	height:auto;
+	width:expression(this.width > 420 ? "420px" : this.width);
+}
+</style>
+<div class="content"><!-- 内容 begin  --> 
+  <include file="__THEME__/apps" />
+  <div class="main">
+    <div class="mainbox">
+      <div class="mainbox_R">
+  			<include file="../Space/space_right" />
+      </div>
+      <div class="mainbox_C">
+        <div class="friend_info">
+ 			<include file="../Space/userMenu" />
+          </div>
+          <div class="message">
+            	<h2>留言本</h2>
+                <div style="margin:5px"><textarea class="message_text" style="width:99%;" name="" cols="" rows=""></textarea></div>
+                <div style="margin:5px; height:24px;"><button class="btn_b right">留言</button><span>表情</span></div>
+            </div> 
+            <div class="feedBox"> 
+			<!--
+        <ul class="feed_list">
+           <li class="lineD_btm">
+              <div class="userPic"><a rel="赵杰" href="http://develop.thinksns.com/sociax_2_0/index.php?app=home&amp;mod=space&amp;act=index&amp;uid=5" title=""><img card="1" src="/sociax_2_0/data/uploads/avatar/5/big.jpg"></a></div>
+              <div class="feed_c" style="margin-left:65px">
+                <div class="msgCnt" style="padding-bottom:0;"><a href="http://develop.thinksns.com/sociax_2_0/index.php?app=home&amp;mod=space&amp;act=index&amp;uid=5" title="赵杰"><strong>我</strong></a>(8月9日 18:01)
+                </div>
+			    <div class="feed_c_btm"> 
+					<span class="right">
+						<a href="#">删除</a> | <a onclick="transpond()" href="javascript:void(0)">回复</a>
+					</span>回复<a href="#">沉默是金</a>： 貌似都是
+				</div>
+              </div>
+            </li>
+        </ul>
+		-->
+      </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="clear"></div>
+</div>
+</div>
+<!-- 内容 end --> 
+<include file="__THEME__/footer" /> 

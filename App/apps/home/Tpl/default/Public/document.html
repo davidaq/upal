@@ -1,0 +1,27 @@
+<include file="__THEME__/header" />
+<link rel="stylesheet" type="text/css" href="../Public/index.css"/>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l">
+    <div class="mainbox">
+    <div class="mainbox_R">
+    	<div class="right_list">
+		<volist name="list" id="vo">
+		<php>$css_class = $vo['document_id'] == $detail['document_id'] ? 'right_list_on' : 'right_list_def';</php>
+        <div class="{$css_class}"><div><a href="{:U('home/Public/document',array('id'=>$vo['document_id']))}">{$vo.title}</a></div></div>
+		</volist>
+        </div>
+    </div>
+    <div class="mainbox_C">
+    <div class="reg_box">
+        <h2 class="cBlue"><strong>{$detail['title']}</strong></h2>
+        <p style="padding: 5px 10px 30px;" class="cGray lineS_btm lh20 mLR15"><div class="ke-post" style="padding:15px">{$detail['content']}</div></p>
+    </div>
+    <div class="c"></div>
+    </div>
+    </div>
+  <div class="clear"></div>
+</div>
+</div>
+</div>
+<include file="__THEME__/footer" />

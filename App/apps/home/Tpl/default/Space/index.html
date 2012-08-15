@@ -1,0 +1,57 @@
+<include file="__THEME__/header" />
+<link href="../Public/css/space.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/weibo.js"></script>
+<script>
+var weibo = $.weibo({
+      timeStep : 10000
+});
+</script> 
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  <div class="main no_l">
+    <div class="mainbox boxspace">
+      <div class="mainbox_appR">
+	      <include file="../Space/space_right" />
+      </div>
+      <div class="mainbox_appC boxspace_L">
+        <div class="friend_info">
+ 			<include file="../Space/userMenu" />
+        </div>
+		{:Addons::hook('home_space_middle', array('uid'=>$uid))}
+      <div class="tab-menu"><!-- 切换标签 begin  -->
+        <ul>
+          <volist name="space_menu" id="vo">
+          	<li><a id="feed_colleague_item" rel="colleague" class="<if condition="$type eq $key">on</if> feed_item" href="{:U('home/Space/index', array('uid'=>$_GET['uid'], 'type'=>$key))}"><span>{$vo}</span></a></li>
+          </volist>
+        </ul>
+      </div>
+      <!-- 个人主页微博分类 -->
+          <eq name="type" value="weibo">
+          <div class="MenuSub" id="MenuSub">
+          <volist name="weibo_menu" id="vo">
+            <a id="feed_colleague_item" rel="colleague" class="<if condition="$weibo_type eq $key">on</if> feed_item" href="{:U('home/Space/index',array('uid'=>$uid,'weibo_type'=>$key))}"><span>{$vo}</span></a>
+          </volist>
+          </div>   
+          </eq>
+      <!-- /个人主页微博分类 -->
+      <if condition="$list">
+	      <div class="feedBox">
+			{:W('WeiboList', array('mid'=>$mid, 'list'=>$list['data'], 'insert'=>0, 'hidden_user'=>1))}
+	      </div>
+	      <div class="page">{$list.html}</div>
+      <else />
+          {:Addons::hook('home_space_list', array('uid'=>$uid, 'type'=>$type))}
+      </if>
+      <div class="c"></div>
+    </div>
+  </div>
+  <div class="clear"></div>
+</div>
+</div>
+</div>
+
+{:Addons::hook('weibo_js_plugin')}
+
+<!-- 内容 end --> 
+<include file="__THEME__/footer" /> 

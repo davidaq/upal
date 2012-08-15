@@ -1,0 +1,20 @@
+<include file="__THEME__/header" />
+    <div class="Prompt">
+  <div class="Prompt_top"></div>
+  <div class="Prompt_con">
+    <dl>
+      <dt><span class="right"><a href="{:U('home/Public/resendEmail',array('uid'=>$uid,'email'=>$email,'validationid'=>$invite['validationid'], 'validationcode'=>$invite['validationcode']))}" class="f12px fn lh25">重新发送激活邮件</a></span>马上激活邮件，完成注册。</dt>
+      <dd><span class="Prompt_ok"></span></dd>
+      <dd style="width:430px;">
+        <h2>我们已经将激活邮件发送到邮箱：{$email} </h2>
+        <p>请收取您的新邮件，并点击邮件里的"验证链接"。</p>
+        <p style="display:none;"><a href="{$url}" target="_blank">{$url}</a></p>
+        <p><a href="http://{$email_url}" class="btn_green" target="blank">立即查看我的邮箱</a> 
+            <p class="lh20 cGray2"><strong>提示：</strong><br />如果没收到新邮件，到你邮箱的垃圾邮件目录里找找        </p>
+        </dd>
+    </dl>
+    <div class="c"></div>
+    </div>
+    <div class="Prompt_btm"></div>
+  </div>
+<include file="__THEME__/footer" />

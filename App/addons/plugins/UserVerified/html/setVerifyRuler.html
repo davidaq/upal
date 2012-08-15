@@ -1,0 +1,24 @@
+<form method="post" action="{:Addons::adminUrl('saveVerifyRuler')}" onsubmit="return modifyRuler(this);">
+<div class="form2">
+  <dl class="lineD">
+    <dt>认证规则：</dt>
+    <dd>
+      <textarea name="verifyruler" id="verifyruler" cols="100" rows="10">{$verifyruler}</textarea>
+    </dd>
+  </dl>
+  <div class="page_btm">
+    <input type="submit" class="btn_b" value="保存" />
+  </div>
+</div>
+</form>
+<script>
+function modifyRuler(o)
+{
+	if (o.verifyruler.value.length <= 0) {
+		ui.error('请输入认证规则');
+		o.verifyruler.focus();
+		return false;
+	}
+  return true;
+}
+</script>

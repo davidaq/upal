@@ -1,0 +1,114 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('weibo/plugins/init')}"></script>
+<script type="text/javascript" src="../Public/js/slides.min.jquery.js"></script>
+<script type="text/javascript" src="../Public/js/square.js"></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  -->
+  <div class="main">
+    <div class="mainbox">
+    <div class="mainbox_R">
+    {:Addons::hook('home_square_topics_right_top')}
+    <div class="right_box">
+    	{:W('HotTopic', array('type'=>'auto'))}
+    </div>
+    {:Addons::hook('home_square_topics_right_bottom')}
+    <php>if (Addons::requireHooks('home_index_right_advert')) {</php>
+        {:Addons::hook('home_index_right_advert', array($ts['ad']['right']))}
+    <php>} else {</php>
+		<volist name="ts['ad']['right']" id="vo">
+		<div class="ad_right"><div class="ke-post">{$vo.content}</div></div>
+		</volist>
+	<php>}</php>
+  </div>
+      <div class="mainbox_C">
+        <include file="_tab" />
+    	{:Addons::hook('home_square_topics_top')}
+        <div class="hotTopic">
+          <php>$ti=0;</php>
+          <php>foreach($re_hot_topic as $reht){</php>
+          <php>$ti++;</php>
+	          <div class="lineS_btm lh30" style="height:30px; margin-top:20px">
+	            <p class="left OverH">
+	            	<span class="mr10"><strong>关于“<a href="{:U('home/user/topics',array('k'=>urlencode($reht['name'])))}">{$reht['name']|getShort=###,12}</a>”的微博({$reht['count']})</strong></span>&nbsp;&nbsp;&nbsp;
+	            	<gt name="mid" value="0">
+	            	<span class="ico_tuijian"></span>
+	            	<span id="follow_topic_{$ti}">
+	            	  <if condition="$reht['follow'] eq 'havefollow'">
+	            	    <a href="javascript:void(0)" onclick="unfollow_topic('{$reht['name']|str_replace='"','&quot;',###|addslashes}','{$reht['topic_id']}','#follow_topic_{$ti}')">已关注该话题</a>
+	            	  <else />
+	            	    <a href="javascript:void(0)" onclick="follow_topic('{$reht['name']|str_replace='"','&quot;',###|addslashes}','#follow_topic_{$ti}')">关注该话题</a>
+	            	  </if>
+	            	</span> | 
+	            	<span class="icoWrite"></span>
+	            	<span><a href="javascript:void(0)" onclick="weibo.quickpublish('#{$reht['name']|str_replace='"','&quot;',###|addslashes}# ')">我也说几句</a></span>
+	            	</gt>
+	            </p>
+	            <p class="right"><a href="{:U('home/user/search',array('k'=>urlencode($reht['name'])))}">更多&raquo;</a></p>
+	          </div>
+	          <div class="feedBox">
+				{:W('WeiboList', array('mid' => $mid, 'list' => $reht['data'], 'insert'=>0))}
+<php>/*</php>
+	            <ul class="feed_list">
+	              <volist name="reht.data" id="vo">
+	              <li class="lineD_btm" id="list_li_{$vo.id}">
+	                <div class="userPic">
+	                  <space uid="vo.uid">{uavatar}</space>
+	                </div>
+	                <div class="feed_c">
+	                  <div class="msgCnt">
+	                    <space uid="vo.uid">{uname}</space>
+	                    {$vo.uid|getUserGroupIcon}：{$vo.content|format=true}
+	                  </div>
+	                  <php>if( $vo['transpond_id'] ){</php>
+	                  <php>if($vo['expend']){</php>
+	                  <div class="feed_quote"> <img class="q_ico_arrow" src="__THEME__/images/zw_img.gif" />
+	                    <div class="q_tit"><img class="q_tit_l" src="__THEME__/images/zw_img.gif" /></div>
+	                    <div class="q_con">
+	                      <space uid="vo.expend.uid">@{uname}</space>
+	                      ：{$vo.expend.content|format=true} <a href="{:U('home/space/detail',array('id'=>$vo['expend']['id']))}">原文转发({$vo.expend.transpond})</a>&nbsp;|&nbsp;<a href="{:U('home/space/detail',array('id'=>$vo['expend']['id']))}">原文评论({$vo.expend.comment})</a> {$vo.expend.expend} </div>
+	                    <div class="q_btm"><img class="q_btm_l" src="__THEME__/images/zw_img.gif" /></div>
+	                  </div>
+	                  <php>}else{</php>
+	                  <div class="feed_quote"> <img class="q_ico_arrow" src="__THEME__/images/zw_img.gif" />
+	                    <div class="q_tit"><img class="q_tit_l" src="__THEME__/images/zw_img.gif" /></div>
+	                    <div class="q_con">此微博已被原作者删除</div>
+	                    <div class="q_btm"><img class="q_btm_l" src="__THEME__/images/zw_img.gif" /></div>
+	                  </div>
+	                  <php>}</php>
+	                  <php>}else{</php>
+	                  {$vo.expend|format}
+	                  <php>}</php>
+	                  <div class="feed_c_btm">
+	                    <gt name="mid" value="0">
+	                    <span class="right">
+	                    <php>if( $vo['uid'] == $mid ){</php>
+	                    <a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条微博?')" callback="weibo.deleted({$vo.id})">删除</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+	                    <php>}</php>
+	                    <a href="javascript:void(0)" onclick="weibo.transpond({$vo.id})">转发({$vo.transpond})</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+	                    <php>if($vo['is_favorited']){</php>
+	                    <a href="javascript:void(0)" onclick="weibo.unFavorite({$vo.id},this)">已收藏</a>
+	                    <php>}else{</php>
+	                    <a href="javascript:void(0)" onclick="weibo.favorite({$vo.id},this)">收藏</a>
+	                    <php>}</php>
+	                    &nbsp;&nbsp;|&nbsp;&nbsp; <a href="javascript:void(0)" rel="comment" minid="{$vo.id}" >评论({$vo.comment})</a> 
+	                    </span>
+	                    </gt>
+	                    <cite> <a href="{:U('home/space/detail',array('id'=>$vo['id']))}">{$vo.ctime|friendlyDate}</a></cite> 来自 <cite><?php echo getFrom($vo['from'], $vo['from_data']);?></cite> </div>
+	                  <div id="comment_list_{$vo.id}" style=""></div>
+	                </div>
+	              </li>
+	              </volist>
+	            </ul>
+<php>*/</php>
+	            <div class="c"></div>
+	          </div>
+          <php>}</php>
+        </div>
+    	{:Addons::hook('home_square_topics_bottom')}
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<include file="__THEME__/footer" /> 

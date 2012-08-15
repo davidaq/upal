@@ -1,0 +1,200 @@
+
+        <div class="talkBox" style="width:350px;">
+          <form method="post" action="{:U('group/WeiboOperate/publish')}" id="miniblog_publish" oncomplete="false">
+		  <input type="hidden" name="publish_type" value="0">
+            <h2><div class="wordNum">你还可以输入<strong id="strconunt"><php> echo $ts['site']['length']; </php></strong>字</div><span>快来说点什么吧……</span></h2>
+            <div class="cntBox" style="padding:0 10px">
+              <textarea name="content" id="content_publish" cols="" rows="" style="width:99.3%;_width:99%; height:78px;padding:5px 0;"></textarea>
+			   <div class="txtShadow" style="z-index:-1000"></div>
+
+            </div>
+            <div class="funBox">
+            <div id="publish_type_content_before" class="left"> 
+            	<a href="javascript:void(0)" target_set="content_publish" onclick="ui.emotions(this)" class="a52"><img class="icon_add_face_d" src="__THEME__/images/zw_img.gif" />表情</a>
+				<a href="javascript:void(0)" onclick="publish_type_box('theme')" class="a52"><img class="icon_add_topic_d" src="__THEME__/images/zw_img.gif" />话题</a> 
+				<a href="javascript:void(0)" onclick="publish_type_box('image',120)" class="a52"><img class="icon_add_img_d" src="__THEME__/images/zw_img.gif" />图片</a> 
+			</div>
+       		<div class="alR" style="padding-bottom:5px;">
+          		<input type="button" onclick="publish_weibo()" disabled="true" class="btn_big_disable hand" value="&nbsp;" id="publish_handle"  />
+            </div>
+ </div>
+
+          </form>
+      </div>
+
+
+<script>
+$(document).ready(function(){
+	$content_publish = $("#content_publish");
+	var Interval;
+	$content_publish.keypress(function(event){
+		var key = event.keyCode?event.keyCode:event.which?event.which:event.charCode;
+        if (key == 27) {
+        	clearInterval(Interval);
+        }
+		checkInputLength(this,<php> echo $ts['site']['length']; </php>);
+	}).blur(function(){
+		clearInterval(Interval);
+		checkInputLength(this,<php> echo $ts['site']['length']; </php>);
+	}).focus(function(){
+		//微博字数监控
+		clearInterval(Interval);
+	    Interval = setInterval(function(){
+	    	checkInputLength('#content_publish',<php> echo $ts['site']['length']; </php>);
+		},300);
+	});
+    if (!-[1,]) {
+    	$content_publish.focus().val('{$text}');
+    }else{
+    	$content_publish.select().focus().val('{$text}');
+    }
+	//微博字数控制
+	checkInputLength('#content_publish',<php> echo $ts['site']['length']; </php>);
+	
+    shortcut('ctrl+return',	function(){publish_weibo();clearInterval(Interval);},{'target':'miniblog_publish'});
+
+	var url = "{:U('home/User/searchTips')}";
+	userAutoTips({id:'content_publish', url:url});
+});
+
+//发布微博
+function publish_weibo(){
+		if( $.trim( $('#content_publish').val() ) == '' ){
+            alert('内容不能为空');		
+			return false;
+		}
+		textareaStatus('sending');
+		var options = {
+		    success: function(txt) {
+		      if(txt){
+		    	   delTypeBox();
+				   $("#feed_list").prepend( txt ).slideDown('slow');
+				   $('#miniblog_publish').clearForm();
+				   weibo.upCount('miniblog');
+				   checkInputLength('#content_publish',<php> echo $ts['site']['length']; </php>);
+				    delTypeBox();
+				   $('#miniblog_publish').clearForm();
+				   ui.box.close();
+		      }else{
+                  alert( '发布失败' );
+		      }
+			}
+		};		
+		$('#miniblog_publish').ajaxSubmit( options );
+	    return false;
+}
+
+function setSearchUser(txt){
+		reg = /@[^@\s]{1,20}$/g
+		var   patt   =   new   RegExp(reg);
+		var result = patt.exec( txt.val() );
+
+		var textArea = document.getElementById('content_publish');
+		if(result){
+			$(".txtShadow").html( '@' + '<span id="showTips"></span>');
+			var p = $("#showTips").offset();
+			$('#searchUser').css({top:p.top,left:p.left});
+			$('#searchUser').show();
+		}else{
+			$('#searchUser').hide();
+		}
+}
+
+//检测输入字符数
+function checkInputLength(obj,num){
+	var len = getLength($(obj).val(), true);
+	var wordNumObj = $('.wordNum');
+	if(len==0){
+		textareaStatus('off');
+		wordNumObj.css('color','').html('你还可以输入<strong id="strconunt">'+ (num-len) + '</strong>字');
+	}else if( len > num ){
+		wordNumObj.css('color','red').html('已超出<strong id="strconunt">'+ (len-num) +'</strong>字');
+		textareaStatus('off');
+	}else if( len <= num ){
+		wordNumObj.css('color','').html('你还可以输入<strong id="strconunt">'+ (num-len) + '</strong>字');
+		textareaStatus('on');
+	}
+}
+
+//发布窗口、按钮状态
+function textareaStatus(type){
+	var obj = $('#publish_handle');
+	if(type=='on'){
+		obj.removeAttr('disabled').attr('class','btn_big_disable hand');
+	//}else if( type=='sending'){
+	//	obj.attr('disabled','true').attr('class','btn_big_disable hand');
+	}else{
+		obj.attr('disabled','true').attr('class','btn_big_disable hand');
+	}
+}
+
+//发布类型
+function publish_type_box(type,mg_left){
+	var publis_type_html = '';
+	var type_num = 0;
+	switch(type){
+		case 'theme':
+			var text = '#请在这里输入自定义话题#';
+			var   patt   =   new   RegExp(text,"g");  
+			var content_publish = $('#content_publish');
+			var result;
+						
+			if( content_publish.val().search(patt) == '-1' ){
+				content_publish.val( content_publish.val() + text);
+			}
+			
+			var textArea = document.getElementById('content_publish');
+			
+			result = patt.exec( content_publish.val() );
+			
+			var end = patt.lastIndex-1 ;
+			var start = patt.lastIndex - text.length +1;
+			
+			if (document.selection) { //IE
+				 var rng = textArea.createTextRange();
+				 rng.collapse(true);
+				 rng.moveEnd("character",end)
+				 rng.moveStart("character",start)
+				 rng.select();
+			}else if (textArea.selectionStart || (textArea.selectionStart == '0')) { // Mozilla/Netscape…
+		        textArea.selectionStart = start;
+		        textArea.selectionEnd = end;
+		    }
+		    textArea.focus();
+			checkInputLength('#content_publish',<php> echo $ts['site']['length']; </php>);
+			return ;
+		break;
+		
+		case 'image':
+			type_num = 1;
+			publish_type_html = '<div id="upload_selectpic"><div class="btn_green" href="javascript:void(0);" >从电脑选择图片'+
+								'<form action=\'{:U("weibo/plugins/before_publish")}\' enctype="multipart/form-data" method="post" id="uploadpic">'+
+								'<input type="file" hidefoucs="true" name="pic" onchange="weibo.plugin.image.upload(this)"><input type="hidden" name="plugin_id" value="1">'+
+								'</form></div><div>仅支持JPG、GIF、PNG、JPEG图片文件，且文件小于2M</div></div><div class="alC pt10 pb10 f14px" id="upload_loading" style="display:none"><img src="'+ _THEME_+'/images/icon_waiting.gif" width="20" class="alM"> 正在上传中...<br /><a class="btn_w mt10" href="javascript:void(0)" onclick="$(\'div .talkPop\').remove();stopAjax();">取消上传</a></div>';
+		break;
+		
+		case 'video':
+			type_num = 3;
+			publish_type_html = '<div id="video_input">请输入新浪播客、优酷网、土豆网、酷6网等视频网站的视频播放页链接： <div><input name="publish_type_data" type="text" style="width: 235px" class="text mr5" value="" /><input type="button" class="btn_b" onclick="add_video()" value="添加"></div></div><div style="display:none"    id="video_add_complete">添加完成</div>';
+		break;
+		
+		
+		case 'music':
+			type_num = 4;
+			publish_type_html = '<div id="music_input">请输入歌曲链接地址：<div><input name="publish_type_data" type="text" style="width: 235px"   class="text  mr5"  value="" /><input type="button" class="btn_b" onclick="add_music()" value="添加"></div></div><div style="display:none" id="music_add_complete">添加完成</div>';
+		break;		
+		
+	}
+	
+	$('input[name="publish_type"]').val( type_num );
+	
+	var html = '<div class="talkPop" ><div  style="position: relative; height: 7px; line-height: 3px;z-index:99">'
+		     + '<img class="talkPop_arrow" style="margin-left:'+ mg_left +'px;position:absolute;" src="__THEME__/images/zw_img.gif" /></div>'
+             + '<div class="talkPop_box">'
+			 + '<div class="pop_tit close" id="weibo_close_handle"><a href="javascript:void(0)" class="del" onclick=" delTypeBox()" > </a></div>'
+			 + '<div id="publish_type_content">'+publish_type_html+'</div>'
+			 + '</div></div>';
+	$('div .talkPop').remove();
+	$("#publish_type_content_before").after( html );
+}
+</script> 

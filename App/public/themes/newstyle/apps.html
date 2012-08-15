@@ -1,0 +1,94 @@
+   {:Addons::hook('home_index_left_top_outline')}
+<div class="user_app"><!-- 用户组件列表 begin -->
+    {:Addons::hook('home_index_left_top')}
+
+	<div class="user_app_top"></div>
+    <div class="user_app_box">
+  <div class="userinfo">
+    	<div class="userpic" onmouseover="this.className='userpic over'" onmouseout="this.className='userpic'" >
+			<span id="my_face"><space uid="mid" class="nocard">{uavatar}</space></span>
+			<a class="pic" href="{:U('home/account/index')}#face">上传头像</a>
+		</div>
+  		<div class="user_name">
+        	<h2>{$userInfoCache['uname']}<php>Addons::hook('user_name_end', array('uid'=>$mid, 'html'=>&$user_name_end));echo $user_name_end;</php>{$mid|getUserGroupIcon}</h2>
+            <php>
+            	$user_credit = $userInfoCache['credit'];
+            	foreach($user_credit as $k => $v) {
+            </php>
+           		<p>{$v['alias']}：<a href="{:U('home/Account/credit')}" title="{$v['credit']}"><span class="cRed">{$v['credit']}</span></a></p>
+            <php>
+                }
+                unset($user_credit);
+            </php>
+        </div>
+  </div>
+  {:Addons::hook('home_index_left_avatar_bottom')}
+  <!--关注-->
+  <div class="user_follow app_line">
+  	<span><a href="{:U('home/space/follow',array('type'=>'following', 'uid'=>$mid))}"><strong>{$userInfoCache['following']}</strong><br />关注</a></span>
+    <span class="app_lineL"><a href="{:U('home/space/follow',array('type'=>'follower', 'uid'=>$mid))}"><strong>{$userInfoCache['follower']}</strong><br />粉丝</a></span>
+    <span class="app_lineL"><a href="{:U('home/space/index',array('uid'=>$uid))}"><strong id="miniblog_count">{$userInfoCache['miniNum']}</strong><br />微博</a></span>
+  </div>
+  <!--关注 end-->
+  <div class="celerity_menu app_line">
+  	<ul>
+        <li><a href="{:U('home/user/index')}" {:getMenuState('user/index')}><span class="ico_side ico_home"></span>我的首页</a></li>
+        <li><a href="{:U('home/user/atme')}" {:getMenuState('user/atme')}><span class="ico_side ico_atme"></span>提到我的 
+        <span id="app_left_count_atme"><gt name="userCount['atme']" value="0">(<font color="red">{$userCount.atme}</font>)</gt></span>
+        </a>
+        </li>
+        <li><a href="{:U('home/user/collection')}" {:getMenuState('user/collection')}><span class="ico_side ico_favorites"></span>我的收藏</a></li>
+        <li><a href="{:U('home/user/comments')}" {:getMenuState('user/comments')}><span class="ico_side ico_comment"></span>我的评论 
+        <span id="app_left_count_comment"><gt name="userCount['comment']" value="0">(<font color="red">{$userCount.comment}</font>)</gt></span>
+        </a>
+        </li>
+        <if condition="Addons::requireHooks('home_index_left_tab')">
+            {:Addons::hook('home_index_left_tab', array(&$menu))}
+            <volist name="menu" id="vo">
+                <li><a href="{:U('home/user/' . $vo['act'])}" {:getMenuState('user/' . $key)}>{$vo['name']}</a></li>
+            </volist>
+        </if>
+  	</ul>
+  </div>
+  <div class="celerity_menu app_line">
+  	<ul>
+  	    <volist name="install_app" id="vo">
+  	        <php>if(empty($vo['app_alias'])) continue;</php>
+  	        <li>
+				<a href="{$vo.app_entry}" title="{$vo.description}" class="user_app_link" >
+				<php>if($vo['sidebar_entry']){</php>
+				    <span class="user_app_entry" target="_blank" url="{$vo.sidebar_entry}">{$vo.sidebar_title}</span>
+                <php>}</php>
+                <img src="{:getAppIconUrl($vo['icon_url'],$vo['app_name']);}" class="user_app_icon" />{$vo.app_alias|getShort=###,5,'...'}</a>
+
+  	        </li>
+  	    </volist>
+  	</ul>
+  </div>
+    
+	<div class="app_add app_line">
+    <span class="right"><span class="ico_app_manage"></span><a href="{:U('home/Index/editapp')}">管理</a></span>
+    <span><span class="ico_app_add"></span><a href="{:U('home/Index/addapp')}">添加</a></span>
+    </div>
+
+    {:Addons::hook('home_index_left_middle')}
+
+    </div>
+	<div class="user_app_btm"></div>
+    {:Addons::hook('home_index_left_bottom')}
+    <php>if (Addons::requireHooks('home_index_left_advert')) {</php>
+    	{:Addons::hook('home_index_left_advert', array($ts['ad']['left']))}
+    <php>} else {</php>
+		<volist name="ts['ad']['left']" id="vo">
+	    <div class="ad_left"><div class="ke-post">{$vo.content}</div></div>
+		</volist>
+    <php>}</php>
+	</div><!-- 用户组件列表 end -->
+<php>
+function getMenuState($type){
+	$type = split('/',$type);
+	if( strtolower(MODULE_NAME)==strtolower($type[0]) && ( strtolower(ACTION_NAME)==strtolower($type[1]) || $type[1]=='*') ){
+		return 'class="on"';
+	}
+}
+</php>

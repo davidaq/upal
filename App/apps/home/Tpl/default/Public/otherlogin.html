@@ -1,0 +1,53 @@
+<include file="__THEME__/header" />
+
+
+<div class="o_login alL">
+  <div style="width:40%; float: left; margin-left:20px;_margin-left:10px;">
+    <div class="lineD_btm  mb10 pb10"> 
+      <p>你好，{$user.uname}<br>
+      欢迎你通过 <img src="__THEME__/images/btn_{$type}.gif"> 来到{$ts['site']['site_name']}！</p>
+    </div>
+    <div class="lh20">
+    <ul><li>* 完整的产品构架、完善的基础应用、开箱即用。</li>
+   <li> * 内置API接口、后续支持自建平台、核心和应用分离。</li>
+    <li>* 完善的后台管理、可植入独立的应用管理。</li>
+    <li>* 正在完善IM应用，包括独立部署的WebIM和基于Air技术的客户端应用。</li>
+    </ul>
+</div>
+  </div>
+  <form action="{:U('home/public/initotherlogin')}" method="post">
+  <input type="hidden" name="type" value="{$type}" />
+  <div style="margin: 10px; width: 55%;" class="right">
+  <div style="background-color: rgb(239, 239, 239);"><span class="right"><img height="42" width="7" src="__THEME__/images/t_sina_bgr.jpg"></span><img src="__THEME__/images/t_{$type}_logo.jpg"></div>
+  <div style="border: 2px solid rgb(239, 239, 239); padding: 20px;">
+  <h3>第一次来{$ts['site']['site_name']}，点击这里直接登录： </h3>
+  <!--
+  <p><input type="checkbox" checked="checked" value="" name="">
+    我已阅读并接受<a href="/Passport/first_sina_login">《使用协议》
+    </a></p>-->
+    
+  <p class="btmlineD pb10">用户名：<input type="text" name="uname" value="{$user.uname}"/><br />(注: 昵称只能由2-10个中英文、数字、下划线和中划线组成)<br /> <input type="submit" value="登录" class="btn_green_w121" /></p>
+  </form>
+  <h3>已经有{$ts['site']['site_name']}帐号？点击这里绑定帐号： </h3>
+  <form action="{:U('home/public/bindaccount')}" method="post">
+      <input type="hidden" name="type" value="{$type}" />
+      <p>
+        <label class="f_label" for="email">你的 Email 地址：</label>
+        <input type="text" class="f_txt2 text" name="email">
+      </p>
+      <p>
+        <label class="f_label" for="password">密 码：</label>
+        <input type="password" class="f_txt2 text" name="passwd">
+      </p>
+      <p>
+         <label class="f_label" for="password"></label>
+        <input type="submit" value="确认绑定" class="btn_b" />
+      </p>
+  <input type="hidden" value="231889230089c2f46233284e6fbeb4e0" name="__hash__">
+  <!--功能操作区end-->
+  </form>
+  </div>
+  </div>
+  <div class="c"></div>
+  </div>
+<include file="__THEME__/footer" /> 

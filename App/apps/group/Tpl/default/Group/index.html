@@ -1,0 +1,138 @@
+<include file="__THEME__/header" />
+<!-- 微博 -->
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.autocomplete.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/weibo.js"></script>
+
+<link  href="../Public/group.css" rel="stylesheet" type="text/css"/>
+<div class="content_holder">
+<div class="content no_bg"><!-- 内容 begin  --> 
+<include file="../Public/_mainNav" />
+  <div class="main no_l">
+    <!-- 右侧内容 begin  -->
+    <div class="mainbox"> 
+      <include file="../Public/_groupInfo" />
+      <div class="mainbox_appC">
+  <!--  简单头部 -->
+  <include file="../Public/top" />
+  <!--  简单头部结束  --> 
+  <div class="groupBox">
+      <div class="clearfix">
+        <if condition="$ismember">
+            <div class="talkBox talkBox_group" <if condition="ACTION_NAME == 'search'">style="display:none;"</if>>
+              <form method="post" action="{:U('group/WeiboOperate/publish')}" id="miniblog_publish" oncomplete="false">
+                <input type="hidden" name="publish_type" value="0">
+                <h2>
+                  <div class="wordNum numObj"></div>
+                  <span>快来说点什么吧……</span></h2>
+                <div class="cntBox">
+                  <textarea name="content" id="content_publish" class="contentObj text_talk_group" cols="" rows=""><if condition="$search_key">#{$search_key}#</if></textarea>
+                  <div class="txtShadow contentObj" style="z-index:-1000"></div>
+                </div>
+                <div class="funBox">
+                  <div class="right" style="padding-bottom:5px;">
+                  <label><input name="myweibo" type="checkbox" value="1" />同时发到我的微博</label>
+                  <input type="hidden" name="gid" value="{$gid}">
+                  <input type="button"  disabled="true" class="btn_big_disable hand buttonObj btn_talk_group" value="&nbsp;" id="publish_handle"  />
+                  </div>
+                  <div id="publish_type_content_before" class="left">
+                       {:Addons::hook('home_index_middle_publish_type',array('position'=>'other'))}
+                  </div>
+                </div>
+              </form>
+            </div>        
+            <else />
+              <div class="talkBox" style="background-image:none; padding:0; height:auto;">
+              <h2>
+                  <div class="wordNum">你还可以输入<strong id="strconunt"><php> echo $ts['site']['length']; </php></strong>字</div>
+                <span>快来说点什么吧……</span>
+              </h2>
+              <div class="cntBox alC" style="background-color:#F8F8F8; border:1px solid #EBEBEB; -moz-border-radius: 3px;-khtml-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px; padding:30px 0; color:#666666">开始发言吧..
+			  <php> if($_SESSION['mid']>0){</php><a href="javascript:joingroup({$gid});">加入群</a><php>}</php></div>
+              </div>
+        </if>
+        <if condition="ACTION_NAME == 'search'">
+          <div class="pt10">   
+          <div class="Search_bg">
+            <div>
+            <form action="{:U('group/Group/search', array('gid'=>$groupinfo['id']))}" method="post">
+                <input type="text" name="k"  value="{$search_key}" class="text txt_g" /> <input type="submit" value="搜群聊" class="btn_b" />
+            </form>	
+            </div>
+            </div>
+            <php>if (empty($search_key)) {</php>
+                  请输入关键字后点击搜索
+            <php>} else {</php>
+              <div class="cGray2 clearL lh30">找到 <span class="cRed">{$search_key}</span> 相关结果约：({$list.count})条</div>
+            <php>}</php>
+ 
+          </div>
+        </if>
+        <switch name="ACTION_NAME">
+          <case value="index">
+            <div class="tab-menu"><!-- 切换标签 begin  --> 
+	          <ul>
+	            <volist name="weibo_menu" id="vo">
+	                <li><a id="feed_all_item" rel="all" class="<eq name='type' value='$key'>on</eq> feed_item" href="{:U('/Group/',array('gid'=>$gid,'weibo_type'=>$key))}"><span>{$vo}</span></a></li>
+	            </volist>
+	          </ul>
+            </div>
+          </case>
+          <case value="atme">
+            <div class="tab-menu">
+              <ul>
+                <li><a href="#" class="on feed_item"><span>提到我的</span></a></li>
+              </ul>
+            </div>
+          </case>
+          <case value="collection">
+            <div class="tab-menu">
+              <ul>
+                <li><a href="#" class="on feed_item"><span>我收藏的</span></a></li>
+              </ul>
+            </div>
+          </case>
+        </switch>
+        <div class="feedBox">
+          <!--<div id="countNew"></div>-->
+          <php>if (ACTION_NAME == 'search' && isset($list['data']) && !$list['data']) {</php> 
+            <li>未搜索到相关的话题</li>
+          <php>} else {</php>
+           {:W('WeiboList', array('mid'=>$mid, 'list'=>$list['data'], 'insert'=>1,'simple'=>2))}
+		      <php>}</php>
+          <php>if(ACTION_NAME != 'search'){</php>
+          <p class="moreFoot"><a id="loadMoreDiv" href="javascript:void(0)"><span class="ico_morefoot"></span>更多</a></p>
+          <php>} else {</php>
+          <div class="page">{$list['html']}</div>
+          <php>}</php>
+        </div>
+        <div class="c"></div>
+        </div>
+      </div>
+  <!-- end  -->
+  </div>
+    <div class="c"></div>
+  </div>
+  </div>
+</div>
+  </div><!-- 右侧内容 end  -->
+<include file="__THEME__/footer" />
+
+<script>
+var gid = '<?php echo $gid; ?>';
+
+var weibo = $.weibo({
+	      sinceId:'<php>echo $sinceId;</php>',
+	      timeStep : 10000,
+	      <php>if($_SESSION['mid']>0){</php>initForm:true,<php>}</php>
+	      lastId:'<php> echo $list["data"][0] ? $list["data"][0]["id"] : 0;</php>',
+	      gid:'<php> echo $gid;</php>',
+	      weiboType:'<php> echo $type;</php>',
+	      type:1,
+	      typeList:{
+	          GROUP:1
+	      },
+        initForm:'<php> echo empty($ismember) ? false : true;</php>'
+	});
+</script>
+{:Addons::hook('weibo_js_plugin')}

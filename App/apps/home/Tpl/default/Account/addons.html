@@ -1,0 +1,25 @@
+<include file="__THEME__/header" />
+<link href="../Public/account.css" rel="stylesheet" type="text/css" />
+<link href="../Public/js/setavatar/css/imgareaselect-default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  --> 
+  
+  <div class="main no_l"> <!-- 右侧内容 begin  -->
+    <div class="mainbox">
+      <div class="mainbox_appC no_r">
+    <include file="_tab" />
+    <!-- 切换标签 end  -->
+    <div class="mainbox_C_C">
+		{:Addons::addonsHook($_GET['addon'], $_GET['hook'])}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 右侧内容 end  -->
+  <div class="c"></div>
+</div>
+</div>
+<!-- 内容 end --> 
+<include file="__THEME__/footer" />

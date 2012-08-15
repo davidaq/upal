@@ -1,0 +1,19 @@
+<dl class="pop_quick_publish">
+<form action="{:U('home/Friend/sendFriendApplication')}" method="post" onsubmit="return friend.sendFriendApplication(this);">
+    <dd>请输入申请理由:</dd>
+    <dd><textarea id="friend_message" style="width:360px;height:100px" name="message" rows="" cols=""></textarea></dd>
+    <dd><input type="hidden" name="friend_uid" value="{$_GET['friend_uid']|intval}" /></dd>
+    <dd><input type="submit" value="提交" class="btn_b mr10" style="vertical-align:middle"/><input type="button" value="取消" class="btn_w" onclick="ui.box.close();" /></dd>
+</form>
+</dl>
+
+<script type="text/javascript">
+$(function() {
+	$('#friend_message').live('keydown', function(event) {
+		if(this.value.length > 150 && event.which != '8' && event.which != '46') {
+			event.preventDefault();
+			return;
+		}
+	});
+});
+</script>

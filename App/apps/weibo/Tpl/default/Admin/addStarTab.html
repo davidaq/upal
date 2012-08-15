@@ -1,0 +1,33 @@
+<div style="width:280px;padding:20px;" class="alL">
+<div class="left" style=" width:85px;">请输入用户ID：</div>  
+<div style="margin:0 0 10px 85px;"><textarea id="uid" style="height:50px; width:180px;"></textarea>
+<span class="cGray2" >(多个ID之间使用“,”隔开)</span></div>
+<div class="alC"><input type="button" value="保存" class="btn_b" onclick="add_star()"></div>
+</div>
+<script>
+function add_star(){
+	var uid = $("#uid").val();
+	if(uid.length == 0){
+		ui.error('请输入用户ID！');
+	}else{
+		$.post( '__URL__&act=addStar',{uid:uid,gid:gid},function(txt){
+			ui.box.close();
+			if(txt.code == -2){
+				ui.error('分组不存在！');
+			}else if(txt.code == -3){
+				ui.error('添加的名人当前分组内已存在！');
+			}else if(txt.code == 0){
+				ui.error('添加名人失败！');
+			}else if(txt.code == -4) {
+				ui.error('用户UID不存在！');
+			} else if(txt.code == -5) {
+				ui.error('用户UID' + txt.data.join(',') + '不存在！');
+				setInterval("location.reload()",500);
+			} else {
+				ui.success('添加名人成功');
+				setInterval("location.reload()",500);
+			}
+		}, 'json');
+	}
+}
+</script>

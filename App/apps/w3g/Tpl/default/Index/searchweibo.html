@@ -1,0 +1,19 @@
+<include file="../Public/header_list" />
+<div class="search">
+<form action="{:U('w3g/Index/doSearchWeibo')}" method="post">
+<span class="s_word L ml10 mb10">请输入搜索关键字</span>
+<br />
+<input type="text" name="key" value="{$keyword}" class="s_text" style="height:30px;margin-top:5px;width:90%" />
+<br />
+<input type="submit" name="weibo" value="搜 微 博" style="height:30px;margin-top:5px;width:90%" />
+</form>
+</div>
+
+<php>if(!empty($keyword)){</php>
+<div class="userinfo">
+	<span class="s_word ml10 mt10">包含关键字“{$keyword}”的微博:</span>
+</div>
+<php>}</php>
+
+<include file="../Public/weibolist" />
+<include file="../Public/footer" />

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- QQ登录 -->
+<title>
+<neq name="ts['site']['page_title']" value="">
+    {$ts['site']['page_title']} <neq name="ts['app']['app_alias']" value="">- {$ts['app']['app_alias']} </neq>- {$ts['site']['site_name']}
+<else/>
+    {$ts['site']['site_name']} <neq name="ts['site']['site_slogan']" value=""> - {$ts['site']['site_slogan']}</neq>
+</neq>    
+</title>
+<!-- 全局风格CSS -->
+<link href="__THEME__/public.css?20110429" rel="stylesheet" type="text/css" />
+<link href="__THEME__/layout.css?20110429" rel="stylesheet" type="text/css" />
+<link href="__THEME__/main.css?20110429" rel="stylesheet" type="text/css" />
+<link href="../Public/login.css" rel="stylesheet" type="text/css" />
+<!-- 核心JS加载 -->
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+</head>
+<body>
+<div>
+    <php>$regInfo=model('Xdata')->lget('register');</php>
+<!--/快速登录框-->
+    <div><!--页面居中暂写样式-->
+        <div class="popPage clearfix">
+        	<!--<h4><a href="#" class="del right" onclick="ui.box.close()"></a>用户登录</h4>-->
+            <div class="main_quike_login">
+            <form action="{:U('home/Public/doAjaxLogin')}" method="post" name="ajaxLoginForm">
+            	<div class="box_quike_login">
+                	<dl class="list_login">
+                    <div class="line_tips" id="login_tips" style="display:none;">请输入帐号和密码</div>
+                    <dd><label>帐号:</label><div class="options_login"><input name="email" type="text" class="text_Pop" title="登录帐号" style="width:188px"/></div></dd>
+                    <dd><label>密码:</label><div class="options_login"><input name="pwd" type="password" class="text_Pop" title="登录密码" style="width:188px"/></div></dd>
+					<php> $login_verify_on = in_array('login',$ts['site']['site_verify']); </php>
+					<eq name="login_verify_on" value="1">
+					<dd><label>验证码:</label><div class="options_login"><input name="verify" type="text" class="text_Pop" title="验证码" style="width:100px"/> &nbsp; <a href="javascript:void(0);" onclick="changeverify()"><img src="__ROOT__/public/captcha.php" id="verifyimg" alt="换一张" class="alM" /></a></div></dd>
+                    <else />
+					<input name="verify" type="hidden" class="text_Pop" value="" />
+					</eq>
+                    </dd>
+                    <dd><label></label><div class="options_login"><span><input name="remember" type="checkbox" value="1" class="ck" />记住登录状态 | <a target="_blank" href="{:U('home/Public/sendPassword')}">忘记密码?</a></span></div></dd>
+                    <dd><label>&nbsp;</label><input onclick="javascript:ajaxLogin();" type="button" name="button" id="button" value="登录" class="btn_b" /></dd>
+                    </dl>
+                </div>
+             </form>
+                <div class="box_quike_reg">
+                <span>还未开通?赶快注册一个!</span>
+                <a target="_blank" href="{:U('home/Public/register')}" class="btn_reg mt10"></a>
+                <div class="login_other_mode">{:Addons::hook('login_input_footer',array('regInfo'=>$regInfo))}</div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+<!--/快速登录框-->
+</div>
+<script>
+function ajaxLogin(){
+	var email = document.ajaxLoginForm.email.value;
+	var password = document.ajaxLoginForm.pwd.value;
+	var verify = document.ajaxLoginForm.verify.value;
+	var remember = document.ajaxLoginForm.remember.checked;
+	if(email=='' || password==''){
+		$('#login_tips').html('帐号和密码不能为空！').show('fast');
+		return false;
+	}
+	$.post( '{:U('home/Public/doAjaxLogin')}',{email:email,password:password,remember:remember,verify:verify},function(txt){
+		json = eval('('+txt+')');
+		//登录成功
+		if(json.status==1){
+			$('#login_tips').html('登录成功，页面跳转中...').show('fast');
+			window.location.reload();
+			//window.location.href='{:U('home/User/index')}';
+		}else{
+			$('#login_tips').html(json.message).show('fast');
+			//alert(json.status +'-'+json.message );
+		}
+	});
+	return false;
+}
+</script>
+</body>
+</html>

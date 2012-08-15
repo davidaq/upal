@@ -1,0 +1,4 @@
+<div  class="shenqing" style="width:200px; height:30px;line-height:30px; text-align:center">
+<span style=" margin:0 20px 0 10px"><a href="{:U('home/Friend/responseToFriendApplication', array('friend_uid'=>intval($_GET['friend_uid']), 'status'=>1))}" accept="1" onclick="return friend.responseToFriendApplication(this);">接受</a></span>
+<a href="{:U('home/Friend/responseToFriendApplication', array('friend_uid'=>intval($_GET['friend_uid']), 'status'=>0))}" accept="0" onclick="return friend.responseToFriendApplication(this);">拒绝</a>
+</div>

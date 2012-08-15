@@ -1,0 +1,17 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('weibo/Plugins/init')}"></script>
+<script type="text/javascript" src="../Public/js/square.js"></script>
+<div class="content_holder">
+<div class="content"><!-- 内容 begin  -->
+  <include file="_left" />
+  <div class="main">
+    <div class="mainbox">
+		{:Addons::addonsHook($_REQUEST['addon'],$_REQUEST['hook'])}
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+</div>
+<!-- 内容 end --> 
+<include file="__THEME__/footer" />

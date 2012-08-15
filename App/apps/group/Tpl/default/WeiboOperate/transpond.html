@@ -1,0 +1,131 @@
+<form action="{:U('group/WeiboOperate/transpond')}" method="post" id="transpondForm">
+<input type="hidden" name="gid" value="{$data.gid}" />
+<php>if($data['transpond_id']){</php>
+	<input type="hidden" name="transpond_id" value="{$data.transpond_id}" />
+<php>}else{</php>
+	<input type="hidden" name="transpond_id" value="{$data.weibo_id}" />
+<php>}</php>
+    <!--转发弹窗-->
+    <dl class="pop_weibo_transmit">
+        <php>if($data['transpond_id']){</php>
+            <dt>转:{$data.transponInfo.content|keyWordFilter|format}</dt>
+        <php>}else{</php>
+            <dt>转:{$data.content|keyWordFilter|format}</dt>
+        <php>}</php>
+        <dd>
+            <span class="right numObj wordNum" id="transpond_count">还可以输入<strong>131</strong>>个汉字</span>
+        </dd>
+        <dd>
+        <textarea id="transpond_content_{$data.weibo_id}" name="content" style="font-family: Tahoma,宋体; overflow: hidden; border: 1px solid #ccc; background-color:#F8F8F8; word-wrap: break-word; font-size: 12px; line-height: 18px; height: 65px; width:378px;">
+<php>if($data['transponInfo']){</php>
+//@{$data.uid|getUserName}:{$data.content}
+<php>}</php>
+</textarea>
+        </dd>
+        <dd>
+        <span class="right"><input type="button" onclick="dotranspond()" id="transpond_button" class="btn_b right" value="确定"></span>
+        <a href="javascript:void(0)" target_set="transpond_content_{$data.weibo_id}" onclick="ui.emotions(this);" class="a52"><img class="icon_add_face_d" src="__THEME__/images/zw_img.gif" />表情</a>
+        </dd>
+        <dd>
+        	<p style="margin:0;"><label><input type="checkbox" class="labelbox" name="reply_weibo_id[]" value="{$data.weibo_id}"> 同时作为给 {$data.uid|getUserName} 的评论发布</label></p>
+	<php>if( $data['transpond_id'] && $data['transponInfo']['uid']!=$data['uid'] ){</php>
+		<p style="margin:0;"><label><input type="checkbox" class="labelbox" name="reply_weibo_id[]" value="{$data.transponInfo.weibo_id}"> 同时作为给 {$data.transponInfo.uid|getUserName} 的评论发布</label></p>
+	<php>}</php>
+        </dd>
+    </dl>
+    <!--End 转发弹窗-->
+</form>
+
+<script>
+$(document).ready(function(){
+	var content_handle = "transpond_content_{$data.weibo_id}";
+	var content_jquery_handle = $('#'+content_handle);
+	var Interval;
+
+	var default_transpond_string = "转发微博";
+
+	content_jquery_handle.keypress(function(event){
+		var key = event.keyCode?event.keyCode:event.which?event.which:event.charCode;
+        if (key == 27) {
+        	clearInterval(Interval);
+        }
+		checkTranspondLength(content_jquery_handle,<php> echo $ts['site']['length']; </php>);
+	}).blur(function(){
+		clearInterval(Interval);
+	    if(content_jquery_handle.val() == '') {
+	        content_jquery_handle.val(default_transpond_string);
+	    }
+        checkTranspondLength(content_jquery_handle,<php> echo $ts['site']['length']; </php>);
+	}).focus(function(){
+	    if(content_jquery_handle.val() == default_transpond_string) {
+	        content_jquery_handle.val('');
+	        checkTranspondLength(content_jquery_handle,<php> echo $ts['site']['length']; </php>);
+	    }
+	    //微博字数监控
+		clearInterval(Interval);
+	    Interval = setInterval(function(){
+	    	checkTranspondLength(content_jquery_handle,<php> echo $ts['site']['length']; </php>);
+		},300);
+	});
+	
+	if (content_jquery_handle.val() == '') {
+		content_jquery_handle.val(default_transpond_string);
+        checkTranspondLength(content_jquery_handle,<php> echo $ts['site']['length']; </php>);
+	}else {
+		var textArea = document.getElementById('transpond_content_{$data.weibo_id}');
+	    if (document.selection) { //IE
+	         var rng = textArea.createTextRange();
+	         rng.collapse(true);
+	         rng.moveStart("character",0)
+	    }else if (textArea.selectionStart || (textArea.selectionStart == '0')) { // Mozilla/Netscape…
+	        textArea.selectionStart = 0;
+	        textArea.selectionEnd = 0;
+	    }
+		checkTranspondLength(content_jquery_handle,<php> echo $ts['site']['length']; </php>);
+		textArea.focus();
+	}
+
+	shortcut('ctrl+return',	function(){dotranspond();clearInterval(Interval);},{'target':content_handle});
+
+	var url = "{:U('home/User/searchTips')}";
+	userAutoTips({id:'transpond_content_<?php echo $data['weibo_id']; ?>', url:url});
+});
+
+//检测输入字符数
+function checkTranspondLength(obj,num){
+	var $transpond_button = $('#transpond_button');
+	var $transpond_count  = $('#transpond_count');
+	var str = $(obj).val();
+	var len = getLength(str, true);
+	if(len==0){
+		$transpond_button.attr('disabled',true).attr('class','btn_b');
+		$transpond_count.html('你还可以输入'+ (num-len) + '字');
+	}else if( len > num ){
+		$transpond_button.attr('disabled',true).attr('class','btn_b');
+		$transpond_count.css('color','red').html('已超出'+ (len-num) +'字');
+	}else if( len <= num ){
+		$transpond_button.removeAttr('disabled').attr('class','btn_b');
+		$transpond_count.css('color','#999').html('你还可以输入'+ (num-len) + '字');
+	}
+}
+	
+	function dotranspond(o){
+		var options = {
+			success:function(txt){
+				if( txt ){
+					<php>if ($data['upcontent']) {</php>
+						$("#feed_list").prepend( txt ).slideDown('slow');
+					<php>}</php>
+					weibo.upCount('weibo');
+				}else{
+					alert('转发失败');
+				}
+			  ui.box.close();
+			}
+		};
+		var $transpond_button = $('#transpond_button');
+		$transpond_button.val('转发中...');
+		$transpond_button.attr('disabled', 'true');
+		$("#transpondForm").ajaxSubmit( options );
+	}
+</script>

@@ -1,0 +1,56 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">应用安装</div>
+  <div class="Toolbar_inbox">
+    <!-- <div class="page right">{$html}</div> -->
+    <span>待安装应用</span>
+  </div>
+  <div class="list">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th class="line_l">应用图标</th>
+    <th class="line_l">应用名称</th>
+    <th class="line_l">应用别名</th>
+    <th class="line_l">应用简介</th>
+    <th class="line_l">托管方式</th>
+    <th class="line_l">作者</th>
+    <th class="line_l">贡献者</th>
+    <th class="line_l">操作</th>
+  </tr>
+  
+  <php>if(empty($uninstalled)) {</php>
+    <tr><td>暂无待安装应用</td></tr>
+  <php>}</php>
+  
+  <volist id="vo" name="uninstalled">
+      <tr overstyle='on' id="app_{$vo['uid']}">
+        <td><img src="{:getAppIconUrl($vo['icon_url'],$vo['app_name'])}" width="30" /></td>
+        <td>
+            <php>if(!empty($vo['homepage_url'])){</php>
+            <a href="{$vo['homepage_url']}" target="_blank">{$vo['app_name']}</a>
+            <php>}else {</php>
+            {$vo['app_name']}
+            <php>}</php>
+        </td>
+        <td>{$vo['app_alias']}</td>
+        <td>{$vo['description']}</td>
+        <td>{$vo['host_type_alias']}</td>
+        <td>
+            <php>if(!empty($vo['author_homepage_url'])){</php>
+            <a href="{$vo['author_homepage_url']}" target="_blank">{$vo['author_name']}</a>
+            <php>}else {</php>
+            {$vo['author_name']}
+            <php>}</php>
+        </td>
+        <td>{$vo['contributor_names']}</td>
+        <td><a href="{:U('admin/Apps/preinstall',array('path_name'=>$vo['path_name']))}">安装</a></td>
+      </tr>
+  </volist>
+  </table>
+  </div>
+  <div class="Toolbar_inbox">
+    <!-- <div class="page right">{$html}</div> -->
+    <span>&nbsp;</span>
+  </div>
+</div>
+<include file="../Public/_footer" />

@@ -1,0 +1,163 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script>
+$CONFIG['location'] = 'msglist';
+</script>
+<div class="content_holder">
+<div class="content pada20"><!-- 内容 begin  --> 
+  <div class="main no_l">
+    <div class="mainbox">
+      <div class="mainbox_C no_r boxMessage">
+      <div class="tab-menu">
+        <a href="javascript:void(0)" onclick="ui.sendmessage();" class="btn_b right">发私信</a>
+		<include file="_tab" />
+      </div>
+
+      <div class=""> 
+        <ul class="feed_list">
+            <li class="t">
+                <span class="right pr10">共 <span id="message_list_count">{$count}</span> 封私信</span>
+                <label><span class="left" style="padding:0px 5px 0 6px;"><input type="checkbox" value="0" onclick="checkAll(this);" id="checkbox_checkAll" class="ck"/></span>
+                <a href="javascript:void(0)" onclick="checkAll();">全选</a></label>
+                <i class="vline">|</i> 
+                <a href="javascript:void(0)" onclick="setIsRead();">标记已读</a>
+                <i class="vline">|</i> 
+                <a href="javascript:void(0)" onclick="if('' == getChecked()){ ui.error('请选择私信');return false;}ui.confirm(this,'确定要删除该私信?')" callback="delMessage()" onclick="delMessage();">删除</a>
+            </li>
+            <li style="padding:0"><php>if(empty($data)) {</php>暂无信息<php>}</php></li>
+            <volist name="data" id="vo">
+              <li class="lineD_btm" id="message_{$vo['list_id']}">
+          	    <div class="left" style="padding:16px 5px 0 6px;*padding:16px 3px 0 6px"><input type="checkbox" value="{$vo.list_id}" onclick="checkon(this);" class="ck"/></div>
+                <div class="userPic"><space uid="vo.last_message.from_uid" target="_blank">{uavatar}</space></div>
+                <div class="feed_c" style="margin-left:90px;*margin-left:98px">
+                	<a href="javascript:void(0);" onclick="ui.confirm(this,'确定要删除该私信?')" callback="delMessage({$vo['list_id']})" class="hover del"></a>
+                    <div class="msgCnt">
+                      <switch name="vo.type">
+                        <case value="1">
+                          <div style="padding:0 0 10px 0" class="message_two">
+                            <if condition="$vo['last_message']['from_uid'] eq $mid ">
+                              <space uid="vo['last_message']['from_uid']" target="_blank">您</space> 对
+                              <space uid="vo['last_message']['to_uid'][0]" target="_blank">{uname}</space> 说：
+                            <else />
+                              <space uid="vo['last_message']['from_uid']" target="_blank">{uname}</space> 对
+                              <space uid="vo['last_message']['to_uid'][0]" target="_blank">您</space> 说：
+                            </if>
+                            {$vo.last_message.content|htmlspecialchars_decode|getShort=###, 200|formatUrl}
+                            <if condition="$vo['new']"><span class="message_new">&nbsp;</span></if>
+                          </div>
+                        </case>
+                        <case value="2">
+                    	  <div style="padding:0 0 10px 0" class="message_group">
+                            <a href="{:U('home/Message/detail', array('id'=>$vo['list_id'],'type'=>$vo['type']))}">{$vo.title}<if condition="$vo['new']"><span class="message_new">&nbsp;</span></if></a>
+                          </div>
+                          <div><space uid="vo.last_message.from_uid" target="_blank">{uname}</space>
+                            {$vo.last_message.content|htmlspecialchars_decode|getShort=###, 200|formatUrl}
+                          </div>
+                        </case>
+                      </switch>
+                    </div>
+        		    <div>
+                    <span class="right pr10">
+                        
+        		        <a href="{:U('home/Message/detail', array('id'=>$vo['list_id'],'type'=>$vo['type']))}">共{$vo['message_num']}条对话</a> | 
+        		        <a href="{:U('home/Message/detail', array('id'=>$vo['list_id'],'type'=>$vo['type']))}">回复</a> 
+                    </span>
+                    <span style="color:#999">{$vo.list_ctime|friendlyDate}</span>
+                    </div>
+                </div>
+              </li>
+            </volist>
+
+            <li class="t">
+                <span class="left" style="padding:0px 5px 0 6px;"><input name="" type="checkbox" value="0" onclick="checkAll(this);" id="checkbox_checkAll" class="ck"/></span>
+                <a href="javascript:void(0)" onclick="checkAll();">全选</a> | 
+                <a href="javascript:void(0)" onclick="setIsRead();">标记已读</a> |
+                <a href="javascript:void(0)" onclick="if('' == getChecked()){ ui.error('请选择私信');return false;}ui.confirm(this,'确定要删除该私信?')" callback="delMessage()" onclick="delMessage();">删除</a>
+            </li>
+        
+        </ul>
+        <p class="page">{$html}</p>
+      </div>
+      <div class="c"></div>
+    </div>
+  </div>
+  <div class="clear"></div>
+</div>
+</div>
+</div>
+<!-- 内容 end --> 
+
+<script type="text/javascript">	
+	function checkon(o){
+		if( o.checked == true ){
+			$(o).parents('li').addClass('bg_on') ;
+		}else{
+			$(o).parents('li').removeClass('bg_on') ;
+		}
+	}
+	
+	function checkAll(o){
+		if( !o || o.checked == true ) {
+			$('input[type="checkbox"]').attr('checked','true');
+			$('ul[overstyle="on"]').addClass("bg_on");
+		}else if ( o.checked == false ) {
+			$('input[type="checkbox"]').removeAttr('checked');
+			$('ul[overstyle="on"]').removeClass("bg_on");
+		}
+	}
+
+	//获取已选择用户的ID数组
+	function getChecked() {
+		var ids = new Array();
+		$.each($('ul input:checked'), function(i, n){
+			ids.push( $(n).val() );
+		});
+		return ids;
+	}
+
+    function setIsRead() {
+        var ids = getChecked();
+        if (ids == ''){
+        	ui.error('请选择私信')
+        	return false;
+        }
+        
+        $.post("{:U('home/Message/doSetIsRead')}", {ids:ids.toString()}, function(res){
+            if (res == '1') {
+                ui.success('保存成功');
+                
+				for(i = 0; i < ids.length; i++) {
+					$('#message_' + ids[i] + ' span.message_new').remove();
+				}
+            }else {
+                ui.error('保存失败');
+            }
+        });
+    }
+    
+    function delMessage(ids) {
+        ids = ids ? ids : getChecked();
+        ids = ids.toString();
+        if (ids == '') return false;
+        
+        $.post("{:U('home/Message/doDelete')}", {ids:ids}, function(res){
+            if (res == '1') {
+                ui.success('删除成功');
+                ids = ids.split(',');
+				for(i = 0; i < ids.length; i++) {
+					$('#message_'+ids[i]).remove();
+				}
+				var $message_list_count = $('#message_list_count');
+                var message_list_count  = parseInt($message_list_count.html());
+				if(ids.length == 1){
+					$message_list_count.html(message_list_count - ids.length);
+				}else{
+					$message_list_count.html(message_list_count - ids.length + 2);
+				}
+            }else {
+                ui.error('删除失败');
+            }
+        });
+    }
+</script>
+<include file="__THEME__/footer" /> 

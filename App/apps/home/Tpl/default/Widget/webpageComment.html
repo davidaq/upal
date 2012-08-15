@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>评论箱</title>
+<link href="__THEME__/public.css?20110429" rel="stylesheet" type="text/css" />
+<link href="__THEME__/layout.css?20110429" rel="stylesheet" type="text/css" />
+<link href="__THEME__/main.css?20110429" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/js/tbox/box.css" rel="stylesheet" type="text/css" />
+<link href="../Public/css/weiboshow.css?20111205" rel="stylesheet" type="text/css" />
+<link href="../Public/css/webpageComment.css?20111205" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+	var _UID_   = '{$uid}';
+	var _MID_   = '{$mid}';
+	var _ROOT_  = '__ROOT__';
+	var _THEME_ = '__THEME__';
+	var _PUBLIC_ = '__PUBLIC__';
+	var _LENGTH_ = {$GLOBALS['ts']['site']['length']};
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/tbox/box.js"></script>
+</head>
+<body>
+<div id="weibo_show_con" class="tblog_wrap {$style['skin']}">
+    <b class="wrap_top"></b>
+    <div class="tblog_main">
+        <!-- 标题栏 -->
+	    <!-- 如不显示标题栏，将这段删除 -->         
+	    <div id="weibo_title" class="tblog_header" >
+	        <h1>
+	        	<a href="{:U('home/Index/index')}" class="title" target="_blank">{$ts['site']['site_name']}</a>
+	        </h1>
+        </div>
+        <!-- 标题栏 -->
+        {:W('Comment',array('type'=>'webpage','appid'=>$webpage_info['webpage_id'],'author_uid'=>0,'title'=>$webpage_info['title'], 'url'=>$webpage_info['url'], 'table'=>'webpage','id_field'=>'webpage_id','comment_count_field'=>'comment_count'))}
+            </div>
+    <b class="wrap_bottom"></b>
+</div>
+</body>
+</html>
