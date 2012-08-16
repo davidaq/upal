@@ -24,12 +24,12 @@
       <div class="mainbox_appC boxspace_L"> 
         <!-- ========== 搜人 begin ============= -->
         <div class="Search_box">
-        	<div><h1 class="f18px fB lh30" style="height:30px;">查找用户</h1></div>
-          <div class="cGray2 lh30"  style=" height:30px;">输入朋友的名称或昵称，如：小A</div>
+        	<div><h1 class="f18px fB lh30" style="height:30px;">{:L('search_people')}</h1></div>
+          <div class="cGray2 lh30"  style=" height:30px;">{:L('input_name')}</div>
           <div class="Search_bg">
           <div>
           <form action="{:U('home/user/searchuser')}" method="post">
-            <input type="text" class="text_findUser left" style="width:535px;*width:537px;_width:530px" name="k" value="输入朋友的名称或昵称，如：小A"  onfocus="if(this.value == '输入朋友的名称或昵称，如：小A')this.value='';" onblur="if(this.value == '')this.value='输入朋友的名称或昵称，如：小A';" />
+            <input type="text" class="text_findUser left" style="width:535px;*width:537px;_width:530px" name="k" value="{:L('input_name')}"  onfocus="if(this.value == '{:L('input_name')}')this.value='';" onblur="if(this.value == '')this.value='{:L('input_name')}';" />
             <input class="btn_search_big left" type="submit" value="" />
           </form>
           </div>
@@ -37,14 +37,14 @@
         </div>
         <div class="tab-menu"><!-- 切换标签 begin  -->
           <ul>
-            <li><a class="on feed_item" href="###"><span>热门推荐</span></a></li>
+            <li><a class="on feed_item" href="###"><span>{:L('recommended')}</span></a></li>
           </ul>
         </div>
         <div class="MenuSub">
-        	<a href="{:U('home/user/findfriend',array('type'=>'newjoin'))}" <eq name="type" value="newjoin">class="on"</eq> >最新加入</a>| 
-        	<a href="{:U('home/user/findfriend',array('type'=>'understanding'))}" <eq name="type" value="understanding">class="on"</eq> >可能认识</a> 
-        	<!--<a href="{:U('home/user/findfriend',array('type'=>'followers'))}" <eq name="type" value="followers">class="on"</eq> >粉丝最多</a>| 
-        	<a href="{:U('home/user/findfriend',array('type'=>'hot'))}" <eq name="type" value="hot">class="on"</eq> >活跃用户</a>-->
+        	<a href="{:U('home/user/findfriend',array('type'=>'newjoin'))}" <eq name="type" value="newjoin">class="on"</eq> >{:L('new_comer')}</a>| 
+        	<a href="{:U('home/user/findfriend',array('type'=>'understanding'))}" <eq name="type" value="understanding">class="on"</eq> >{:L('may_know')}</a> 
+        	<!--<a href="{:U('home/user/findfriend',array('type'=>'followers'))}" <eq name="type" value="followers">class="on"</eq> >{:L('most_followers')}</a>| 
+        	<a href="{:U('home/user/findfriend',array('type'=>'hot'))}" <eq name="type" value="hot">class="on"</eq> >{:L('active_user')}</a>-->
         </div>
         <div class="feedBox">
         <form action="{:U('home/public/followuser')}" id="followuser" method="post">
@@ -61,15 +61,15 @@
 					<script>document.write(followState('{$vo.followstate}','dolistfollow',{$vo.uid}))</script>
 				  </div>
 				   -->
-                  <space uid="vo.uid">{uname}</space> {$vo.uid|getUserGroupIcon} ( {$vo.follower}人关注 )</div>
+                  <space uid="vo.uid">{uname}</space> {$vo.uid|getUserGroupIcon} ( {$vo.follower}{:L('~followers')} )</div>
                 <div style="padding-top: 8px;" class="feed_c_btm lh18">
                   <div>{$vo.location}&nbsp;</div>
                   <switch name="type">
                   <case value="newjoin">
-                  	<div>加入时间:{$vo.ctime|friendLydate}</div>
+                  	<div>{:L('join_time')}:{$vo.ctime|friendLydate}</div>
                   </case>
                   <case value="hot">
-                  	<div>微博数:{$vo.weibo_num}</div>
+                  	<div>{:L('weibo_count')}:{$vo.weibo_num}</div>
                   </case>
                   </switch>
                 </div>
@@ -81,7 +81,7 @@
           <div  class="pt10 flw100"> 
              <input name="" onclick="checkAllFollow(this)" type="checkbox"  checked="checked" style="*margin-bottom:5px" />
             <label for="checkbox"></label>
-          <input name="" type="button" onclick="dofollow()" class="btn_green_w121" value="关注所选用户"  /></div>
+          <input name="" type="button" onclick="dofollow()" class="btn_green_w121" value="{:L('follow_selected')}"  /></div>
         </div>
         
         <!-- ========== 搜人 end ============= --> 
@@ -105,12 +105,12 @@
 	
 	function dofollow(){
 		if( $("input[name='followuid[]']:checked").size() ==0){
-			ui.error('请选择要关注的人');
+			ui.error('{:L('pls_select_follow')}');
 			return '';
 		}
 		var options = {
 			    success: function(txt) {
-					ui.success('关注成功');
+					ui.success('{:L('follow_success')}');
 					setInterval("location.reload()",1000);
 			    } 
 			};		

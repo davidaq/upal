@@ -12,7 +12,7 @@
           <h2>{:L('follow_topic')}</h2>
           <ul class="topic_list" rel="followTopicArea">
             <volist id="vo" name="followTopic">
-              <li onmouseover="$(this).find('.del').show()" onmouseout="$(this).find('.del').hide()"><a class="del right" style="display:none" title="删除" href="javascript:void(0)" onclick="weibo.deletedFollowTopic(this,'{$vo.name}')"></a><a href="{:U('home/user/topics',array('k'=>urlencode($vo['name'])))}" title="{$vo.name}">{$vo.name}</a></li>
+              <li onmouseover="$(this).find('.del').show()" onmouseout="$(this).find('.del').hide()"><a class="del right" style="display:none" title="{:L('del')}" href="javascript:void(0)" onclick="weibo.deletedFollowTopic(this,'{$vo.name}')"></a><a href="{:U('home/user/topics',array('k'=>urlencode($vo['name'])))}" title="{$vo.name}">{$vo.name}</a></li>
             </volist>
           </ul>
           <div class="alR lh25"><a href="javascript:void(0)" onclick="$('.quick_win').show()">+{:L('add')}</a></div>
