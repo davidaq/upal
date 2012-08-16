@@ -9,7 +9,7 @@
       <div class="mainbox_appR">
         <gt name="mid" value="0">
         <div class="right_box">
-          <h2><a href="#">关注的话题</a></h2>
+          <h2><a href="#">{:L('followed_topic')}</a></h2>
           <ul class="topic_list">
           	<volist id="vo" name="followTopic">
             	<li><a href="{:U('home/user/topics',array('k'=>urlencode($vo['name'])))}" title="{$vo.name}">{$vo.name}</a></li>
@@ -27,18 +27,18 @@
         <div class="tab-menu">
           <gt name="mid" value="0">
           <div class="right">
-            <input name="" class="btn_b pt5" value="发微博" maxlength="30" onclick="weibo.quickpublish('')" type="button" />
+            <input name="" class="btn_b pt5" value="{:L('post_weibo')}" maxlength="30" onclick="weibo.quickpublish('')" type="button" />
           </div>
           </gt>
           <ul>
-			<li><a feed_item" href="{:U('home/user/search',array('k'=>urlencode($search_key)))}"><span>搜微博</span></a></li>
-            <li><a class="on" class="feed_item" href="{:U('home/user/searchuser',array('k'=>urlencode($search_key)))}"><span>搜人({$list.count})</span></a></li>
-            <li><a class="feed_item" href="{:U('home/user/searchtag',array('k'=>urlencode($search_key)))}"><span>标签</span></a></li>
+			<li><a feed_item" href="{:U('home/user/search',array('k'=>urlencode($search_key)))}"><span>{:L('search_weibo')}</span></a></li>
+            <li><a class="on" class="feed_item" href="{:U('home/user/searchuser',array('k'=>urlencode($search_key)))}"><span>{:L('search_people')}({$list.count})</span></a></li>
+            <li><a class="feed_item" href="{:U('home/user/searchtag',array('k'=>urlencode($search_key)))}"><span>{:L('bookmark')}</span></a></li>
           </ul>
         </div>
         <div class="Search_box">
         
-          <div class="cGray2 lh30" style=" height:30px;">输入朋友的名称或昵称，如：小A</div>
+          <div class="cGray2 lh30" style=" height:30px;">{:L('input_name')}</div>
           <div class="Search_bg">
           <div>
           <form action="{:U('home/user/searchuser')}" method="post"  >
@@ -52,9 +52,9 @@
 		
           <div class="lh35 left" style="width:100%">
 			<p><php>if(empty($search_key)) {</php>
-			请输入关键字后点击搜索
+			{:L( 'input_key_and_search')}
 			<php>}else {</php>
-			搜索"<span class="cRed">{$search_key}</span>"找到 {$list.count}  位相关用户
+			{:argL('below_is_search_result_user','<span class="cRed">'.$search_key.'</span>',$list['count'])}
 			<php>}</php></p>
           </div>
         </div>
@@ -76,16 +76,16 @@
                 </div>
                 <div style="padding-top: 5px;" class="feed_c_btm lh18">
 				<php>if($vo['mini']){</php>
-                 <div>最近微博 {$vo.mini.ctime|friendlyDate='mohu'} </div>
+                 <div>{:L('latest_weibo')} {$vo.mini.ctime|friendlyDate='mohu'} </div>
                   <div><a href="{:U('home/space/detail',array('id'=>$vo['mini']['weibo_id']))}">{$vo.mini.content}</a></div>
 				  <php>}</php>
                   <div class="pt5">
                   	{$vo.location} 
                   	<span class="pl10"> 
-                  		关注<a href="{:U('home/space/follow',array('type'=>'following','uid'=>$vo['uid']))}"><strong>{$vo.following|intval}</strong></a>人
+                  		{:L('follow')}: <a href="{:U('home/space/follow',array('type'=>'following','uid'=>$vo['uid']))}"><strong>{$vo.following|intval}</strong></a>
                   	</span>
                   	<span class="pl10">
-                  		粉丝<a href="{:U('home/space/follow',array('type'=>'follower','uid'=>$vo['uid']))}"><strong>{$vo.follower|intval}</strong></a>人
+                  		{:L('fans')}: <a href="{:U('home/space/follow',array('type'=>'follower','uid'=>$vo['uid']))}"><strong>{$vo.follower|intval}</strong></a>
                   	</span>
                   </div>
                 </div>

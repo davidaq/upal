@@ -2,7 +2,6 @@
 class IndexAction extends Action{
 
 	function init(){
-		trace('hello');
 		echo './Public/miniblog.js';
 	}
 
