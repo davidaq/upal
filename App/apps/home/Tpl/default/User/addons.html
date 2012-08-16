@@ -9,17 +9,17 @@
       <div class="mainbox_R">
         {:W('RelatedUser',array('async'=>1))}
         <div class="right_box">
-          <h2>关注的话题</h2>
+          <h2>{:L('follow_topic')}</h2>
           <ul class="topic_list" rel="followTopicArea">
             <volist id="vo" name="followTopic">
               <li onmouseover="$(this).find('.del').show()" onmouseout="$(this).find('.del').hide()"><a class="del right" style="display:none" title="删除" href="javascript:void(0)" onclick="weibo.deletedFollowTopic(this,'{$vo.name}')"></a><a href="{:U('home/user/topics',array('k'=>urlencode($vo['name'])))}" title="{$vo.name}">{$vo.name}</a></li>
             </volist>
           </ul>
-          <div class="alR lh25"><a href="javascript:void(0)" onclick="$('.quick_win').show()">+添加</a></div>
+          <div class="alR lh25"><a href="javascript:void(0)" onclick="$('.quick_win').show()">+{:L('add')}</a></div>
           <div style="display:none;" class="quick_win">
-          <div class="alR mb5"><a href="javascript:void(0)" onclick="$('.quick_win').hide()" class="del" title="关闭"></a></div>
-	          <p><input type="text" class="text" name="quick_name" style=" width:90px;"/> <input type="button" onclick="weibo.addFollowTopic()" value="保存" class="btn_b" /></p>
-	          <p class="cGray2">请添加想关注的话题</p>
+          <div class="alR mb5"><a href="javascript:void(0)" onclick="$('.quick_win').hide()" class="del" title="{:L('close')}"></a></div>
+	          <p><input type="text" class="text" name="quick_name" style=" width:90px;"/> <input type="button" onclick="weibo.addFollowTopic()" value="{:L('save')}" class="btn_b" /></p>
+	          <p class="cGray2">{:L('add_follow_topic')}</p>
           </div>
         </div>		
 		

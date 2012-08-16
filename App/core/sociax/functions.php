@@ -585,6 +585,22 @@ function L($name=null,$value=null) {
     return;
 }
 
+function argL(){
+	$args=func_get_args();
+	if(!isset($args[0]))
+		return;
+	$ret=L($args[0]).' ';
+	unset($args[0]);
+	$pos=0;
+	foreach($args as $f){
+		$pos=strpos($ret,'%',$pos);
+		if($pos===false)
+			break;
+		$ret=substr($ret,0,$pos).$f.substr($ret,$pos+1);
+	}
+	return substr($ret,0,-1);
+}
+
 // 获取配置值
 function C($name=null,$value=null)
 {

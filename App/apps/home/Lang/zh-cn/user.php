@@ -16,6 +16,7 @@ return array (
   'at_me' => '提到我的',
   'my_favorites' => '我收藏的',
   'del_feed_comfirm' => '确认要删除这条动态?',
+  'del_comment_comfirm' => '确认要删除这条评论?',
   'edit_grouping' => '修改分组',
   'del_grouping' => '删除分组',
   'more' => '更多',
@@ -27,6 +28,9 @@ return array (
   'virtue_of_recording'=> '记录是一种态度！',
   'failed_to_publish'=> '发布失败',
   'no_record'=> '没有任何数',
-
+  'recieved_comment'=> '收到的评论',
+  'sent_comment'=> '发出的评论',
+  'items_in_total'=> '共%条',
+  'select_all'=> '全选',
 );
 ?>

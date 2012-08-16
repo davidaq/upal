@@ -17,6 +17,7 @@ return array (
   'at_me' => 'Concerned me',
   'my_favorites' => 'My favorites',
   'del_feed_comfirm' => 'Confirm to delete this feed?',
+  'del_comment_comfirm' => 'Confirm to delete this comment?',
   'edit_grouping' => 'Edit grouping',
   'del_grouping' => 'Delete group',
   'more' => 'More',
@@ -28,6 +29,10 @@ return array (
   'virtue_of_recording'=> 'It\'s a virtue to record',
   'failed_to_publish'=> 'Failed to publish',
   'no_record'=> 'No record found',
+  'recieved_comment'=> 'Recieved comments',
+  'sent_comment'=> 'Sent comments',
+  'items_in_total'=> 'Total % items',
+  'select_all'=> 'Select all',
 
 );
 ?>

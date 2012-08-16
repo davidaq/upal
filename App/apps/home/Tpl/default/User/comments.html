@@ -16,12 +16,12 @@
         <div class="right_box">
           <h2><a href="javascript:void(0)" onclick="$('.quick_win').show()" class="right" style="font-weight:400;font-size:12px">添加</a>关注的话题</h2>
           <div style="display:none;" class="quick_win">
-            <a href="javascript:void(0)" onclick="$('.quick_win').hide()" class="del" title="关闭"></a>
+            <a href="javascript:void(0)" onclick="$('.quick_win').hide()" class="del" title="{:L('close')}"></a>
             <p>
               <input type="text" class="text" name="quick_name" style=" width:130px;display:block;margin:0 0 5px 0"/>
-              <input type="button" onclick="addFollowTopic()" value="保存" class="btn_b" />
+              <input type="button" onclick="addFollowTopic()" value="{:L('save')}" class="btn_b" />
             </p>
-            <p class="cGray2">请添加想关注的话题</p>
+            <p class="cGray2">{:L('add_follow_topic')}</p>
           </div>
           <ul class="topic_list" rel="followTopicArea">
             <volist id="vo" name="followTopic">
@@ -37,13 +37,13 @@
       <div class="mainbox_C main_pad">
       <div class="tab-menu"><!-- 切换标签 begin  -->
         <ul>
-          <li><a id="feed_colleague_item" rel="colleague" class="<eq name='type' value='receive'>on</eq> feed_item" href="{:U('home/user/comments',array('type'=>'receive','from_app'=>$from_app))}"><span>收到的评论</span></a></li>
-          <li><a id="feed_all_item" rel="all" class="<eq name='type' value='send'>on</eq> feed_item" href="{:U('home/user/comments',array('type'=>'send','from_app'=>$from_app))}"><span>发出的评论</span></a></li>
+          <li><a id="feed_colleague_item" rel="colleague" class="<eq name='type' value='receive'>on</eq> feed_item" href="{:U('home/user/comments',array('type'=>'receive','from_app'=>$from_app))}"><span>{:L('recieved_comment')}</span></a></li>
+          <li><a id="feed_all_item" rel="all" class="<eq name='type' value='send'>on</eq> feed_item" href="{:U('home/user/comments',array('type'=>'send','from_app'=>$from_app))}"><span>{:L('sent_comment')}</span></a></li>
 
         </ul>
       </div>
       <div class="MenuSub ">
-	      <span class="right pr5">共{$list.count}条</span>
+	      <span class="right pr5">{:argL('items_in_total',$list['count'])}</span>
 	      <a href="{:U('home/user/comments',array('type'=>$type, 'from_app'=>'weibo'))}" <eq name="from_app" value="weibo">class="on"</eq> >微博<php>if($type == 'receive' && $userCount['weibo_comment'] > 0) {</php><em> (<font color="red">{$userCount['weibo_comment']}</font>)</em><php>}</php></a> | 
 		  <a href="{:U('home/user/comments',array('type'=>$type, 'from_app'=>'other'))}" <eq name="from_app" value="other">class="on"</eq> >其它应用<php>if($type == 'receive' && $userCount['global_comment'] > 0) {</php> <em> (<font color="red">{$userCount['global_comment']}</font>)</em><php>}</php></a>
 	  </div>
@@ -51,7 +51,7 @@
         <ul class="feed_list">
         <php>if($type=='send' && !empty($list['data'])){</php>
         <li class="t"><span class="left" style="padding:0px 5px 0 6px;"><input onclick="checkAllReply(this)" type="checkbox" /></span>
-        <a href="#">全选</a> | <a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除所选评论?')" callback="doDelete()">删除</a>
+        <a href="#">{:L('select_all')}</a> | <a href="javascript:void(0)" onclick="ui.confirm(this,'{:L('del_comment_comfirm')}')" callback="doDelete()">{:L('del')}</a>
         </li>
         <php>}</php>
 <volist id="vo" name="list.data">
