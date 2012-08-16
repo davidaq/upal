@@ -21,6 +21,7 @@ return array (
   'del_grouping' => '删除分组',
   'more' => '更多',
   'bind_account' => '绑定帐号',
+  'del_success' => '删除成功',
   'del_error' => '删除失败，请稍后重试',
   'loading' => '加载中...',
   'at_who' => '你想用@提到谁？',
@@ -32,5 +33,12 @@ return array (
   'sent_comment'=> '发出的评论',
   'items_in_total'=> '共%条',
   'select_all'=> '全选',
+  'reply_something'=> '回复%的%：',
+  'reply_mine'=> '回复我的%：',
+  'reply_success'=> '回复成功',
+  'unselect_comment'=> '未选择评论',
+  'comment_not_null'=> '评论不能为空',
+  
+  'popular_people'=> '粉丝榜',
 );
 ?>

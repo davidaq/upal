@@ -1,5 +1,4 @@
 <?php 
-
 return array (
    'add_apps' => '添加应用',
    'manage_apps' => '管理应用',
@@ -148,6 +147,8 @@ return array (
    'my_index' => '我的首页',
    'at_me_weibo' => '@我的微博',
    'my_fav' => '我的收藏',
+   'reply' => '回复',
+   'comment' => '评论',
    'receive_comment' => '收到的评论',
    'send_comment' => '发出的评论',
    'special_not_exist' => '专题不存在',
@@ -170,9 +171,9 @@ return array (
    'photo_upload_failed' => '对不起, 图片未上传成功, 请再试一下',
    'upload_success' => '上传成功!',
    'update_done' => '更新完成',
-   '' => '',
-   '' => '',
-   '' => '',
+   'other_app' => '其他应用',
+   'display' => '察看',
+   'from' => '来自',
    '' => '',
    '' => '',
    '' => '',
