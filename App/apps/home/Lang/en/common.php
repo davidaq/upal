@@ -1,5 +1,4 @@
 <?php 
-
 return array (
    'add_apps' => 'Add aplication',
    'manage_apps' => 'Manage apps',
@@ -148,6 +147,8 @@ return array (
    'my_index' => 'My home page',
    'at_me_weibo' => '@me microblog',
    'my_fav' => 'My favorites',
+   'reply' => 'reply',
+   'comment' => 'comment',
    'receive_comment' => 'Received comments',
    'send_comment' => 'Sent comments',
    'special_not_exist' => 'Special topci does\nt exist',
@@ -170,7 +171,9 @@ return array (
    'photo_upload_failed' => 'Photo failed to upload, please try again',
    'upload_success' => 'Upload successful',
    'update_done' => 'Upadate done',
-   '' => '',
+   'other_app' => 'Other Applications',
+   'display' => 'display',
+   'from' => 'from',
    '' => '',
    '' => '',
    '' => '',

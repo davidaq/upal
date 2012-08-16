@@ -22,6 +22,7 @@ return array (
   'del_grouping' => 'Delete group',
   'more' => 'More',
   'bind_account' => 'Bind account',
+  'del_success' => 'Delete success',
   'del_error' => 'Failed to delete, pls try latter',
   'loading' => 'Loading...',
   'at_who' => 'Who do you want to @',
@@ -33,6 +34,11 @@ return array (
   'sent_comment'=> 'Sent comments',
   'items_in_total'=> 'Total % items',
   'select_all'=> 'Select all',
-
+  'reply_something'=> 'Reply %\'s %: ',
+  'reply_mine'=> 'Reply mine %: ',
+  'reply_success'=> 'Reply success',
+  'unselect_comment'=> 'Unselected comment',
+  'comment_not_null'=> 'Comment can\'t be blank',
+  'popular_people'=> 'Popular people',
 );
 ?>

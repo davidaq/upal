@@ -44,8 +44,8 @@
       </div>
       <div class="MenuSub ">
 	      <span class="right pr5">{:argL('items_in_total',$list['count'])}</span>
-	      <a href="{:U('home/user/comments',array('type'=>$type, 'from_app'=>'weibo'))}" <eq name="from_app" value="weibo">class="on"</eq> >微博<php>if($type == 'receive' && $userCount['weibo_comment'] > 0) {</php><em> (<font color="red">{$userCount['weibo_comment']}</font>)</em><php>}</php></a> | 
-		  <a href="{:U('home/user/comments',array('type'=>$type, 'from_app'=>'other'))}" <eq name="from_app" value="other">class="on"</eq> >其它应用<php>if($type == 'receive' && $userCount['global_comment'] > 0) {</php> <em> (<font color="red">{$userCount['global_comment']}</font>)</em><php>}</php></a>
+	      <a href="{:U('home/user/comments',array('type'=>$type, 'from_app'=>'weibo'))}" <eq name="from_app" value="weibo">class="on"</eq> >{:L('weibo')}<php>if($type == 'receive' && $userCount['weibo_comment'] > 0) {</php><em> (<font color="red">{$userCount['weibo_comment']}</font>)</em><php>}</php></a> | 
+		  <a href="{:U('home/user/comments',array('type'=>$type, 'from_app'=>'other'))}" <eq name="from_app" value="other">class="on"</eq> >{:L('other_app')}<php>if($type == 'receive' && $userCount['global_comment'] > 0) {</php> <em> (<font color="red">{$userCount['global_comment']}</font>)</em><php>}</php></a>
 	  </div>
       <div class="feedBox"> 
         <ul class="feed_list">
@@ -66,9 +66,9 @@
 
 			    <div class="feed_c_btm"> 
 				<php>if($vo['ismini']){</php>
-					 回复 <space uid="vo.reply_uid">{uname}</space> 的微博："{$vo.mini.content|format=true}"
+					 {:argL('reply_something',$uname,L('weibo'))} "{$vo.mini.content|format=true}"
 			    <php>}else{</php>
-					 回复 <space uid="vo.reply_uid">{uname}</space> 的评论: "{$vo.comment.content|formatComment=true}"
+					 {:argL('reply_something',$uname,L('comment'))} "{$vo.comment.content|formatComment=true}"
 				<php>}</php>
 				</div>
                 <div class="alR"><a href="{:U('home/Space/detail',array('id'=>$vo['weibo_id']))}">查看</a><span style="color:#666;"> | </span><a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条评论?')" callback="doDelete({$vo.comment_id})" >删除</a></div>
@@ -85,12 +85,12 @@
 
 			    <div class="feed_c_btm"> 
 				<php>if($vo['ismini']){</php>
-					 回复我的微博："{$vo.mini.content|format=true}"
+					 {:argL('reply_mine',L('weibo'))}"{$vo.mini.content|format=true}"
 			    <php>}else{</php>
-					 回复我的评论: "{$vo.comment.content|formatComment=true}"
+					 {:argL('reply_mine',L('comment'))} "{$vo.comment.content|formatComment=true}"
 				<php>}</php>
 				</div>
-                <div class="alR"><a href="{:U('home/Space/detail',array('id'=>$vo['weibo_id']))}">查看</a><span style="color:#666;"> | </span><a href="javascript:void(0)" rel="comment_reply" callback="dosuccess" uname="{$vo.uid|getUserName}" commentid="{$vo.comment_id}" minid="{$vo.mini.id}">回复</a></div>
+                <div class="alR"><a href="{:U('home/Space/detail',array('id'=>$vo['weibo_id']))}">{:L('display')}</a><span style="color:#666;"> | </span><a href="javascript:void(0)" rel="comment_reply" callback="dosuccess" uname="{$vo.uid|getUserName}" commentid="{$vo.comment_id}" minid="{$vo.mini.id}">{:L('reply')}</a></div>
                 <div id="comment_list_{$vo.comment_id}"></div>
               </div>
             </li>
@@ -104,11 +104,11 @@
             <div class="left" style="padding:0px 5px 0 6px;"><input name="id[]" type="checkbox" value="{$vo.id}" /></div>
               <div class="userPic"><space uid="vo.to_uid">{uavatar}</space></div>
               <div class="feed_c" style="margin-left:90px">
-                <div class="msgCnt" style="padding-bottom:0; font-size:12px">{$vo.comment|formatComment=true}({$vo.cTime|date='m月d日 H:i',###})</div>
+                <div class="msgCnt" style="padding-bottom:0; font-size:12px">{$vo.comment|formatComment=true}({$vo.cTime|date='Y-m-d H:i',###})</div>
                 <div class="feed_c_btm"> 
-                    来自{$vo.type|getAppAlias}: <a href="{$vo.data.url}">{$vo.data.title}</a>
+                    {:L('from')}{$vo.type|getAppAlias}: <a href="{$vo.data.url}">{$vo.data.title}</a>
                 </div>
-                <div class="alR"><a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条评论?')" callback="doDelete({$vo.id})" >删除</a></div>
+                <div class="alR"><a href="javascript:void(0)" onclick="ui.confirm(this,'{:L('del_comment_comfirm')}')" callback="doDelete({$vo.id})" >{:L('del')}</a></div>
               </div>
             </li>
     <php>}else{</php>
@@ -119,9 +119,9 @@
                     <space uid="vo.uid">{uname}</space>: {$vo.comment|formatComment=true}({$vo.cTime|friendlyDate})
                 </div>
                 <div class="feed_c_btm"> 
-                    来自{$vo.type|getAppAlias}: <a href="{$vo.data.url}">{$vo.data.title}</a>
+                    {:L('from')}{$vo.type|getAppAlias}: <a href="{$vo.data.url}">{$vo.data.title}</a>
                 </div>
-                <div class="alR"><a href="javascript:void(0)" rel="comment_reply" callback="dosuccess" commentid="{$vo.id}" >回复</a></div>
+                <div class="alR"><a href="javascript:void(0)" rel="comment_reply" callback="dosuccess" commentid="{$vo.id}" >{:L('reply')}</a></div>
                 <div id="comment_list_{$vo.id}"></div>
               </div>
             </li>
@@ -131,7 +131,7 @@
 </volist>
 <php>if($type=='send' && !empty($list['data'])){</php>
            <li class="t"><span class="left" style="padding:0px 5px 0 6px;"><input onclick="checkAllReply(this)" type="checkbox" /></span>
-        <a href="#">全选</a> | <a href="javascript:void(0)" onclick="doDelete()">删除</a>
+        <a href="#">{:L('select_all')}</a> | <a href="javascript:void(0)" onclick="doDelete()">{:L('del')}</a>
         </li>
         <php>}</php>
         </ul>
@@ -190,7 +190,7 @@
 	
 	 function dosuccess(txt){
 		$("#comment_list_"+txt.data['reply_comment_id']).html('');
-		ui.success('回复成功');
+		ui.success('{:L('reply success')}');
 	 }
 	
 	//提交删除
@@ -204,14 +204,14 @@
 			selectid = id;
 		}
 		if(selectid==''){
-			ui.error('未选择评论');
+			ui.error('{:L('unselect_comment')}');
 			return false;
 		}
 		
 		var url = "<php>echo $from_app=='weibo' ? U('weibo/Operate/deleteMuleComment') : U('home/Comment/doDelete');</php>";
 		
 		$.post(url,{id:selectid},function(txt){
-			ui.success('删除成功');
+			ui.success('{:L('del_success')}');
 			setInterval("location.reload()",1000);
 		})
 	}
@@ -221,12 +221,12 @@
 		var comment = $('#comment_'+id).val();
 		var with_new_weibo = $('#with_new_weibo_'+id).attr('checked') ? '1' : '0';
 		if(comment=='') {
-			ui.error('评论不能为空');
+			ui.error('{:L('comment_not_null')}');
 			return ;
 		}
 		$.post(U("home/Comment/doQuickReply"),{to_id:id,comment:comment,with_new_weibo:with_new_weibo},function(res){
 			if(res==1){
-				ui.success('回复成功');
+				ui.success('{:L('reply_success')}');
 				$('#comment_'+id).val('');
 				$('#comment_quick_reply_'+id).toggle();
 			}
