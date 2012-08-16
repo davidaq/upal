@@ -1,11 +1,11 @@
 <?php 
-
 return array (
   'save' => '保存',
   'add_follow_topic'=>'请添加想关注的话题',
   'close' => '关闭',
   'del' => '删除',
-  'still_input' => '你还可以输入',
+  'you_can_input' => '你还可以输入',
+  'more_caracters'=> '字',
   'follow_topic' => '关注的话题',
   'add' => '添加',
   'sync' => '同步',
@@ -24,8 +24,9 @@ return array (
   'loading' => '加载中...',
   'at_who' => '你想用@提到谁？',
   'follow_this_topic' => '关注该话题',
-  '' => '',
-  
+  'virtue_of_recording'=> '记录是一种态度！',
+  'failed_to_publish'=> '发布失败',
+  'no_record'=> '没有任何数',
 
 );
 ?>

@@ -341,8 +341,8 @@ class App
         // 根据是否启用自动侦测设置获取语言选择
         if(isset($_GET['language'])){
         		$langSet=$_GET['language'];
-        }elseif(isset($_LANGSET)){
-        		$langSet=$_LANGSET;
+        }elseif(isset($_SESSION['language'])&&$_SESSION['language']){
+        		$langSet=$_SESSION['language'];
         }elseif (C('LANG_AUTO_DETECT')){
             if(isset($_GET[C('VAR_LANGUAGE')])){// 检测浏览器支持语言
                 $langSet = $_GET[C('VAR_LANGUAGE')];// url中设置了语言变量
@@ -356,6 +356,7 @@ class App
             }
         }
 		$langSet = strtolower($langSet);
+		$_SESSION['language']=$langSet;
 
 		//目前只支持en、zh-cn两个版本语言
 		if(!in_array($langSet,array('en','zh-cn')))

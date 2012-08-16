@@ -17,18 +17,18 @@
 		</volist>
 		  {:Addons::hook('home_index_right_top')}
         <div class="right_box lineS_btm">
-          <h2><a href="javascript:void(0)" onclick="$('.quick_win').show()" class="right" style="font-weight:400;font-size:12px">添加</a>关注的话题</h2>
+          <h2><a href="javascript:void(0)" onclick="$('.quick_win').show()" class="right" style="font-weight:400;font-size:12px">{:L('add')}</a>{:L('follow_topic')}</h2>
           <div style="display:none;" class="quick_win">
-            <a href="javascript:void(0)" onclick="$('.quick_win').hide()" class="del" title="关闭"></a>
+            <a href="javascript:void(0)" onclick="$('.quick_win').hide()" class="del" title="{:L('close')}"></a>
             <p>
               <input type="text" class="text" name="quick_name" style=" width:130px;display:block;margin:0 0 5px 0"/>
-              <input type="button" onclick="addFollowTopic()" value="保存" class="btn_b" />
+              <input type="button" onclick="addFollowTopic()" value="{:L('save')}" class="btn_b" />
             </p>
-            <p class="cGray2">请添加想关注的话题</p>
+            <p class="cGray2">{:L('add_follow_topic')}</p>
           </div>
           <ul class="topic_list" rel="followTopicArea">
             <volist id="vo" name="followTopic">
-              <li onmouseover="$(this).find('.del').show()" onmouseout="$(this).find('.del').hide()"><a class="del right" style="display:none" title="删除" href="javascript:void(0)" onclick="deleteFollowTopic(this,'{$vo.topic_id}')"></a><a href="{:U('home/user/topics',array('k'=>urlencode($vo['name'])))}" title="{$vo.name}">{$vo.name}</a></li>
+              <li onmouseover="$(this).find('.del').show()" onmouseout="$(this).find('.del').hide()"><a class="del right" style="display:none" title="{:L('del')}" href="javascript:void(0)" onclick="deleteFollowTopic(this,'{$vo.topic_id}')"></a><a href="{:U('home/user/topics',array('k'=>urlencode($vo['name'])))}" title="{$vo.name}">{$vo.name}</a></li>
             </volist>
           </ul>
         </div>
@@ -61,19 +61,19 @@
             <form method="post" action="{:U('weibo/operate/publish')}" id="miniblog_publish" oncomplete="false">
               <input type="hidden" name="publish_type" value="0">
               <h2>
-                <div class="wordNum numObj">你还可以输入<strong id="strconunt">{$GLOBALS['ts']['site']['length']}</strong>字</div>
-                <span>记录是一种态度！</span>
+                <div class="wordNum numObj">{:L('you_can_input')}<strong id="strconunt">{$GLOBALS['ts']['site']['length']}</strong>{:L('more_characters')}</div>
+                <span>{:L('virtue_of_recording')}</span>
                 <!--<div class="title"><img src="../Public/images/show_img.jpg" /></div>-->
               </h2>
               <div class="cntBox">
-                <input type="button" disabled="true" error="发布失败" class="btn_big_disable hand buttonObj" value="&nbsp;" id="publish_handle"  />
+                <input type="button" disabled="true" error="{:L('failed_to_publish')}" class="btn_big_disable hand buttonObj" value="&nbsp;" id="publish_handle"  />
                 <textarea name="content" id="content_publish" cols="" rows="" class="contentObj" style="max-width:83.5%;min-width:83.5%;width:83.5%;height:55px; max-height:55px;min-height:55px;padding:5px; margin:0; _padding:5;overflow: hidden;overflow-x:hidden;overflow-y:auto;line-height:18px"></textarea>
                 <div class="txtShadow" style="z-index:-1000"></div>
               </div>
               <div class="funBox">
                   <php>if(Addons::requireHooks("home_index_middle_publish")){</php>
                   <div class="right" style="padding-bottom:5px;_margin-top:-8px; cursor:hand;width:80px;_padding-top:10px; cursor:pointer"  onclick='weibo.showAndHideMenu("Sync", this, "", "");'>
-                        同步<a href="#" class="ico_sync_on"></a>
+                        {:L('sync')}<a href="#" class="ico_sync_on"></a>
                     </div>
                     <div id="Sync" style="display:none;position:absolute;right:23px;top:30px;z-index:9999">
                         <div class="topic_app"></div>
@@ -124,7 +124,7 @@
                  <php>}</php>
                 </li>
                 <php>if($hasGroupWeibo){</php>
-                <li class="tab_dropdown"><a href="#" class="{$group_tab}"><span>群组动态<b class="more"></b></span></a>
+                <li class="tab_dropdown"><a href="#" class="{$group_tab}"><span>{:L('group_feed')}<b class="more"></b></span></a>
                   <div class="dropmenu">
                         <dl class="Att_list">
                             <volist name="group_list" id="vo">
@@ -134,12 +134,12 @@
                                      break;
                                      }</php>
                             </volist>
-                            <php>if($hasMoreGroup){</php><dd><a href="{:U('group/SomeOne')}" class="right">更多&raquo;</a></dd><php>}</php>
+                            <php>if($hasMoreGroup){</php><dd><a href="{:U('group/SomeOne')}" class="right">{:L('more')}&raquo;</a></dd><php>}</php>
                         </dl>
                   </div>
                 </li>
                 <php>}</php>
-                <li><a href="{:U('home/user/index',array('type'=>UserAction::INDEX_TYPE_ALL,'weibo_type'=>$weibo_type))}" class="{$all_tab}"><span>正在发生</span></a></li>
+                <li><a href="{:U('home/user/index',array('type'=>UserAction::INDEX_TYPE_ALL,'weibo_type'=>$weibo_type))}" class="{$all_tab}"><span>{:L('happen_now')}</span></a></li>
                 </ul>
             </div>
             <!--/我关注的/群组动态/正在发生-->
@@ -153,14 +153,14 @@
           <case value="atme">
             <div class="tab-menu">
               <ul>
-                <li><a href="###" class="on"><span>提到我的</span></a></li>
+                <li><a href="###" class="on"><span>{:L('at_me')}</span></a></li>
               </ul>
             </div>
           </case>
           <case value="collection">
             <div class="tab-menu">
               <ul>
-                <li><a href="###" class="on"><span>我收藏的</span></a></li>
+                <li><a href="###" class="on"><span>{:L('my_favorites')}</span></a></li>
               </ul>
             </div>
           </case>
@@ -177,10 +177,10 @@
 			<php>if(ACTION_NAME=="index"){</php>
 				<php>if($list['data']){</php>
 				<p class="moreFoot">
-					<a id="loadMoreDiv" href="javascript:void(0)"><span class="ico_morefoot"></span>更多</a>
+					<a id="loadMoreDiv" href="javascript:void(0)"><span class="ico_morefoot"></span>{:L('more')}</a>
 				</p>
 				<php>}else{</php>
-					<p class="moreFoot">没有任何数据</p>
+					<p class="moreFoot">{:L('no_record')}</p>
 				<php>}</php>
 			<php>}else{</php>
 				<div class="page">{$list['html']}</div>
