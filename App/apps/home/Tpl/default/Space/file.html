@@ -5,7 +5,7 @@
     <!--右边栏-->
     
       <div class="mainbox_appR">
-      <strong>分享者信息</strong>：<br><br>
+      <strong>{:L('sharer_info')}</strong>：<br><br>
       <div class="right_box">
       <div class="userinfo_detail">
     	<div class="userpic"><span id="my_face"><img src="{$uid|getUserFace='b'}"></span>
@@ -25,23 +25,23 @@
   </div>
   <div class="right_box">
 <div class="user_follow_detail app_line_w">
-  	<span class="app_lineR_w"><a href="{:U('home/Space/follow',array('uid'=>$mini['uid'],'type'=>'following'))}"><strong>{$spaceCount.following}</strong><br>关注</a></span>
-    <span class="app_lineR_w"><a href="{:U('home/Space/follow',array('uid'=>$mini['uid'],'type'=>'follower'))}"><strong>{$spaceCount.follower}</strong><br>粉丝</a></span>
-    <span><a href="{:U('home/Space/index',array('uid'=>$mini['uid']))}"><strong>{$spaceCount.miniblog}</strong><br>微博</a></span>
+  	<span class="app_lineR_w"><a href="{:U('home/Space/follow',array('uid'=>$mini['uid'],'type'=>'following'))}"><strong>{$spaceCount.following}</strong><br>{:L('attention')}</a></span>
+    <span class="app_lineR_w"><a href="{:U('home/Space/follow',array('uid'=>$mini['uid'],'type'=>'follower'))}"><strong>{$spaceCount.follower}</strong><br>{:L('follower')}</a></span>
+    <span><a href="{:U('home/Space/index',array('uid'=>$mini['uid']))}"><strong>{$spaceCount.miniblog}</strong><br>{:L('weibo')}</a></span>
   </div>
   </div>
   <div class="right_box app_line_w">
   	<div class="friInfoDetails">
-          <strong>个人标签</strong>：<br>
+          <strong>{:L('personal_tag')}</strong>：<br>
 		  <volist id="vo" name="usertags">
 		  	<a href="{:U('home/User/searchtag',array('k'=>$vo['tag_name']))}">{$vo.tag_name}</a>&nbsp;
 		  </volist>
 		  
           <div class="alR">
           	<php>if($mid==$mini['uid']){</php>
-				<span><a href="{:U('home/Account/index')}">修改</a>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+				<span><a href="{:U('home/Account/index')}">${:L('modify')}</a>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
 			<php>}</php>
-			<a href="{:U('home/Space/profile',array('uid'=>$mini['uid']))}">更多&raquo;</a></div>
+			<a href="{:U('home/Space/profile',array('uid'=>$mini['uid']))}">{:L('more')}&raquo;</a></div>
         </div>
         </div>
 	
@@ -58,9 +58,9 @@
                   <div class="q_con1" style="margin-left:56px">
                   	<dl class="list_shareFile">
                       <dt><a href="{:U('home/Attach/download', array('id'=>$data['id'], 'uid'=>$data['userId']))}" target="_blank">{$data.name}</a></dt>
-                      <dd><span>大小：</span>{$data.size|byte_format}</dd>
+                      <dd><span>{:L('size')}</span>{$data.size|byte_format}</dd>
                       <!-- <dd><span>下载：</span>38次</dd> -->
-                      <dd><span>分享时间：</span>{$data.uploadTime|friendlyDate}</dd>
+                      <dd><span>{:L('share_time')}</span>{$data.uploadTime|friendlyDate}</dd>
                       <dd class="mt10"><a class="btn_download" href="{:U('home/Attach/download', array('id'=>$data['id'], 'uid'=>$data['userId']))}"></a></dd>
                   	</dl>
                   </div>

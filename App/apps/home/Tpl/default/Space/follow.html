@@ -16,8 +16,8 @@
       <div style="clear:left; height:5px;"></div>
       <div class="tab-menu mt10"><!-- 切换标签 begin  -->
         <ul>
-          <li><a id="feed_all_item" rel="all" class="<eq name='type' value='following'>on</eq> feed_item" href="{:U('home/space/follow',array('uid'=>$uid,'type'=>'following'))}"><span>关注</span></a></li>
-		 <li><a id="feed_colleague_item" rel="colleague" class="<eq name='type' value='follower'>on</eq> feed_item"  href="{:U('home/space/follow',array('uid'=>$uid,'type'=>'follower'))}"><span>粉丝</span></a></li>            
+          <li><a id="feed_all_item" rel="all" class="<eq name='type' value='following'>on</eq> feed_item" href="{:U('home/space/follow',array('uid'=>$uid,'type'=>'following'))}"><span>{:L('attention')}</span></a></li>
+		 <li><a id="feed_colleague_item" rel="colleague" class="<eq name='type' value='follower'>on</eq> feed_item"  href="{:U('home/space/follow',array('uid'=>$uid,'type'=>'follower'))}"><span>{:L('follower')}</span></a></li>            
         </ul>
       </div>
 
@@ -25,17 +25,17 @@
       <if condition="$type eq 'following'">
       <div class="MenuSub ">
         <php>if ($mid > 0 && $uid == $mid) {</php>
-          <div class="right"><input type="button" onclick="setFollowGroupTab()" class="btn_w" value="创建分组" style="margin:2px 5px 0 0;"></div>
+          <div class="right"><input type="button" onclick="setFollowGroupTab()" class="btn_w" value="{:L('create_group')}" style="margin:2px 5px 0 0;"></div>
         <php>}</php>
         <div class="left wn">
-          <a href="{:U('home/space/follow',array('uid'=>$uid,'type'=>'following'))}" <if condition="$gid eq 'all'">class="on"</if>>全部</a>
-          <a href="{:U('home/space/follow',array('uid'=>$uid,'type'=>'following','gid'=>0))}" <if condition="!$gid">class="on"</if>>未分组</a>
+          <a href="{:U('home/space/follow',array('uid'=>$uid,'type'=>'following'))}" <if condition="$gid eq 'all'">class="on"</if>>{:L('all')}</a>
+          <a href="{:U('home/space/follow',array('uid'=>$uid,'type'=>'following','gid'=>0))}" <if condition="!$gid">class="on"</if>>{:L('ungroup')}</a>
           <volist id="fg" name="group_list_1">
             <a href="{:U('home/space/follow',array('uid'=>$uid,'type'=>'following','gid'=>$fg['follow_group_id']))}" <if condition="$gid eq $fg['follow_group_id']"><php>$gtitle=$fg['title'];</php>class="on" id="current_follow_group"</if>>{$fg['title']}</a>
           </volist>
 	    </div>
 		<if condition="$group_list_2">
-          <div onmouseout="this.className='feeds_sift'" onmouseover="this.className='feeds_sift_hover'" class="feeds_sift"><a href="#"><span >更多</span><span class="more"></span></a>
+          <div onmouseout="this.className='feeds_sift'" onmouseover="this.className='feeds_sift_hover'" class="feeds_sift"><a href="#"><span >{:L('more')}</span><span class="more"></span></a>
             <div class="feeds_sift_box">
               <span id="followGroup">
 	            <volist id="fg" name="group_list_2">
@@ -50,9 +50,9 @@
         
       <php>if ($mid > 0 && $mid == $uid && intval($gid) > 0) {</php>
 	  <div class="alR">
-	  	<span class="pl5">共{$list.count}人</span> 
-	  	<a href="javascript:void(0);" onclick="setFollowGroupTab('{$gid}')" ><span style="color:#FF0000;"></span>修改分组</a> 
-	  	<a href="{:U('weibo/FollowGroup/deleteGroup',array('gid'=>$gid))}" onclick="if(confirm('确定要删除“{$gtitle}”分组吗？此分组下的人不会被取消关注。'))return ture;return false;" ><span style="color:#FF0000;">×</span>删除分组</a>
+	  	<span class="pl5">{:argL('num_people', $list.count)}</span> 
+	  	<a href="javascript:void(0);" onclick="setFollowGroupTab('{$gid}')" ><span style="color:#FF0000;"></span>{:L('修改分组')}</a> 
+	  	<a href="{:U('weibo/FollowGroup/deleteGroup',array('gid'=>$gid))}" onclick="if(confirm('{:argL('confirm_delete_group', $gtitle)}'))return ture;return false;" ><span style="color:#FF0000;">×</span>{:L('delete')}</a>
 	  </div>
 	  <php>}</php>
 	  
@@ -77,10 +77,10 @@
 				</div>
 
 			    <div class="feed_c_btm lh18" style=" padding-top:5px; ">
-		      <php>if($vo['mini']){</php><div>最近微博 {$vo.mini.ctime|friendlyDate} </div><php>}</php>
+		      <php>if($vo['mini']){</php><div>{:L("最近微博")} {$vo.mini.ctime|friendlyDate} </div><php>}</php>
                     <div><a href="{:U('home/space/detail',array('id'=>$vo['mini']['weibo_id']))}">{$vo.mini.content}</a></div>
                     <php>if($vo['user']['location']){</php><div>{$vo.user.location}</div><php>}</php>
-                    <div class="pt5"><span ><a href="{:U('home/space/follow',array('type'=>'following','uid'=>$vo['fid']))}">关注<strong>{$vo.following}</strong>人</a></span><span class="pl10"><a href="{:U('home/space/follow',array('type'=>'follower','uid'=>$vo['fid']))}">粉丝<strong>{$vo.follower}</strong>人</a></span></div>
+                    <div class="pt5"><span ><a href="{:U('home/space/follow',array('type'=>'following','uid'=>$vo['fid']))}">{:L('attention')}<strong>{$vo.following}</strong>人</a></span><span class="pl10"><a href="{:U('home/space/follow',array('type'=>'follower','uid'=>$vo['fid']))}">{:L('follower')}<strong>{$vo.follower}</strong>人</a></span></div>
 				</div>
               </div>
             </li>

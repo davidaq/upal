@@ -25,35 +25,35 @@
           <div class="friend_info_right">
             <div class="info_deta lineS_top">
                 <dl class="lineD_top">
-                	<dt>个人情况</dt>
+                	<dt>{:L('personal_situation')}</dt>
 					<volist id="vo" name="userInfo.intro.list">
                     	<php>if($vo['value']){</php></php><dd><div class="c1">{$vo.name}:</div><div class="c2">{$vo.value}</div></dd><php>}</php>
 					</volist>
                 </dl>
                 <dl class="lineD_top">
-                	<dt>联系方式</dt>
+                	<dt>{:L('contact')}</dt>
 					<volist id="vo" name="userInfo.contact.list">
                     	<php>if($vo['value']){</php></php><dd><div class="c1">{$vo.name}:</div><div class="c2">{$vo.value}</div></dd><php>}</php>
 					</volist>
                 </dl>
                 <php>if($userInfo['profile'] && $userInfo['profile']['list']){</php>
                 <dl class="lineD_top">
-                  <dt>教育、工作情况</dt>
+                  <dt>{:L('education/work')}</dt>
                   <volist id="vo" name="userInfo.profile.list"></php>
                       <dd>
                           <switch name="vo['module']">
                               <case value="education">
                                   <div class="projectlist">
                                       <h3>
-                                      [教育]&nbsp;&nbsp;<a target="_blank">{$vo.school}</a>
-                                      </h3><p>{$vo.year}入学 - {$vo.classes}</p>
+                                      [{:L('education')}]&nbsp;&nbsp;<a target="_blank">{$vo.school}</a>
+                                      </h3><p>{$vo.year}{:L('enter')} - {$vo.classes}</p>
                                   </div>
                               </case>
                               <case value="career">
                                   <div class="projectlist">
                                       <h3>
-                                      [公司/机构]&nbsp;&nbsp;<a target="_blank">{$vo.company}</a>
-                                      </h3><p>{$vo.begintime} 至 {$vo.endtime}<br>{$vo.position}</p>
+                                      [{:L('orgnization')}]&nbsp;&nbsp;<a target="_blank">{$vo.company}</a>
+                                      </h3><p>{$vo.begintime} {:L('to')} {$vo.endtime}<br>{$vo.position}</p>
                                   </div>
                               </case>
                           </switch>

@@ -27,14 +27,14 @@
   </div>
   <div class="right_box">
   <div class="user_follow_detail app_line_w">
-  	<span class="app_lineR_w"><a href="{:U('home/Space/follow',array('uid'=>$mini['uid'],'type'=>'following'))}"><strong>{$spaceCount.following}</strong><br>关注</a></span>
-    <span class="app_lineR_w"><a href="{:U('home/Space/follow',array('uid'=>$mini['uid'],'type'=>'follower'))}"><strong>{$spaceCount.follower}</strong><br>粉丝</a></span>
-    <span><a href="{:U('home/Space/index',array('uid'=>$mini['uid']))}"><strong>{$spaceCount.miniblog}</strong><br>微博</a></span>
+  	<span class="app_lineR_w"><a href="{:U('home/Space/follow',array('uid'=>$mini['uid'],'type'=>'following'))}"><strong>{$spaceCount.following}</strong><br>{:L('attention')}</a></span>
+    <span class="app_lineR_w"><a href="{:U('home/Space/follow',array('uid'=>$mini['uid'],'type'=>'follower'))}"><strong>{$spaceCount.follower}</strong><br>{:L('follower')}</a></span>
+    <span><a href="{:U('home/Space/index',array('uid'=>$mini['uid']))}"><strong>{$spaceCount.miniblog}</strong><br>{:L('weibo')}</a></span>
   </div>
   </div>
   <div class="right_box app_line_w">
   	<div class="friInfoDetails">
-          <strong>个人标签</strong>：<br>
+          <strong>{:L('个人签名')}</strong>：<br>
 		  <volist id="vo" name="usertags">
 		  	<a href="{:U('home/User/searchtag',array('k'=>$vo['tag_name']))}">{$vo.tag_name}</a>&nbsp;
 		  </volist>
@@ -55,28 +55,28 @@
 		  {:W('WeiboList', array('mid'=>$mid, 'list'=>array($mini), 'insert'=>0, 'denounce'=>1, 'show'=>'detail'))}
       </div>
 <php>if ($mid <= 0) {</php> 
-	  <div class="message"><div style="margin:5px"><a href="{:U('home')}" target="_blank">登录</a>后方可发表评论</div></div>  
+	  <div class="message"><div style="margin:5px"><a href="{:U('home')}" target="_blank">{:L('login')}</a>{:L('after_comment')}</div></div>  
 <php>} else if ($privacy['weibo_comment']){</php>   
 	  <form action="{:U('weibo/Operate/addcomment')}" method="post" reload="true" rel="miniblog_comment">
 		<input type="hidden" name="weibo_id" value="{$mini.weibo_id}">
 		<input type="hidden" name="reply_comment_id" id="replyid_{$mini.weibo_id}">	  	
       <div class="box_comment">
       		<dl class="massage_comment">
-            	<dt><em>共{$comment.count}条</em>评论</dt>
+            	<dt><em>{:argL('num_comment', $comment.count)}</em>{:L('comment')}</dt>
                 <dd><textarea class="message_text" id="comment_{$mini.weibo_id}" style="width:97.8%;min-width:97.8%;max-width:97.8%;min-height:55px;max-height:55px;height:55px;" name="comment_content" cols="" rows=""></textarea></dd>
                 <dd>
                     <input type="submit" class="N_but right" value="确定">
                     <span><a class="faceicon1" href="javascript:void(0)" onclick="ui.emotions(this)" target_set="comment_{$mini.weibo_id}"></a></span>
-                    <span><input type="checkbox" value="1" name="transpond" class="ck"><label>同时发一条微博</label></span>
+                    <span><input type="checkbox" value="1" name="transpond" class="ck"><label>{:L('check_postweibo')}</label></span>
 			        <if condition="$mini['transpond_id']">
-			          <br /><span style="margin-left:30px"><input name="transpond_weibo_id" type="checkbox" value="{$mini['transpond_id']}" class="ck"/><label>同时评论给原文作者</label>
+			          <br /><span style="margin-left:30px"><input name="transpond_weibo_id" type="checkbox" value="{$mini['transpond_id']}" class="ck"/><label>{:L('check_comment')}</label>
 			        </if>{:Addons::hook('weibo_comment_box_bottom', array($uid))}
                 </dd>
               </dl>
        </div> 
 	  </form>
 <php>} else {</php>
-	  <div class="message"><div style="margin:5px">您没有权限评论此微博</div></div>
+	  <div class="message"><div style="margin:5px">{:L('comment_deny')}</div></div>
 <php>}</php>
 
       <div class="feedBox"> 
@@ -92,11 +92,11 @@
 			    <div class="info"> 
 					<span class="right">
 						<php>if ($mid > 0 && ($vo['uid'] == $mid || $mini['uid'] == $mid)) {</php>
-						<a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条评论?')" callback="doDelComment({$vo.comment_id})">删除</a> |
+						<a href="javascript:void(0)" onclick="ui.confirm(this,'{:L('confirm_delete_comment')}'" callback="doDelComment({$vo.comment_id})">{:L('delete')}</a> |
 						<php>}</php>
 						
 						<php>if($mid > 0 && $privacy['weibo_comment']){</php> 
-						 	<a href="javascript:void(0)" onclick="reply('{$vo.uid|getUserName}',{$vo.comment_id})">回复</a>
+						 	<a href="javascript:void(0)" onclick="reply('{$vo.uid|getUserName}',{$vo.comment_id})">{:L('reply')}</a>
 						 <php>}</php>
 					</span> 
 				</div>
@@ -152,7 +152,7 @@ function checkInputLength(obj,num){
 }
 
 function reply( name,id){
-       $("#comment_{$mini.weibo_id}").val( '回复@'+name+' : ' ).focus();
+       $("#comment_{$mini.weibo_id}").val( '{:L('reply')}@'+name+' : ' ).focus();
        $("#replyid_{$mini.weibo_id}").val(id);
        
        var textArea = document.getElementById("comment_{$mini.weibo_id}");
@@ -170,7 +170,7 @@ function reply( name,id){
    //删除某条回复
    function doDelComment(id){
        $.post( U('weibo/operate/docomments') , {id:id} ,function(txt){
-           ui.success('删除成功');
+           ui.success("{:L('delete_success')}");
            setInterval("location.reload()",1000);
        });
    }   
