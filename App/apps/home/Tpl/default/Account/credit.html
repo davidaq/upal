@@ -27,14 +27,14 @@ $(document).ready(function(){
           <div class="setItems" style="_width:100%">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" style="line-height:25px;">
   			  <tr>
-  			  	<th class="lineD_btm cGray2">动作</th>
+  			  	<th class="lineD_btm cGray2">{:L('action')}</th>
   			  	<volist name="credit_type" id="ct">    	
-		    	<th class="lineD_btm cGray2" style="text-align:center">{$ct.alias}</th>
+		    	<th class="lineD_btm cGray2" style="text-align:center">{:L($ct['alias'])}</th>
 		   		</volist>
 		   	  </tr>
 		   	  <volist name="credit_rules" id="vo">
 		   	  <tr overstyle='on' >
-		   	  	<td class="lineS_btm">{$vo.alias}</td>
+		   	  	<td class="lineS_btm">{:L($vo['alias'])}</td>
 		   	  	<volist name="credit_type" id="ct">    	
 		    	<th class="lineS_btm" style="text-align:center">{$vo[$ct['name']]}</th>
 		   		</volist>

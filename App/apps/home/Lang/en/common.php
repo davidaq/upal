@@ -220,5 +220,35 @@ return array (
  
   
 
+	'积分'=>'Integral',
+	'经验'=>'Exp',
+	'发表博客'=>'Write a blog post',
+	'删除博客'=>'Delete a blog post',
+	'评论别人'=>'Make comment',
+	'回复别人的评论'=>'Reply other\'s comments',
+	'评论被回复'=>'Comment replied',
+	'被别人评论'=>'Commented by others',
+	'删除评论'=>'Delete comment',
+	'创建相册'=>'Create photo album',
+	'上传图片'=>'Upload image',
+	'删除相册'=>'Delete album',
+	'删除图片'=>'Delete Image',
+	'邀请好友'=>'Invite friend',
+	'注册积分'=>'Registration',
+	'用户登录'=>'login',
+	'空间被访问'=>'Space visited',
+	'发起投票'=>'Create a poll',
+	'参与投票'=>'Participate a poll',
+	'投票被参与'=>'Created poll participated by others',
+	'删除投票'=>'Delete vote',
+	'发布微薄'=>'Write a microblog post',
+	'回复微博'=>'Reply microblog',
+	'微博被回复'=>'Microblog replied',
+	'分享到微薄'=>'Shared to microblog',
+	'删除微薄'=>'Delete microblog',
+	'转发微薄'=>'Share microblog',
+	'微博被转发'=>'Microblog shared',
+	'删除微博评论'=>'Delete microblog comment'
+	
 );
 ?>

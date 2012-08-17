@@ -16,31 +16,31 @@
 		  <!-- 修改密码 -->
           <div class="setItems">
             <div class="setFold setUnfold" rel="base" >
-              <h2>修改密码</h2>
+              <h2>{:L('change_password')}</h2>
             </div>
             <div style="display: block;" class="setItemsInfo">
 		      <div class="data"><!-- 修改密码 begin  -->
 		            <dl class="set_basic">
 		                <form action="{:U('home/Account/doModifyPassword')}" method="post" class="form_validator" id="regform">
 		                <dd>
-		                    <label>原始密码：</label>
+		                    <label>{:L('old_password')}: </label>
 		                    <div class="left">
 		                      <div class="left mr5"><input name="oldpassword" type="password" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
 		                    </div>
 		                </dd>
 		                <dd>
-		                    <label>新密码：</label>
+		                    <label>{:L('new_password')}:</label>
 		                    <div class="left">
 		                      <div class="left mr5"><input name="password" type="password" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
 		                    </div>
 		                </dd>
 		                <dd>
-		                    <label>确认密码：</label>
+		                    <label>{:L('confirm_password')}:</label>
 		                    <div class="left">
 		                      <div class="left mr5"><input name="repassword" type="password" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
 		                    </div>
 		                </dd>
-		                <dd><label>&nbsp;</label><input type="submit" class="btn_b" value="保存" /></dd>
+		                <dd><label>&nbsp;</label><input type="submit" class="btn_b" value="{:L('save')}" /></dd>
 		            </form> 
 		           </dl>
 		        </div><!-- 修改密码 end  -->
@@ -50,26 +50,26 @@
 		  <!-- 修改密码 -->
           <div class="setItems">
             <div class="setFold" rel="email" >
-              <h2>修改帐号</h2>
+              <h2>{:L('change_account')}</h2>
             </div>
             <div style="display:none;"  class="setItemsInfo">
 		      <div class="data"><!-- 修改密码 begin  -->
 		            <dl class="set_basic">
 		                <dd>
-		                    <label>原始Email：</label>
+		                    <label>{:L('old_email')}:</label>
 		                    <div class="left">
 		                      <div class="left mr5"><input id="oldemail" type="text" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
 		                    </div>
 		                </dd>
 		                <dd>
-		                    <label>新Email：</label>
+		                    <label>{:L('new_email')}:</label>
 		                    <div class="left">
 		                      <div class="left mr5"><input id="newemail" type="text" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /></div>
 		                    </div>
 		                </dd>
 		                <dd>
 		                	<label>&nbsp;</label>
-		                	<input type="submit" class="btn_b" value="保存" id="btn_submit" onclick="modifyEmail();" />
+		                	<input type="submit" class="btn_b" value="{:L('save')}" id="btn_submit" onclick="modifyEmail();" />
 		                </dd>
 		           </dl>
 		        </div><!-- 修改密码 end  -->
@@ -164,19 +164,19 @@
 		var email = $('#newemail').val();
 		$.post("{:U('home/Account/modifyEmail')}", {oldemail:oldemail,email:email}, function(res) {
 			if (res == '-1') {
-				ui.error('Email地址不能为空，且格式必须正确');
+				ui.error('{:L('email_rule')}');
 			}else if (res == '-2') {
-				ui.error('原始Email错误');
+				ui.error('{:L('email_old_wrong')}');
 			}else if (res == '-3') {
-				ui.error('新Email已存在');
+				ui.error('{:L('new_email_exist')}');
 			}else if (res == '-4') {
-                ui.error('验证邮件发送失败');
+                ui.error('{:L('email_sent_error')}');
 			}else if (res == '0') {
-				ui.error('保存失败');
+				ui.error('{:L('save_error')}');
 			}else if (res == '1') {
-				alert('保存成功, 请重新登录');
+				alert('{:L('save_success_relogin')}');
 			}else if (res == '2') {
-				alert('激活邮件已发送，请通过邮件激活本次修改');
+				alert('{:L('email_sent')}');
 			}
 			$('#btn_submit').removeAttr('disabled');
 		});

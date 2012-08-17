@@ -16,54 +16,54 @@
 		  <!-- 修改密码 -->
           <div class="setItems">
             <div class="setFold setUnfold" rel="base" >
-              <h2>隐私设置</h2>
+              <h2>{:L('private_setting')}</h2>
             </div>
             <div style="display: block;" class="setItemsInfo">
 		      <div class="data"><!-- 修改密码 begin  -->
 		            <form action="{:U('home/Account/privacy')}" method="post" class="form_validator" id="regform" oncomplete="false">
 		            <dl class="set_basic">
 		                <dd>
-		                    <label>评论：</label>
+		                    <label>{:L('comment')}:</label>
 		                    <div class="left">
-		                      <div class="left mr5">设置谁可以评论我的微博</div>
+		                      <div class="left mr5">{:L('set_allowed_commenters')}</div>
 		                    </div>
 		                </dd>
 		                <dd>
 		                    <label>&nbsp;</label>
 		                    <div class="left">
-		                      <div class="left mr5"><input type="radio" name='userset[weibo_comment]' value="0" <eq name="userset['weibo_comment']" value="0">checked="true"</eq> >所有人(不包括你的黑名单用户)</div><br>
-		                      <div class="left mr5"><input type="radio" name='userset[weibo_comment]' value="1" <eq name="userset['weibo_comment']" value="1">checked="true"</eq> >我关注的人</div>
+		                      <div class="left mr5"><input type="radio" name='userset[weibo_comment]' value="0" <eq name="userset['weibo_comment']" value="0">checked="true"</eq> >{:L('everyone')}</div><br>
+		                      <div class="left mr5"><input type="radio" name='userset[weibo_comment]' value="1" <eq name="userset['weibo_comment']" value="1">checked="true"</eq> >{:L('follows')}</div>
 		                    </div>
 		                </dd>
 		                <dd>
-		                    <label>私信：</label>
+		                    <label>{:L('private_message')}:</label>
 		                    <div class="left" style="width: 50%;">
-		                      <div class="left mr5">设置谁可以给我发私信</div>
+		                      <div class="left mr5">{:L('set_allowed_senders')}</div>
 		                    </div>
 		                </dd>
 		                <dd>
 		                    <label>&nbsp;</label>
 		                    <div class="left">
-		                      <div class="left mr5"><input type="radio" name='userset[message]' value="0" <eq name="userset['message']" value="0">checked="true"</eq> >所有人(不包括你的黑名单用户)</div><br>
-		                      <div class="left mr5"><input type="radio" name='userset[message]' value="1" <eq name="userset['message']" value="1">checked="true"</eq> >我关注的人</div>
+		                      <div class="left mr5"><input type="radio" name='userset[message]' value="0" <eq name="userset['message']" value="0">checked="true"</eq> >{:L('everyone')}</div><br>
+		                      <div class="left mr5"><input type="radio" name='userset[message]' value="1" <eq name="userset['message']" value="1">checked="true"</eq> >{:L('follows')}</div>
 		                    </div>
 		                </dd>
                         <dd>
-                            <label>空间：</label>
+                            <label>{:L('space')}:</label>
                             <div class="left" style="width: 50%;">
-                              <div class="left mr5">设置谁可以查看我的个人空间</div>
+                              <div class="left mr5">{:L('set_allowed_space_visitor')}</div>
                             </div>
                         </dd>
                         <dd>
                             <label>&nbsp;</label>
                             <div class="left">
-                              <div class="left mr5"><input type="radio" name='userset[space]' value="0" <eq name="userset['space']" value="0">checked="true"</eq> >所有人(不包括你的黑名单用户)</div><br>
-                              <div class="left mr5"><input type="radio" name='userset[space]' value="1" <eq name="userset['space']" value="1">checked="true"</eq> >我关注的人</div>
+                              <div class="left mr5"><input type="radio" name='userset[space]' value="0" <eq name="userset['space']" value="0">checked="true"</eq> >{:L('everyone')}</div><br>
+                              <div class="left mr5"><input type="radio" name='userset[space]' value="1" <eq name="userset['space']" value="1">checked="true"</eq> >{:L('follows')}</div>
                             </div>
                         </dd>
 		           </dl>
 						{:Addons::hook('home_account_privacy')}
-		           <dl class="set_basic"><dd><label>&nbsp;</label><input type="submit" class="btn_b" value="保存" /></dd></dl>
+		           <dl class="set_basic"><dd><label>&nbsp;</label><input type="submit" class="btn_b" value="{:L('save')}" /></dd></dl>
 		           </form> 
 		        </div><!-- 修改密码 end  -->
             </div>
@@ -72,8 +72,8 @@
 		  <!-- 修改密码 -->
           <div class="setItems">
             <div class="setFold" rel="email" >
-              <h2>黑名单</h2>
-              <span class="txt1">被加入黑名单的用户将无法关注你、评论你。如果你已经关注TA，也会自动解除关系。</span>
+              <h2>{:L('blacklist')}</h2>
+              <span class="txt1">{:L('blacklist_desc')}</span>
             </div>
             <div style="display:none;"  class="setItemsInfo">
 		      <div class="data"><!-- 修改密码 begin  -->
@@ -81,7 +81,7 @@
 		            <php>if($blacklist){</php>
 		            <volist id="vo" name="blacklist">
 		                <li id="black_{$vo.fid}">
-		                    <div class="left alR" style="width: 15%;"><space uid="vo.fid" target="_blank">{uname}</space>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="release('{$vo.fid}')">解除</a></div>
+		                    <div class="left alR" style="width: 15%;"><space uid="vo.fid" target="_blank">{uname}</space>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="release('{$vo.fid}')">{:L('disable')}</a></div>
 		                    <div class="left" style="width: 50%;">
 		                      <div class="right mr5">{$vo.ctime|friendLyDate}</div>
 		                    </div>
@@ -90,14 +90,14 @@
 		             <php>}else{</php>
 		             	<li>
 		                    <div class="left" style="width: 50%;">
-		                      黑名单列表暂为空
+		                      {:L('blacklist_empty')}
 		                    </div>
 		                </li>
 		             <php>}</php>
 		             <li>
 		             	<form action="__URL__&act=setBlack" method="POST" >
 			            <input type="text" name="blackname" value="">
-			            <input type="submit" name="submit" value="添加">
+			            <input type="submit" name="submit" value="{:L('add')}">
 			            </form>
 		             </li>
 		           </ul>
@@ -147,9 +147,9 @@
 	function release(id){
           $.get(U('home/Account/release'),{id:id},function(msg){
              if(msg == 0){
-                ui.error('解除失败！');
+                ui.error('{:L('disable_fail')}');
              }else{
-                ui.success('解除成功！');
+                ui.success('{:L('disable_success')}！');
                 $('#black_'+id).remove();
                 setTimeout("location.href = location.href",1000);               
              }   

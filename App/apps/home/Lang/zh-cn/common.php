@@ -56,7 +56,7 @@ return array (
    'message' => '私信',
    'error_security_code' => '验证码错误',
    'password_notnull' => '密码不能为空',
-   'email_format_error' => 'email格式错误',
+   'email_format_error' => 'Email格式错误',
    'parameter_error' => '参数错误',
    'login_success' => '登录成功',
    'login_error' => '登录失败',
@@ -217,6 +217,5 @@ return array (
    '' => '',
  
   
-
 );
 ?>
