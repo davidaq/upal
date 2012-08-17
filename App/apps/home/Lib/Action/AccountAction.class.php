@@ -4,7 +4,6 @@
  * @author Nonant
  *
  */
-
 class AccountAction extends Action
 {
     var $pUser;
@@ -58,7 +57,7 @@ class AccountAction extends Action
 			if(!empty($bannedunames)){
 				$bannedunames = explode('|',$bannedunames);
 				if(in_array($nickname,$bannedunames)){
-					exit(json_encode(array('message'=>'这个昵称禁止注册','boolen'=>0)));
+					exit(json_encode(array('message'=>L('nick_name_not_allowed'),'boolen'=>0)));
 				}
 			}
 		}
@@ -68,17 +67,17 @@ class AccountAction extends Action
 
     //绑定帐号
     function bind(){
-   	    $user = M('user')->where('uid='.$this->mid)->field('email')->find();
-   	    $replace = substr($user['email'],2,-3);
-   	    for ($i=1;$i<=strlen($replace);$i++){
-   	    	$replacestring.='*';
-   	    }
-        $data['email'] = str_replace(  $replace, $replacestring ,$user['email'] );
-        $bindData = array();
-        Addons::hook('account_bind_after',array('bindInfo'=>&$bindData));
-        $data['bind']  = $bindData;
-   	    $this->assign($data);
-   	    $this->setTitle(L('setting').' - '.L('outer_bind'));
+	    $user = M('user')->where('uid='.$this->mid)->field('email')->find();
+	    $replace = substr($user['email'],2,-3);
+	    for ($i=1;$i<=strlen($replace);$i++){
+	    	$replacestring.='*';
+	    }
+     $data['email'] = str_replace(  $replace, $replacestring ,$user['email'] );
+     $bindData = array();
+     Addons::hook('account_bind_after',array('bindInfo'=>&$bindData));
+     $data['bind']  = $bindData;
+	    $this->assign($data);
+	    $this->setTitle(L('setting').' - '.L('outer_bind'));
     	$this->display();
     }
 
@@ -122,7 +121,7 @@ class AccountAction extends Action
             }
 
             if($data['endtime'] != L('now') && $end > time()) {
-                $return['message'] = '结束时间不能超过当前时间';
+                $return['message'] = L('end_time_over_now');
                 $return['boolen'] = 0;
                 exit(json_encode($return));
             }
@@ -285,7 +284,7 @@ class AccountAction extends Action
     function privacy(){
     	if($_POST){
     		$r = D('UserPrivacy')->dosave($_POST['userset'],$this->mid);
-    		$this->success("保存成功");
+    		$this->success(L('save_success'));
     	}
     	$userSet = D('UserPrivacy')->getUserSet($this->mid);
     	$blacklist = D('UserPrivacy')->getBlackList($this->mid);
@@ -311,17 +310,17 @@ class AccountAction extends Action
         $data = M('user')->where("`uname` = '$uname'")->find();
         $mid = $this->mid;
         if($data['uid'] == $mid){
-            $this->error('不能添加自己为黑名单！');
+            $this->error(L('blacklist_self'));
         }
         if(!$data){
-            $this->error('没有该用户！');
+            $this->error(L('user_unexist'));
         }else{
             $map['uid'] = $this->mid;
             $map['fid'] = $data['uid'];
             $map['ctime'] =time();
             D('UserBlacklist')->add($map);
              $this->assign('jumpUrl', U('home/Account/privacy#email'));
-            $this->success('设置成功！');
+            $this->success(L('setting_success'));
         }
     }
     function release(){
@@ -349,7 +348,7 @@ class AccountAction extends Action
             $dmMap['domain'] = $domain;
             $isExistDomain = M('user')->where($dmMap)->find();
             if(!is_null($isExistDomain)) {
-                $this->error('此个性域名已被占用，请重新输入');
+                $this->error(L('domain_occupied'));
             }
 
     		if( !ereg('^[a-zA-Z][a-zA-Z0-9]+$', $domain)){
@@ -371,7 +370,7 @@ class AccountAction extends Action
 				if(!empty($banned_domains)){
 					$banned_domains = explode('|',$banned_domains);
 					if( in_array($domain,$banned_domains)){
-						$this->error('该个性域名已被禁用');
+						$this->error(L('domain_not_allowed'));
 					}
 				}
 			}
@@ -469,7 +468,8 @@ class AccountAction extends Action
     	if ( $url = service('Validation')->addValidation($this->mid, '', U('home/Public/doModifyEmail'), 'modify_account', serialize($data)) ) {
     		// 发送验证邮件
     		global $ts;
-    		$body = <<<EOD
+    		if(isset($_SESSION['language'])&&$_SESSION['language']==en){
+    			$body = <<<EOD
 <strong>{$ts['user']['uname']}，你好：</strong><br/>
 
 您只需通过点击下面的链接重置您的帐号：<br/>
@@ -480,8 +480,21 @@ class AccountAction extends Action
 
 如果你错误地收到了此电子邮件，你无需执行任何操作来取消帐号！此帐号将不会启动。
 EOD;
+			}else{
+    			$body = <<<EOD
+<strong>Hello, {$ts['user']['uname']}:</strong><br/>
 
-			if (service('Mail')->send_email($_POST['email'], "重置{$ts['site']['site_name']}帐号", $body)) {
+All you have to do to reset your account is to click on the link below:<br/>
+
+<a href="$url">$url</a><br/>
+
+If the link can't be clicked, please copy it to the browser address bar.<br/>
+
+If you recieved this Email mistakenly, you don't have to do anything, nothing will change.
+EOD;
+			}
+
+			if (service('Mail')->send_email($_POST['email'], argL('reset_a_account',$ts['site']['site_name']), $body)) {
 				echo '2';
 			}else {
 				echo '-4';
@@ -501,8 +514,8 @@ EOD;
 	    		$username = $_POST['username'];
 	    		$email = $_POST['email'];
 	    		$password = $_POST['password'];
-	    		if(uc_user_checkname($username) != 1 || !isLegalUsername($username) || M('user')->where("uname='{$username}' AND uid<>{$this->mid}")->count())$this->error('用户名不合法或已经存在，请重新设置用户名');
-	    		if(uc_user_checkemail($email) != 1 || M('user')->where("uname='{$email}' AND uid<>{$this->mid}")->count())$this->error('Email不合法或已经存在，请重新设置Email');
+	    		if(uc_user_checkname($username) != 1 || !isLegalUsername($username) || M('user')->where("uname='{$username}' AND uid<>{$this->mid}")->count())$this->error(L('invalid_username'));
+	    		if(uc_user_checkemail($email) != 1 || M('user')->where("uname='{$email}' AND uid<>{$this->mid}")->count())$this->error(L('invalid_email'));
 	    		global $ts;
 	    		if(md5($password) != $ts['user']['password'])$this->error(L('password_error_retype'));
 	    		$uc_uid = uc_user_register($username,$password,$email);

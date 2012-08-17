@@ -10,14 +10,14 @@
 		<php>if(!empty($search_key)){</php>
 		  <gt name="mid" value="0">
 			<div class="right_box">
-             <span class="ico_tuijian"></span><span id="followTopic" style="font-size:14px; font-weight:bold"><php>if($followState){</php><a href="javascript:void(0)" onclick="weibo.unfollowTopic('{$search_key_id}','{$search_key}')">已关注该话题</a><php>}else{</php><a href="javascript:void(0)" onclick="weibo.followTopic('{$search_key}')">关注该话题</a>
+             <span class="ico_tuijian"></span><span id="followTopic" style="font-size:14px; font-weight:bold"><php>if($followState){</php><a href="javascript:void(0)" onclick="weibo.unfollowTopic('{$search_key_id}','{$search_key}')">{:L('follow_this_topic_already')}</a><php>}else{</php><a href="javascript:void(0)" onclick="weibo.followTopic('{$search_key}')">{:L('follow_this_topic')}</a>
 				<php>}</php>
 			  </span>
-			  <h2><span class="ico_follow"></span><a href="javascript:void(0)" onclick="weibo.quickpublish('大家来谈谈#{$search_key}#这个话题吧！')">推荐该话题</a></h2>
+			  <h2><span class="ico_follow"></span><a href="javascript:void(0)" onclick="weibo.quickpublish('{:argL('lets_talk_about',$search_key)}')">{:L('recommend_topic')}</a></h2>
 			</div>
 		  </gt>
 		  <div class="right_box">
-		    <h2>其他关注该话题的人</h2>
+		    <h2>{:L('other_topic_followers')}</h2>
 		    <ul class="visitor_list">
 		      <volist name="other_following" id="of">
 		        <li>
@@ -44,7 +44,7 @@
           <if condition="$topics['pic']"><img alt="#{$topics.name}#" src="thumb.php?url={:SITE_URL}/data/uploads/{$topics.pic}&w=625&h=170" /></if>
           <dl class="topics_info_dl">
             <dt>#{$topics.name}#</dt>
-            <dd>{$topics.content}<if condition="$topics['link']"><a href="{$topics.link}" target="_blank">&gt;&gt;详细</a></if></dd>
+            <dd>{$topics.content}<if condition="$topics['link']"><a href="{$topics.link}" target="_blank">&gt;&gt;{:L('detail')}</a></if></dd>
           </dl>
         </div>
         </if>
@@ -54,7 +54,7 @@
             <input type="hidden" name="publish_type" value="0">
             <h2>
               <div class="wordNum numObj"></div>
-              <span>快来说点什么吧……</span></h2>
+              <span>{:L('say_something')}</span></h2>
             <div class="cntBox">
               <input type="button" disabled="true" class="btn_big_disable hand buttonObj" value="&nbsp;" id="publish_handle"  />
               <textarea name="content" id="content_publish" class="contentObj" cols="" rows="" style="width:85%;max-width:85%;min-width:85%;height:55px;max-height:55px;min-height:55px;*height:52px;padding:5px; margin:0; _padding:5;overflow: hidden;overflow-x:hidden;overflow-y:auto;line-height:18px">#{$topics.name}#</textarea>
@@ -63,7 +63,7 @@
                   <div class="funBox">
                     <php>if(Addons::requireHooks("home_index_middle_publish")){</php>
                     <div class="right" style="padding-bottom:5px; cursor:hand;width:80px; cursor:pointer"  onclick='weibo.showAndHideMenu("Sync", this, "", "");'>
-                        同步<a href="#" class="ico_sync_on"></a>
+                        {:L('sync')}<a href="#" class="ico_sync_on"></a>
                     </div>
                     <div id="Sync" style="display:none;position:absolute;right:23px;top:30px;z-index:9999">
                         <div class="topic_app"></div>
@@ -80,11 +80,11 @@
         </div>
         <div class="tab-menu"><!-- 切换标签 begin  -->
           <ul>
-            <li><a href="###" class="on feed_item"><span>热议网友</span></a></li>
+            <li><a href="###" class="on feed_item"><span>{:L('hot_talked_people')}</span></a></li>
           </ul>
         </div>
         <div class="MenuSub alR">
-        	<span class="left cGray">该话题共有"<span class="cRed">{$list.count}</span>"条相关微博</span>
+        	<span class="left cGray">{:argL('topic_has_related_weibo','<span class="cRed">'.$list['count'].'</span>')}</span>
 	        <volist name="weibo_menu" id="vo"><php>if ($i > 1) {</php>|<php>}</php><a
 	        href="{:U('home/user/topics', array('k'=>urlencode($search_key),'type'=>$key))}" 
 	        <eq name="type" value="$key">class="on"</eq>>{$vo}</a></volist>

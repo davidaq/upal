@@ -62,6 +62,7 @@ return array (
   'input_key_and_search'=>'请输入关键字后点击搜索',
   'below_is_search_result_weibo'=> '以下是关于"%"的微博%条',
   'below_is_search_result_user'=> '搜索"%" 找到%名用户',
+  'below_is_search_result_tag'=> '搜索"%"找到 % 个相关标签',
   'weibo_deleted'=> '此微博已被原作者删除',
   'transport'=> '转发',
   'unfavorite'=> '已收藏',
@@ -70,5 +71,14 @@ return array (
   'transport_origin'=> '原文转发',
   'comment_origin'=> '原文评论',
   'latest_weibo'=> '最近微博',
+  'input_search_tag'=>'输入标签名称，如：sns',
+  'detail'=> '详细',
+  'recommend_topic'=> '推荐该话题',
+  'say_something'=> '快来说点什么吧……',
+  'follow_this_topic'=> '关注该话题',
+  'follow_this_topic_already'=> '已关注该话题',
+  'other_topic_followers'=> '其他关注该话题的人',
+  'hot_talked_people'=> '热议网友',
+  'topic_has_related_weibo'=> '该话题共有"%"条相关微博',
 );
 ?>

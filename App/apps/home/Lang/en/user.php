@@ -62,6 +62,7 @@ return array (
   'input_key_and_search'=>'Input a keyword and click search',
   'below_is_search_result_weibo'=> 'Below are microblogs about %(%)',
   'below_is_search_result_user'=> 'Search "%", found % related user',
+  'below_is_search_result_tag'=> 'Search "%", found % related tag',
   'weibo_deleted'=> 'This post has been deleted by the original author',
   'transport'=> 'Share',
   'unfavorite'=> 'In favorites',
@@ -70,5 +71,14 @@ return array (
   'transport_origin'=> 'Share origin',
   'comment_origin'=> 'Comment origin',
   'latest_weibo'=> 'Lateset microblog post',
+  'input_search_tag'=>'Input tag name, eg. sns',
+  'detail'=> 'Detail',
+  'recommend_topic'=> 'Recommend this topic',
+  'say_something'=> 'Come and say something……',
+  'follow_this_topic'=> 'Follow this topic',
+  'follow_this_topic_already'=> 'Already followed',
+  'other_topic_followers'=> 'Other followers of the topic',
+  'hot_talked_people'=> 'Hot users',
+  'topic_has_related_weibo'=> 'This topic has "%" related microblog posts',
 );
 ?>

@@ -51,4 +51,3 @@ return array (
 
 );
 ?>
-{:L('confirm_insert_blacklist')}
