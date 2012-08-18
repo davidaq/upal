@@ -6,12 +6,12 @@
     <div class="mainbox">
       <div class="mainbox_C no_r boxMessage">
         <div class="tab-menu">
-        	<a href="javascript:void(0)" onclick="ui.sendmessage();" class="btn_b right">发私信</a>
+        	<a href="javascript:void(0)" onclick="ui.sendmessage();" class="btn_b right">{:L('发私信')}</a>
 			<include file="_tab" />
         </div>
         <div style="width:100%; overflow:hidden;">
           <php>if (empty($data)) {</php>
-              暂无应用消息
+              {:L('暂无应用消息')}
           <php>}</php>
          <ul class="feed_list">
           	<volist id="vo" name="data">
@@ -38,7 +38,7 @@
 <script>
 	function manyou_add_userapp(hash, url){
         if (url) {
-            ui.success('正在跳转至应用...');
+            ui.success('{:L('正在跳转至应用')}...');
         }
         setTimeout(function(){
 	        $.post( "{:U('home/Message/deleteMyInvite')}", {hash:hash}, function(res){
@@ -48,11 +48,11 @@
 	                    self.location.href = url;
 	                }else {
 	                    //忽略
-	                    ui.success('忽略成功');
+	                    ui.success('{:L('忽略成功')}');
 	                    $('#myinvite_'+hash).remove();
 	                }
 	            }else {
-	                ui.error('操作失败');
+	                ui.error('{:L('操作失败')}');
 	            }
 	        });
         }, 1500);

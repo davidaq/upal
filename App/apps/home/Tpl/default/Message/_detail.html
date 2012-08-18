@@ -5,10 +5,10 @@
     <div class="mainbox">
       <div class="mainbox_C no_r boxMessage">
       <div class="tab-menu">
-        <div class="right pt10"><a href="javascript:void(0)" onclick="postMessage();">发私信</a></div>
+        <div class="right pt10"><a href="javascript:void(0)" onclick="postMessage();">{:L('发私信')}</a></div>
         <ul>
-          <li><a class="feed_item <eq name="type" value="inbox">on</eq>"  href="{:U('home/Message/inbox')}" ><span>收件箱</span></a></li>
-          <li><a class="feed_item <eq name="type" value="outbox">on</eq>" href="{:U('home/Message/outbox')}"><span>发件箱</span></a></li>
+          <li><a class="feed_item <eq name="type" value="inbox">on</eq>"  href="{:U('home/Message/inbox')}" ><span>{:L('inbox')}</span></a></li>
+          <li><a class="feed_item <eq name="type" value="outbox">on</eq>" href="{:U('home/Message/outbox')}"><span>{:L('outbox')}</span></a></li>
         </ul>
       </div>
 
@@ -16,9 +16,9 @@
         <ul class="feed_list">
         <li>
             <eq name="type" value="inbox">
-            <a href="{:U('home/Message/inbox')}" class="right"><< 返回收件箱</a>
+            <a href="{:U('home/Message/inbox')}" class="right"><< {:L('返回收件箱')}</a>
             <else/>
-            <a href="{:U('home/Message/outbox')}" class="right"><< 返回发件箱</a>
+            <a href="{:U('home/Message/outbox')}" class="right"><< {:L('返回发件箱')}</a>
             </eq>
             <span>我和宝明的私信(共3封私信)</span>
         </li>

@@ -1,5 +1,4 @@
 <?php
-trace(L('avatar_preview'));
 return array(
 	'nick_name_not_allowed'=>	'这个昵称禁止注册',
 	'end_time_over_now'=>	'结束时间不能超过当前时间',

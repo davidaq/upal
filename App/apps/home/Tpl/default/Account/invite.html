@@ -29,10 +29,10 @@
 				<php>}</php>
 				
 				<php>if($list){</php>
-                 <div class="lh30">可以发送的邀请：<span class="cGray2"><if condition="$list[0]['code'] neq $mid">（被邀请人成功注册后，该邀请链接将不再显示）</if></span></div>
+                 <div class="lh30">{:L('可以发送的邀请')}: <span class="cGray2"><if condition="$list[0]['code'] neq $mid">{:L('（被邀请人成功注册后，该邀请链接将不再显示）')}</if></span></div>
 				  <input type="hidden" name="dotype" value="upintro">
                   <div class="inviteMode">
-                    <h4>复制邀请链接</h4>
+                    <h4>{:L('复制邀请链接')}</h4>
                     <ul>
                     <volist name="list" id="vo">
                       <li>
@@ -40,7 +40,7 @@
                         </li>
                     </volist>
 					</ul>
-                    <div>当你的朋友成功注册后，你们会自动互相关注。</div>
+                    <div>{:L('当你的朋友成功注册后，你们会自动互相关注。')}</div>
                   </div>
                   <!--通过邮箱邀请
                   <div class="inviteMode">

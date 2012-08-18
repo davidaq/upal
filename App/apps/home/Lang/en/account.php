@@ -113,6 +113,14 @@ return array(
 	'您目前拥有'=>	'You have currently ',
 	'个'=>		'',
 	'邀请码，每个邀请码可以邀请1个朋友'=>	' invite codes, each can be used to invite 1 friend',
+	'可以发送的邀请'=>	'Available invitations',
+	'（被邀请人成功注册后，该邀请链接将不再显示）'=>' (The link will not appear any more after the invitee has successfully registered)',
+	'复制邀请链接'=>	'Copy invite link',
+	'当你的朋友成功注册后，你们会自动互相关注。'=>'You will automatically follow each other after your friend registers',
+	'您邀请的该用户'=>	'The user you are inviting ',
+	'已存在'=>	' already exists',
+	'查看用户'=>	'View user',
+	'继续邀请'=>	'Continue inviting',
 
 
 

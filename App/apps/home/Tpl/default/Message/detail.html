@@ -14,28 +14,28 @@
       <div class=""> 
         <ul class="feed_list">
           <li>
-            <a href="{:U('home/Message/index')}" class="right">&lt;&lt; 返回私信列表</a>
+            <a href="{:U('home/Message/index')}" class="right">&lt;&lt; {:L('返回私信列表')}</a>
             <span>
-              我和<volist name="message.to" id="mb">
+              {:L('我和')}<volist name="message.to" id="mb">
                 <php>
                 if ($i > 10) continue;
-                if ($i > 1) echo '、';
+                if ($i > 1) echo L('、');
                 </php>
                 {$mb.member_uid|getUserName}
                 </volist>
               <php>
                 if(count($message['to']) > 5 ){
-                  echo ' 等...';
+                  echo ' '.L('等...');
                 }
               </php>
-              的私信(共 <span id="message_content_count">{$message['message_num']}</span> 条对话)
+              {:L('的私信')} ({:L('共')} <span id="message_content_count">{$message['message_num']}</span> {:L('条对话')})
             </span>
           </li>
           <!-- 快速回复 -->
           <li class="send_msg lineS_btm">
 	             <div class="msgCnt" style="padding-bottom:0;">
                    <div style="padding-left:70px">
-                   <strong>发私信给所有人:</strong>
+                   <strong>{:L('发私信给所有人')}:</strong>
                    </div>
 				            <div class="mt5" style="position:relative">
                      <div class="userPic"><space uid="ts['user']['uid']" target="_blank">{uavatar=m}</space></div>
@@ -43,8 +43,8 @@
                      <div class="feed_massage">
 	                     <textarea id="reply_content" cols="" onblur="this.className='text_massage'" onfocus="this.className='text_massage_on'" class="text_massage"></textarea>
 	                     <div class="mt5">
-	                     	<input type="button" value="发送" class="btn_b mt5 right" onclick="doReply();"/>
-	                     	<a href="javascript:void(0)" target_set="reply_content" onclick="ui.emotions(this)" class="a52"><img class="icon_add_face_d" src="__THEME__/images/zw_img.gif" />表情</a>
+	                     	<input type="button" value="{:L('发送')}" class="btn_b mt5 right" onclick="doReply();"/>
+	                     	<a href="javascript:void(0)" target_set="reply_content" onclick="ui.emotions(this)" class="a52"><img class="icon_add_face_d" src="__THEME__/images/zw_img.gif" />{:L('表情')}</a>
 		            	 </div>
                      </div>
                    </div>
@@ -54,7 +54,7 @@
         <!-- 会话列表 -->
         <ul class="feed_list" id="feed_list"></ul>
 		<p class="moreFoot" id="moreFoot">
-			<a id="load_more_btn" onclick="load_more_message(this)" href="javascript:void(0)"><span class="ico_morefoot"></span>更多</a>
+			<a id="load_more_btn" onclick="load_more_message(this)" href="javascript:void(0)"><span class="ico_morefoot"></span>{:L('more')}</a>
 		</p>
         <p class="page">{$message.html}</p>
       </div>
@@ -85,7 +85,7 @@
 		var $reply_content = $('#reply_content');
 		var reply_content  = $reply_content.val();
 		reply_content = reply_content ? reply_content + ' ' : '';
-		var reply_user     = '回复@' + name + '：';
+		var reply_user     = '{:L('回复')}@' + name + '：';
 
 		if (-1 == reply_content.indexOf(reply_user)) {
 			$reply_content.val(reply_content + reply_user);
@@ -107,7 +107,7 @@
                 load_new_message();
                 //ui.success('发送成功');
             }else {
-                ui.error('发送失败');
+                ui.error({:L('发送失败')});
             }
         });
     }
@@ -119,7 +119,7 @@
 
         $.post("{:U('home/Message/doDeleteSession')}", {ids:ids}, function(res){
             if (res == '1') {
-                ui.success('删除成功');
+                ui.success('{:L('删除成功')}');
                 ids = ids.split(',');
 				for(i = 0; i < ids.length; i++) {
 					$('#message_'+ids[i]).remove();
@@ -128,7 +128,7 @@
                 var message_content_count  = parseInt($message_content_count.html());
                 $message_content_count.html(message_content_count - ids.length);
             }else {
-                ui.error('删除失败');
+                ui.error('{:L('删除失败')}');
             }
         });
     }
@@ -138,9 +138,9 @@
 	{
 		var type = 'old';
 		var $o = $(o);
-		$o.html('加载中...');
+		$o.html('{:L('加载中...')}');
 		load_more(type);
-		$o.html('更多');	
+		$o.html('{:L('more')}');
 	}
 
 	// 加载最新
