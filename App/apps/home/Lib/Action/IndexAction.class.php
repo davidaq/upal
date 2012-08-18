@@ -1,5 +1,15 @@
 <?php
 class IndexAction extends Action{
+
+	public function switch_lan()
+	{
+		if($_SESSION['language']=='en')
+			$_SESSION['language']='zh_cn';
+		else
+			$_SESSION['language']='en';
+		$url=str_replace('language=','xlanguage=',$_SERVER['HTTP_REFERER']);
+		header('location:'.$url);
+	}
 	
 	public function index() {
 		if (service('Passport')->isLogged())

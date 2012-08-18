@@ -197,7 +197,7 @@ return array (
    'nickname' => 'Nick name',
    'type' => 'Type',
    'pls_select' => 'Please select',
-   '' => '',
+   'change_language' => '中文',
    '' => '',
    '' => '',
    '' => '',

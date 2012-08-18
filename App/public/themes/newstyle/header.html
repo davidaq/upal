@@ -140,6 +140,7 @@
                 </dl>
           </div>
         </li>
+        <li><a href="{:U('home/index/switch_lan')}" class="fb14">{:L('change_language')}</a></li>
   		{:Addons::hook('header_topnav', array('menu' => & $header_topnav))}
   		<volist name="header_topnav" id="vo">
   		<li><a href="{$vo['url']}" class="fb14">{$vo['name']}</a></li>
