@@ -29,23 +29,24 @@
             <form action="{:U('home/Public/doAjaxLogin')}" method="post" name="ajaxLoginForm">
             	<div class="box_quike_login">
                 	<dl class="list_login">
-                    <div class="line_tips" id="login_tips" style="display:none;">请输入帐号和密码</div>
-                    <dd><label>帐号:</label><div class="options_login"><input name="email" type="text" class="text_Pop" title="登录帐号" style="width:188px"/></div></dd>
-                    <dd><label>密码:</label><div class="options_login"><input name="pwd" type="password" class="text_Pop" title="登录密码" style="width:188px"/></div></dd>
+                    <div class="line_tips" id="login_tips" style="display:none;">{:L('请输入帐号和密码')}</div>
+                    <dd><label style="width:60px">{:L('帐号')}:</label><div class="options_login"><input name="email" type="text" class="text_Pop" title="{:L('登录帐号')}" style="width:175px"/></div></dd>
+                    <dd><label style="width:60px">{:L('密码')}:</label><div class="options_login"><input name="pwd" type="password" class="text_Pop" title="{:L('登录密码')}" style="width:175px"/></div></dd>
 					<php> $login_verify_on = in_array('login',$ts['site']['site_verify']); </php>
 					<eq name="login_verify_on" value="1">
-					<dd><label>验证码:</label><div class="options_login"><input name="verify" type="text" class="text_Pop" title="验证码" style="width:100px"/> &nbsp; <a href="javascript:void(0);" onclick="changeverify()"><img src="__ROOT__/public/captcha.php" id="verifyimg" alt="换一张" class="alM" /></a></div></dd>
+					<dd><label style="width:60px">{:L('验证码')}:</label><div class="options_login"><input name="verify" type="text" class="text_Pop" title="{:L('验证码')}" style="width:95px"/> &nbsp; <a href="javascript:void(0);" onclick="changeverify()"><img src="__ROOT__/public/captcha.php" id="verifyimg" alt="{:L('换一张')}" class="alM" /></a></div></dd>
                     <else />
 					<input name="verify" type="hidden" class="text_Pop" value="" />
 					</eq>
                     </dd>
-                    <dd><label></label><div class="options_login"><span><input name="remember" type="checkbox" value="1" class="ck" />记住登录状态 | <a target="_blank" href="{:U('home/Public/sendPassword')}">忘记密码?</a></span></div></dd>
-                    <dd><label>&nbsp;</label><input onclick="javascript:ajaxLogin();" type="button" name="button" id="button" value="登录" class="btn_b" /></dd>
+                    <dd><label></label><div class="options_login"><span><input name="remember" type="checkbox" value="1" class="ck" />{:L('记住登录状态')} <br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="{:U('home/Public/sendPassword')}">{:L('忘记密码？')}</a></span></div></dd>
+                    <dd><label>&nbsp;</label><input onclick="javascript:ajaxLogin();" type="button" name="button" id="button" value="{:L('login')}" class="btn_b" /></dd>
                     </dl>
                 </div>
              </form>
                 <div class="box_quike_reg">
-                <span>还未开通?赶快注册一个!</span>
+                <span>{:L('还未开通?赶快注册一个!')}</span>
                 <a target="_blank" href="{:U('home/Public/register')}" class="btn_reg mt10"></a>
                 <div class="login_other_mode">{:Addons::hook('login_input_footer',array('regInfo'=>$regInfo))}</div>
                 </div>
@@ -62,14 +63,14 @@ function ajaxLogin(){
 	var verify = document.ajaxLoginForm.verify.value;
 	var remember = document.ajaxLoginForm.remember.checked;
 	if(email=='' || password==''){
-		$('#login_tips').html('帐号和密码不能为空！').show('fast');
+		$('#login_tips').html('{:L('帐号和密码不能为空！')}').show('fast');
 		return false;
 	}
 	$.post( '{:U('home/Public/doAjaxLogin')}',{email:email,password:password,remember:remember,verify:verify},function(txt){
 		json = eval('('+txt+')');
 		//登录成功
 		if(json.status==1){
-			$('#login_tips').html('登录成功，页面跳转中...').show('fast');
+			$('#login_tips').html('{:L('登录成功，页面跳转中...')}').show('fast');
 			window.location.reload();
 			//window.location.href='{:U('home/User/index')}';
 		}else{

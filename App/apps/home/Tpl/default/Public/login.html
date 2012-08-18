@@ -82,18 +82,18 @@ function  checkVerify(form){
     return false;
   }
   if(form.password.value == ''){
-    ui.error("密码不能为空！");
+    ui.error("{:L('password_notnull')}");
     return false;
   }
   if(form.verify.value == ''){
-    ui.error("验证码不能为空！");
+    ui.error("{:L('验证码不能为空！')}");
     return false;
   }
   $.post("{:U('home/Public/isVerifyAvailableLogin')}", {verify:verify}, function(msg) {
     if(msg == 'success') {
       form.submit();
     } else {
-      ui.error("验证码错误，请重新输入！");
+      ui.error("{:L('验证码错误，请重新输入')}");
     }
   });
   return false;

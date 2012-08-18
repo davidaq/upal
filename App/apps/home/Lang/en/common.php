@@ -249,7 +249,34 @@ return array (
 	'删除微薄'=>'Delete microblog',
 	'转发微薄'=>'Share microblog',
 	'微博被转发'=>'Microblog shared',
-	'删除微博评论'=>'Delete microblog comment'
-	
+	'删除微博评论'=>'Delete microblog comment',
+
+
+	'首页'=>'Home',
+	'广场'=>'Square',
+	'风云榜'=>'Hot',
+	'名人堂'=>'Hall of fame',
+	'群组'=>'Group',
+	'创建群组'=>'Create group',
+	'查看私信'=>'Check messages',
+	'查看@我'=>'Check @me',
+	'查看评论'=>'Check comments',
+	'系统通知'=>'System messages',
+	'发私信'=>'Send message',
+	'帐号'=>'Account',
+	'搜名字/标签/微博'=>'Search name / tag / post',
+	'小工具'=>'Utilities',
+	'后台管理'=>'Admin Panel',
+	'退出'=>'Logout',
+	'微博广场'=>'Square',
+	'马上登录'=>' Login!',
+	'欢迎来到'=>'Welcome to ',
+	'，赶紧注册吧！'=>', come and join us!',
+	'与大家交友，一起分享点点滴滴的快乐！'=>'Make friends, share every little joy with each other.',
+	'微博 '=>'Posts',
+	'我的首页'=>'My homepage',
+	'提到我的'=>'Considered me',
+	'我的评论'=>'My comments',
+	'管理'=>'Manage',
 );
 ?>
