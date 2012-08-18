@@ -172,6 +172,7 @@ return array (
    'photo_upload_failed' => 'Photo failed to upload, please try again',
    'upload_success' => 'Upload successful',
    'update_done' => 'Upadate done',
+   'update_fail' => 'Update failed',
    'other_app' => 'Other Applications',
    'display' => 'display',
    'from' => 'from',

@@ -564,9 +564,10 @@ function L($name=null,$value=null) {
     // 若不存在,直接返回全大写$name
     if (is_string($name) )
     {
+    		$_name=$name;
         $name = strtoupper($name);
         if (is_null($value)) {
-            return isset($_lang[$name]) ? $_lang[$name] : $name;
+            return isset($_lang[$name]) ? $_lang[$name] : $_name;
         }
         
         if(is_array($value)) {

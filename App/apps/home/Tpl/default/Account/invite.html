@@ -9,7 +9,7 @@
       <div class="mainbox_appC no_r">
         <div class="tab-menu">
         	<ul>
-            <li><a href="{:U('home/Account/invite')}" class="feed_item on"><span>邀请管理</span></a></li>
+            <li><a href="{:U('home/Account/invite')}" class="feed_item on"><span>{:L('邀请管理')}</span></a></li>
             </ul>
         </div>
     <!-- 切换标签 end  -->
@@ -18,12 +18,12 @@
 			<div class="data"><!-- 邀请码 begin  -->
                 
 				<php>if(!$list && !$receivecount){</php>
-				 暂无新的邀请链接
+				 {:L('暂无新的邀请链接')}
 				<php>}</php>
                  <php>if($receivecount){</php>
 				 <form act="{:U('home/Account/invite')}" method="post">
 				 	<div class="lh30">
-				 	<!-- <input type="submit" value="领取邀请码" class="btn_green_w121 hand" /> -->   您目前拥有<span class="cRed">{$receivecount}个</span>邀请码，每个邀请码可以邀请1个朋友
+				 	<!-- <input type="submit" value="领取邀请码" class="btn_green_w121 hand" /> -->   {:L('您目前拥有')}<span class="cRed">{$receivecount}{:L('个')}</span>{:L('邀请码，每个邀请码可以邀请1个朋友')}
 					</div>
 				</form>
 				<php>}</php>

@@ -17,13 +17,13 @@
 		  <div class="setItems" id="face">
             <div class="setFold setUnfold" rel="base">
 			<div style="float:left;margin-right:10px;border:1px solid #8098A8;height:30px;padding:1px;width:30px;"><img src="{$mid|getUserFace='s'}" width="30"></div>
-              <h2>上传头像</h2>
+              <h2>{:L('上传头像')}</h2>
              <div class="setStep">
 			  	<span class="txt1" id="avatarInfo">
 				<php>if( isSetAvatar($mid) ){</php>
-					已设置头像
+					{:L('已设置头像')}
 				<php>}else{</php>
-					未设置头像
+					{:L('未设置头像')}
 				<php>}</php>
 				</span>
               </div>
@@ -32,14 +32,14 @@
 				<div style="padding:10px 0;color:#666;"> 
 				<form enctype="multipart/form-data" method="post" id="uploadpic" name="upform" dotype="ajax" callback="uploadpic" target="upload_target" action="{:U('home/Account/avatar',array('t'=>'upload'))}">
 				<input type="file" name="Filedata" onchange="douploadpic()" id="Filedata"/> 
-				<span style="display:none;" id="loading_gif"><img src="../Public/js/avatar/loading.gif" align="absmiddle" />上传中，请稍侯......</span>  
+				<span style="display:none;" id="loading_gif"><img src="../Public/js/avatar/loading.gif" align="absmiddle" />{:L('uploading')}</span>  
 				</form>
 				</div> 
                 <div class="picSettings">
                 	<div id="photo" class="left" style="width:250px; height:250px; border-right:1px solid #E5E5E5">
 					</div>
                     <div class="left" style="width:200px; padding-left:15px;">
-                    	<div style="width:180px;  margin-bottom:20px; font-size:16px"><strong>头像预览</strong></div>
+                    	<div style="width:180px;  margin-bottom:20px; font-size:16px"><strong>{:L('avatar_preview')}</strong></div>
                         <div class="left" style=" width: 150px; height: 150px; border:1px solid #B4B5AF; overflow:hidden;"><img id="photo_big" src="{$mid|getUserFace='b'}" /></div>
 						
                     </div>
@@ -51,7 +51,7 @@
 				<input type="hidden" name="y2">
 				<input type="hidden" name="w">
 				<input type="hidden" name="h">
-				<div style="clear:left; padding-top:20px;"> <input type="submit" class="btn_b" value="保存" /> <input type="button" class="btn_w" value="取消" onclick="unSetFace()" /></div>
+				<div style="clear:left; padding-top:20px;"> <input type="submit" class="btn_b" value="{:L('save')}" /> <input type="button" class="btn_w" value="{:L('cancel')}" onclick="unSetFace()" /></div>
 				</form>
                     
                 </div>
@@ -117,9 +117,9 @@ function callback(fun,argum){
 
 function dosaveface(txt){
 	if (txt=='-1') {
-		ui.error('更新失败');
+		ui.error('{:L('update_done')}');
 	}else {
-		alert('更新成功');
+		alert('{:L('update_fail')}');
 		location.reload();
 	}
 }

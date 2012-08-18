@@ -1,4 +1,5 @@
 <?php
+trace(L('avatar_preview'));
 return array(
 	'nick_name_not_allowed'=>	'这个昵称禁止注册',
 	'end_time_over_now'=>	'结束时间不能超过当前时间',
@@ -83,5 +84,6 @@ return array(
 	'bind_fail'=>	'帐号绑定失败',
 	'confirm_cancel_bind'=>	'确认要取消绑定',
 	'action'=>	'动作',
+	'select_style'=>	'选择样式',
 );
 ?>

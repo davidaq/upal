@@ -172,6 +172,7 @@ return array (
    'photo_upload_failed' => '对不起, 图片未上传成功, 请再试一下',
    'upload_success' => '上传成功!',
    'update_done' => '更新完成',
+   'update_fail' => '更新失败',
    'other_app' => '其他应用',
    'display' => '察看',
    'from' => '来自',

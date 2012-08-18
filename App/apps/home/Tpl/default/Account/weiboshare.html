@@ -17,10 +17,10 @@
 			<div class="data"><!-- 邀请码 begin  -->
                   <div class="inviteMode mt10" style="background-color:#fff">
                     <dl>
-                    <dt>选择样式</dt>
+                    <dt>{:L('select_style')}</dt>
                     <dd class="lineD_btm">
-						<span class="rd ml10"><label><input name="share_button" onclick="setButton(this.value);" type="radio" checked="checked" value="mbutton.png" />大按钮</label></span>
-						<span class="rd ml10"><label><input name="share_button" onclick="setButton(this.value);" type="radio" value="sbutton.png" />小按钮</label></span>
+						<span class="rd ml10"><label><input name="share_button" onclick="setButton(this.value);" type="radio" checked="checked" value="mbutton.png" />{:L('大按钮')}</label></span>
+						<span class="rd ml10"><label><input name="share_button" onclick="setButton(this.value);" type="radio" value="sbutton.png" />{:L('小按钮')}</label></span>
 					</dd>
                     <dd class="btn_share_style">
 						<span id="share_button_test"></span>
@@ -28,10 +28,10 @@
                     </dl>
                   </div>
                   <div class="inviteMode mt10">
-                    <h5>将其他网页内容分享到{$ts['site']['site_name']}(复制下面代码,粘贴到其他网页源码中)</h5>
+                    <h5>{:L('将其他网页内容分享到')}{$ts['site']['site_name']}({:L('复制下面代码,粘贴到其他网页源码中')})</h5>
 					<textarea name="textarea2" id="share_button_value" cols="45" rows="5" onclick="select()"></textarea>
                     <div>
-                      <input type="submit" name="button" id="copy" value="复制代码" class="right" />
+                      <input type="submit" name="button" id="copy" value="{:L('复制代码')}" class="right" />
                     </div>
                   </div>
             </div>
@@ -52,7 +52,7 @@ $('#copy').click(function(){
   return false;
 });
 function setButton(icon){
-	var html = '<a title="分享到{$ts['site']['site_name']}" href="javascript:void(0)" onclick="var pic=\'\',st=\'\',su=\'\',d=document,w=window,e=encodeURIComponent,r=\'{:U('home/Widget/share','1=1')}\',l=d.location,t=e(d.title),h=e(l.href),u=r+\'&url=\'+h+\'&title=\'+t+\'&sourceTitle=\'+st+\'&sourceUrl=\'+su+\'&picUrl=\'+pic;if(!w.open(u)){l.href=u;}"><img src="{*__THEME__}/images/shareicon/'+icon+'" alt="分享到分享到{$ts['site']['site_name']}" /></a>';
+	var html = '<a title="{:L('分享到')}{$ts['site']['site_name']}" href="javascript:void(0)" onclick="var pic=\'\',st=\'\',su=\'\',d=document,w=window,e=encodeURIComponent,r=\'{:U('home/Widget/share','1=1')}\',l=d.location,t=e(d.title),h=e(l.href),u=r+\'&url=\'+h+\'&title=\'+t+\'&sourceTitle=\'+st+\'&sourceUrl=\'+su+\'&picUrl=\'+pic;if(!w.open(u)){l.href=u;}"><img src="{*__THEME__}/images/shareicon/'+icon+'" alt="{:L('分享到')}{$ts['site']['site_name']}" /></a>';
 	$('#share_button_value').text(html);
 	$('#share_button_test').html(html);
 }
