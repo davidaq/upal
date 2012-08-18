@@ -4,17 +4,17 @@
 <!--分享框-->
     <div class="wrap_share">
     	<div class="tit">
-			<session name="userInfo"><span class="right">你正在使用<em>{:getUserSpace($mid)}</em> 帐号</span></session>
-			<nosession name="userInfo"><span class="right"><a href="###" onclick="ui.quicklogin()">登录</a> | <a href="{:U('home/Public/register')}">注册</a></span></nosession>
+			<session name="userInfo"><span class="right">{:L('你正在使用')}<em>{:getUserSpace($mid)}</em> {:L('帐号')}</span></session>
+			<nosession name="userInfo"><span class="right"><a href="###" onclick="ui.quicklogin()">{:L('login')}</a> | <a href="{:U('home/Public/register')}">{:L('reg')}</a></span></nosession>
 			<div class="logo_min"><a href="#">&nbsp;</a></div>
 		</div>
         <div class="box_shareFile clearfix">
-            <div  style="padding-bottom:10px"><span class="right lh20" id="_widget_weibo_words_count" >还可以输入<span class="f18px"><strong>{$GLOBALS['ts']['site']['length']}</strong></span>个汉字</span><span class="f14px" style="color:#008800">分享到我的微博，顺便说点什么吧</span></div>
+            <div  style="padding-bottom:10px"><span class="right lh20" id="_widget_weibo_words_count" >{:L('还可以输入')}<span class="f18px"><strong>{$GLOBALS['ts']['site']['length']}</strong></span>{:L('个汉字')}</span><span class="f14px" style="color:#008800">{:L('分享到我的微博，顺便说点什么吧')}</span></div>
             <div class="block_send">
               <textarea id="_widget_weibo_content" name="content" class="Share_text">{$content}</textarea>
             </div>
 			<div class="mt10"> 
-                <a href="javascript:void(0)" target_set="_widget_weibo_content" onclick="ui.emotions(this);" class="a52"><img class="icon_add_face_d" src="__THEME__/images/zw_img.gif" />表情</a>
+                <a href="javascript:void(0)" target_set="_widget_weibo_content" onclick="ui.emotions(this);" class="a52"><img class="icon_add_face_d" src="__THEME__/images/zw_img.gif" />{:L('表情')}</a>
             </div>
             <php>if($type==1 && file_exists('./data/uploads/'.$type_data)) {</php>
             <div class="Share_Preview">
@@ -26,7 +26,7 @@
               <!-- <a href="#">获取分享按钮</a> -->
             </div>
         </div>
-        <div class="mt10 ml10"><a href="{:U('home/Account/weiboshare')}" target="_blank">获取分享代码</a></div>
+        <div class="mt10 ml10"><a href="{:U('home/Account/weiboshare')}" target="_blank">{:('获取分享代码')}</a></div>
   </div>
 <!--/分享框-->
 <script>
@@ -72,7 +72,7 @@ function _widget_weibo_do_post() {
 			//ui.success('分享成功');
 			setTimeout(function(){self.location=U('home/User/index');}, 1000);
 		}else {
-			ui.error('分享失败');
+			ui.error('{:L('分享失败')}');
 		}
 		$_widget_weibo_post_button.removeAttr('disabled');
 	});
@@ -85,13 +85,13 @@ function _widget_weibo_check_words_count(obj,num) {
 	
     if(len==0){
         post_button_obj.attr('disabled',true).attr('class','btn_b_disable');
-        word_count_obj.html('你还可以输入<span class="f18px"><strong>'+ (num-len) + '</strong></span>字');
+        word_count_obj.html('{:L('还可以输入')}<span class="f18px"><strong>'+ (num-len) + '</strong></span>{:L('字')}');
     }else if( len > num ){
         post_button_obj.attr('disabled',true).attr('class','btn_b_disable');
-        word_count_obj.css('color','red').html('已超出<span class="f18px"><strong>'+ (len-num) +'</strong></span>字');
+        word_count_obj.css('color','red').html('{:L('已超出')}<span class="f18px"><strong>'+ (len-num) +'</strong></span>{:L('字')}');
     }else if( len <= num ){
         post_button_obj.removeAttr('disabled').attr('class','btn_b right');
-        word_count_obj.css('color','#999').html('你还可以输入<span class="f18px"><strong>'+ (num-len) + '</strong></span>字');
+        word_count_obj.css('color','#999').html('{:L('还可以输入')}<span class="f18px"><strong>'+ (num-len) + '</strong></span>{:L('字')}');
     }
 }
 </script>

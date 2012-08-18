@@ -89,7 +89,7 @@ return array(
 	'分享代码'=>	'Share code',
 	'微博秀'=>	'Microblog show',
 	'评论箱'=>	'Comment box',
-	'批量关注'=>	'Batch follow',
+	'批量关注'=>	'Bulk follow',
 	'将其他网页内容分享到'=>	'Share contents from other web sites to ',
 	'复制下面代码,粘贴到其他网页源码中'=>	'Copy the code below, and paste to other website page',
 	'大按钮'=>	'Large Button',

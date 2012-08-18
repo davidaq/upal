@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>微博秀</title>
+<title>{:L('微博秀')}</title>
 <script type="text/javascript">
 	var _UID_   = '{$uid}';
 	var _MID_   = '{$mid}';
@@ -99,9 +99,9 @@
 		                    <dd>
 		                        <p class="wbLinkC"><a href="{:U('home/Space/detail',array('id'=>$weibo['weibo_id']))}" target="_blank" >{$weibo['ctime']}</a></p>
 		                        <span class="act wbLinkB">
-		                            <a href="{:U('home/Space/detail',array('id'=>$weibo['weibo_id']))}" target="_blank">转发({$weibo['transpond']})</a>
+		                            <a href="{:U('home/Space/detail',array('id'=>$weibo['weibo_id']))}" target="_blank">{:L('转发')}({$weibo['transpond']})</a>
 		                            <em>|</em>
-		                            <a href="{:U('home/Space/detail',array('id'=>$weibo['weibo_id']))}" target="_blank">评论({$weibo['comment']})</a>
+		                            <a href="{:U('home/Space/detail',array('id'=>$weibo['weibo_id']))}" target="_blank">{:L('评论')}({$weibo['comment']})</a>
 		                        </span>
 		                    </dd>
 	                    </dl>
@@ -119,8 +119,8 @@
         <!-- 微博粉丝列表 -->
         <div class="fans_list" id="fans_list_con">
             <h4>
-                <span>TA 的粉丝(<em><strong>{$follower.totalRows}</strong>人</em>)</span>
-                <a href="{:U('home/Space/follow', array('type'=>'follower','uid'=>$uid))}" class="all" target="_blank">全部&gt;&gt;</a>
+                <span>{:L('粉丝数')}(<em><strong>{$follower.totalRows}</strong></em>)</span>
+                <a href="{:U('home/Space/follow', array('type'=>'follower','uid'=>$uid))}" class="all" target="_blank">{:L('全部')}&gt;&gt;</a>
             </h4>
             <ul>
               <volist name="follower.data" id="f">

@@ -6,7 +6,7 @@
 <link href="__THEME__/layout.css?20110429" rel="stylesheet" type="text/css" />
 <link href="__THEME__/main.css?20110429" rel="stylesheet" type="text/css" />
 <link href="__PUBLIC__/js/tbox/box.css" rel="stylesheet" type="text/css" />
-<title>{$ts['site']['site_name']}管理后台</title>
+<title>{$ts['site']['site_name']}{:L('管理后台')}</title>
 <style type="text/css">
 <!--
 *{margin:0;padding:0}
@@ -83,17 +83,17 @@ function  checkVerify(form){
 	var verify = $('#verify').val();
 	if("undefined" != typeof(form.email) && form.email.value == ''){
 		// $('#copyverify').html("密码不能为空！");
-		ui.error("密码不能为空！");
+		ui.error("{:L('email_format_error')}");
 		return false;
 	}
 	if(form.password.value == ''){
 		// $('#copyverify').html("密码不能为空！");
-		ui.error("密码不能为空！");
+		ui.error("{:L('password_notnull')}");
 		return false;
 	}
 	if(form.verify.value == ''){
 		// $('#copyverify').html("验证码不能为空！");
-		ui.error("验证码不能为空！");
+		ui.error("{:L('验证码不能为空！')}");
 		return false;
 	}
 	$.post("{:U('home/Public/isVerifyAvailableLogin')}", {verify:verify}, function(msg) {
@@ -101,7 +101,7 @@ function  checkVerify(form){
 			form.submit();
 		} else {
 			// $('#copyverify').html("验证码错误！");
-			ui.error("验证码错误，请重新输入");
+			ui.error("{:L('验证码错误，请重新输入')}");
 		}
 	});
 	return false;
@@ -114,7 +114,7 @@ function code(){
 	if(verify != ''){
 		$.post("{:U('home/Public/code')}",{verify:verify},function(data){
 			if(data == 0){
-				ui.error("验证码错误，请重新输入");
+				ui.error("{:L('验证码错误，请重新输入')}");
 			}
 		})
 	}
@@ -129,19 +129,19 @@ function code(){
       <form action="{:U('home/Public/doAdminLogin')}" name="reg" method="post"  class="nf lf" onsubmit="return checkVerify(this)">
 			<dl>
 				<php>if($uid){</php>
-					<dd><label>名　字：</label>{$uid|getUserName}</dd>
+					<dd><label>{:L('名　字')}:</label><input class="txt" disabled value="{$uid|getUserName}" style="width:180px"></dd>
 				<php>}else{</php>
 					<dd>
-					   <label>帐　号：</label>
+					   <label>{:L('帐　号')}:</label>
 					   <div class="c1"><input class="txt" onfocus="this.className='txt2'" onblur="this.className='txt'" type="text" name="email" value="" style="width:180px"></div>
 				    </dd>
 				<php>}</php>
 				<dd>
-				    <label>密　码：</label>
+				    <label>{:L('密　码')}:</label>
 				    <div class="c1"><input class="txt" onfocus="this.className='txt2'" onblur="this.className='txt'" type="password" name="password" value="" style="width:180px"></div>
 				</dd>
 				<dd>
-				    <label>验证码：</label>
+				    <label>{:L('验证码')}:</label>
                     <div class="c1">
 				 <input id="verify" onblur="code()"  class="txt" onfocus="this.className='txt2'" name="verify" value="" style="width:58px">
 				    <a href="###" onclick="changeverify()"><img src="__ROOT__/public/captcha.php" id="verifyimg" alt="换一张" style="vertical-align:middle" /></a>&nbsp;&nbsp;<a href="###" onclick="changeverify()">换一换</a><!-- <div id='copyverify'></div> -->
@@ -154,8 +154,7 @@ function code(){
 			</dl>
 			</form>
 		</div>
-	</div>
-	<div class="footer_login">Copyright &copy; 2008-2012 <a href="http://www.zhishisoft.com/" target="_blank" >智士软件（北京）有限公司</a> 版权所有</div>
+	</div>	
 </div>
 <script language="JavaScript">
 function reloadcode(){

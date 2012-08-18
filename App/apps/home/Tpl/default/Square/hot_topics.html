@@ -30,12 +30,12 @@
           <php>$ti++;</php>
 	          <div class="lineS_btm lh30" style="height:30px; margin-top:20px">
 	            <p class="left OverH">
-	            	<span class="mr10"><strong>关于“<a href="{:U('home/user/topics',array('k'=>urlencode($reht['name'])))}">{$reht['name']|getShort=###,12}</a>”的微博({$reht['count']})</strong></span>&nbsp;&nbsp;&nbsp;
+	            	<span class="mr10"><strong>{:L('关于“')}<a href="{:U('home/user/topics',array('k'=>urlencode($reht['name'])))}">{$reht['name']|getShort=###,12}</a>{:L('”的微博')}({$reht['count']})</strong></span>&nbsp;&nbsp;&nbsp;
 	            	<gt name="mid" value="0">
 	            	<span class="ico_tuijian"></span>
 	            	<span id="follow_topic_{$ti}">
 	            	  <if condition="$reht['follow'] eq 'havefollow'">
-	            	    <a href="javascript:void(0)" onclick="unfollow_topic('{$reht['name']|str_replace='"','&quot;',###|addslashes}','{$reht['topic_id']}','#follow_topic_{$ti}')">已关注该话题</a>
+	            	    <a href="javascript:void(0)" onclick="unfollow_topic('{$reht['name']|str_replace='"','&quot;',###|addslashes}','{$reht['topic_id']}','#follow_topic_{$ti}')">{:L('已关注该话题')}</a>
 	            	  <else />
 	            	    <a href="javascript:void(0)" onclick="follow_topic('{$reht['name']|str_replace='"','&quot;',###|addslashes}','#follow_topic_{$ti}')">关注该话题</a>
 	            	  </if>

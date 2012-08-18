@@ -1,7 +1,7 @@
     <!--发送私信弹窗-->
     <dl class="pop_send_massage">
         <dd>
-            <label>收信人：</label>
+            <label>{:L('收信人')}:</label>
             <div class="pop_form_r">
                 <div style="width:283px;">{:W('SelectFriends',array('uid'=>$touid))}</div>
                  <!--<php>if($touid){</php>
@@ -14,7 +14,7 @@
             <div class="c"></div>
         </dd>
         <dd>
-            <label>内容：</label>
+            <label>{:L('内容')}:</label>
             <div class="pop_form_r">
             <textarea style="width:280px; height:80px;" id="message_content" onblur="this.className='text'" onfocus="this.className='text2'" class="text"></textarea>
             </div>
@@ -24,7 +24,7 @@
         &nbsp;
         <!--<a href="javascript:void(0)" target_set="message_content" onclick="ui.emotions(this)" class="a52"><img class="icon_add_face_d" src="__THEME__/images/zw_img.gif" />表情</a>-->
         </label>
-    	<div class="pop_form_r"><input type="button" value="发送" class="btn_b" onclick="doPostMessage();" id="postbut"/></div>
+    	<div class="pop_form_r"><input type="button" value="{:L('发送')}" class="btn_b" onclick="doPostMessage();" id="postbut"/></div>
         </dd>
     </dl>
     <!--发送私信弹窗-->
@@ -32,7 +32,7 @@
 function butstate(type){
 	if( type == 'open' ){
 		$('#postbut').attr('disabled','');
-		$('#postbut').val('发送');
+		$('#postbut').val('{:L('发送')}');
 	}
 	if( type == 'close' ){
 		$('#postbut').attr('disabled','true');
@@ -45,35 +45,35 @@ function butstate(type){
         var message_title   = $('#message_title').val();
         var message_content = $('#message_content').val();
         if (message_to == "") {
-        	alert("请选择好友");
+        	alert("{:L('请选择好友')}");
         	butstate('open');
         	return false;
         }
         if (message_title == "") {
-        	alert("请填写标题");
+        	alert("{:L('请填写标题')}");
         	butstate('open');
         	return false;
         }
         if (message_content == "") {
-        	alert("请填写内容");
+        	alert("{:L('请填写内容')}");
         	butstate('open');
         	return false;
         }
         $.post("{:U('home/Message/doPost')}", {to:message_to, title:message_title, content:message_content}, function(res){
         	if (res == '1') {
-                ui.success('发送成功');
+                ui.success('{:L('发送成功')}');
                 if ('msglist' == $CONFIG.location) {
                 	setTimeout('location.reload()', 400);
                 }
                 ui.box.close();
             }else if(res == '-1') {
-            	alert('发信频率太快啦, 请10秒后重试');
+            	alert('{:L('发信频率太快啦, 请10秒后重试')}');
             	butstate('open');
             }else if(res == '-2') {
-            	alert('最多发送给10个人');
+            	alert('{:L('最多发送给10个人')}');
             	butstate('open');
             }else {
-                ui.error('发送失败');
+                ui.error('{:L('发送失败')}');
                 butstate('open');
             }
         });

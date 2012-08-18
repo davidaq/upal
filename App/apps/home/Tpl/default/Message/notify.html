@@ -7,7 +7,7 @@
     <div class="mainbox">
       <div class="mainbox_C no_r boxMessage">
         <div class="tab-menu">
-        	<a href="javascript:void(0)" onclick="ui.sendmessage();" class="btn_b right">发私信</a>
+        	<a href="javascript:void(0)" onclick="ui.sendmessage();" class="btn_b right">{:L('发私信')}</a>
 			<include file="_tab" />
         </div>
         <div style=" overflow: hidden; width: 100%;">
@@ -19,7 +19,7 @@
                 <h3>
                   <div class="right alR" style="line-height:20px">
                     <div class="left"><em>{$vo.ctime|friendlyDate}</em></div>
-                    <div class="left"><a style="margin-top: 2px" class="del" href="javascript:deleteNotify({$vo.notify_id})" title="删除"></a></div>
+                    <div class="left"><a style="margin-top: 2px" class="del" href="javascript:deleteNotify({$vo.notify_id})" title="{:L('delete')}"></a></div>
                   </div>
                   <span class="lh20 f12px">{$vo.title}</span></h3>
                 <div class="feed_c_btm">
@@ -37,7 +37,7 @@
                         <input type="hidden" id="replyid_450" name="reply_comment_id" value="450">    	
                         <a target_set="comment_450" onclick="ui.emotions(this)" href="javascript:void(0)" class="faceicon1"></a>
                         <textarea id="comment_450" style="overflow: hidden; height: 15px;" rows="1" name="comment_content" class="left text"></textarea>
-                        <input type="submit" style="" value="确定" class="N_but">
+                        <input type="submit" style="" value="{:L('确定')}" class="N_but">
                     </form>
                     </div>
                     <div class="c"></div>
@@ -67,7 +67,7 @@
 					$(this).remove();
  				}); 
 			}else{
-				alert('删除失败');
+				alert('{:L('delete_fail')}');
 			}
 		});
 	}

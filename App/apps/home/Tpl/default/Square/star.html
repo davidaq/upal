@@ -66,7 +66,7 @@ $(document).ready(function(){
         <div class="squareStar">
         <div class="type_square">
         <if condition="$user_list">
-        分类：
+        {:L('分类')}:
           <php>$j = 0;</php>
           <volist name="user_list" id="g">
             <php>++$j;</php>
@@ -87,14 +87,14 @@ $(document).ready(function(){
                 <gt name="mid" value="0">
                   <span class="right" style="position:relative;padding:0 0 0 20px">
                       <php>if(count($g['user_list'])>$showCount){</php>
-                    <a class="changes" href="javascript:void(0)" star_target="list_{$g.star_group_id}">换一换</a>
+                    <a class="changes" href="javascript:void(0)" star_target="list_{$g.star_group_id}">{:L('换一换')}</a>
                       <php>}</php>
                     <label>
                     <input type="checkbox" class="checkall checkbox1" cid="{$g.star_group_id}" value="b{$g.star_group_id}">
-                    全选
+                    {:L('全选')}
                     </label>
-                    <!--<input type="button" value="关注已选" class="btn_b" onclick="dofollow('#star_box_{$g.star_group_id}')" />-->
-                     | <a href="javascript:void(0)" onclick="dofollow('#star_box_{$g.star_group_id}')">关注已选</a>
+                    <!--<input type="button" value="{:L('关注已选')}" class="btn_b" onclick="dofollow('#star_box_{$g.star_group_id}')" />-->
+                     | <a href="javascript:void(0)" onclick="dofollow('#star_box_{$g.star_group_id}')">{:L('关注已选')}</a>
                     </span>
                   </gt>
                 <strong class="font_stroke">{$g.title}</strong>

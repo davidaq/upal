@@ -4,17 +4,17 @@
             <div class="arr_left"></div>
             <div class="feed_massage">
                 <php>if(1 == $type){</php>
-         	      <a href="javascript:void(0);" onclick="ui.confirm(this,'确定要删除该条对话?')" callback="delSession({$vo['message_id']})" class="hover ico_close right"></a>
+         	      <a href="javascript:void(0);" onclick="ui.confirm(this,'{:L('确定要删除该条对话?')}')" callback="delSession({$vo['message_id']})" class="hover ico_close right"></a>
          	    <php>}</php>
                 <div class="msgCnt" style="padding-bottom:0;">
                     <!--文涛修改-->
                     <if condition="$vo['from_uid'] eq $mid">
-                    	我:
+                    	{:L('我')}:
                     <else />
                     	<space uid="vo.from_uid" class="fn" target="_blank">{uname}:</space>
                     </if>
                     <span>{$vo.content|htmlspecialchars_decode|formatComment=###,false|formatUrl}</span>
-                    <div class="line_massage"><a href="javascript:;" onclick="reply_message('{$vo.from_uid|getUserName}')" class="right">回复</a><em class="date">{$vo.mtime|date="Y-m-d H:i:s",###}</em></div>
+                    <div class="line_massage"><a href="javascript:;" onclick="reply_message('{$vo.from_uid|getUserName}')" class="right">{:L('回复')}</a><em class="date">{$vo.mtime|date="Y-m-d H:i:s",###}</em></div>
                 </div>
             </div>
            </li>

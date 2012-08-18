@@ -78,7 +78,7 @@ $(document).ready(function(){
     
     <!--粉丝榜-->
     <div class="right_box lineS_top">
-      <h2>粉丝榜</h2>
+      <h2>{:L('粉丝榜')}</h2>
       <ul class="fans_toplist">
         <volist id="vo" name="topfollow">
           <php>if($key>2){ $class='no'; }else{ $class='no top'.($key+1); }</php>
@@ -87,7 +87,7 @@ $(document).ready(function(){
             <a href="{:U('home/space/index',array('uid'=>$vo['uid']))}"><img src="{$vo.uid|getUserFace}" class="userFace"/></a>
             <div>
                 <space uid="vo.uid" class="OverH nam ">{uname}</space>
-                <p><span>{$vo.count}</span>粉丝数</span>
+                <p><span>{$vo.count}</span>{:L('粉丝数')}</span>
             </div>
           </li>
         </volist>
@@ -108,7 +108,7 @@ $(document).ready(function(){
         <php>if($aboutkey){</php>
 		<div class="Hotspot_box">
 			<gt name="mid" value="0">
-			<div class="hotspot_tit"><span><a href="javascript:void(0)" onclick="weibo.quickpublish('#{$aboutkey|str_replace='"','&quot;',###|addslashes}# ')">我也说几句>></a></span><strong>今日看点:</strong>大家一起聊“<a href="{:U('home/User/topics',array('k'=>$aboutkey))}">{$aboutkey}</a>”吧</div>
+			<div class="hotspot_tit"><span><a href="javascript:void(0)" onclick="weibo.quickpublish('#{$aboutkey|str_replace='"','&quot;',###|addslashes}# ')">{:L('我也说几句')}>></a></span><strong>{:L('今日看点')}:</strong>{:L('大家一起聊“')}<a href="{:U('home/User/topics',array('k'=>$aboutkey))}">{$aboutkey}</a>{:L('”吧')}</div>
 	        </gt>
 			<div class="topic">
 			<div id="topic_user_list">
@@ -123,7 +123,7 @@ $(document).ready(function(){
 	                <h3>
 	                  <space uid="vo.uid">{uname}</space>
 	                </h3>
-	                <p>{$vo.userinfo.location} <a href="{:U('home/Space/follow',array('uid'=>$vo['uid'],'type'=>'follower'))}">粉丝{$vo.follower|intval}人</a></p>
+	                <p>{$vo.userinfo.location} <a href="{:U('home/Space/follow',array('uid'=>$vo['uid'],'type'=>'follower'))}">{:L('粉丝数')}:{$vo.follower|intval}</a></p>
 	                <p style=" height:35px; overflow:hidden; display:block; line-height: 18px;"><a href="{:U('home/space/detail',array('id'=>$vo['weibo_id']))}">{$vo.content|getShort=###,66}</a> ({$vo.ctime|friendlyDate})</p>
 	              </div>
               </div>
@@ -135,10 +135,10 @@ $(document).ready(function(){
         <div class="laSOSO">
          <div class="sosobox">
             <p class="sosuo"><input type="text" id="s_keyword" style="width:300px; margin:0px; " class="text mr5">
-            <input type="button" onclick="s_search('topic')" value="搜微博" class="btn_b">
-            <input type="button" onclick="s_search('user')" value="搜人" class="btn_b"></p>
+            <input type="button" onclick="s_search('topic')" value="{:L('搜微博')}" class="btn_b">
+            <input type="button" onclick="s_search('user')" value="{:L('搜人')}" class="btn_b"></p>
             <p class="reci">
-            <span class="cGray2">热词：</span>
+            <span class="cGray2">{:L('热词')}:</span>
             <volist name="hotkeys" id="hk">
               <a href="{:U('home/user/search',array('k'=>urlencode($hk['name'])))}">{$hk.name|getShort=###,10}</a>&nbsp;&nbsp;
             </volist></p>
@@ -148,7 +148,7 @@ $(document).ready(function(){
         <if condition="$hotUser">
           <div class="tab-menu">
             <ul>
-              <li><a class="feed_item on"  href="javascript:void(0)" ><span>活跃用户</span></a></li>
+              <li><a class="feed_item on"  href="javascript:void(0)" ><span>{:L('活跃用户')}</span></a></li>
             </ul>
           </div>
           	<div id="hot_user_list">
@@ -177,8 +177,8 @@ $(document).ready(function(){
 	    <div class="mod-star clearfix">
           <div class="tab-menu">
               <ul>
-                  <span class="right"><a href="{:U('home/Square/star')}" target="_blank">更多&raquo;</a></span>
-                  <li><a class="feed_item on"  href="javascript:void(0)" ><span>名人推荐</span></a></li>
+                  <span class="right"><a href="{:U('home/Square/star')}" target="_blank">{:L('more')}&raquo;</a></span>
+                  <li><a class="feed_item on"  href="javascript:void(0)" ><span>{:L('名人推荐')}</span></a></li>
               </ul>
           </div>
           <div id="star_list" class="star_list"><img src="__THEME__/images/icon_waiting.gif" width="20" style="margin:33px 50% 0 50%;" /></div>
