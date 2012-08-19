@@ -21,6 +21,6 @@ return array(
 	'换一换'=>	'Make a change',
 	'全选'=>	'Select all',
 	'关注已选'=>	'Follow selected',
-	
+	'有帐号？'=>'Have an account?',
 );
 ?>
