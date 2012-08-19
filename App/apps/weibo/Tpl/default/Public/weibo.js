@@ -1,3 +1,4 @@
+
 function callback(fun,argum){
 	fun(argum);
 }
@@ -43,10 +44,10 @@ $(document).ready(function(){
 		var callbackfun = _this.attr('callback');
 		var _comment_content = _this.find("textarea[name='comment_content']");
 		if( _comment_content.val()=='' ){
-			ui.error("{L('内容不能为空')}");
+			ui.error("{:L('内容不能为空')}");
 			return false;
 		}
-		_this.find("input[type='submit']").val( "{L(:('评论中...'))}").attr('disabled','true') ;
+		_this.find("input[type='submit']").val( "{:L(:('评论中...'))}").attr('disabled','true') ;
 		var options = {
 		    success: function(txt) {
 				txt = eval('('+txt+')');

@@ -242,14 +242,15 @@ return array (
 	'参与投票'=>'Participate a poll',
 	'投票被参与'=>'Created poll participated by others',
 	'删除投票'=>'Delete vote',
-	'发布微薄'=>'Write a microblog post',
+	'发布微博'=>'Write a microblog post',
 	'回复微博'=>'Reply microblog',
 	'微博被回复'=>'Microblog replied',
-	'分享到微薄'=>'Shared to microblog',
-	'删除微薄'=>'Delete microblog',
-	'转发微薄'=>'Share microblog',
+	'分享到微博'=>'Shared to microblog',
+	'删除微博'=>'Delete microblog',
+	'转发微博'=>'Share microblog',
 	'微博被转发'=>'Microblog shared',
 	'删除微博评论'=>'Delete microblog comment',
+	'转发到群聊'=>'Share to group',
 
 
 	'首页'=>'Home',
@@ -275,8 +276,9 @@ return array (
 	'与大家交友，一起分享点点滴滴的快乐！'=>'Make friends, share every little joy with each other.',
 	'微博 '=>'Posts',
 	'我的首页'=>'My homepage',
-	'提到我的'=>'Considered me',
+	'提到我的'=>'About me',
 	'我的评论'=>'My comments',
 	'管理'=>'Manage',
+	'转发'=>'Transmit',
 );
 ?>

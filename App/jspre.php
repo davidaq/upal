@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	$lanSet=(isset($_SESSION['language'])&&$_SESSION['language']='en')?'en':'zh_cn';
+	$lanSet=(isset($_SESSION['language'])&&$_SESSION['language']=='en')?'en':'zh_cn';
 	$f=$_SERVER['REQUEST_URI'];	
 	$f=strstr($f,'jspre.php?');
 	$f=substr($f,strlen('jspre.php?'));

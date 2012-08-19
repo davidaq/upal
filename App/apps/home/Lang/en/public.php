@@ -66,5 +66,13 @@ return array(
 	'所在地'=>'Address',
 	'男'=>'Male',
 	'女'=>'Female',
+	'用户未激活'=>'User not activated',
+	'该用户尚未激活，请更换帐号或激活帐号！'=>'This account is not activated, please try another account or activate this one.',
+	'昵称不能是纯数字昵称'=>'Nick name must not be only numbers',
+	'这个昵称禁止注册'=>'Nick name reserved',
+	'昵称含有敏感词'=>'Nick name contains restricted words',
+	'风格模板'=>'Style & templates',
+	'插件'=>'Plugins',
+	
 );
 ?>
