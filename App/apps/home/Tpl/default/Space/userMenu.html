@@ -3,8 +3,8 @@
                 <php>if($mid!=$uid && $mid!=0){</php>
                     <php>if($isBlackList){</php>
                      <dd style="width:90%; text-align:center; padding-top:20px" >
-                     {:L('blacklist_inserted')} <a href="javascript:void(0)" onclick="ui.confirm(this,'{:L('confirm_erase_blacklist')}')" callback="setBlacklist({$uid},'del')">解除</a></dd>
-                    <php>}{:L('erase_blacklist')}{</php>
+                     {:L('blacklist_inserted')} <a href="javascript:void(0)" onclick="ui.confirm(this,'{:L('confirm_erase_blacklist')}')" callback="setBlacklist({$uid},'del')">{:L('erase_blacklist')}</a></dd>
+                    <php>}else{</php>
                     <dd style="width:90%; text-align:center; padding-top:20px" id="follow_state">
                     <script>document.write(followState('{$followstate}'))</script>
                     </dd>
@@ -32,7 +32,7 @@
             <dd class="alR pb10 cGray2 right">
                 <a href="{:U('home/space/profile',array('uid'=>$uid))}">{:L('detail')}</a>
                 <php>if ($mid > 0 && !$privacy['blacklist']) {</php>
-                    <i class="vline">|</i><a href="javascript:void(0)" onclick="weibo.quickpublish('{:argL('take_look_weibo', @{$uid|getUserName})}')">${:L('recommend_to_friend')}</a>
+                    <i class="vline">|</i><a href="javascript:void(0)" onclick="weibo.quickpublish('{:argL('take_look_weibo', $uid|getUserName)}')">{:L('recommend_to_friend')}</a>
                 <php>}</php>
                 
                 <php>if ($mid > 0 && $privacy['message'] && $mid != $uid) {</php>

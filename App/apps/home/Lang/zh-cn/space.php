@@ -28,7 +28,7 @@ return array (
    'confirm_insert_blacklist' => '您确定要将此用户加入黑名单?',
    'erase_blacklist' => '解除',
    'detail' => '详细资料',
-   'take_look_weibo' => '快来看看 % 的微博',
+   'take_look_weibo' => '快来看看 @% 的微博',
    'send_message' => '发私信',
    'recommend_to_friend' => '推荐给朋友',
    'set_group' => '设置分组',
