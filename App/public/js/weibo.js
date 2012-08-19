@@ -1,3 +1,4 @@
+//@language=home/widget
 $.extend({
     weibo:function(setting){
         var defaultOpt = {
@@ -105,7 +106,7 @@ $.extend({
                               if(txt){
                                   after_publish(txt);
                               }else{
-                                  alert( '发布失败' );
+                                  alert( '{:L('发布失败')}' );
                               }
                             }
                         };      
@@ -120,7 +121,7 @@ $.extend({
                             $("#list_li_"+weibo_id).slideUp('fast');
                             weibo.downCount('weibo');
                         }else{
-                            alert('删除失败');
+                            alert('{:L('del_error')}');
                         }
                    },{id:weibo_id})
                 },
@@ -160,34 +161,34 @@ $.extend({
                 //收藏
                 favorite:function(id,o){
                     if(_MID_ <= 0){
-                        ui.error('请登录后再操作'); return ;
+                        ui.error('{:L('请登录后再操作')}'); return ;
                     }
                     operateFactory.create('favorite',function(txt){
                         if( txt ){
                             $(o).wrap('<span id=content_'+id+'></span>');
-                            $('#content_'+id).html('已收藏');
+                            $('#content_'+id).html('');
                         }else{
-                            ui.error('收藏失败');
+                            ui.error('{:L('收藏失败')}');
                         }
                     },{id:id});
                 },
                 //取消收藏
                 unFavorite:function(id,o){
                     if(_MID_ <= 0){
-                        ui.error('请登录后再操作'); return ;
+                        ui.error('{:L('请登录后再操作')}'); return ;
                     }
                     operateFactory.create('unFavorite',function(txt){
                          if( txt ){
                             $('#list_li_'+id).slideUp('slow');
                         }else{
-                            ui.error('取消失败');
+                            ui.error('{:L('取消失败')}');
                         }
                     },{id:id});
                 },
                 // 分享微博
                 share:function(id){
                     if(_MID_ <= 0){
-                        ui.error('请登录后再操作'); return ;
+                        ui.error('{:L('请登录后再操作')}'); return ;
                     }
                     var upcontent = ( upcontent == undefined ) ? 1 : 0;
                     operateFactory.loadbox('share',{id:id,upcontent:upcontent});
@@ -200,28 +201,28 @@ $.extend({
                 //关注话题
                 followTopic:function(name){
                     if(_MID_ <= 0){
-                        ui.error('请登录后再操作'); return ;
+                        ui.error('{:L('请登录后再操作')}'); return ;
                     }
                     operateFactory.create('followTopic',function(txt){
                         txt = eval( '(' + txt + ')' );
                         if(txt.code==12){
-                            $('#followTopic').html('<a href="javascript:void(0)" onclick="weibo.unfollowTopic(\''+txt.topicId+'\',\''+name+'\')">已关注该话题</a>');
+                            $('#followTopic').html('<a href="javascript:void(0)" onclick="weibo.unfollowTopic(\''+txt.topicId+'\',\''+name+'\')">{:L('followed_topic')}</a>');
                         }
                     },{name:name});
                 },
                 unfollowTopic:function(id,name){
                     operateFactory.create('unfollowTopic',function(txt){
                         if(txt=='01'){
-                            $('#followTopic').html('<a href="javascript:void(0)" onclick="weibo.followTopic(\''+name+'\')">关注该话题</a>');
+                            $('#followTopic').html('<a href="javascript:void(0)" onclick="weibo.followTopic(\''+name+'\')">{:L('follow_topic')}</a>');
                         }
                     },{topicId:id});
                 },
                 quickpublish:function(text){
                     if(_MID_ <= 0){
-                        ui.error('请登录后再操作'); return ;
+                        ui.error('{:L('请登录后再操作')}'); return ;
                     }
                     operateFactory.create('quickpublish',function(txt){
-                       ui.box.show(txt,{title:'说几句',closeable:true});
+                       ui.box.show(txt,{title:'{:L('说几句')}',closeable:true});
                     },{text:text});
                 },
                 publish_type_box:function(content,obj){
@@ -318,7 +319,7 @@ $.extend({
                 //转发
                 transpond:{
                     url:"weibo/operate/transpond",
-                    other:{title:"转发",closeable:true}
+                    other:{title:"{:L('转发')}",closeable:true}
                 },
                 //关注话题
                 followTopic:{
@@ -352,13 +353,13 @@ $.extend({
                 share:{
                     url:"group/WeiboOperate/shareWeibo",
                     param:{gid:'gid'},
-                    other:{title:"分享到我的微博",closeable:true}
+                    other:{title:"{:L('分享到微博')}",closeable:true}
                 },
                 //转发
                 transpond:{
                     url:"group/WeiboOperate/transpond",
                     param:{gid:'gid'},
-                    other:{title:"转发到群聊",closeable:true}
+                    other:{title:"{:L('转发到群聊')}",closeable:true}
                 },
                 loadMore:{
                     url:U('group/WeiboIndex/loadmore'),
@@ -478,24 +479,24 @@ $.extend({
             var len = getLength(contentObj.val(), true);
             var wordNumObj = numObj;
             if(len==0){
-                wordNumObj.css('color','').html('你还可以输入<strong id="strconunt">'+ (num-len) + '</strong>字');
+                wordNumObj.css('color','').html('{:L('还可以输入')}<strong id="strconunt">'+ (num-len) + '</strong>{:L('字')}');
                 textareaStatus('off',buttonObj);
             }else if( len > num ){
-                wordNumObj.css('color','red').html('已超出<strong id="strconunt">'+ (len-num) +'</strong>字');
+                wordNumObj.css('color','red').html('{:L('已超出')}<strong id="strconunt">'+ (len-num) +'</strong>{:L('字')}');
                 textareaStatus('off',buttonObj);
             }else if( len <= num ){
-                wordNumObj.css('color','').html('你还可以输入<strong id="strconunt">'+ (num-len) + '</strong>字');
+                wordNumObj.css('color','').html('{:L('还可以输入')}<strong id="strconunt">'+ (num-len) + '</strong>{:L('字')}');
                 textareaStatus('on',buttonObj);
             }
         },
         //发布前的检测
         before_publish = function(obj){
             if(_MID_ <= 0){
-                ui.error('请登录后再操作'); return ;
+                ui.error('{:L('请登录后再操作')}'); return ;
             }
             obj = obj==undefined?$(opt.publishForm.textarea):obj;
             if( $.trim( obj.val() ) == '' ){
-                ui.error('内容不能为空');     
+                ui.error('{:L('内容不能为空')}');     
                 return false;
             }
             return true;
@@ -515,7 +516,7 @@ $.extend({
                 for(var one in sync){
                     sync[one].attr('checked',true);
                 }
-                ui.success('微博发布成功');
+                ui.success('{:L('微博发布成功')}');
         },
         upCount=function(type){
             if(type=='weibo'){
@@ -570,11 +571,11 @@ $.extend({
                        success:function(txt){
                            if(txt){
                                if(txt==0){
-                                   ui.success('您发布的微博含有敏感词，请等待审核！');
+                                   ui.success('{:L('您发布的微博含有敏感词，请等待审核！')}');
                                }else if(txt=='submitlocked'){
-								   ui.error('亲，您的操作太频繁了，请稍后再发布！');
+								   ui.error('{:L('亲，您的操作太频繁了，请稍后再发布！')}');
 							   }else if(txt=='duplicatecontent'){
-                                   ui.error('亲，请不要连续发布相同的内容哦！');
+                                   ui.error('{:L('亲，请不要连续发布相同的内容哦！')}');
                                }else{
                                    callback.enter(formObj,buttonObj,contentObj,numObj,txt);
                                    upCount('weibo');
@@ -627,7 +628,7 @@ $.extend({
                 },
                 lodeMore:function(){
                      $(opt.loadMoreDiv).click(function() {
-                        $(this).html('加载中...');
+                        $(this).html('{:L('加载中...')}');
                         var self = this;
                         loadMoreCount = typeof(loadMoreCount) == 'undefined' ? 0 : loadMoreCount;
                         operateFactory.create("loadMore",function(txt){
@@ -646,10 +647,10 @@ $.extend({
                             opt.sinceId = typeof(sinceId) == 'undefined' ? tempSinceId : (tempSinceId || sinceId) ;
                             //判断没有更多数据时.不显示更多按钮
                             if(txt.indexOf('<HASNEW>')==-1){
-                                $(self).parent().html('<span class="morefoot">没有更多数据了</span>');
+                                $(self).parent().html('<span class="morefoot">{:L('没有更多数据了')}</span>');
                             }else{
                                 //if(loadMoreCount<5){
-                                    $(self).html('<span class="ico_morefoot"></span>更多');
+                                    $(self).html('<span class="ico_morefoot"></span>{:L('more')}');
                                 //}else{
                                     //显示分页
                                 //  $(self).html('这里是分页');
@@ -673,7 +674,7 @@ $.extend({
                              operateFactory.create("comment",function(txt){
                                  if(_MID_ <= 0){
                                     $comment_list.html("") ;
-                                    ui.error('请登录后再操作'); return ;
+                                    ui.error('{:L('请登录后再操作')}'); return ;
                                  }
                                  $comment_list.html( txt ) ;
                              },{id:id});
@@ -689,37 +690,37 @@ $.extend({
                         var _this = $(this);
                         var _comment_content = _this.find("textarea[name='comment_content']");
                         if( _comment_content.val()=='' ){
-                            ui.error('内容不能为空');
+                            ui.error('{:L('内容不能为空')}');
                             return false;
                         }
                         var _button = _this.find("input[type='submit']");
-                        _button.val( '评论中...').attr('disabled','true') ;
+                        _button.val( '{:L('评论中')}...').attr('disabled','true') ;
                         var options = {
                             success: function(txt) {
 								if(txt=='submitlocked'){
-									_this.find("input[type='submit']").val( '确定');
+									_this.find("input[type='submit']").val( '{:L('确定')}');
 									_this.find("input[type='submit']").removeAttr('disabled') ;
-									ui.error('您的操作太频繁了，请稍后再发布！');
+									ui.error('{:L('亲，您的操作太频繁了，请稍后再发布！')}');
                                     return false;
 								}else if(txt=='duplicatecontent'){
-                                    _this.find("input[type='submit']").val( '确定');
+                                    _this.find("input[type='submit']").val( '{:L('确定')}');
                                     _this.find("input[type='submit']").removeAttr('disabled') ;
-                                    ui.error('亲，请不要连续发布相同的内容哦！');
+                                    ui.error('{:L('亲，请不要连续发布相同的内容哦！')}');
                                     return false;
                                 }else if(txt=='emptycontent'){
-                                    _this.find("input[type='submit']").val( '确定');
+                                    _this.find("input[type='submit']").val( '{:L('确定')}');
                                     _this.find("input[type='submit']").removeAttr('disabled') ;
-                                    ui.error('评论内容不能为空！');
+                                    ui.error('{:L('内容不能为空')}');
                                     return false;
                                 }
                                 if(_this.attr('reload')=="true"){
-                                    ui.success('回复成功');
+                                    ui.success('{:L('回复成功')}');
                                     _button.removeAttr('disabled');
                                     setInterval("location.reload()",1000);
                                     return false;
                                 }
                                 txt = eval('('+txt+')');
-                                 _this.find("input[type='submit']").val( '确定');
+                                 _this.find("input[type='submit']").val( '{:L('确定')}');
                                  _this.find("input[type='submit']").removeAttr('disabled') ;
                                  _comment_content.val('');
                                  _comment_content.css('height','');
@@ -727,7 +728,7 @@ $.extend({
                                 if(txt.status == undefined){
                                     $("#comment_list_before_"+txt.data['weibo_id']).after( txt.html ); 
                                     //更新评论数
-                                    $("a[rel='comment'][minid='"+txt.data['weibo_id']+"']").html("评论("+txt.data['comment']+")");
+                                    $("a[rel='comment'][minid='"+txt.data['weibo_id']+"']").html("{:L('comment')}("+txt.data['comment']+")");
                                 }else{
                                     ui.error(txt.info);
                                 }
@@ -773,9 +774,9 @@ $.extend({
         
         var initHtml=function(parent,emtions,topic){
             var emotionsHtml = "<a href=\"javascript:void(0)\" target_set=\"content_publish\" onclick=\"ui.emotions(this)\" class=\"a52\">"
-                + "<img class=\"icon_add_face_d\" src=\""+_THEME_+"/images/zw_img.gif\" />表情</a> ";
+                + "<img class=\"icon_add_face_d\" src=\""+_THEME_+"/images/zw_img.gif\" />{:L('表情')}</a> ";
             var topicHtml    = "<a href=\"javascript:void(0)\" onclick=\"weibo.addtheme()\" class=\"a52\">"
-                + "<img class=\"icon_add_topic_d\" src=\""+_THEME_+"/images/zw_img.gif\" />话题</a> ";
+                + "<img class=\"icon_add_topic_d\" src=\""+_THEME_+"/images/zw_img.gif\" />{:L('话题')}</a> ";
             var html = '';
             if(emtions){
                 html += emotionsHtml;
