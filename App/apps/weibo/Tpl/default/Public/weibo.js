@@ -43,14 +43,14 @@ $(document).ready(function(){
 		var callbackfun = _this.attr('callback');
 		var _comment_content = _this.find("textarea[name='comment_content']");
 		if( _comment_content.val()=='' ){
-			ui.error('内容不能为空');
+			ui.error("{L('内容不能为空')}");
 			return false;
 		}
-		_this.find("input[type='submit']").val( '评论中...').attr('disabled','true') ;
+		_this.find("input[type='submit']").val( "{L(:('评论中...'))}").attr('disabled','true') ;
 		var options = {
 		    success: function(txt) {
 				txt = eval('('+txt+')');
-				_this.find("input[type='submit']").val( '确定');
+				_this.find("input[type='submit']").val( "{:L('确定')}");
 			       _this.find("input[type='submit']").removeAttr('disabled') ;
 				   _comment_content.val('');
 				if(callbackfun){
@@ -61,7 +61,7 @@ $(document).ready(function(){
 
 				   $("#replyid_" + txt.data['weibo_id'] ).val('');
 				   //更新评论数
-				   $("a[rel='comment'][minid='"+txt.data['weibo_id']+"']").html("评论("+txt.data['comment']+")");
+				   $("a[rel='comment'][minid='"+txt.data['weibo_id']+"']").html("{:L('评论')}("+txt.data['comment']+")");
 				 //  _this.find("textarea[name='comment_content']").focus();
 				   
 				}
@@ -99,9 +99,9 @@ weibo.prototype = {
 		var Interval;
 		$("#publish_type_content_before").prepend(
 			"<a href=\"javascript:void(0)\" target_set=\"content_publish\" onclick=\"ui.emotions(this)\" class=\"a52\">"
-			+ "<img class=\"icon_add_face_d\" src=\""+__THEME__+"/images/zw_img.gif\" />表情</a> "
+			+ "<img class=\"icon_add_face_d\" src=\""+__THEME__+"/images/zw_img.gif\" />{:L('表情')}</a> "
 			+ "<a href=\"javascript:void(0)\" onclick=\"addtheme()\" class=\"a52\">"
-			+ "<img class=\"icon_add_topic_d\" src=\""+__THEME__+"/images/zw_img.gif\" />话题</a> "
+			+ "<img class=\"icon_add_topic_d\" src=\""+__THEME__+"/images/zw_img.gif\" />{:('话题')}</a> "
 		);
 
 		$("#content_publish").keypress(function(event){
@@ -127,7 +127,7 @@ weibo.prototype = {
 	before_publish:function(){
 		
 		if( $.trim( $('#content_publish').val() ) == '' ){
-            ui.error('内容不能为空');		
+            ui.error("{:L('内容不能为空')}");		
 			return false;
 		}
 		return true;
@@ -141,7 +141,7 @@ weibo.prototype = {
 			      if(txt){
 			    	   weibo.after_publish(txt);
 			      }else{
-	                  alert( '发布失败' );
+	                  alert( "{:L('发布失败')}");
 			      }
 				}
 			};		
@@ -152,7 +152,7 @@ weibo.prototype = {
 	//发布后的处理
 	after_publish:function(txt){
 		if(txt==0) {
-			ui.success('您发布的微博含有敏感词，请等待审核！');
+			ui.success("{:L('您发布的微博含有敏感词，请等待审核！')}");
 		}else {
 			delTypeBox();
 		    $("#feed_list").prepend( txt ).slideDown('slow');
@@ -162,7 +162,7 @@ weibo.prototype = {
 		    	$('#sina_sync').attr('checked', true);
 		    }
 		    weibo.upCount('weibo');
-		    ui.success('微博发布成功');
+		    ui.success("{:L('微博发布成功')}");
 		    weibo.checkInputLength('#content_publish', _LENGTH_);
 		}
 	},
@@ -192,7 +192,7 @@ weibo.prototype = {
 				$("#list_li_"+weibo_id).slideUp('fast');
 				weibo.downCount('weibo');
 			}else{
-				alert('删除失败');
+				alert("{:L('删除失败')}");
 			}
 		});
 	},
@@ -201,9 +201,9 @@ weibo.prototype = {
 		$.post( U("weibo/Operate/stow") ,{id:id},function(txt){
 			if( txt ){
 				$(o).wrap('<span id=content_'+id+'></span>');
-				$('#content_'+id).html('已收藏');
+				$('#content_'+id).html("{:L('已收藏')}");
 			}else{
-				alert('收藏失败');
+				alert("{:L('收藏失败')}");
 			}
 		});
 	},
@@ -213,22 +213,22 @@ weibo.prototype = {
 			if( txt ){
 				$('#list_li_'+id).slideUp('slow');
 			}else{
-				alert('取消失败');
+				alert("{:L('取消失败')}");
 			}
 		});
 	},
 	// 分享微博
     share:function(id, upcontent){
         upcontent = ( upcontent== undefined ) ? 1 : 0;
-        ui.box.load( U("group/WeiboOperate/shareWeibo",["id="+id,"gid="+weibo.gid,"upcontent="+upcontent] ),{title:'分享到我的微博',closeable:true});
+        ui.box.load( U("group/WeiboOperate/shareWeibo",["id="+id,"gid="+weibo.gid,"upcontent="+upcontent] ),{title:"{:L('分享到我的微博')}",closeable:true});
     },
 	//转发
 	transpond:function(id,upcontent){
 		upcontent = ( upcontent == undefined ) ? 1 : 0;
 		if(weibo.gid){
-	       ui.box.load( U("group/WeiboOperate/transpond",["id="+id,"gid="+weibo.gid,"upcontent="+upcontent] ),{title:'转发到群聊',closeable:true});
+	       ui.box.load( U("group/WeiboOperate/transpond",["id="+id,"gid="+weibo.gid,"upcontent="+upcontent] ),{title:"{:L('转发到群聊')}",closeable:true});
 		}else{
-		   ui.box.load( U("weibo/operate/transpond",["id="+id,"upcontent="+upcontent] ),{title:'转发',closeable:true});
+		   ui.box.load( U("weibo/operate/transpond",["id="+id,"upcontent="+upcontent] ),{title:"{:L('转发')}",closeable:true});
 		}
 	},
 	//关注话题
@@ -236,20 +236,20 @@ weibo.prototype = {
 		$.post(U('weibo/operate/followtopic'),{name:name},function(txt){
 			txt = eval( '(' + txt + ')' );
 			if(txt.code==12){
-				$('#followTopic').html('<a href="javascript:void(0)" onclick="weibo.unfollowTopic(\''+txt.topicId+'\',\''+name+'\')">已关注该话题</a>');
+				$('#followTopic').html('<a href="javascript:void(0)" onclick="weibo.unfollowTopic(\''+txt.topicId+'\',\''+name+'\')">{:L("已关注该话题")}</a>');
 			}
 		});
 	},
 	unfollowTopic:function(id,name){
 		$.post(U('weibo/operate/unfollowtopic'),{topicId:id},function(txt){
 			if(txt=='01'){
-				$('#followTopic').html('<a href="javascript:void(0)" onclick="weibo.followTopic(\''+name+'\')">关注该话题</a>');
+				$('#followTopic').html('<a href="javascript:void(0)" onclick="weibo.followTopic(\''+name+'\')">{:L("关注该话题")}</a>');
 			}
 		});	
 	},
 	quickpublish:function(text){
 		$.post(U('weibo/operate/quickpublish'),{text:text},function(txt){
-			ui.box.show(txt,{title:'说几句',closeable:true});
+			ui.box.show(txt,{title:"{:L('说几句')}",closeable:true});
 		});
 	},
 	//更新计数器
@@ -269,13 +269,13 @@ weibo.prototype = {
 		var wordNumObj = $('.wordNum');
 		
 		if(len==0){
-			wordNumObj.css('color','').html('你还可以输入<strong id="strconunt">'+ (num-len) + '</strong>字');
+			wordNumObj.css('color','').html('{:L("你还可以输入")}<strong id="strconunt">'+ (num-len) + '</strong>{:L("字")}');
 			weibo.textareaStatus('off');
 		}else if( len > num ){
-			wordNumObj.css('color','red').html('已超出<strong id="strconunt">'+ (len-num) +'</strong>字');
+			wordNumObj.css('color','red').html('{:L("已超出")}<strong id="strconunt">'+ (len-num) +'</strong>{:L("字")}');
 			weibo.textareaStatus('off');
 		}else if( len <= num ){
-			wordNumObj.css('color','').html('你还可以输入<strong id="strconunt">'+ (num-len) + '</strong>字');
+			wordNumObj.css('color','').html('{:L("你还可以输入")}<strong id="strconunt">'+ (num-len) + '</strong>{:L("字")}');
 			weibo.textareaStatus('on');
 		}
 	},
@@ -303,7 +303,7 @@ weibo = new weibo();
 weibo.plugin = {};
 
 function addtheme(){
-	var text = '#请在这里输入自定义话题#';
+	var text = '{:L("#请在这里输入自定义话题#")}';
 	var   patt   =   new   RegExp(text,"g");  
 	var content_publish = $('#content_publish');
 	var result;
