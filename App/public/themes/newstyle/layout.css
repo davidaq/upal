@@ -521,7 +521,7 @@ a.faceicon1:link, a.faceicon1:visited{display:block;float:left;height:17px;margi
 #publish_type_content_before{_padding-top:8px}
 
 .talkBox .funBox{position:relative;line-height:25px;z-index:800;*zoom:1}
-.talkBox .funBox a.a52 {width:52px;display:inline-block;_display:block;_float:left;_margin-top:-9px;color:#686868;}
+.talkBox .funBox a.a52 {width:60px;display:inline-block;_display:block;_float:left;_margin-top:-9px;color:#686868;}
 
 
 /*弹出样式--有form的*/
