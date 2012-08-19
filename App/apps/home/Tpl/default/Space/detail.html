@@ -34,16 +34,16 @@
   </div>
   <div class="right_box app_line_w">
   	<div class="friInfoDetails">
-          <strong>{:L('个人签名')}</strong>：<br>
+          <strong>{:L('signature')}</strong>：<br>
 		  <volist id="vo" name="usertags">
 		  	<a href="{:U('home/User/searchtag',array('k'=>$vo['tag_name']))}">{$vo.tag_name}</a>&nbsp;
 		  </volist>
 		  
           <div class="alR">
           	<php>if($mid==$mini['uid']){</php>
-				<span><a href="{:U('home/Account/index')}">修改</a>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+				<span><a href="{:U('home/Account/index')}">{:L('modify')}</a>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
 			<php>}</php>
-			<a href="{:U('home/Space/profile',array('uid'=>$mini['uid']))}">更多&raquo;</a></div>
+			<a href="{:U('home/Space/profile',array('uid'=>$mini['uid']))}">{:L('more')}&raquo;</a></div>
         </div>
         </div>
         {:Addons::hook('home_weibo_detail_right_bottom')}
