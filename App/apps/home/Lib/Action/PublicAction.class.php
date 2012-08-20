@@ -310,9 +310,9 @@ class PublicAction extends Action{
 		$result = service('Passport')->loginLocal($username,$password,intval($_POST['remember']));
 		$lastError = service('Passport')->getLastError(); 
 	    //检查是否激活
-	    if (!$result && $lastError =='用户未激活') {
+	    if (!$result && $lastError ==L('用户未激活')) {
 	        $this->assign('jumpUrl',U('home/public/login'));
-	        $this->error('该用户尚未激活，请更换帐号或激活帐号！');
+	        $this->error(L('该用户尚未激活，请更换帐号或激活帐号！'));
 	        exit;
 	    }
 
@@ -694,7 +694,20 @@ class PublicAction extends Action{
 		$this->assign('url',$activate_url);
 
 		//设置邮件模板
-		$body = <<<EOD
+		if($_SESSION['language']=='en'){
+			$body = <<<EOD
+Thanks for your registration!<br>
+
+Please click on the activation link below to activate your account!<br>
+
+<a href="$activate_url" target='_blank'>$activate_url</a><br/>
+
+If you can not click on the link above, please copy it to your browser address bar.<br/>
+
+If you recieved this mail unexpectedly, don't do any thing. This account won't activate.
+EOD;
+		}else{
+			$body = <<<EOD
 感谢您的注册!<br>
 
 请马上点击以下注册确认链接，激活您的帐号！<br>
@@ -705,6 +718,7 @@ class PublicAction extends Action{
 
 如果你错误地收到了此电子邮件，你无需执行任何操作来取消帐号！此帐号将不会启动。
 EOD;
+		}
 		// 发送邮件
 		global $ts;
 		$email_sent = service('Mail')->send_email($email, "激活{$ts['site']['site_name']}帐号",$body);
@@ -785,7 +799,20 @@ EOD;
         }else {
             $code = base64_encode( $user["uid"] . "." . md5($user["uid"] . '+' . $user["password"]) );
             $url  = U('home/Public/resetPassword', array('code'=>$code));
-            $body = <<<EOD
+            if($_SESSION['language']=='en'){
+            	$body = <<<EOD
+<strong>{$user["uname"]}，你好: </strong><br/>
+
+Click on the link below to reset your password: <br/>
+
+<a href="$url">$url</a><br/>
+
+If you can not click on the link above, please copy it to your browser address bar.<br/>
+
+If you recieved this mail unexpectedly, don't do any thing. Nothing will change.
+EOD;
+				}else{
+					$body = <<<EOD
 <strong>{$user["uname"]}，你好: </strong><br/>
 
 您只需通过点击下面的链接重置您的密码: <br/>
@@ -796,6 +823,7 @@ EOD;
 
 如果你错误地收到了此电子邮件，你无需执行任何操作来取消帐号！此帐号将不会启动。
 EOD;
+				}
 
 			global $ts;
 			$email_sent = service('Mail')->send_email($user['email'], L('reset')."{$ts['site']['site_name']}".L('password'), $body);
@@ -925,7 +953,7 @@ EOD;
 			}
 		} else {
 			if($return_type === 'ajax') {
-				echo '验证码输入错误';
+				echo L('验证码错误，请重新输入');
 			} else {
 				return false;
 			}
@@ -945,7 +973,7 @@ EOD;
 			}
 		} else {
 			if($return_type === 'ajax') {
-				echo '验证码输入错误';
+				echo L('验证码错误，请重新输入');
 			} else {
 				return false;
 			}
@@ -961,7 +989,7 @@ EOD;
 		
 		//昵称不能是纯数字昵称
 		if(is_numeric($name)){
-			echo '昵称不能是纯数字昵称';
+			echo L('昵称不能是纯数字昵称');
 			return;
 		}
 
@@ -973,10 +1001,10 @@ EOD;
 				$bannedunames = explode('|',$bannedunames);
 				if(in_array($name,$bannedunames)){
 					if ($return_type === 'ajax') {
-						echo '这个昵称禁止注册';
+						echo L('这个昵称禁止注册');
 						return;
 					} else {
-						$this->error('这个昵称禁止注册');
+						$this->error(L('这个昵称禁止注册'));
 					}
 				}
 			}
@@ -993,10 +1021,10 @@ EOD;
 			else return false;
 		} else if (checkKeyWord($name)) {
 			if ($return_type === 'ajax') {
-				echo '昵称含有敏感词';
+				echo L('昵称含有敏感词');
 				return;
 			} else {
-				$this->error('昵称含有敏感词');
+				$this->error(L('昵称含有敏感词'));
 			}
 		}
 
@@ -1206,13 +1234,13 @@ EOD;
     	foreach($list['data'] as $key => $value) {
     		switch($value['type']) {
     			case 1:
-    				$list['data'][$key]['type'] = '风格模板';
+    				$list['data'][$key]['type'] = L('风格模板');
     				break;
     			case 2:
-    				$list['data'][$key]['type'] = '插件';
+    				$list['data'][$key]['type'] = L('插件');
     				break;
     			case 3:
-    				$list['data'][$key]['type'] = '应用';
+    				$list['data'][$key]['type'] = L('app');
     				break;
     		}
     	}

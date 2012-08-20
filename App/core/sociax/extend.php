@@ -966,6 +966,27 @@ function imagebmp(&$im, $filename = '', $bit = 8, $compression = 0) {
  * @return string
  */
 function friendlyDate($sTime,$type = 'normal',$alt = 'false') {
+	if(isset($_SESSION['language'])&&$_SESSION['language']=='en')
+	{
+		$_L['sec_ago']=' seconds ago';
+		$_L['min_ago']=' minutes ago';
+		$_L['hour_ago']=' hours ago';
+		$_L['day_ago']=' days ago';
+		$_L['week_ago']=' weeks ago';
+		$_L['month_ago']=' months ago';
+		$_L['today']='Today';
+		$_L['date_mdhi']='d, M H:i';		
+	}else
+	{
+		$_L['sec_ago']='秒前';
+		$_L['min_ago']='分钟前';
+		$_L['hour_ago']='小时前';
+		$_L['day_ago']='天前';
+		$_L['week_ago']='周前';
+		$_L['month_ago']='个月前';
+		$_L['today']='今天';
+		$_L['date_mdhi']='m月d日 H:i';		
+	}
 	//sTime=源时间，cTime=当前时间，dTime=时间差
 	$cTime		=	time();
 	$dTime		=	$cTime - $sTime;
@@ -975,31 +996,31 @@ function friendlyDate($sTime,$type = 'normal',$alt = 'false') {
 	//normal：n秒前，n分钟前，n小时前，日期
 	if($type=='normal'){
 		if( $dTime < 60 ){
-			return $dTime."秒前";
+			return $dTime.$_L['sec_ago'];
 		}elseif( $dTime < 3600 ){
-			return intval($dTime/60)."分钟前";
+			return intval($dTime/60).$_L['min_ago'];
 		//今天的数据.年份相同.日期相同.
 		}elseif( $dYear==0 && $dDay == 0  ){
 			//return intval($dTime/3600)."小时前";
-			return '今天'.date('H:i',$sTime);
+			return $_L['today'].date('H:i',$sTime);
 		}elseif($dYear==0){
-			return date("m月d日 H:i",$sTime);
+			return date($_L['date_mdhi'],$sTime);
 		}else{
 			return date("Y-m-d H:i",$sTime);
 		}
 	}elseif($type=='mohu'){
 		if( $dTime < 60 ){
-			return $dTime."秒前";
+			return $dTime.$_L['sec_ago'];
 		}elseif( $dTime < 3600 ){
-			return intval($dTime/60)."分钟前";
+			return intval($dTime/60).$_L['min_ago'];
 		}elseif( $dTime >= 3600 && $dDay == 0  ){
-			return intval($dTime/3600)."小时前";
+			return intval($dTime/3600).$_L['hour_ago'];
 		}elseif( $dDay > 0 && $dDay<=7 ){
-			return intval($dDay)."天前";
+			return intval($dDay).$_L['day_ago'];
 		}elseif( $dDay > 7 &&  $dDay <= 30 ){
-			return intval($dDay/7) . '周前';
+			return intval($dDay/7) . $_L['week_ago'];
 		}elseif( $dDay > 30 ){
-			return intval($dDay/30) . '个月前';
+			return intval($dDay/30) . $_L['month_ago'];
 		}
 	//full: Y-m-d , H:i:s
 	}elseif($type=='full'){
@@ -1008,11 +1029,11 @@ function friendlyDate($sTime,$type = 'normal',$alt = 'false') {
 		return date("Y-m-d",$sTime);
 	}else{
 		if( $dTime < 60 ){
-			return $dTime."秒前";
+			return $dTime.$_L['sec_ago'];
 		}elseif( $dTime < 3600 ){
-			return intval($dTime/60)."分钟前";
+			return intval($dTime/60).$_L['min_ago'];
 		}elseif( $dTime >= 3600 && $dDay == 0  ){
-			return intval($dTime/3600)."小时前";
+			return intval($dTime/3600).$_L['hour_ago'];
 		}elseif($dYear==0){
 			return date("Y-m-d H:i:s",$sTime);
 		}else{
@@ -1513,7 +1534,10 @@ function getUserEmail($uid) {
  * @param int $sexid
  */
 function getSex($sexid) {
-	return ($sexid == '1') ? "男" : "女";
+	if(isset($_SESSION['language'])&&$_SESSION['language']=='en')
+		return ($sexid == '1') ? "Male" : "Female";
+	else
+		return ($sexid == '1') ? "男" : "女";
 }
 
 function matchImages($content = '') {

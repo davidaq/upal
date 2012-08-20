@@ -352,6 +352,8 @@ class View extends Think
         if(is_array(C('TMPL_PARSE_STRING')) )
             $replace =  array_merge($replace,C('TMPL_PARSE_STRING'));
         $content = str_replace(array_keys($replace),array_values($replace),$content);
+        // 预处理JS
+        $content = preg_replace('/\<script(.+?)src="(.+?)"(.+?)\>/i','<script${1}src="'.__ROOT__.'/jspre.php?${2}"${3}>',$content);
         return $content;
     }
 
