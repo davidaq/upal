@@ -3,25 +3,25 @@
   <include file="_tab" />
 
   <div id="search_div" <neq name="isSearch" value="1">style="display:none;"</neq>>
-    <div class="page_tit">搜索附件 [ <a href="javascript:void(0);" onclick="searchAttach();">隐藏</a> ]</div>
+    <div class="page_tit">{:L('搜索附件')} [ <a href="javascript:void(0);" onclick="searchAttach();">{:L('隐藏')}</a> ]</div>
     <div class="form2">
     <form method="post" action="{:U('weibo/Admin/fileList')}">
     <input type="hidden" name="isSearch" value="1"/>
     <dl class="lineD">
       <dt>ID：</dt>
-      <dd><input name="id" type="text" value="{$id}"><p>多个时使用英文的“,”分割</p></dd>
+      <dd><input name="id" type="text" value="{$id}"><p>{:L('多个时使用英文的“,”分割')}</p></dd>
     </dl>
     
     <dl class="lineD">
-      <dt>用户ID：</dt>
+      <dt>{:L('用户')}ID:</dt>
       <dd>
         <input name="userId" type="text" value="{$userId}">
-        <p>用户ID,多个时使用英文的","分割</p>
+        <p>{:L('多个ID之间请使用","隔开')}</p>
       </dd>
     </dl>
     
     <dl class="lineD">
-      <dt>扩展名：</dt>
+      <dt>{:L('扩展名')}:</dt>
       <dd>
         <select name="extension">
             <option value="" selected> - </option>
@@ -41,9 +41,9 @@
   <div class="Toolbar_inbox">
     <div class="page right">{$html}</div>
     <a href="javascript:void(0);" class="btn_a" onclick="searchAttach();">
-        <span class="search_action"><neq name="isSearch" value="1">搜索附件<else/>搜索完毕</neq></span>
+        <span class="search_action"><neq name="isSearch" value="1">{:L('搜索附件')}<else/>{:L('搜索完毕')}</neq></span>
     </a>
-    <a href="javascript:void(0);" class="btn_a" onclick="deleteFile();"><span>删除附件</span></a>
+    <a href="javascript:void(0);" class="btn_a" onclick="deleteFile();"><span>{:L('删除附件')}</span></a>
   </div>
   <div class="list">
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -54,13 +54,13 @@
     </th>
     <th class="line_l">ID</th>
     <th class="line_l">UID</th>
-    <th class="line_l">用户名</th>
-    <th class="line_l">附件类型</th>
-    <th class="line_l">附件名称</th>
-    <th class="line_l">附件大小</th>
-    <th class="line_l">扩展名</th>
-    <th class="line_l">上传时间</th>
-    <th class="line_l">操作</th>
+    <th class="line_l">{:L('用户名')}</th>
+    <th class="line_l">{:L('附件类型')}</th>
+    <th class="line_l">{:L('附件名称')}</th>
+    <th class="line_l">{:L('附件大小')}</th>
+    <th class="line_l">{:L('扩展名')}</th>
+    <th class="line_l">{:L('上传时间')}</th>
+    <th class="line_l">{:L('操作')}</th>
   </tr>
   <volist id="vo" name="data">
       <tr overstyle='on' id="attach_{$vo['id']}">
@@ -77,12 +77,12 @@
         <td>
             <php>/*
         	<if condition="$vo['weibo_id']">
-        	  <a href="{:U('home/Space/detail', array('id'=>$vo['weibo_id']))}" target="_blank">[查看微博]</a>
+        	  <a href="{:U('home/Space/detail', array('id'=>$vo['weibo_id']))}" target="_blank">[{:L("查看微博")}]</a>
         	<else />
-        	  [查看微博]
+        	  [{:L("查看微博")}]
         	</if>
         	*/</php>
-            <a href="javascript:void(0);" onclick="deleteFile('{$vo.id}')">删除附件</a>
+            <a href="javascript:void(0);" onclick="deleteFile('{$vo.id}')">{:L("删除附件")}</a>
         </td>
       </tr>
   </volist>
@@ -91,9 +91,9 @@
   <div class="Toolbar_inbox">
     <div class="page right">{$html}</div>
     <a href="javascript:void(0);" class="btn_a" onclick="searchAttach();">
-        <span class="search_action"><neq name="isSearch" value="1">搜索附件<else/>搜索完毕</neq></span>
+        <span class="search_action"><neq name="isSearch" value="1">{:L("搜索附件")}<else/>{:L("搜索完毕")}</neq></span>
     </a>
-    <a href="javascript:void(0);" class="btn_a" onclick="deleteFile();"><span>[删除附件]</span></a>
+    <a href="javascript:void(0);" class="btn_a" onclick="deleteFile();"><span>[{:L("删除附件")}]</span></a>
   </div>
 </div>
 
@@ -148,16 +148,16 @@
     	}
     	
     	if(ids=='') {
-    		ui.error('请先选择一个附件');
+    		ui.error('{:L("请先选择一个附件")}');
     		return ;
     	}
-    	if(confirm('您将删除'+length+'条记录，删除后无法恢复，确定继续？')) {
+    	if(confirm('{:L("删除")}'+length+'{:L("条记录")}{:L("，删除后无法恢复，确定继续？")}')) {
     		$.post("{:U('admin/Content/doDeleteAttach')}",{ids:ids,withfile:0},function(res){
     			if(res=='1') {
-    				ui.success('删除成功');
+    				ui.success('{:L("操作成功")}');
     				removeItem(ids);
     			}else {
-    				ui.error('删除失败');
+    				ui.error('{:L("操作失败")}');
     			}
     		});
     	}
@@ -173,16 +173,16 @@
             ids    = ids.toString();
         }
         if(ids=='') {
-            ui.error('请先选择一个附件');
+            ui.error('{:L("请先选择一个附件")}');
             return ;
         }
-        if(confirm('您将删除'+length+'条记录及其文件，删除后无法恢复，确定继续？')) {
+        if(confirm('{:L("删除")}'+length+'{:L("条记录")}{:L("，删除后无法恢复，确定继续？")}')) {
             $.post("{:U('admin/Content/doDeleteAttach')}",{ids:ids,withfile:1},function(res){
                 if(res=='1') {
-                    ui.success('删除成功');
+                    ui.success('{:L("操作成功")}');
                     removeItem(ids);
                 }else {
-                    ui.error('删除失败');
+                    ui.error('{:L('操作失败')}');
                 }
             });
         }
@@ -200,11 +200,11 @@
     function searchAttach() {
         if(isSearchHidden == 1) {
             $("#search_div").slideDown("fast");
-            $(".search_action").html("搜索完毕");
+            $(".search_action").html("{:L('搜索完毕')}");
             isSearchHidden = 0;
         }else {
             $("#search_div").slideUp("fast");
-            $(".search_action").html("搜索附件");
+            $(".search_action").html("{:L('搜索附件')}");
             isSearchHidden = 1;
         }
     }

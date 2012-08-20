@@ -4,10 +4,10 @@
 	</volist>
 </span>
 <span id="createFollowGroup" class="add-group">
-	<a href="javascript:void(0);" onclick="createFollowGroupTab('')" class="openTab">+创建分组</a>
+	<a href="javascript:void(0);" onclick="createFollowGroupTab('')" class="openTab">+{:L('创建分组')}</a>
 	<input type="text" name="followGroupTitle" value="" class="text mb5" style="display:none; width:88px;margin:0 0 5px"><br />
-	<input type="button" onclick="createFollowGroup()" class="btn_b" value="保存" style="display:none;">
-	<a href="javascript:void(0);" onclick="createFollowGroupTab('close')" class="cancelTab" style="display:none;">取消</a>
+	<input type="button" onclick="createFollowGroup()" class="btn_b" value="{:L('保存')}" style="display:none;">
+	<a href="javascript:void(0);" onclick="createFollowGroupTab('close')" class="cancelTab" style="display:none;">{:L('取消')}</a>
 </span>
 <script>
 var fid = '{$fid}';
@@ -39,10 +39,10 @@ function createFollowGroupTab(action){
 function createFollowGroup(){
 	var title = $.trim($("input[name='followGroupTitle']").val());
 	if(title == ''){
-		ui.error('请输入分组标题！');
+		ui.error('{:L("请输入分组标题")}');
 		return false;
 	}else if(title.length>8){
-		ui.error('分组标题字数不能超过8个字符');
+		ui.error('{:L("分组标题字数不能超过8个字符")}');
 		return false;
 	}
 	$.post(U('weibo/FollowGroup/setGroup'),{title:title},function(gid){

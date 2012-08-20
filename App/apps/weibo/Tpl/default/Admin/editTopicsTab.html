@@ -4,44 +4,44 @@
   <div class="form2">
   	<form method="post" action="{:U('weibo/Admin/doEditTopics')}" enctype="multipart/form-data">
     <dl>
-      <dt><span>*</span>话题：</dt>
+      <dt><span>*</span>{:L('话题')}:</dt>
       <dd>
         <input type="text" name="name" style="width:300px" value="{$name}" />
       </dd>
     </dl>
 
     <dl>
-      <dt><span>*</span>注释：</dt>
+      <dt><span>*</span>{:L('注释')}:</dt>
       <dd>
         <textarea id="note" name="note" maxlength="100" cols="50" rows="5" value="{$note}">{$note}</textarea>
       </dd>
     </dl>
 
     <dl>
-      <dt>专题域名：</dt>
+      <dt>{:L('专题域名')}:</dt>
       <dd>
         {:SITE_URL}/topics/<input name="domain" type="text" value="{$domain}" />
       </dd>
     </dl>
 
     <dl>
-      <dt>内容：</dt>
+      <dt>{:L('内容')}:</dt>
       <dd>
         <textarea id="content" name="content" maxlength="100" cols="50" rows="5" value="{$content}">{$content}</textarea>
       </dd>
     </dl>
 
     <dl>
-      <dt>图片：</dt>
+      <dt>{:L('Image')}:</dt>
       <dd>
         <if condition="$pic"><img alt="{$name}" src="{:SITE_URL}/data/uploads/{$pic}" />        
-        <label><input name="nopic" type="checkbox" value="1" />删除图片</label><br /><br /></if>
-        <input name="pic" type="file" /> 建议图片宽度为770px，高度不限
+        <label><input name="nopic" type="checkbox" value="1" />{:L('删除')}{:L('图片')}</label><br /><br /></if>
+        <input name="pic" type="file" /> {:L('建议图片宽度为770px，高度不限')}
       </dd>
     </dl>
 
     <dl>
-      <dt>外链：</dt>
+      <dt>{:L('外链')}:</dt>
       <dd>
         <input name="link" type="text" value="{$link}" />
       </dd>
@@ -49,7 +49,7 @@
 
     <div class="page_btm">
       <input type="hidden" name="topics_id" value="{$topics_id}" />
-      <input type="submit" class="btn_b" value="确定" />
+      <input type="submit" class="btn_b" value="{:L('确定')}" />
     </div>
     </form>
   </div>

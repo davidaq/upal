@@ -1,10 +1,10 @@
 <dl id="createFollowGroup2" class="pop_add_group">
 	<dt>
-        <if condition="$gid">修改分组：<else />创建分组：</if><input type="text" maxlength="8" name="followGroupTitle" value="{$title}" class="text" style="width:280px;" />
+        <if condition="$gid">{:L('修改分组')}:<else />{:L('创建分组')}:</if><input type="text" maxlength="8" name="followGroupTitle" value="{$title}" class="text" style="width:280px;" />
     </dt>
 	<dd>
-        <input type="button" onclick="createFollowGroup()" class="btn_b" value="确定" />
-        <input type="button" onclick="ui.box.close()" class="btn_w" value="取消" />
+        <input type="button" onclick="createFollowGroup()" class="btn_b" value="{:L('确定')}" />
+        <input type="button" onclick="ui.box.close()" class="btn_w" value="{:L('取消')}" />
     </dd>
 </dl>
 <script>
@@ -12,10 +12,10 @@ function createFollowGroup(title){
 	var title = $("input[name='followGroupTitle']").val();
 	title = $.trim(title);
 	if(title == ''){
-		alert('请输入分组标题！');
+		alert('{:L('请输入分组标题')}');
 		return false;
 	}else if(title.length>8){
-		alert('分组标题字数不能超过8个字符');
+		alert('{:L('分组标题字数不能超过8个字符')}');
 		return false;
 	}
 	<if condition="$gid">
@@ -28,7 +28,7 @@ function createFollowGroup(title){
 				$('#current_follow_group').html(title);
 				ui.box.close();
 			}else{
-				ui.error('此分组名已存在');
+				ui.error('{:L('此分组名已存在')}');
 			}
 		});
 	<else />
@@ -40,7 +40,7 @@ function createFollowGroup(title){
 				var url = window.location.href.match(/space/) ? U('home/space/follow') + '&gid=' + gid + '&type=following&uid=' + _UID_ : U('home/User/index') + '&follow_gid=' + gid;
 				location.href=url;
 			}else{
-				ui.error('此分组名已存在');
+				ui.error('{:L('此分组名已存在')}');
 			}
 		});		
 	</if>

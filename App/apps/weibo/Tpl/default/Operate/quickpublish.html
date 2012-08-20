@@ -3,14 +3,14 @@
     <form method="post" action="{:U('weibo/Operate/publish')}" id="quick_publish" oncomplete="false" class="formObj">
     <dt>
       <input type="hidden" name="publish_type" value="0">
-      <div class="wordNum numObj" style="padding:0"></div><span>快来说点什么吧……</span>
+      <div class="wordNum numObj" style="padding:0"></div><span>{:L('快来说点什么吧......')}</span>
     </dt>
     <dd>
       <textarea name="content" id="content_publish" class="contentObj" cols="" rows="" style="width:99.3%;_width:99%; height:78px;padding:5px 0;"></textarea>
       <div class="txtShadow" style="z-index:-1000"></div>
     </dd>
     <dd style="position:relative;margin-top:10px;padding-top:0;">
-         <input type="button" disabled="true" class="btn_b buttonObj right" value="发布" id="publish_handle"  />
+         <input type="button" disabled="true" class="btn_b buttonObj right" value="{:L('发布')}" id="publish_handle"  />
         <div id="publish_type_content_before" class="left">{:Addons::hook('home_index_middle_publish_type',array('position'=>'other'))}</div>
     </dd>
     <div class="c"></div>
@@ -28,7 +28,7 @@ $(document).ready(function(){
         },
         enter:function(formObj,buttonObj,contentObj,numObj,txt){
             ui.box.close();
-			      ui.success("发布成功");
+			      ui.success("{:L('发布成功')}");
 			      setTimeout( function(){ window.location.reload(); }, 1300);
         },
         after:function(formObj,buttonObj,contentObj,numObj){

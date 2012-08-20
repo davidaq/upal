@@ -67,7 +67,7 @@ class FollowGroupAction extends Action{
 	public function setGroup(){
 		$title = trim(text($_REQUEST['title']));
 		if(empty($title)){
-		    $this->error("标题不能为空");
+		    $this->error("{:L('标题不能为空')}");
 		}
 		if(!$_REQUEST['gid']){
 			$res = D('FollowGroup')->setGroup($this->mid,$title);
@@ -80,7 +80,7 @@ class FollowGroupAction extends Action{
 		if($res){
 		    $this->success($res);
 		}else{
-		    $this->error("操作分组失败");
+		    $this->error("{:L('操作分组失败')}");
 		}
 	}
 	// 删除某个关注分组

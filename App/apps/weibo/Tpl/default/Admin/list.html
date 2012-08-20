@@ -49,11 +49,11 @@ var isSearchHidden = <neq name="isSearch" value="1">1<else/>0</neq>;
 function searchBlog() {
     if(isSearchHidden == 1) {
         $("#searchBlog_div").slideDown("fast");
-        $(".searchBlog_action").html("搜索完毕");
+        $(".searchBlog_action").html("{:L('搜索完毕')}");
         isSearchHidden = 0;
     }else {
         $("#searchBlog_div").slideUp("fast");
-        $(".searchBlog_action").html("搜索微博");
+        $(".searchBlog_action").html("{:L('搜索微博')}");
         isSearchHidden = 1;
     }
 }
@@ -91,19 +91,19 @@ del:function(weibo_id,uid){
         weibo_id    = weibo_id.toString();
     }
     if(weibo_id=='') {
-        ui.error('请先选择一个微博');
+        ui.error('{:L("请先选择一个微博")}');
         return ;
     }
-	if( confirm("是否删除微博") ){
+	if( confirm("{:L('是否删除微博')}") ){
 	  $.post( "{:U('weibo/Admin/operate')}",{dotype:'del',weibo_id:weibo_id,uid:uid},function(text ){
 	      if( text == 1 ){
           weibo_id = weibo_id.toString().split(',');
           $.each(weibo_id, function(i,n){
           $('#weibo_list_'+n).remove();
         });   
-	    	  ui.success( "删除成功" );
+	    	  ui.success( "{:L('操作成功')}" );
 	      }else{
-	    	  ui.error( "删除失败" );
+	    	  ui.error( "{:L('操作失败')}" );
 	      }
 	  });
 	}
@@ -118,44 +118,44 @@ restore:function(weibo_id,uid){
         weibo_id    = weibo_id.toString();
     }
     if(weibo_id=='') {
-        ui.error('请先选择一个微博');
+        ui.error('{:L("请先选择一个微博")}');
         return ;
     }
-	if( confirm("是否恢复微博") ){
+	if( confirm("{:L('是否恢复微博')}") ){
 	  $.post( "{:U('weibo/Admin/restore')}",{weibo_id:weibo_id,uid:uid},function(text ){
 	      if( text == 1 ){
 			    weibo_id = weibo_id.toString().split(',');
           $.each(weibo_id, function(i,n){
           $('#weibo_list_'+n).remove();
         });  
-	    	  ui.success( "恢复成功" );
+	    	  ui.success( "{:L('操作成功')}" );
 	      }else{
-	    	  ui.error( "恢复失败" );
+	    	  ui.error( "{:L('操作失败')}" );
 	      }
 	  });
 	}
 },
 edit:function(id,act){
   if( act == 'recommend' ){
-      v= "推荐";
-      v2 = "取消推荐";
+      v= "{:L('推荐')}";
+      v2 = "{:L('取消推荐')}";
       act2 = 'cancel';
     
   }else{
-      v = "取消推荐";
-      v2 = "推荐";
+      v = "{:L('取消推荐')}";
+      v2 = "{:L('推荐')}";
       act2 = 'recommend';
   }
-if( confirm( '是否'+v ) ){
+if( confirm( /*'是否'+*/v ) ){
   $.post('__URL__&act=doChangeIsHot',{id:id,type:act},function( text ){
           if( text == 1 ){
-          ui.success( "操作成功" );
+          ui.success( "{:L('操作成功')}" );
           $( '#button'+id ).val( v2 );
           location.reload();
           //$('#button'+id).click(function() "c.edit"+id+",'"+act2+"')")
        }else{
        
-        ui.error( "设置失败" );
+        ui.error( "{:L('操作失败')}" );
        }
  });
 }

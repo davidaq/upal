@@ -1,6 +1,6 @@
 <div style="width:280px; padding:20px;" class="alL">
 <form action="__URL__&act=editStar" method="post" id="edit_star" onsubmit="return edit_star();">
-<div class="left">{:L('transfer')}</div>
+<div class="left">{:L('将TA转移到')}</div>
 <div style="margin-left:85px;"><volist name="group_list" id="g">
 	<label style="width:140px; display:inline-block" class="lh25"><input type="checkbox" name="gid[]" value="{$g.star_group_id}" /> {$g.title}</label>
 	<!-- 
@@ -10,7 +10,7 @@
      -->
   </volist></div>
   <input type="hidden" name="star_id" value="{$star_id}" /><div class="alC">
-  <input type="submit" value="{:L('save')}" class="btn_b"></div>
+  <input type="submit" value="{:L('保存')}" class="btn_b"></div>
 </form>
 </div>
 <script>
@@ -23,16 +23,16 @@ function edit_star(){
 		var options = {
 				success: function(txt) {
 					if(txt==1){
-						ui.success("{:L('transfer_success')}");
+						ui.success("{:L('转移分组成功')}");
 						setInterval("location.reload()",500);
 					}else{
-						ui.error("{:L('transfer_fail')}");
+						ui.error("{:L('转移分组失败')}");
 					}
 				} 
 			};		
 		$('#edit_star').ajaxSubmit( options );
 	}else{
-		ui.error("{:L('error_choosegroup')}");
+		ui.error("{:L('请选择分组')}");
 	}
 	return false;
 }

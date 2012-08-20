@@ -1,31 +1,31 @@
 <div style="width:280px;padding:20px;" class="alL">
-<div class="left" style=" width:85px;">{:L('input_userid')}</div>  
+<div class="left" style=" width:85px;">{:L('请输入用户ID：')}</div>  
 <div style="margin:0 0 10px 85px;"><textarea id="uid" style="height:50px; width:180px;"></textarea>
-<span class="cGray2" >{:L('seperate_id')}</span></div>
-<div class="alC"><input type="button" value="保存" class="btn_b" onclick="add_star()"></div>
+<span class="cGray2" >{:L('多个ID之间请使用“,”隔开')}</span></div>
+<div class="alC"><input type="button" value="{:L('保存')}" class="btn_b" onclick="add_star()"></div>
 </div>
 <script>
 function add_star(){
 	var uid = $("#uid").val();
 	if(uid.length == 0){
-		ui.error("{:L('alert_input_userid')}");
+		ui.error("{:L('请输入用户ID：')}");
 	}else{
 		$.post( '__URL__&act=addStar',{uid:uid,gid:gid},function(txt){
 			ui.box.close();
 			if(txt.code == -2){
-				ui.error("{:L('group_unexist')}");
+				ui.error("{:L('分组不存在')}");
 			}else if(txt.code == -3){
-				ui.error("{:L('star_exist')}");
+				ui.error("{:L('添加的名人当前分组内已存在！')}");
 			}else if(txt.code == 0){
-				ui.error("{:L('star_insert_fail')}");
+				ui.error("{:L('添加名人失败！')}");
 			}else if(txt.code == -4) {
-				ui.error("{:L('user_uid_exist')}");
+				ui.error("{:L('用户UID不存在！')}");
 			} else if(txt.code == -5) {
 				//ui.error('用户UID' + txt.data.join(',') + '不存在！');
-				ui.error("{:argL('user_uid_unexist_arg')}, txt.data.join(',')");
+				ui.error("{:L('用户UID不存在！')}");
 				setInterval("location.reload()",500);
 			} else {
-				ui.success("{:L('start_insert_success')}");
+				ui.success("{:L('添加名人成功')}");
 				setInterval("location.reload()",500);
 			}
 		}, 'json');
