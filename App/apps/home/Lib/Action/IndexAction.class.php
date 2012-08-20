@@ -15,7 +15,8 @@ class IndexAction extends Action{
 		if (service('Passport')->isLogged())
 			redirect(U('home/User/index'));
 		else
-			$this->showIndex();
+			redirect(U('home/User/login'));
+			//$this->showIndex();
 	}
 
 	private function showIndex(){
