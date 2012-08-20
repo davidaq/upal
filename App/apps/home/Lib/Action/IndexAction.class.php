@@ -16,7 +16,6 @@ class IndexAction extends Action{
 			redirect(U('home/User/index'));
 		else
 			redirect(U('home/User/login'));
-			//$this->showIndex();
 	}
 
 	private function showIndex(){

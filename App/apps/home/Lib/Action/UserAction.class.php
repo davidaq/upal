@@ -26,7 +26,10 @@ class UserAction extends Action {
     {
         $this->display('addons');
     }
-
+		function login(){
+			if (service('Passport')->isLogged())
+				redirect(U('home/User/index'));
+		}
     //个人首页
     function index() {
         Session::pause();
