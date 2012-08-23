@@ -41,6 +41,7 @@ class OperateAction extends Action{
     function transpond(){
     	$pWeibo = D('Weibo');
     	if($_POST){
+         Addon::hook('transpond_post_preprocess');
 			if(isSubmitLocked()){
 				die('submitlocked');
 			} else if (isDuplicateContent(trim($_POST['content']))) {

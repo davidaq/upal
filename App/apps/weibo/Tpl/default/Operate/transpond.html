@@ -6,12 +6,13 @@
 <php>}</php>
     <!--转发弹窗-->
         <dl class="pop_weibo_transmit">
+        		<dt>{:L('转发')}: {:Addons::hook('transpond_header')}</dt>
             <php>if($data['transpond_id']){</php>
-            <php>$detail_more = get_str_length($data['transponInfo']['content'], true) > 140 ? ' <a href="' . U('home/space/detail',array('id'=>$data['transponInfo']['weibo_id'])) . '" target="_blank">{:L('查看更多')}&raquo;</a>' : '';</php>
-            <dt>{:L('转发')}:{$data.transponInfo.content|getShort=###,140,'...'|keyWordFilter|format}</dt>
+            <php>$detail_more = get_str_length($data['transponInfo']['content'], true) > 140 ? ' <a href="' . U('home/space/detail',array('id'=>$data['transponInfo']['weibo_id'])) . '" target="_blank">'.L('查看更多').'&raquo;</a>' : '';</php>
+            <dt>{$data.transponInfo.content|getShort=###,140,'...'|keyWordFilter|format}</dt>
             <php>}else{</php>
-            <php>$detail_more = get_str_length($data['content'], true) > 140 ? ' <a href="' . U('home/space/detail',array('id'=>$data['weibo_id'])) . '" target="_blank">{:L('查看更多')}&raquo;</a>' : '';</php>
-            <dt>{:L('转发')}:{$data.content|getShort=###,140,'...'|keyWordFilter|format}</dt>
+            <php>$detail_more = get_str_length($data['content'], true) > 140 ? ' <a href="' . U('home/space/detail',array('id'=>$data['weibo_id'])) . '" target="_blank">'.L('查看更多').'&raquo;</a>' : '';</php>
+            <dt>{$data.content|getShort=###,140,'...'|keyWordFilter|format}</dt>
             <php>}</php>
             <dd><span class="right numObj wordNum" id="transpond_count"></span></dd>
             <dd>
@@ -25,9 +26,9 @@
             </dd>
             <dd>
             <input type="button" error="{:L('转发失败')}" id="transpond_button" class="btn_b right buttonObj" value="{:L('确定')}">
-            <div><label><input type="checkbox" class="labelbox" name="reply_weibo_id[]" value="{$data.weibo_id}" > {:argL('同时作为给的评论发布', $data.uid|getUserName)}<!--同时作为给 {$data.uid|getUserName} 的评论发布--></label></div>
+            <div><label><input type="checkbox" class="labelbox" name="reply_weibo_id[]" value="{$data.weibo_id}" > {:argL('同时作为给的评论发布', getUserName($data['uid']))}<!--同时作为给 {$data.uid|getUserName} 的评论发布--></label></div>
             <php>if( $data['transpond_id'] && $data['transponInfo']['uid']!=$data['uid'] ){</php>
-            <div><label><input type="checkbox" class="labelbox" name="reply_weibo_id[]" value="{$data.transponInfo.weibo_id}"> {:argL('同时作为给的评论发布', $data.transponInfo.uid|getUserName)} <!--同时作为给 {$data.transponInfo.uid|getUserName} 的评论发布--></label></div>
+            <div><label><input type="checkbox" class="labelbox" name="reply_weibo_id[]" value="{$data.transponInfo.weibo_id}"> {:argL('同时作为给的评论发布', getUserName($data['transponInfo']['uid']))} <!--同时作为给 {$data.transponInfo.uid|getUserName} 的评论发布--></label></div>
             <php>}</php>
             </dd>
         </dl>
