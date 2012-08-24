@@ -12,14 +12,15 @@ class TranslateShareAddons extends SimpleAddons
 	protected $pluginName = '翻译转发';
 	protected $tsVersion  = "2.5";
 	
-	private $languages=array(
-		'en'=>'English',
-		'zh_cn'=>'中文',
-		'sp'=>'español',
-		'fr'=>'française',
-		'jp'=>'日本語',
-		'kr'=>'한국의'
-	);
+	private $cfgFile	= './addons/plugins/TranslateShare/cfg.php';
+	
+	private $languages=array();
+	
+	public function TranslateShareAddons(){
+		$f=file($this->cfgFile);
+		unset($f[0]);
+		$this->languages=json_decode(implode('',$f),true);
+	}
 
 	public function getHooksInfo(){
 		$this->apply('transpond_header','shareLanguageChoice');
@@ -246,10 +247,73 @@ function shareTranslateChange(me){
 </script>
 JS;
 	}
+	
+	public function adminMenu()
+	{
+		return array(
+			'adminSetLanguages'=>'语言选项',
+		);
+	}
+	
+	public function adminSetLanguagesSave()
+	{
+		$fp=fopen($this->cfgFile,'w');
+		fwrite($fp,'<?php die();?>'.chr(10));
+		$arr=array();
+		foreach($_POST['value'] as $k=>$v){
+			$arr[$_POST['key'][$k]]=$v;
+		}
+		fwrite($fp,json_encode($arr));
+		fclose($fp);
+	}
+	
+	public function adminSetLanguages()
+	{
+		$url=Addons::createAddonUrl('TranslateShare','adminSetLanguagesSave');
+		echo <<<HTML
+<style text="text/css">
+input{
+	margin-right:50px;
+	padding:5px;
+}
+</style>
+<script type="text/javascript">
+function remove(me){
+	$(me).parent().remove();
+}
+function add(){
+	$('#languageList').append('<div> <label>显示名称：</label><input name="value[]" type="text"/><label>机器名称（2-5个字符）：</label><input name="key[]" type="text"><a href="javascript:void(0)" onclick="remove(this)">删除</a></div>');
+}
+var saving=false;
+function presave(){
+	saving=true;
+}
+function saved(){
+	if(saving)
+		ui.success('保存完毕');
+	saving=false;
+}
+</script>
+<iframe onload="saved()" src="about:blank" name="submFrame" id="submFrame" style="border:0;background:transparent;width:0;height:0"></iframe>
+<form onsubmit="presave()" action="{$url}" method="post" target="submFrame">
+<div id="languageList">
+HTML;
+		foreach($this->languages as $k=>$v){
+			echo '<div> <label>显示名称：</label><input name="value[]" type="text" value="'.$v.'"/>';
+			echo '<label>机器名称（2-5个字符）：</label><input name="key[]" type="text" value="'.$k.'">';
+			echo '<a href="javascript:void(0)" onclick="remove(this)">删除</a></div>';
+		}
+		echo <<<HTML
+</div>
+<a href="javascript:void(0)" onclick="add()">添加</a><br/>
+<input type="submit" value="保存"/>
+</form>
+HTML;
+	}
 
 	public function start()
 	{
-		
+		return is_writable($this->cfgFile);
 	}
 	
 	public function install()
