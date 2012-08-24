@@ -3,7 +3,7 @@ return array (
    'follower' => 'fans',
    'signature' => 'Signature',
    'after_comment' => 'then you can comment',
-   'num_comment' => ' % pieces',
+   'num_comment' => ' % ',
    'check_postweibo' => 'send to weibo',
    'check_comment' => 'comment to original author',
    'comment_deny' => 'You are not permitted to comment.',

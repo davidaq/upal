@@ -62,7 +62,7 @@
 		<input type="hidden" name="reply_comment_id" id="replyid_{$mini.weibo_id}">	  	
       <div class="box_comment">
       		<dl class="massage_comment">
-            	<dt><em>{:argL('num_comment', $comment.count)}</em>{:L('comment')}</dt>
+            	<dt><em>{:argL('num_comment', $comment['count'])} {:L('comment')}</em></dt>
                 <dd><textarea class="message_text" id="comment_{$mini.weibo_id}" style="width:97.8%;min-width:97.8%;max-width:97.8%;min-height:55px;max-height:55px;height:55px;" name="comment_content" cols="" rows=""></textarea></dd>
                 <dd>
                     <input type="submit" class="N_but right" value="确定">
