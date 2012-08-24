@@ -41,16 +41,17 @@ class OperateAction extends Action{
     function transpond(){
     	$pWeibo = D('Weibo');
     	if($_POST){
-         Addon::hook('transpond_post_preprocess');
 			if(isSubmitLocked()){
 				die('submitlocked');
 			} else if (isDuplicateContent(trim($_POST['content']))) {
                 die('duplicatecontent');
-            }
+            }    	
 	        $post['content']         = $_POST['content'];
 	        $post['transpond_id']    = intval( $_POST['transpond_id'] );
 	        $post['reply_weibo_id']  = $_POST['reply_weibo_id'];
 	        if( $id = $pWeibo->transpond($this->mid,$post) ){
+	        
+	         Addons::hook('transpond_post_done',array('origin_id'=>$post['transpond_id'],'weibo_id'=>$id));
 				//锁定发布
 				lockSubmit();
 

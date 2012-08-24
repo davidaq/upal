@@ -1,3 +1,4 @@
+{:Addons::hook('weibo_list_start')}
 <ul class="feed_list" <eq name='insert' value='1'> id="feed_list"</eq>>
 <volist id="vo" name="list">
   <li class="lineD_btm" id="list_li_{$vo.weibo_id}">
@@ -19,11 +20,12 @@
     <div class="feed_c" <if condition="$hidden_user eq 1">style="margin-left:10px;"</if>>
       <div class="msgCnt">
         <if condition="$hidden_user neq 1"><h4><space uid="vo.uid" >{uname}</space>{$vo.uid|getUserGroupIcon}：</h4></if>
+        {:Addons::hook('weibo_list_item',$vo['weibo_id'])}
         <if condition="$show eq 'detail'">
-        	<p style="vertical-align:top;display:inline">{$vo.content|format=true}</p>
+        	<p style="vertical-align:top;" class="weibo-content">{$vo.content|format=true}</p>
         <else />
             <php>$detail_more = get_str_length($vo['content'], true) > 140 ? ' <a href="' . U('home/space/detail',array('id'=>$vo['weibo_id'])) . '" target="_blank">查看更多&raquo;</a>' : '';</php>
-        	<p style="vertical-align:top;display:inline">{$vo.content|getShort=###,140,'...'|format=true}{$detail_more}</p>
+        	<p style="vertical-align:top;" class="weibo-content">{$vo.content|getShort=###,140,'...'|format=true}{$detail_more}</p>
         </if>
       </div>
       <php>if( $vo['transpond_id'] ){</php>
@@ -33,7 +35,8 @@
             <div class="q_con">
             <h4 style="vertical-align:top"><space uid="vo.expend.uid" class="null">@{uname}</space>{$vo.expend.uid|getUserGroupIcon}：</h4>
             <php>$expend_detail_more = get_str_length($vo['expend']['content'], true) > 140 ? ' <a href="' . U('home/space/detail',array('id'=>$vo['expend']['weibo_id'])) . '" target="_blank">查看更多&raquo;</a>' : '';</php>
-            <p style="vertical-align:top;display:inline">{$vo.expend.content|getShort=###,140,'...'|format=true}{$expend_detail_more}</p> 
+            {:Addons::hook('weibo_list_item',$vo['transpond_id'])}
+            <p style="vertical-align:top;" class="weibo-content">{$vo.expend.content|getShort=###,140,'...'|format=true}{$expend_detail_more}</p> 
             <div>{$vo.expend.expend}</div>
             <!--转发-->
             <div class="comment">
