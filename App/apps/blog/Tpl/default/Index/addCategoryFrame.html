@@ -121,12 +121,12 @@ function addCategory(category){
           select.append( select.children().clone().val(txt).html(category));
           ymPrompt.close();
           }else{
-          Alert( '添加失败' );
+          Alert( '{:L('添加失败')}' );
         }
    })
     
   }else{
-    Alert( '添加失败' );
+    Alert( '{:L('添加失败')}' );
   }
 }
 </script>
@@ -136,7 +136,7 @@ function addCategory(category){
     <div class="con">
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:120px;">
             <tr>
-              <td width="20%">请输入分类名:</td>
+              <td width="20%">{:L('请输入分类名')}:</td>
                 <td width="80%" valign="top" id="tishi"><input id="category" name="category" class="Text" /></td>
             </tr>
         </table>
@@ -144,8 +144,8 @@ function addCategory(category){
 
 
     <div class="btm" id="f_button">
-        <input name="input" type="button" class="btn_b" value="确 定"  onclick="addCategory($( '#category' ).val())"/>
-        <input name="input2" type="button" class="btn_w" value="取 消" onclick="ymPrompt.close();" />
+        <input name="input" type="button" class="btn_b" value="{:L('确 定')}"  onclick="addCategory($( '#category' ).val())"/>
+        <input name="input2" type="button" class="btn_w" value="{:L('取 消')}" onclick="ymPrompt.close();" />
     </div>
 </div>
 </body>

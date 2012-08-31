@@ -45,18 +45,28 @@ class TranslateShareAddons extends SimpleAddons
 	}
 	
 	public function getWeiboTranslation(){
+		if(isset($_SESSION['language'])&&'en'==$_SESSION['language']){
+			$_LANG['pubdate']='Publish date:';
+		}else{
+			$_LANG['pubdate']='发布日期:';
+		}
 		$m=M('weibo_translation');
 		$d=$m->join(C('DB_PREFIX').'weibo as wb ON tid=wb.weibo_id')
 				->join(C('DB_PREFIX').'user as us ON wb.uid=us.uid')
-				->where(array('origin_id'=>intval($_GET['weibo']),'language'=>$_GET['language']))
+				->where(array('origin_id'=>intval($_GET['weibo']),'language'=>$_GET['lang']))
 				->order(array('votes'=>'desc'))
-				->field('tid,content,us.uid,uname,votes')->select();
+				->field('tid,content,us.uid,uname,votes,wb.ctime')->select();
+		if($d){
+			foreach($d as $k=>$v){
+				$d[$k]['ctime']=$_LANG['pubdate'].' '.date('Y-m-d H:i',$v['ctime']);
+			}
+		}
 		echo json_encode($d);
 	}
 	
 	public function voteTranslation(){
 		$tid=intval($_GET['tid']);
-		if(isset($_SESSION['language'])&&$_SESSION['language']=='en'){
+		if(isset($_SESSION['language'])&&'en'==$_SESSION['language']){
 			$_LANG['voted']='You already voted for this';
 			$_LANG['db_error']='Database error';
 		}else{
@@ -79,7 +89,7 @@ class TranslateShareAddons extends SimpleAddons
 		$space=U('home/space/index',array('uid'=>''));
 		$vote=Addons::createAddonUrl('TranslateShare','voteTranslation');
 		
-		if(isset($_SESSION['language'])&&$_SESSION['language']=='en'){
+		if(isset($_SESSION['language'])&&'en'==$_SESSION['language']){
 			$_LANG['translate']	='translates';
 			$_LANG['up']			='Up';
 			$_LANG['vote-done']	='Voting submited';
@@ -154,6 +164,7 @@ $(function(){
 		if(loadedTranslates[wid+'o']==undefined){
 			loadedTranslates[wid+'o']=[{'content':$(this).parent().parent().find('.weibo-content').html(),'votes':-1}];
 		}
+		
 		function makeTrans(param){
 			var ret='';
 			var first=true;
@@ -161,7 +172,8 @@ $(function(){
 				ret+='<div class="translation-content">';
 				ret+='<a href="{$space}'+param[k]['uid']+'" target="_blank">'+param[k]['uname']+'</a> ';
 				ret+='{$_LANG['translate']}: '+param[k]['content'];
-				ret+='<div class="vote-up"><a href="javascript:void(0)" onclick="voteTranslate(this,'+param[k]['tid']+')">{$_LANG['up']}(<span>'+param[k]['votes']+'</span>)</a></div>';
+				ret+='<div class="vote-up">'+param[k]['ctime'];
+				ret+=' | <a href="javascript:void(0)" onclick="voteTranslate(this,'+param[k]['tid']+')">{$_LANG['up']}(<span>'+param[k]['votes']+'</span>)</a></div>';
 				ret+='</div>';
 				if(first){
 					if(param[1])
@@ -176,7 +188,7 @@ $(function(){
 		if(loadedTranslates[wid+lang]==undefined){
 			var me=this;
 			$(me).parent().parent().find('.weibo-content').html('...');
-			$.getJSON('{$url}',{'weibo':wid,'language':lang},function(data){
+			$.getJSON('{$url}',{'weibo':wid,'lang':lang},function(data){
 				loadedTranslates[wid+lang]=data;
 				$(me).parent().parent().find('.weibo-content').html(makeTrans(loadedTranslates[wid+lang]));
 			});
@@ -193,7 +205,7 @@ HTML;
 	}
 	
 	public function displayLanguage($param){
-		if(isset($_SESSION['language'])&&$_SESSION['language']=='en'){
+		if(isset($_SESSION['language'])&&'en'==$_SESSION['language']){
 			$_LANG['is_a_translate']='This is a translation of the origin.';
 			$_LANG['version']='Version: ';
 			$_LANG['o']='Original';
@@ -218,7 +230,7 @@ HTML;
 	
 	public function shareLanguageChoice()
 	{
-		if(isset($_SESSION['language'])&&$_SESSION['language']=='en'){
+		if(isset($_SESSION['language'])&&'en'==$_SESSION['language']){
 			$_lang['o']='Original';
 			$_lang['hint_o']='Content will be quoted just as it is';
 			$_lang['hint_t']='Your input will be treated as a translation';

@@ -15,10 +15,10 @@ function deleteAll( formCate ){
 
 <dl class="pop_del_Blogclass">
     <dt>
-    <div class="cRed">该分类下有{$_GET['count']}篇日志，是否同时删除？</div>
+    <div class="cRed">{:L('该分类下有')}{$_GET['count']}{:L('篇日志，是否同时删除？')}</div>
       <div class="mt10">
         <input type="radio" name="radio" id="radio1" value="radio" checked />
-        将这些日志转移到 <select name="select" id="select">
+        {:L('将这些日志转移到')} <select name="select" id="select">
           <volist name="category" id="vo"> <option value="{$vo['id']}" 
             <eq name="vo.name" value="默认分类">selected</eq>
             >{$vo['name']}
@@ -26,12 +26,12 @@ function deleteAll( formCate ){
           </volist>
         </select>
         <br /><input type="radio" name="radio" id="radio2" value="radio" />
-        删除全部日志 
+        {:L('删除全部日志')} 
         
       </div>
     </dt>
   <dd>
-    <input name="input" type="button" class="btn_b" onclick="deleteAll('{$_GET['id']}')" value="确 定" />
-    <input name="input2" type="button" class="btn_w" onclick="ui.box.close()" value="取 消" />
+    <input name="input" type="button" class="btn_b" onclick="deleteAll('{$_GET['id']}')" value="{:L('确 定')}" />
+    <input name="input2" type="button" class="btn_w" onclick="ui.box.close()" value="{:L('取 消')}" />
   </dd>
 </dl>

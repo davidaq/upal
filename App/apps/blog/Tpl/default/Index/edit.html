@@ -11,7 +11,7 @@
         <div class=page_title> 
             <h2>
                 <!-- <span class="f12px fn right"><a href="javascript:history.back( -1 )">&lt;&lt;返回上一页</a></span> -->
-                修改{$ts['app']['app_alias']}
+                {:L('修改')}{$ts['app']['app_alias']}
             </h2>
         </div>
         <div class="BlogBox">
@@ -19,7 +19,7 @@
             <div class="LogList">
               <ul class="edit">
                 <li style="padding:0;">
-                  <label>标题: &nbsp;</label>
+                  <label>{:L('标题')}: &nbsp;</label>
                   <div class="c1">
                     <select name="category" id="select" onchange="javascript:changeCategory($(this))" class="text mr5">
                       <php>foreach( $blog_category as $value ){</php>
@@ -27,23 +27,23 @@
                       <php>}</php>
                       <option value="0">&nbsp;</option>
                       <optgroup id="group">
-                      <option value="0">+添加分类</option>
+                      <option value="0">+{:L('添加分类')}</option>
                       </optgroup>
                     </select> 
                     <input id="title" name="title" type="text" class="text" style="width:363px;" onBlur="this.className='text'" onFocus="this.className='text2'" maxlength="25" value="{$title}" />
                   </div>
                 </li>
                 <li style="padding:0;">
-                  <label>内容: &nbsp;</label>
+                  <label>{:L('内容')}: &nbsp;</label>
                   <div class="c1"><textarea id="content" name="content" style="height:350px;">{$content}</textarea></div>
                 </li>
                 <li style="padding:0;">
-                    <label>访问: &nbsp;</label>
+                    <label>{:L('访问')}: &nbsp;</label>
                     <div class="c1">
                     <select name="private" class="text">
-                    <option value="0" <eq name="private" value="0">selected="selected"</eq>>所有人可见</option>
-                    <option value="2" <eq name="private" value="2">selected="selected"</eq>>仅我的关注可见</option>
-                    <option value="4" <eq name="private" value="4">selected="selected"</eq>>仅自己可见</option>
+                    <option value="0" <eq name="private" value="0">selected="selected"</eq>>{:L('所有人可见')}</option>
+                    <option value="2" <eq name="private" value="2">selected="selected"</eq>>{:L('仅我的好友可见')}</option>
+                    <option value="4" <eq name="private" value="4">selected="selected"</eq>>{:L('仅自己可见')}</option>
                     </select>
                     </div>
                 </li>
@@ -60,8 +60,8 @@
                             <div class ="attach" style="display:none;">
                                 <volist name ="attach" id="vo"></volist>
                                 <input class="attach{$vo['id']}" type="hidden" name="attach[]" value="{$vo['id']}|{$vo['name']}"><p>
-                                    <span class="attach{$vo['id']}"> [附件] {$vo['name']}</span>
-                                    <span class="attach{$vo['id']}"><a class="attach{$vo['id']}" href="javascript:void(0)" onclick="deleteAttach({$vo['id']})">删除</a></span></p>
+                                    <span class="attach{$vo['id']}"> [{:L('附件')}] {$vo['name']}</span>
+                                    <span class="attach{$vo['id']}"><a class="attach{$vo['id']}" href="javascript:void(0)" onclick="deleteAttach({$vo['id']})">{:L('删除')}</a></span></p>
                                 </volist>
                             </div>
                         </neq>
@@ -71,12 +71,12 @@
                             <div class="c1" style="height:30px;">
                                 <input id="id" name="id" type="hidden" value="{$id}">
                                 <input id="friendid" name="mention" type="hidden" value="">
-                                <input type="submit" class="btn_b" value="发 表" />
+                                <input type="submit" class="btn_b" value="{:L('发表')}" />
                                 <php>if( !empty( $saveId ) ){</php>
-                                <input id="saveButton" type="button" onclick="javascript:autosave()"class="btn_b" value="存至草稿箱"/> <span id="autoSave" style="display:none;"></span>
+                                <input id="saveButton" type="button" onclick="javascript:autosave()"class="btn_b" value="{:L('存至草稿箱')}"/> <span id="autoSave" style="display:none;"></span>
                                 <input id="saveId" name="saveId" type="hidden" value="{$saveId}"/>
                                 <php>}else{</php>
-                                <input id="saveButton" type="button" onclick="javascript:history.back(-1)"class="btn_w" value="取消"/>
+                                <input id="saveButton" type="button" onclick="javascript:history.back(-1)"class="btn_w" value="{:L('取 消')}"/>
                                 <php>}</php>
                             </div>
                 </li>

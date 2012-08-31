@@ -9,20 +9,20 @@
       <div class="mainbox_appC">
         <div class="BlogBox">
           <div class="LogList"><!-- 好友博客 begin  -->
-            <div class="alR"><a href="__URL__&act=my">返回我的{$ts['app']['app_alias']}</a></div>
+            <div class="alR"><a href="__URL__&act=my">{:L('返回我的')}{$ts['app']['app_alias']}</a></div>
             <ul>
               <li class="lineD_btm" style="margin:0px;">
                 <div class="left">
                   <input name="" type="text" class="text" id="insertCategory" onBlur="this.className='text'" onFocus="this.className='text2'" style="width:540px;" />
-                  <input name="button" type="submit"  class="btn_b" id="button" onclick="addCategory( $( '#insertCategory' ).val() )"value="增加分类" />
+                  <input name="button" type="submit"  class="btn_b" id="button" onclick="addCategory( $( '#insertCategory' ).val() )"value="{:L('增加分类')}" />
                 </div>
                 <div class="left cGray2" style="width: 50%;"> </div>
                 <div class="left" style="width: 10%;"></div>
               </li>
               <li class="cGray2 lineD_btm" style="margin:0px;">
-                <div class="left" style="width: 40%;">名称</div>
-                <div class="left" style="width: 50%;">{$ts['app']['app_alias']}数目</div>
-                <div class="left" style="width: 9%;">操作</div>
+                <div class="left" style="width: 40%;">{:L('名称')}</div>
+                <div class="left" style="width: 50%;">{$ts['app']['app_alias']}{:L('数目')}</div>
+                <div class="left" style="width: 9%;">{:L('操作')}</div>
               </li>
               <form action="__URL__&act=editCategory" method="post">
                 <volist name="category" id="vo">
@@ -36,13 +36,13 @@
                     </div>
                     <div id="c{$vo['id']}" class="left" style="width: 50%;">{$vo['count']}</div>
                     <php>if( $vo['uid'] != 0 ){</php>
-                    <div class="left" style="width: 9%;"><a href="javascript:deleteCategory( {$vo['id']})">[移除]</a></div>
+                    <div class="left" style="width: 9%;"><a href="javascript:deleteCategory( {$vo['id']})">[{:L('移除')}]</a></div>
                     <php>}</php>
                   </li>
                 </volist>
                 <li style="margin:0px;">
                   <div class="left" style="width: 40%;">
-                    <input type="submit" class="btn_b"  id="button2" value="保存" />
+                    <input type="submit" class="btn_b"  id="button2" value="{:L('保存')}" />
                   </div>
                   <div class="left" style="width: 50%;"></div>
                   <div class="left" style="width: 9%;"></div>
@@ -63,14 +63,14 @@
 function cagExist(obj){
 	var name = obj.value;
 	if(getLength(name.replace(/\s+/g,"")) == 0){
-		ui.error("日志分类名称不能为空");
+		ui.error("{:L('日志分类名称不能为空')}");
 		return false;
 	}
 	$.post( U('blog/Index/isCategoryExist'),{name:name},function( txt ){
     	if(0 == txt) {
-    		ui.error( '添加失败' );
+    		ui.error( '{:L('添加失败')}' );
         }else{
-            ui.error( "分类名已存在" );
+            ui.error( "{:L('分类名已存在')}" );
         }
 	});
  
