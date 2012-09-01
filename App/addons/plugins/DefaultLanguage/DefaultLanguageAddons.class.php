@@ -34,9 +34,14 @@
 			} else {
 				$d_lang = $d['language'];
 			}
+			if(isset($_SESSION['language'])&&'en'==$_SESSION['language']){
+				$_LANG['defLang']='Default language';
+			}else{
+				$_LANG['defLang']='默认使用语言';
+			}
 			echo<<<HTML
 				<dd>
-					<label>Language/语言: </label>
+					<label>{$_LANG['defLang']}: </label>
 					<select name = 'default_language'>
 HTML;
 			$lang='';
