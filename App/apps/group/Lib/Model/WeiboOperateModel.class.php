@@ -181,6 +181,7 @@ class WeiboOperateModel extends GroupWeiboModel{
 			$map .= " AND type=".$type;
     	}
 
+		Addons::hook('Weibo_getHomeList',array('map'=>&$map));
     	$map = " gid={$gid} AND ".$map;
 
     	// 去除被举报的微博

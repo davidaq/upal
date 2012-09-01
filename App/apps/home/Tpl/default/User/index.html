@@ -3,7 +3,6 @@
 <script type="text/javascript" src="__PUBLIC__/js/weibo.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/jquery.autocomplete.js"></script>
 <script src="../Public/js/slides.min.jquery.js"></script>
-
 <div class="content_holder"> 
 <div class="content"><!-- 内容 begin  --> 
   <include file="__THEME__/apps" />
@@ -71,7 +70,11 @@
                 <div class="txtShadow" style="z-index:-1000"></div>
               </div>
               <div class="funBox">
-                  <php>if(Addons::requireHooks("home_index_middle_publish")){</php>
+              		
+                  <div class="right" style="padding-bottom:5px;_margin-top:-8px;_padding-top:10px;">
+              		{:Addons::hook('home_index_weibo_func')}
+              		</div>
+                  <php>/*if(Addons::requireHooks("home_index_middle_publish")){</php>
                   <div class="right" style="padding-bottom:5px;_margin-top:-8px; cursor:hand;width:80px;_padding-top:10px; cursor:pointer"  onclick='weibo.showAndHideMenu("Sync", this, "", "");'>
                         {:L('sync')}<a href="#" class="ico_sync_on"></a>
                     </div>
@@ -81,7 +84,7 @@
                                     {:Addons::hook('home_index_middle_publish')}
                         </div>
                     </div>
-                    <php>}</php>
+                    <php>}*/</php>
                 <div id="publish_type_content_before" class="kind">
                   {:Addons::hook('home_index_middle_publish_type',array('position'=>'index'))}
                 </div>
@@ -167,6 +170,7 @@
         </switch>
 		<!-- 微博列表 feedbox  -->
         <div class="feedBox">
+        	{:Addons::hook('weibo_feedbox')}
 			<div id="countNew"></div>
 			<php>if($gid){</php>
 				{:W('WeiboList', array('mid'=>$mid, 'list'=>$list['data'], 'insert'=>1,'simple'=>2))}

@@ -54,6 +54,7 @@ class OperateModel extends WeiboModel{
     		}else{
     			return false;
     		}
+    		Addons::hook('weibo_delete',$id);
     		return true;
     	}else{
     		return false;
@@ -306,7 +307,11 @@ class OperateModel extends WeiboModel{
 				$map.=' AND uid = '.$uid;
 			}
 		}
-
+		
+		trace('...........');
+		Addons::hook('Weibo_getHomeList',array('map'=>&$map));
+		trace($map);
+		trace('...........');
 	    if($limit){
 	        $list = $this->field('weibo_id')->where($map)->order('weibo_id DESC')->limit($limit)->findAll();
 			unset($map);
@@ -362,6 +367,7 @@ class OperateModel extends WeiboModel{
 				$map.=' AND uid = '.$uid;
 			}
 		}
+		Addons::hook('Weibo_getHomeList',array('map'=>&$map));
 
     	$list = $this->field('weibo_id')->where($map)->order('weibo_id DESC')->limit($row)->findAll();
 		unset($map);
