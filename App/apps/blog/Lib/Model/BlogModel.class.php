@@ -145,6 +145,10 @@ class BlogModel extends BaseModel {
         }else {
             $categorycontent = $category->getCategory();
         }
+        foreach($categorycontent as $k=>$v){
+        		if($v['name']=='未分类')
+        			$categorycontent[$k]['name']=L('未分类');
+        }
         return $categorycontent;
     }
 

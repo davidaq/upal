@@ -6,11 +6,11 @@ $(document).ready(function(){
 });
 </script>
 
-{:W('Weibo',array('tpl_name'=>$mid==$uid?'blog_create_weibo':'blog_share_weibo','button_title'=>'分享'))}
+{:W('Weibo',array('tpl_name'=>$mid==$uid?'blog_create_weibo':'blog_share_weibo','button_title'=>L('分享')))}
 <php>
 $tpl_data = array('author'=>getUserName($uid),'title'=>text($title),'body'=>getShort(text($content),80),'url'=>U('blog/Index/show',array('id'=>$id,'mid'=>$uid)));
 $tpl_data = urlencode(serialize($tpl_data));
-$param_data = urlencode(serialize(array('has_status'=>1,'is_success_status'=>1,'status_title'=>'发布成功')));
+$param_data = urlencode(serialize(array('has_status'=>1,'is_success_status'=>1,'status_title'=>L('发表成功'))));
 </php>
 <div class="content_holder">
 <div class="content no_bg"><!-- 内容 begin  -->
@@ -26,20 +26,20 @@ $param_data = urlencode(serialize(array('has_status'=>1,'is_success_status'=>1,'
       <div style="padding-left:70px;">
         <h2>
             <!-- <span class="right fn f12px"><a id="test" href="javascript:history.back()">返回上一页</a></span> -->
-            <space uid="uid" class="null">{uname}</space> 的{$ts['app']['app_alias']}
+            <space uid="uid" class="null">{uname}</space>{:L('的')}{$ts['app']['app_alias']}
         </h2>
 		<p>
-			<em>发布时间：{$cTime|friendlyDate}</em>
+			<em>{:L('发布时间')}: {$cTime|friendlyDate}</em>
 		<eq name="isOwner" value="1">
 			 [ <a href="{:U('blog/Index/my', array('cateId'=>$category['id']))}">{$category_title}</a> ]
         </p>
         <p>
-			<a href="{:U('blog/Index/my')}" >我的全部{$ts['app']['app_alias']}</a>
+			<a href="{:U('blog/Index/my')}" >{:L('我的全部')}{$ts['app']['app_alias']}</a>
 		<else/>
              [ <a href="{:U('blog/Index/personal', array('uid'=>$uid,'cateId'=>$category['id']))}">{$category['name']}</a> ]
         </p>
         <p>
-			<a href="{:U('blog/Index/personal', array('uid'=>$uid))}" >{$uid|getUserName}的全部{$ts['app']['app_alias']}</a>
+			<a href="{:U('blog/Index/personal', array('uid'=>$uid))}" >{$uid|getUserName}{:L('的全部')}{$ts['app']['app_alias']}</a>
 		</eq>
 		</p>
       </div>
@@ -49,22 +49,22 @@ $param_data = urlencode(serialize(array('has_status'=>1,'is_success_status'=>1,'
       <div class="">
         <div class="btmline lh30 mLR15">
             <div class="right">
-                <a href="{:U('blog/Index/show', array('id'=>$id, 'action'=>'lt', 'mid'=>$uid))}">上一篇</a> / <a href="{:U('blog/Index/show', array('id'=>$id, 'action'=>'gt', 'mid'=>$uid))}">下一篇</a>
+                <a href="{:U('blog/Index/show', array('id'=>$id, 'action'=>'lt', 'mid'=>$uid))}">{:L('上一篇')}</a> / <a href="{:U('blog/Index/show', array('id'=>$id, 'action'=>'gt', 'mid'=>$uid))}">{:L('下一篇')}</a>
             </div>
-            第 {$num}/{$count} 篇{$ts['app']['app_alias']}
+            {:L('第')} {$num}/{$count} {:L('篇')}{$ts['app']['app_alias']}
         </div>
         <div style="margin-bottom:20px; " class="mLR15">
           <div class="tit_log">
             <h1>
                 <span class="right">
-                <input type="button" name="Submit" value="分享" class="BtnShare" onclick="_widget_weibo_start('', '{$tpl_data}');" id="BtnShare_{$id}"/>
+                <input type="button" name="Submit" value="{:L('分享')}" class="BtnShare" onclick="_widget_weibo_start('', '{$tpl_data}');" id="BtnShare_{$id}"/>
                 </span><strong>{$title}</strong>
             </h1>
             <p>
                 <eq name="isOwner" value="1">
-                <a href="{:U('blog/Index/edit', array('id'=>$id, 'mid'=>$uid))}">编辑</a>&nbsp;&nbsp;
+                <a href="{:U('blog/Index/edit', array('id'=>$id, 'mid'=>$uid))}">{:L('编辑')}</a>&nbsp;&nbsp;
                 <span class="cGray2">|</span>&nbsp;&nbsp;
-                <a href="javascript:deleteBlog('{:U('blog/Index/doDeleteBlog', array('id'=>$id))}')">删除</a>&nbsp;&nbsp;
+                <a href="javascript:deleteBlog('{:U('blog/Index/doDeleteBlog', array('id'=>$id))}')">{:L('删除')}</a>&nbsp;&nbsp;
                 </eq>
             </p>
           </div>
@@ -74,7 +74,7 @@ $param_data = urlencode(serialize(array('has_status'=>1,'is_success_status'=>1,'
               <table width="100%" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td width="40" align="center"><img src="../Public/images/ico_suo.png" width="20" height="20" /></td>
-                  <td>只有主人可以查看此日志</td>
+                  <td>{:L('本日志仅主人自己可见')}</td>
                 </tr>
               </table>
             </div>
@@ -85,14 +85,14 @@ $param_data = urlencode(serialize(array('has_status'=>1,'is_success_status'=>1,'
               <table width="100%" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td width="40" align="center"><img src="../Public/images/ico_suo.png" width="20" height="20" /></td>
-                  <td>只有主人关注的人可以查看此日志</td>
+                  <td>{:L('本日志仅主人关注的人可见')}</td>
                 </tr>
               </table>
             </div>
           </div>
           <php>}else{</php>
             <div style="padding:20px 0px;" class="f14px blog_con lh180 " id="blog_con"><div class="ke-post img_resize">{$content}</div></div>
-            <neq name="mTime" value="0"><div class="cGray2 lh30">最后修改时间: {$mTime|friendlyDate}</div></neq>
+            <neq name="mTime" value="0"><div class="cGray2 lh30">{:L('最后修改时间')}: {$mTime|friendlyDate}</div></neq>
           <php>} </php>
           
         </div>

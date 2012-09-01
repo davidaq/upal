@@ -9,6 +9,7 @@
  * @author SamPeng <sampeng87@gmail.com>
  * @license PHP Version 5.2 {@link www.sampeng.cn}
  */
+
 class IndexAction extends Action {
         private $filter;
         private $blog;
@@ -26,6 +27,8 @@ class IndexAction extends Action {
 			//设置日志Action的数据处理层
             $this->blog  = D('Blog','blog');
             $this->follow= D('Follow');
+            global $ts;
+            $ts['app']['app_alias']=L('日志');
         }
         protected $app = null;
         /**
@@ -49,7 +52,7 @@ class IndexAction extends Action {
 					$this->assign( $list );
 					$this->assign( 'all','true' );
 					global $ts;
-					$this->setTitle("热门{$ts['app']['app_alias']}");
+					$this->setTitle(L('热门')."{$ts['app']['app_alias']}");
 					$this->display();
 
 			}else {
@@ -75,7 +78,7 @@ class IndexAction extends Action {
 			$this->assign( 'uid',$this->mid );
 			$this->assign( $list );
 			$this->assign( 'all','true' );
-			$this->setTitle("搜索文章: ".$keyword);
+			$this->setTitle(L("搜索文章: ").$keyword);
 			$this->display();
 
 
@@ -92,8 +95,8 @@ class IndexAction extends Action {
         	//获得日志数据集
             $outline = D( 'BlogOutline' );
             $list    = isset( $_GET['outline'] )?
-            	$outline->getList( $this->mid ): //草稿箱
-            	$this->__getBlog( $this->mid,'*','cTime desc' ); //我的日志
+         	$outline->getList( $this->mid ): //草稿箱
+         	$this->__getBlog( $this->mid,'*','cTime desc' ); //我的日志
 
             foreach($list['data'] as $k => $v) {
             	if ( empty($v['category']['name']) && !empty($v['category']['id']) )
@@ -121,7 +124,7 @@ class IndexAction extends Action {
             $this->assign('category',$category);
             $this->assign( $list );
             global $ts;
-            $this->setTitle("我的{$ts['app']['app_alias']}");
+            $this->setTitle(L('我的')."{$ts['app']['app_alias']}");
             $this->display('index');
         }
 
@@ -137,7 +140,7 @@ class IndexAction extends Action {
                 $this->assign( $list );
                 $this->assign( 'all','true' );
                 global $ts;
-                $this->setTitle("最新{$ts['app']['app_alias']}");
+                $this->setTitle(L('最新')."{$ts['app']['app_alias']}");
                 $this->display('index');
             }else {
             	$this->error( L( 'error_all' ) );
@@ -156,7 +159,7 @@ class IndexAction extends Action {
                 $this->assign( $list );
                 $this->assign( 'all','true' );
                 global $ts;
-                $this->setTitle("我的关注的人的{$ts['app']['app_alias']}");
+                $this->setTitle(L('我好友的')."{$ts['app']['app_alias']}");
                 $this->display('index');
             }else {
             	$this->error( L( 'error_all' ) );
@@ -205,13 +208,13 @@ class IndexAction extends Action {
 				$relationship = getFollowState($this->mid, $bloguid);
 				if($list['private'] == 4){
                     $this->assign('jumpUrl', U('blog/Index/index'));
-					$this->error('本日志仅主人自己可见');
+					$this->error(L('本日志仅主人自己可见'));
 				}elseif($list['private'] == 2 && $relationship=='unfollow'){
                     $this->assign('jumpUrl', U('blog/Index/index'));
-					$this->error('本日志仅主人关注的人可见');
+					$this->error(L('本日志仅主人关注的人可见'));
 				} else if ($list['private'] == 5 && model('Friend')->identifyFriend($this->mid, $bloguid) != FriendModel::ARE_FRIENDS) {
                     $this->assign('jumpUrl', U('blog/Index/index'));
-					$this->error('本日志仅主人朋友可见');
+					$this->error(L('本日志仅主人朋友可见'));
 				}
 			}
 
@@ -221,7 +224,7 @@ class IndexAction extends Action {
             //检测是否有值。不允许非正常id访问
             if( false == $list || empty($isExist) || $isExist['status'] == 2) {
             		$this->assign('jumpUrl',U('blog/Index'));
-                    $this->error( '日志不存在或者已删除！' );
+                    $this->error( L('日志不存在或者已删除！') );
             }
              //Converts special HTML entities back to characters.
             $list['content'] = htmlspecialchars_decode($list['content']);
@@ -280,7 +283,7 @@ class IndexAction extends Action {
             $this->assign('isOwner', $this->mid == $bloguid ? '1' : '0');
 
             global $ts;
-            $this->setTitle(getUserName($list['uid']).'的文章: '.$list['title']);
+            $this->setTitle(getUserName($list['uid']).L('的文章').': '.$list['title']);
             $this->display('blogContent');
         }
 
@@ -318,7 +321,7 @@ class IndexAction extends Action {
                 $this->assign( $list );
 
                 global $ts;
-                $this->setTitle($name . '的' . $ts['app']['app_alias']);
+                $this->setTitle($name . L('的') . $ts['app']['app_alias']);
                 $this->display('index');
         }
 
@@ -350,7 +353,7 @@ class IndexAction extends Action {
 					X('Credit')->setUserCredit($this->mid,'delete_blog');
                     redirect( U('blog/Index/my') );
                 }else {
-                    $this->error( "删除日志失败" );
+                    $this->error( L("删除日志失败") );
                 }
         }
 
@@ -396,7 +399,7 @@ class IndexAction extends Action {
                 $this->assign( 'savetime',$savetime );
                 $this->assign( 'blog_category',$category );
                 global $ts;
-                $this->setTitle("发表{$ts['app']['app_alias']}");
+                $this->setTitle(L('发表').$ts['app']['app_alias']);
                 $this->display();
         }
 
@@ -482,17 +485,17 @@ class IndexAction extends Action {
 
 
         	if(empty($title)) {
-            	$this->error( "请填写标题" );
+            	$this->error( L("请填写标题") );
             }
         		if( mb_strlen($title, 'UTF-8') > 25 ) {
-					$this->error( "标题不得大于25个字符" );
+					$this->error( L("标题不得大于25个字符") );
                 }
 
                 $content = text(html_entity_decode($_POST['content']));
 
                 //检查是否为空
                 if( empty($_POST['content']) || empty( $content )  ) {
-                        $this->error( "请填写文字内容" );
+                        $this->error( L("请填写文字内容") );
                 }
 
                 //得到发日志人的名字
@@ -522,9 +525,9 @@ class IndexAction extends Action {
 					    'image'=>$image,
 						'title'=>t($_POST['title']),
 					);
-					$this->success('发表成功');
+					$this->success(L('发表成功'));
                 }else {
-                    $this->error( "添加失败" );
+                    $this->error( L("添加失败") );
                 }
         }
 
@@ -536,15 +539,15 @@ class IndexAction extends Action {
          */
         public function doUpdate() {
         		if (empty($_POST['title'])) {
-                    $this->error( "请填写标题" );
+                    $this->error( L("请填写标题") );
                 }
         		if (mb_strlen($_POST['title'], 'UTF-8') > 25 ) {
-                	$this->error( "标题不能大于25个字符" );
+                	$this->error( L("标题不能大于25个字符") );
                 }
                 $content = h($_POST['content']);
 
                 if( empty( $content ) ) {
-                    $this->error( "请填写文字内容" );
+                    $this->error( L("请填写文字内容") );
                 }
 
                 $userName = $this->blog->getOneName( $this->mid );
@@ -560,7 +563,7 @@ class IndexAction extends Action {
                 if ($save) {
                     redirect(U('blog/Index/show', array('id'=>$id, 'mid'=>$this->mid)));
                 } else {
-                    $this->error( "修改失败" );
+                    $this->error( L("修改失败") );
                 }
         }
 
@@ -573,7 +576,7 @@ class IndexAction extends Action {
                 $data['category'] = intval($_POST['category']);
                 $data['password'] = text($_POST['password']);
                 $data['mention']  = $_POST['fri_ids'];
-                $data['title']    = !empty($_POST['title']) ?text($_POST['title']):"无标题";
+                $data['title']    = !empty($_POST['title']) ?text($_POST['title']):L("无标题");
                 $data['private']  = intval($_POST['private']);
                 $data['canableComment'] = intval(t($_POST['cc']));
 
@@ -606,7 +609,7 @@ class IndexAction extends Action {
                 $content = trim(str_replace('&amp;nbsp;','',t($_POST['content'])));
                 //检查是否为空
                 if( empty($_POST['content']) || empty( $content )  ) {
-                        $this->error( "请填写文字内容" );
+                        $this->error( L("请填写文字内容") );
                         exit();
                 }
 
@@ -620,7 +623,7 @@ class IndexAction extends Action {
                 $data['category'] = $_POST['category'];
                 $data['password'] = $_POST['password'];
                 $data['mention']  = $_POST['mention'];
-                $data['title']    = !empty($_POST['title']) ?$_POST['title']:"无标题";
+                $data['title']    = !empty($_POST['title']) ?$_POST['title']:L("无标题");
                 $data['private']  = intval($_POST['private']);
                 $data['canableComment'] = intval(t($_POST['cc']));
                 if( isset( $_POST['updata'] ) ) {
@@ -690,7 +693,7 @@ class IndexAction extends Action {
             $this->assign('relist',$relist);
             $this->assign( 'category',$category );
             global $ts;
-            $this->setTitle("{$ts['app']['app_alias']}管理");
+            $this->setTitle($ts['app']['app_alias'].' '.L("管理"));
             $this->display();
         }
 
@@ -759,7 +762,7 @@ class IndexAction extends Action {
         		$_POST['name'][$k] = h(t($v));
 
         	if ( count($_POST['name']) != count(array_unique($_POST['name'])) )
-        		$this->error('分类名不允许重复, 请重新输入');
+        		$this->error(L('分类名不允许重复, 请重新输入'));
 
 			$category = D( 'BlogCategory' );
             $result   = $category->editCategory( $_POST['name'] );
@@ -770,7 +773,7 @@ class IndexAction extends Action {
             }
 
             $this->assign('jumpUrl', U('blog/Index/admin'));
-            $this->success('保存成功');
+            $this->success(L('保存成功'));
         }
 
         /**

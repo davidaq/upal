@@ -4,7 +4,7 @@
 	<div class="layer_send_blog">
 		<ul class="edit">
 			<li>
-			<label>标题:</label>
+			<label>{:L('标题)}:</label>
 			<div class="c1">
 				<select name="category" id="select" onchange="javascript:changeCategory($(this))" class="text mr5" style="width:130px">
 					<php>foreach( $category as $value ){</php>
@@ -15,12 +15,12 @@
 			</div>
 			</li>
 			<li>
-			<label>内容:</label>
+			<label>{:L('内容')}:</label>
 			<div class="c1"><textarea id="weibo_type_content" name="content" style="height:350px;"></textarea></div>
 			</li>
 			<li>
             <label>&nbsp;</label>
-			<div class="c1"><input type="submit" class="btn_b" value="发表" /></div>
+			<div class="c1"><input type="submit" class="btn_b" value="{:L('发表')}" /></div>
 			</li>
 		</ul>
 	</div>
