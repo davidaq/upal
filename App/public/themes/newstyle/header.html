@@ -114,6 +114,8 @@
           </div>
         </li>
         <php>}</php>
+        <?php
+        /*
         <li id="iframe_app_li" class="header_dropdown"><a href="{:U('home/Index/addapp')}" class="application">{:L('app')}<span class="ico_arrow"></span></a>
           <div id="iframe_app" class="dropmenu"><iframe id="iframe_a" style="position:absolute;_filter:alpha(opacity=0);opacity=0;z-index:-1;width:100%;height:100%;top:0;left:0;scrolling:no;" frameborder="0" src="about:blank"></iframe>
             <dl class="app_list">
@@ -140,6 +142,8 @@
                 </dl>
           </div>
         </li>
+        */
+        ?>
         <li><a href="{:U('home/index/switch_lan')}" class="fb14">{:L('change_language')}</a></li>
   		{:Addons::hook('header_topnav', array('menu' => & $header_topnav))}
   		<volist name="header_topnav" id="vo">
@@ -205,6 +209,12 @@
       <div class="logo"><a href="{:U('home/Index')}"><img src="<php>echo $ts['site']['site_logo']?$ts['site']['site_logo']:__THEME__.'/images/logo.png';</php>" style="_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop)" /></a></div>
       <div id="indt" class="nav_sub br3">
         <p>
+	      <a href="{:__ROOT__}/?language=<?php
+			if(isset($_SESSION['language'])&&$_SESSION['language']=='en')
+				echo 'zh_cn';
+			else
+				echo 'en';
+	      ?>" class="fb14">{:L('change_language')}</a>&nbsp;|&nbsp;
       	<eq name="ts['site']['site_anonymous_square']" value="1">
       	  <a href="{:U('home/Square')}">{:L('微博广场')}</a>&nbsp;|&nbsp;
       	</eq>
@@ -286,5 +296,6 @@ $(function() {
     $('#iframe_a').css('width', app_width);
     $('#iframe_a').css('height', app_height);
   });
+  $('.btn_blog_c, .btn_blog_s, .btn_photo_c, .btn_photo_s, .btn_group_c, .btn_group_s, .btn_vote_c, .btn_event_c, .btn_poster_c, .btn_faq_c, .btn_forum_c, .btn_company_c, .btn_company_c:hover').css('background-image','url(public/themes/newstyle/images/create_btn.php/<?php echo time() ?>.png)');
 });
 </script>

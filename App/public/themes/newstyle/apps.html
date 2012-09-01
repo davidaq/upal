@@ -52,24 +52,38 @@
   </div>
   <div class="celerity_menu app_line">
   	<ul>
+  	<?php
+  	function myLang($txt){
+  		if(isset($_SESSION['language'])&&'en'==$_SESSION['language'])
+  		{
+  			static $_L=array(
+  				'日志'=>'Blog',
+  			);
+  			return $_L[$txt];
+  		}else
+  			return $txt;
+  	}
+  	?>
   	    <volist name="install_app" id="vo">
   	        <php>if(empty($vo['app_alias'])) continue;</php>
   	        <li>
 				<a href="{$vo.app_entry}" title="{$vo.description}" class="user_app_link" >
-				<php>if($vo['sidebar_entry']){</php>
+				<php>/*if($vo['sidebar_entry']){</php>
 				    <span class="user_app_entry" target="_blank" url="{$vo.sidebar_entry}">{$vo.sidebar_title}</span>
-                <php>}</php>
-                <img src="{:getAppIconUrl($vo['icon_url'],$vo['app_name']);}" class="user_app_icon" />{$vo.app_alias|getShort=###,5,'...'}</a>
-
+                <php>}*/</php>
+                <img src="{:getAppIconUrl($vo['icon_url'],$vo['app_name']);}" class="user_app_icon" />{:getShort(myLang($vo['app_alias']),5,'...')}</a>
   	        </li>
   	    </volist>
   	</ul>
   </div>
-    
+    <?php
+    /*
 	<div class="app_add app_line">
     <span class="right"><span class="ico_app_manage"></span><a href="{:U('home/Index/editapp')}">{:L('管理')}</a></span>
     <span><span class="ico_app_add"></span><a href="{:U('home/Index/addapp')}">{:L('add')}</a></span>
     </div>
+    */
+    ?>
 
     {:Addons::hook('home_index_left_middle')}
 

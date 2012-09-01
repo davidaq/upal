@@ -1,3 +1,4 @@
+//@language=jslang/commonjs
 (function($){
     $.fn.extend({
         insertAtCaret: function(myValue){
@@ -182,10 +183,10 @@ function copy_clip(copy){
 		}
 	}
 	if ( copy_clip( copy ) ) {
-		ui.success( "复制成功！请Ctrl+V键粘贴到要加入的页面。" );
+		ui.success( "{:L('复制成功！请Ctrl+V键粘贴到要加入的页面。')}" );
 		return true;
 	} else {
-		ui.error("你的浏览器不支持脚本复制或你拒绝了浏览器安全确认，请尝试手动[Ctrl+C]复制。");
+		ui.error("{:L('你的浏览器不支持脚本复制或你拒绝了浏览器安全确认，请尝试手动[Ctrl+C]复制。')}");
 		return false;
 	}
 }
@@ -193,14 +194,14 @@ function copy_clip(copy){
 //举报
 function denounce(from,aid,content,fuid,uid){
 	$.post(U('home/Widget/denounce'),{from:from,aid:aid,content:content,fuid:fuid,uid:uid},function(txt){
-		ui.box.show(txt, {title:'举报',closeable:true});
+		ui.box.show(txt, {title:'{:L('举报')}',closeable:true});
 	});
 }
 
 //设置黑名单
 function setBlacklist(uid,type){
 	$.post(U('home/Account/setBlackList') , {uid:uid,type:type} ,function(txt){
-		ui.success('设置成功');
+		ui.success('{:L('设置成功')}');
 		location.reload();
 	})
 }
@@ -211,7 +212,7 @@ function dofollow(type,target,uid){
 	$('#follow_state').html( '<img src="'+ _THEME_+'/images/icon_waiting.gif" width="15">' );
 	$.post( U('weibo/Operate/follow') ,{uid:uid,type:type},function(txt){
 		if(txt=='14'){
-			ui.error('关注人数已超过设置最大数量，关注失败！');
+			ui.error('{:L('关注人数已超过设置最大数量，关注失败！')}');
 		}
 		if(txt=='12'){
 			html = followState('havefollow');
@@ -220,7 +221,7 @@ function dofollow(type,target,uid){
 			html = followState('eachfollow');
 			followGroupSelectorBox(uid);
 		}else if(txt=='00'){
-			ui.error('对方不允许你关注');
+			ui.error('{:L('对方不允许你关注')}');
 			html = followState('unfollow',target,uid);
 		}else{
 			html = followState();
@@ -243,7 +244,7 @@ function dolistfollow(type,target,uid){
 			html = followState('eachfollow',target,uid);
 			followGroupSelectorBox(uid);
 		}else if(txt=='00'){
-			ui.error('对方不允许你关注');
+			ui.error('{:L('对方不允许你关注')}');
 			html = followState('unfollow',target,uid);
 		}else{
 			html = followState('',target,uid);
@@ -257,11 +258,11 @@ function followState(type,target,uid){
 	target = target || 'dofollow';
 	uid    = uid    || _UID_;
 	if(type=='havefollow'){
-		html = '<div class="btn_relation"><span>已关注&nbsp;&nbsp;|&nbsp;&nbsp;</span><a href="javascript:void(0);" onclick="'+target+'(\'unflollow\',\''+target+'\','+uid+')">取消</a></div>';
+		html = '<div class="btn_relation"><span>{:L('已关注')}&nbsp;&nbsp;|&nbsp;&nbsp;</span><a href="javascript:void(0);" onclick="'+target+'(\'unflollow\',\''+target+'\','+uid+')">{:L('取消')}</a></div>';
 	}else if(type=='eachfollow'){
-		html = '<div class="btn_relation btn_relation2"><span>互相关注&nbsp;&nbsp;|&nbsp;&nbsp;</span><a href="javascript:void(0);" onclick="'+target+'(\'unflollow\',\''+target+'\','+uid+')">取消</a></div>';
+		html = '<div class="btn_relation btn_relation2"><span>{:L('互相关注')}&nbsp;&nbsp;|&nbsp;&nbsp;</span><a href="javascript:void(0);" onclick="'+target+'(\'unflollow\',\''+target+'\','+uid+')">{:L('取消')}</a></div>';
 	}else{
-		html = '<a class="add_atn" href="javascript:void(0);" onclick="'+target+'(\'dofollow\',\''+target+'\','+uid+')">加关注</a>';
+		html = '<a class="add_atn" href="javascript:void(0);" onclick="'+target+'(\'dofollow\',\''+target+'\','+uid+')">{:L('加关注')}</a>';
 	}
 	return html;
 }
@@ -278,7 +279,7 @@ function followGroupSelector(fid){
 
 //好友分组选择-弹窗
 function followGroupSelectorBox(fid){
-	ui.box.load( U('weibo/FollowGroup/selectorBox')+'&fid='+fid,{title:'设置分组'});
+	ui.box.load( U('weibo/FollowGroup/selectorBox')+'&fid='+fid,{title:'{:L('设置分组')}'});
 }
 
 //关闭好友分组选择
@@ -289,7 +290,7 @@ function followGroupSelectorClose(fid){
 
 //添加关注分组
 function setFollowGroupTab(gid){
-	var title = gid?'修改分组':'创建分组';
+	var title = gid?'{:L('修改分组')}':'{:L('创建分组')}';
 	gid = gid?'&gid='+gid:'';
 	ui.box.load( U('weibo/FollowGroup/setGroupTab') + gid,{title:title});
 }
@@ -298,7 +299,7 @@ function setFollowGroupTab(gid){
 function addFollowTopic(){
 	var name = $("input[name='quick_name']").val();
 	if(name==''){
-		ui.error('请输入话题名称');
+		ui.error('{:L('请输入话题名称')}');
 		return false;
 	}
 	$.post(U('weibo/operate/followtopic'),{name:name},function(txt){
@@ -306,14 +307,14 @@ function addFollowTopic(){
 		if(txt.code=='12'){
 			$("input[name='quick_name']").val('');
 			$('.quick_win').hide();
-			ui.success("添加关注话题成功");
+			ui.success("{:('添加关注话题成功')}");
 			window.location.reload(true);
 			//var html = '<li onmouseover="$(this).find(\'.del\').show()" onmouseout="$(this).find(\'.del\').hide()"><a class="del right" title="删除" href="javascript:void(0)" onclick="deleteFollowTopic(this,\''+txt.topicId+'\')"></a><a href="'+U('home/user/search',['k='+txt.name])+'">'+txt.name+'</a></li>';
 			//$("ul[rel='followTopicArea']").append(html);
 		}else if(txt.code=='11'){
-			alert('已关注过此话题');
+			alert('{:L('已关注过此话题')}');
 		}else{
-			alert('关注失败');
+			alert('{:L('关注失败')}');
 		}
 
 	});
@@ -330,7 +331,7 @@ ui = window.ui ||{
 	success:function(message,error){
 		var style = (error==1)?"html_clew_box clew_error ":"html_clew_box";
 		var html   =   '<div class="" id="ui_messageBox" style="display:none;z-index:1000001">'
-					   + '<div class="html_clew_box_close"><a href="javascript:void(0)" onclick="$(this).parents(\'.html_clew_box\').hide()" title="关闭">关闭</a></div>'
+					   + '<div class="html_clew_box_close"><a href="javascript:void(0)" onclick="$(this).parents(\'.html_clew_box\').hide()" title="{:L('关闭')}">{:L('关闭')}</a></div>'
 					   + '<div class="html_clew_box_con" id="ui_messageContent">&nbsp;</div></div>';
 		var init      =  0;
 		
@@ -381,7 +382,7 @@ ui = window.ui ||{
 
 	load:function(){
 		var init = 0
-		var loadingBox = '<div class="html_clew_box" id="ui_loading" style="display:none"><div class="html_clew_box_con"><span class="ico_waiting">加载中……</span></div></div>';
+		var loadingBox = '<div class="html_clew_box" id="ui_loading" style="display:none"><div class="html_clew_box_con"><span class="ico_waiting">{:L('加载中')}……</span></div></div>';
 		if( !init ){
 			$('body').append( loadingBox );
 			init = 1;
@@ -410,8 +411,8 @@ ui = window.ui ||{
 	
 	confirm:function(o,text){
 		var callback = $(o).attr('callback');
-		text = text || '确定要做此项操作吗？';
-		this.html = '<div id="ts_ui_confirm" class="ts_confirm"><dl><a class="del" href="javascript:void(0)" onclick="$(\'.ts_confirm\').remove()"></a><dt class="txt"></dt><dd><input type="button" value="确定"  class="btn_b mr5"><input type="button" value="取消"  class="btn_w"></dd></dl></div>';
+		text = text || '{:L('确定要做此项操作吗？')}';
+		this.html = '<div id="ts_ui_confirm" class="ts_confirm"><dl><a class="del" href="javascript:void(0)" onclick="$(\'.ts_confirm\').remove()"></a><dt class="txt"></dt><dd><input type="button" value="{:L('确定')}"  class="btn_b mr5"><input type="button" value="{:L('取消')}"  class="btn_w"></dd></dl></div>';
 		// 修改原因: ts_ui_confirm .btn_b按钮会重复提交
 		//if( $('#ts_ui_confirm').html()==null ){
 			$('body').append(this.html);
@@ -448,7 +449,7 @@ ui = window.ui ||{
 				 + '<div style="position: relative; height: 7px; line-height: 3px;z-index:99">'
 				 + '<img src="' + _THEME_ + '/images/zw_img.gif" style="margin-left: 10px; position: absolute;" class="talkPop_arrow"></div>'
 				 + '<div class="talkPop_box">'
-				 + '<div class="close" style="height:30px;line-height:30px;background-color:#F8FAFC;padding:0 10px;position:relative;*width:420px"><a onclick=" $(\'#emotions\').remove()" class="del" href="javascript:void(0)" title="关闭"> </a><span>常用表情</span></div>'
+				 + '<div class="close" style="height:30px;line-height:30px;background-color:#F8FAFC;padding:0 10px;position:relative;*width:420px"><a onclick=" $(\'#emotions\').remove()" class="del" href="javascript:void(0)" title="{:L('关闭')}"> </a><span>{:L('常用表情')}</span></div>'
 				 + '<div class="faces_box" id="emot_content"><img src="'+ _THEME_+'/images/icon_waiting.gif" width="20" class="alM"></div></div></div>';
 		target_set = $o.attr('target_set');
 		$body.append(this.html);
@@ -493,14 +494,14 @@ ui = window.ui ||{
 		    var messageList =  $('.message_list_container');
 		    var messageSmallDiv = $('#message_list_container');
 		    var list = {
-                             comment:{url:U('home/user/comments'),name:"我的评论"},
-                             atme:{url:U('home/user/atme'),name:"新@提到我"},
-                             message:{url:U('home/message/index'),name:"新的私信"},
-                             group_atme:{url:U('group/index/atme'),name:"群内@我的"},
-                             group_comment:{url:U('group/index/comment'),name:"群内评论"},
-                             group_bbs:{url:U('group/index/bbsNotify'),name:"群内帖子消息"},
-                             notify:{url:U('home/message/notify'),name:"系统通知"},
-                             appmessage:{url:U('home/message/appmessage'),name:"系统消息"}
+                             comment:{url:U('home/user/comments'),name:"{:L('我的评论')}"},
+                             atme:{url:U('home/user/atme'),name:"{:L('新@提到我')}"},
+                             message:{url:U('home/message/index'),name:"{:L('新的私信')}"},
+                             group_atme:{url:U('group/index/atme'),name:"{:L('群内@我的')}"},
+                             group_comment:{url:U('group/index/comment'),name:"{:L('群内评论')}"},
+                             group_bbs:{url:U('group/index/bbsNotify'),name:"{:L('群内帖子消息')}"},
+                             notify:{url:U('home/message/notify'),name:"{:L('系统通知')}"},
+                             appmessage:{url:U('home/message/appmessage'),name:"{:L('系统消息')}"}
                              };
 		    messageList.html("");
 			if(txt.total && txt.total!="0"){
@@ -509,11 +510,11 @@ ui = window.ui ||{
 			        if(txt[one] != undefined && parseInt(txt[one]) >0){
 			            //<li>两条新消息,<a href="#">查看消息</a></li>
 			            var newLi = document.createElement('li');
-			            var newNode = document.createTextNode(txt[one]+"条"+list[one].name+"，");
+			            var newNode = document.createTextNode(txt[one]+"{:L('条')}"+list[one].name+"，");
 			            var newA = document.createElement('a');
 			            newA.href = list[one].url;
 			            newA.target = "";
-			            newA.innerHTML="查看消息";
+			            newA.innerHTML="{:L('查看消息')}";
 			            newA.className="message_list_"+one;
 			            
 			            newLi.appendChild(newNode);
@@ -566,17 +567,17 @@ ui = window.ui ||{
 	},
 	getarea:function(prefix,init_style,init_p,init_c){
 		var style = (init_style)?'class="'+init_style+'"':'';
-		var html = '<select name="'+prefix+'_province" '+style+'><option>省/直辖市</option></select> '+
-				'<select name="'+prefix+'_city" '+style+' style="width:180px"><option value=0>不限</option></select>';
+		var html = '<select name="'+prefix+'_province" '+style+'><option>{:L('省/直辖市')}</option></select> '+
+				'<select name="'+prefix+'_city" '+style+' style="width:180px"><option value=0>{:L('不限')}</option></select>';
 		document.write(html);
 		// _PUBLIC_+'/js/area.js'
 		$.getJSON(U('home/Public/getArea'), function(json){
 			json = json.provinces;
-			var province ='<option>省/直辖市</option>';
+			var province ='<option>{:L('省/直辖市')}</option>';
 			$.each(json,function(i,n){
 				var pselected='';
 				var cselected='';
-				var city='<option>不限</option>';
+				var city='<option>{:L('不限')}</option>';
 				if(n.id==init_p){
 					 pselected = 'selected="true"';
 					 $.each(n.citys,function(j,m){
@@ -591,7 +592,7 @@ ui = window.ui ||{
 			});
 			
 			$("select[name='"+prefix+"_province']").live('change',function(){
-				var city='<option>不限</option>';
+				var city='<option>{:L('不限')}</option>';
 				var handle =  $(this).find('option:selected').attr('rel');
 				if( handle ){
 					var t =  json[handle].citys;

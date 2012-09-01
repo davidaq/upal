@@ -1,4 +1,5 @@
 // ThinkSNS ui.box
+//#language=JsLang/box
 
 jQuery.extend(ui, {
 	box:function(element, options){
@@ -25,9 +26,9 @@ jQuery.extend(ui.box, {
 		if( !this.inited ){
 			$('body').prepend( this.WRAPPER );
 		}
-
+		
 		if(option.title)
-			$('#tsbox').find('.title-bar').html("<h2>"+option.title+"</h2><a href='#' class='close'></a>");
+			$('#tsbox').find('.title-bar').html("<h2>"+L(option.title)+"</h2><a href='#' class='close'></a>");
 		
 		$('#tsbox').show();
 		//$('#tsbox').css({

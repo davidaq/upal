@@ -753,8 +753,8 @@ top:53px}
 .LogList{margin:0}
 .LogList ul li{padding:10px 0}
 .LogList .edit li{margin-bottom:10px;*zoom:1}
-.LogList label{float:left;display:block;width:40px;text-align:right;padding-right:10px;line-height:25px}
-.LogList .c1{margin-left:50px;_float:left;_margin:0}
+.LogList label{float:left;display:block;width:50px;text-align:right;padding-right:10px;line-height:25px}
+.LogList .c1{margin-left:60px;_float:left;_margin:0}
 .gc_list{margin:0}
 .groupBox .talkBox{margin:0;height:140px}
 
@@ -1067,7 +1067,7 @@ a.vote_but{border:1px solid #ddd;padding:0 5px;height:20px;line-height:20px;colo
 .applymbbox .listappbox p.url{ width:150px; display:block;}
 .applymbbox .listappbox p.name{ width:150px; display:block;}
 /*发布按钮*/
-.btn_blog_c,.btn_blog_s,.btn_photo_c,.btn_photo_s,.btn_group_c,.btn_group_s,.btn_vote_c,.btn_event_c,.btn_poster_c,.btn_faq_c,.btn_forum_c,.btn_company_c,.btn_company_c:hover{background:url(images/create_btn.png) no-repeat left top;display:block;}
+.btn_blog_c,.btn_blog_s,.btn_photo_c,.btn_photo_s,.btn_group_c,.btn_group_s,.btn_vote_c,.btn_event_c,.btn_poster_c,.btn_faq_c,.btn_forum_c,.btn_company_c,.btn_company_c:hover{background:url(images/create_btn.php) no-repeat left top;display:block;}
 .btn_blog_c,.btn_blog_c:hover{background-position:0 -343px;width:220px;height:52px}
 .btn_forum_c,.btn_forum_c:hover{background-position:0 -798px;width:220px;height:52px}
 .btn_blog_s,.btn_blog_s:hover{background-position:0 0;width:160px;height:52px}
