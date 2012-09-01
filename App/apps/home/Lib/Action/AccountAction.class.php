@@ -40,6 +40,7 @@ class AccountAction extends Action
         $data['userInfo']         = $this->pUser->getUserInfo();
         $data['userTag']          = D('UserTag')->getUserTagList($this->mid);
         $data['userFavTag']       = D('UserTag')->getFavTageList($this->mid);
+        $data['userId']           = $this->mid;
         $this->assign( $data );
         $this->setTitle(L('setting').' - '.L('personal_profile'));
         $this->display();
@@ -61,6 +62,11 @@ class AccountAction extends Action
 				}
 			}
 		}
+
+        $param = array();
+        $param['uid'] = $this->mid;
+        $param['language'] = $_POST['default_language'];
+        Addons::hook('update_default_language', $param);
 
         exit( json_encode($this->pUser->upDate( t($_REQUEST['dotype']) )) );
     }
