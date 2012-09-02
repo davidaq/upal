@@ -35,7 +35,6 @@ class WeiboLanguageAddons extends SimpleAddons
 		if(isset($_GET['weiboFilterLangSet']))
 		{
 			$filter=$_GET['weiboFilterLangSet'];
-			trace('setFilter::'.$filter);
 			$m->where(array('key'=>$key))->delete();
 			$m->add(array('key'=>$key,'value'=>$filter));
 		}else
@@ -44,9 +43,7 @@ class WeiboLanguageAddons extends SimpleAddons
 			if($r){
 				$filter=$r[0]['value'];
 			}
-			trace('gotFilter::'.$filter);
 		}
-		trace($filter);
 		return $filter;
 	}
 	
@@ -89,8 +86,6 @@ JS;
 	public function getList($param)
 	{
 		$filter=$this->getFilter();
-		trace($param);
-		trace($filter);
 		if($filter&&$filter!='/')
 		{
 			$param['map'].=' AND (weibo_id IN (SELECT weibo_id FROM '.C('DB_PREFIX').'weibo_language WHERE language="'.$filter.'"))';

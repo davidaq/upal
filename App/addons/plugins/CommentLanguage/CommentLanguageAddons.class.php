@@ -122,5 +122,9 @@ JS;
 			} else
 				return false;
 		}
+		public function start()
+		{
+			return true;
+		}
 	}
 ?>
