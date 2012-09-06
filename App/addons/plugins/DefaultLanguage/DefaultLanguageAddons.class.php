@@ -27,7 +27,7 @@
 		{
 			$m = M('weibo_default_language');
 			if (($d = $m->find($param)) == false) {
-				echo "[".$m->find($param)."]";
+				//echo "[".$m->find($param)."]";
 				$data['uid'] = $param;
 				$d_lang = $data['language'] = 'zh_cn';
 				$m->add($data);
@@ -55,19 +55,6 @@ HTML;
 			echo<<<HTML
 					</select>
 				</dd>
-HTML;
-			$this->InsertJS();
-		}
-		private function InsertJS()
-		{
-			echo<<<HTML
-			<script type="text/javascript">
-				$(function() {
-					$(".btn_b").click(function(){
-						
-					});
-				});
-			</script>
 HTML;
 		}
 		public function update($param)

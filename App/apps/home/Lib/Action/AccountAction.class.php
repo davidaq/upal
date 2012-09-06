@@ -67,6 +67,7 @@ class AccountAction extends Action
         $param['uid'] = $this->mid;
         $param['language'] = $_POST['default_language'];
         Addons::hook('update_default_language', $param);
+        Addons::hook('update_pref_language', $param);
 
         exit( json_encode($this->pUser->upDate( t($_REQUEST['dotype']) )) );
     }
