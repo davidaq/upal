@@ -50,12 +50,12 @@
 			</div>
 			<div  style="padding-left:70px;">
 				<if condition=" ($type eq 'mAll') || ($type eq 'fAll') ">
-					<h2><a href="{:U('home/Space/index',array(uid=>$uid))}">{$userName}</a>的图片</h2>
+					<h2><a href="{:U('home/Space/index',array(uid=>$uid))}">{$userName}</a>{:L('的图片')}</h2>
 				<else />
-					<h2><a href="{:U('/Index/photos',array('uid'=>$uid))}" title="返回{$userName}的图片">{$userName}</a>的{$ts['app']['app_alias']}“{$album.name}”</h2>
+					<h2><a href="{:U('/Index/photos',array('uid'=>$uid))}" title="{:L('返回')}{$userName}{:L('的图片')}">{$userName}</a>{:L('的')}{$ts['app']['app_alias']}“{$album.name}”</h2>
 				</if>
-                <p><em>时间：{$photo.cTime|friendlyDate}</em></p>
-    			<p><a href="{:U('/Index/album',array('uid'=>$photo['userId'],'id'=>$album['id']))}" title="返回{$ts['app']['app_alias']}{$album.name}">返回该{$ts['app']['app_alias']}</a>
+                <p><em>{:L('时间')}: {$photo.cTime|friendlyDate}</em></p>
+    			<p><a href="{:U('/Index/album',array('uid'=>$photo['userId'],'id'=>$album['id']))}" title="{:L('返回')}{$ts['app']['app_alias']}{$album.name}">{:L('返回该')}{$ts['app']['app_alias']}</a>
 			</if></p>
 			</div>
 		</div><!-- page_title end -->
@@ -69,21 +69,21 @@
 				<div class="left mr10"><a href="javascript:dbrotate(-1);">左旋 <img alt="左旋" src="../Public/images/xz_l.gif" align="absmiddle" /></a></div>
 				<div class="left"><a href="javascript:dbrotate(1);"><img alt="右旋" src="../Public/images/xz_r.gif" align="absmiddle" /> 右旋 </a></div>
 			</div> -->
-			<span id="divdelphoto"><a href="javascript:delphoto();" class="mr10"><span class="ico_Del"></span>删除</a></span>
-            <a href="javascript:setcover();"  class="mr10"><span class="ico_Img"></span>设为封面</a>
-            <a href="javascript:editphotoTab();"  class="mr10"><span class="ico_Modify"></span>修改</a>
-			</if> <a href="{$photo.savepath|get_photo_url}" target="_blank"><span class="ico_Preview"></span>查看原图</a>
+			<span id="divdelphoto"><a href="javascript:delphoto();" class="mr10"><span class="ico_Del"></span>{:L('删除')}</a></span>
+            <a href="javascript:setcover();"  class="mr10"><span class="ico_Img"></span>{:L('设为封面')}</a>
+            <a href="javascript:editphotoTab();"  class="mr10"><span class="ico_Modify"></span>{:L('修改')}</a>
+			</if> <a href="{$photo.savepath|get_photo_url}" target="_blank"><span class="ico_Preview"></span>{:L('查看原图')}</a>
           	<if condition="$photo['privacy'] eq 1">            
-			{:W('Weibo',array('tpl_name'=>'photo_share_weibo','button_title'=>'分享'))}
+			{:W('Weibo',array('tpl_name'=>'photo_share_weibo','button_title'=>L('分享')))}
             <php>
                 $tpl_data = array('author'=>getUserName($photo['userId']),'title'=>html_entity_decode($photo['name'], ENT_QUOTES),'source'=>getUserName($photo['userId']).'的相册','url'=>U('photo/Index/photo',array('id'=>$photo['id'],'aid'=>$photo['albumId'],'uid'=>$photo['userId'])),'type'=>1,'type_data'=>$photo['savepath']);
                 $tpl_data = urlencode(serialize($tpl_data));
        		</php>
-			<input type="button" value="分享" class="BtnShare" onclick="_widget_weibo_start('', '{$tpl_data}');" id="BtnShare_{$photo.id}"/>
+			<input type="button" value="{:L('分享')}" class="BtnShare" onclick="_widget_weibo_start('', '{$tpl_data}');" id="BtnShare_{$photo.id}"/>
             </if>
 			</div>
             <span class="photo_tit"><strong>{$album.name}</strong></span>
-			<span>（第<span class="cRed">{$now}</span> / <span class="cRed">{$photoCount}</span>张）</span>
+			<span>（{:L('第')}<span class="cRed">{$now}</span> / <span class="cRed">{$photoCount}</span>{:L('张 ')}）</span>
 			</div>
 	<div class="photoBox">
 		<div class="view">
@@ -105,8 +105,8 @@
 				<!-- 主图 -->
 				<div class="alC" id="big_photo" style="position:relative">
                 	<h1 style="float:none"><img onload="$('#pre').css('height',this.height);$('#next').css('height',this.height);" src="__ROOT__/thumb.php?w=560&h=560&t=f&url={$photo.savepath|get_photo_url}" pid="{$photo.id}" rel="{$photo.id}" id="big_pic" />
-                	<span id="pre" onclick="rollPic({$pre.id},{$uid},{$pre.albumId});" style="height:50px;position:absolute;top:0;left:0">上一张</span>
-                    <span id="next" onclick="rollPic({$next.id},{$uid},{$next.albumId});" style="height:50px;position:absolute;right:0;top:0">下一张</span></h1>
+                	<span id="pre" onclick="rollPic({$pre.id},{$uid},{$pre.albumId});" style="height:50px;position:absolute;top:0;left:0">{:L('上一张')}</span>
+                    <span id="next" onclick="rollPic({$next.id},{$uid},{$next.albumId});" style="height:50px;position:absolute;right:0;top:0">{:L('下一张')}</span></h1>
                    
                     
         

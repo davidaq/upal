@@ -9,7 +9,7 @@
           <dt><a href="{:U('photo/Index/photo',array(id=>$li['id'],aid=>$li['albumId'],uid=>$li['userId']))}<neq name="type" value="">&type={$type}</neq>#show_pic" rel="__ROOT__/thumb.php?w=400&h=400&t=f&url={$li.savepath|get_photo_url}" title="{$li.name}"  class="preview" ><img src="__ROOT__/thumb.php?w=160&h=160&t=f&url={$li.savepath|get_photo_url}" /></a>
           </dt>
           <dd>{$li.name|getShort='10'}</dd>
-          <if condition="(ACTION_NAME) eq 'all_photos'"><dd>发图者：<space uid="li['userId']" class="fn" target="_blank">{uname}</space></dd></if>
+          <if condition="(ACTION_NAME) eq 'all_photos'"><dd>{:L('发图者')}: <space uid="li['userId']" class="fn" target="_blank">{uname}</space></dd></if>
         </dl>
       </li>
     </volist>

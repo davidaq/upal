@@ -29,7 +29,6 @@
 			$m = M('blog_language');
 			$map='blog_id NOT IN (SELECT id FROM '.C('DB_PREFIX').'blog)';
 			$m->where($map)->delete();
-			trace($m->getLastSql());
 		}
 		public function saveBlog($id)
 		{

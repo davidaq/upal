@@ -1,7 +1,7 @@
 <div class="mainbox_appR">
   <div class="box_create"><a href="{:U('photo/Upload/flash')}" class="btn_photo_c"></a></div>
   <div class="right_box">
-    <h2>推荐{$ts['app']['app_alias']}</h2>
+    <h2>{:L('推荐')}{$ts['app']['app_alias']}</h2>
     <div class="mod-recalbums">
     <div class="tit"><a href="javascript:void(0);" onclick="ablumMove('down');" id="down" class="ico_down"></a></div>
       <ul class="list_topalbums">
@@ -11,9 +11,9 @@
           <div class="albums_info" style="width:50%">
             <dl>
               <dt><a href="{:U('/Index/album',array(uid=>$li['userId'],id=>$li['id']))}" class="OverH" style="width:8em; display:block;"><strong>{$li.name}</strong></a></dt>
-              <dd>图片：({$li.photoCount})</dd>
+              <dd>{:L('图片')}: ({$li.photoCount})</dd>
               <dd><a href="{:U('home/Space/index',array(uid=>$li[userId]))}">{$li.userId|getUserName}</a></dd>
-              <dd>时间:{$li.cTime|date='Y-m-d',###}</dd>
+              <dd>{:L('时间')}: {$li.cTime|date='Y-m-d',###}</dd>
             </dl>
           </div>
         </li>

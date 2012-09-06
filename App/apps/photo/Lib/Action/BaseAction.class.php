@@ -7,6 +7,7 @@ class BaseAction extends Action{
 	//执行应用初始化
 	public function _initialize() {
 		global $ts;
+		$ts['app']['app_alias']=L($ts['app']['app_alias']);
 		$this->appName = $ts['app']['app_alias'];
 		if($this->mid==$this->uid){
 			$userName = '我';

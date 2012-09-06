@@ -14,17 +14,17 @@
             <div class="person_info">
               <div class="userPic"> <a href="{:U('home/Space/index',array(uid=>$uid))}"><img src="{$uid|getUserFace}" /></a> </div>
               <div style="padding-left: 70px;">
-              	<a class="right" href="javascript:window.history.back(-1)">返回上一页</a>
-                <h2>{$userName}的图片</h2>
-                <p><a href="{:U('home/Space/index',array(uid=>$uid))}">{$userName}的空间</a> ┊ <a onclick="ui.sendmessage({$uid})" href="javascript:void(0)">发私信</a></p>
+              	<a class="right" href="javascript:window.history.back(-1)">{:L('返回上一页')}</a>
+                <h2>{$userName}{:L('的图片')}</h2>
+                <p><a href="{:U('home/Space/index',array(uid=>$uid))}">{$userName}{:L('的空间')}</a> ┊ <a onclick="ui.sendmessage({$uid})" href="javascript:void(0)">{:L('发私信')}</a></p>
               </div>
             </div>
             <else />
             <div class="person_info">
               <div class="userPic"> <a href="{:U('home/Space/index',array(uid=>$mid))}"><img src="{$mid|getUserFace}" /></a> </div>
               <div style="padding-left: 70px;">
-                <h2>{$userName}的图片</h2>
-                <p><a href="{:U('home/Space/index',array(uid=>$uid))}">{$userName}的空间</a> ┊ <a onclick="ui.sendmessage({$uid})" href="javascript:void(0)">发私信</a></p>
+                <h2>{:L('我的全部图片')}</h2>
+                <p><a href="{:U('home/Space/index',array(uid=>$uid))}">{:L('我的的空间')}</a></p>
               </div>
             </div>
           </if>
@@ -32,13 +32,19 @@
           <!-- 切换标签 begin  -->
           <ul>
             <if condition=" $mid neq $uid">
-              <li><a href="{:U('/Index/albums',array('uid'=>$uid))}" class="on"><span>{$uid|getUserName}的{$ts['app']['app_alias']}</span></a></li>
-              <else />
-              <li><a href="{:U('/Index/albums',array('uid'=>$mid))}" class="on"><span>我的{$ts['app']['app_alias']}</span></a></li>
+              <li><a href="{:U('/Index/albums',array('uid'=>$uid))}" class="on"><span>{$uid|getUserName}{:L('的')}{$ts['app']['app_alias']}</span></a></li>
+            <else />
+              <li><a href="{:U('/Index/albums',array('uid'=>$mid))}" class="on"><span>{:L('我的')}{$ts['app']['app_alias']}</span></a></li>
             </if>
           </ul>
         </div>
-        <div class="MenuSub"> <a href="{:U('/Index/photos',array('uid'=>$uid))}">{$userName}的全部图片</a>|<a href="#" class="on">{$userName}的{$ts['app']['app_alias']}({$data.count})</a>
+        <div class="MenuSub">
+        
+         <if condition=" $mid neq $uid">
+	        	<a href="{:U('/Index/photos',array('uid'=>$uid))}">{$userName}{:L('的全部图片')}</a>|<a href="#" class="on">{$userName}{:L('的')}{$ts['app']['app_alias']}({$data.count})</a>
+	      <else/>
+	        	<a href="{:U('/Index/photos',array('uid'=>$uid))}">{:L('我的全部图片')}</a>|<a href="#" class="on">{:L('我的')}{$ts['app']['app_alias']}({$data.count})</a>
+	      </if>
           <!--  ┊ <a href="__URL__/marked/uid/{$uid}">圈有{$userName}的图片</a>  -->
         </div>
         <div class="photoBox">         

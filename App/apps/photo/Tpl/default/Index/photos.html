@@ -13,8 +13,8 @@
             <div class="person_info">
               <div class="userPic"> <a href="{:U('home/Space/index',array(uid=>$user[uid]))}"><img src="{$uid|getUserFace}" /></a> </div>
               <div style="padding-left: 70px;">
-                <h2>{$userName}的图片</h2>
-                <p><a href="{:U('home/Space/index',array(uid=>$uid))}">{$userName}的空间</a> ┊ <a onclick="ui.sendmessage({$uid})" href="javascript:void(0)">发私信</a></p>
+                <h2>{$userName}{:L('的图片')}</h2>
+                <p><a href="{:U('home/Space/index',array(uid=>$uid))}">{$userName}{:L('的空间')}</a> ┊ <a onclick="ui.sendmessage({$uid})" href="javascript:void(0)">{:L('发私信')}</a></p>
               </div>
             </div>
           </if>
@@ -22,16 +22,21 @@
           <!-- 切换标签 begin  --> 
           <ul>
 		  <if condition=" $mid neq $uid">
-              <li><a href="{:U('/Index/photos',array('uid'=>$uid))}" class="on"><span>{$uid|getUserName}的全部图片</span></a></li>
+              <li><a href="{:U('/Index/photos',array('uid'=>$uid))}" class="on"><span>{$uid|getUserName}{:L('的全部图片')}</span></a></li>
               <else />
-              <li><a href="{:U('/Index/photos',array('uid'=>$mid))}" class="on"><span>我的全部图片</span></a></li>
+              <li><a href="{:U('/Index/photos',array('uid'=>$mid))}" class="on"><span>{:L('我的全部图片')}</span></a></li>
 			  </if>
           </ul>
         </div>
         <!-- 切换标签 end  -->
         <div class="photoBox"> 
           <!-- page_title begin --> 
-          <div class="MenuSub"> <a href="#" class="on">{$userName}的全部图片({$photos.count})</a>|<a href="{:U('/Index/albums',array(uid=>$uid))}">{$userName}的{$ts['app']['app_alias']}</a><!--  ┊ <a href="__URL__/marked/uid/{$uid}">圈有{$userName}的图片</a>  -->
+			  <if condition=" $mid neq $uid">
+		       <div class="MenuSub"> <a href="#" class="on">{$userName}{:L('的全部图片')}({$photos.count})</a>|<a href="{:U('/Index/albums',array(uid=>$uid))}">{$userName}{:L('的')}{$ts['app']['app_alias']}</a>
+		     <else/>
+		     	<div class="MenuSub"> <a href="#" class="on">{:L('我的全部图片')}({$photos.count})</a>|<a href="{:U('/Index/albums',array(uid=>$uid))}">{:L('我的')}{$ts['app']['app_alias']}</a>
+		     </if>
+		     <!--  ┊ <a href="__URL__/marked/uid/{$uid}">圈有{$userName}的图片</a>  -->
           </div>         
           <include file="../Public/_photoList" />
         </div>

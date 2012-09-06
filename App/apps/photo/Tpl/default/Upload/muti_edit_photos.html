@@ -9,12 +9,10 @@
       <div class="mainbox_appC">
         <div class="tab-menu"><!-- 切换标签 begin  -->
           <ul>
-            <li><a href="{:U('/Upload/index')}"><span>普通上传</span></a></li>
-            <li><a href="{:U('/Upload/flash')}" class="on"><span>批量上传</span></a></li>
-            <if condition="$setting['open_camera'] eq 1">
-              <li><a href="{:U('/Upload/camera')}"><span>在线拍照</span></a></li>
-            </if>
-            <li><a href="{:U('/Index/photos')}"><span>返回我的图片</span></a></li>
+			<li><a href="{:U('/Upload/index')}"><span>{:L('普通上传')}</span></a></li>
+			<li><a href="{:U('/Upload/flash')}" class="on"><span>{:L('批量上传')}</span></a></li>
+			<if condition="$setting['open_camera'] eq 1"><li><a href="{:U('/Upload/camera')}"><span>{:L('在线拍照')}</span></a></li></if>
+            <li><a href="{:U('/Index/photos')}"><span>{:L('返回我的图片')}</span></a></li>
           </ul>
         </div>
         <!-- 切换标签 end  -->
@@ -26,13 +24,13 @@
               <php>if($publish_weibo == 1){</php>
               <div ><strong>
               <input name="publish_weibo" type="radio" value="1" checked='checked' />
-              发布微博通知大家
+              {:L('发布微博通知大家')}
               <input name="publish_weibo" type="radio" value="0" />
-              不发布微博 </strong>
+              {:L('不发布微博')} </strong>
               </div>              
               <php>}</php>
               <div id="photos_content">
-                <p>{$uid|getUserName}上传了{$upnum}张新图片至<a href="{:U('/Index/album',array('id'=>$album['id']))}">{$album.name}</a></p>
+                <p>{$uid|getUserName}{:L('上传了')}{$upnum}{:L('张新图片至')}<a href="{:U('/Index/album',array('id'=>$album['id']))}">{$album.name}</a></p>
                 <div class="left mr5">
                  <div class="edit_list" id="edit_photos">
                   <ul>
@@ -45,8 +43,8 @@
                                     <dt>
                                     <input value="{$li.name}" name="name[{$li.id}]" type="text" class="text" id="attach_{$li.id}" style="width:146px;" />
                                     </dt>
-                                    <dd><label><input name="album_cover" type="radio" value="{$li.id}" <if condition=" $li['id'] eq $album['coverImageId']">checked='checked'</if> /> 设为该{$ts['app']['app_alias']}封面</label></dd>
-                                    <dd>转移到：
+                                    <dd><label><input name="album_cover" type="radio" value="{$li.id}" <if condition=" $li['id'] eq $album['coverImageId']">checked='checked'</if> /> {:L('设为该')}{$ts['app']['app_alias']}{:L('的封面')}</label></dd>
+                                    <dd>{:L('转移到')}:
                                         <select name="move_to[{$li.id}]" onchange="change_flag=true;">
                                             <volist name="albumlist" id="al">
                                                 <option value="{$al.id}" <if condition=" $al['id'] eq $album['id']">selected='selected'</if>>{$al.name|getShort=###,13}</option>
@@ -71,7 +69,7 @@
               </div>
               <div class="clear"></div>
             </div>
-                <input type="submit" class="btn_b" value="完成上传" />
+                <input type="submit" class="btn_b" value="{:L('完成上传')}" />
                 <div class="c"></div>
                 </div>
           </form>
@@ -88,7 +86,7 @@
 
 var pb_strConfirmCloseMessage;
 var pb_blnCloseWindow = false;
-pb_strConfirmCloseMessage ="你的图片还没有保存，如果离开本页，上传的图片会丢失！";
+pb_strConfirmCloseMessage ="{:L('你的图片还没有保存，如果离开本页，上传的图片会丢失！')}";
 ShowConfirmClose(true);
 
 function ConfirmClose() {

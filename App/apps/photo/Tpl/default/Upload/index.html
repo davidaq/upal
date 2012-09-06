@@ -11,10 +11,10 @@
       <div class="mainbox_appC">
 		<div class="tab-menu"><!-- 切换标签 begin  -->
 		<ul>
-			<li><a href="{:U('/Upload/index')}" class="on"><span>普通上传</span></a></li>
-			<li><a href="{:U('/Upload/flash')}"><span>批量上传</span></a></li>
-			<if condition="$setting['open_camera'] eq 1"><li><a href="{:U('/Upload/camera')}"><span>在线拍照</span></a></li></if>
-            <li><a href="{:U('/Index/photos')}"><span>返回我的图片</span></a></li>
+			<li><a href="{:U('/Upload/index')}" class="on"><span>{:L('普通上传')}</span></a></li>
+			<li><a href="{:U('/Upload/flash')}"><span>{:L('批量上传')}</span></a></li>
+			<if condition="$setting['open_camera'] eq 1"><li><a href="{:U('/Upload/camera')}"><span>{:L('在线拍照')}</span></a></li></if>
+            <li><a href="{:U('/Index/photos')}"><span>{:L('返回我的图片')}</span></a></li>
         </ul>
 		</div><!-- 切换标签 end  -->
 		
@@ -23,45 +23,45 @@
 			<div class="upload">
 			<ul style="width:60%">
         	<li>
-            	<div class="c1">选择图片{$ts['app']['app_alias']}：</div>
+            	<div class="c1">{:L('选择图片')}{$ts['app']['app_alias']}：</div>
               	<div class="c2">
 				{:W('AlbumList',array( 'uid'=>$mid , 'form_name'=>'albumId' , 'selected'=>intval($_GET['albumId']) ) )}
-                <a href="javascript:create_album_tab({$mid});">[创建{$ts['app']['app_alias']}]</a>
+                <a href="javascript:create_album_tab({$mid});">[{:L('创建')}{$ts['app']['app_alias']}]</a>
             	</div>
         	</li>
             <li>
-            	<div class="c1">图片1：</div>
+            	<div class="c1">{:L('图片')}1：</div>
                 <div class="c2"><input type="file" name="fileField[]" id="fileField_1" /></div>
         	</li>
             <li>
-              	<div class="c1">图片2：</div>
+              	<div class="c1">{:L('图片')}2：</div>
                 <div class="c2"><input type="file" name="fileField[]" id="fileField_2" /></div>
         	</li>
             <li>
-             	<div class="c1">图片3：</div>
+             	<div class="c1">{:L('图片')}3：</div>
                 <div class="c2"><input type="file" name="fileField[]" id="fileField_3" /></div>
         	</li>
             <li>
-              	<div class="c1">图片4：</div>
+              	<div class="c1">{:L('图片')}4：</div>
                 <div class="c2"><input type="file" name="fileField[]" id="fileField_4" /></div>
         	</li>
             <li>
-              	<div class="c1">图片5：</div>
+              	<div class="c1">{:L('图片')}5：</div>
                 <div class="c2"><input type="file" name="fileField[]" id="fileField_5" /></div>
         	</li>
             <li>
-              	<div class="c1">图片6：</div>
+              	<div class="c1">{:L('图片')}6：</div>
                 <div class="c2"><input type="file" name="fileField[]" id="fileField_6" /></div>
         	</li>
             <li>
               	<div class="c1">&nbsp;</div>
-                <div class="c2"><input type="submit" id="submit_button" class="btn_b" value="上传图片" />
+                <div class="c2"><input type="submit" id="submit_button" class="btn_b" value="{:L('开始上传')}" />
                 </div>
         	</li>
         	</ul>
        		<div class="clue">
-              <p>· 图片大小最好为140*140，支持jpeg,jpg,gif,png格式</p>
-          	  <p>· 严禁上传色情、暴力、恐怖、反动等违法图片！</p>
+              <p>· {:L('图片大小最好为140*140，支持jpeg,jpg,gif,png格式')}</p>
+          	  <p>· {:L('严禁上传色情、暴力、恐怖、反动等违法图片！')}</p>
        			<span class="clue_btm"></span>
      		</div>
     		</div>
@@ -85,10 +85,10 @@ function start_upload() {
 		}
 	}
 	if(checked_files>0){
-		$('#submit_button').attr('disabled',true).val("上传中...");
+		$('#submit_button').attr('disabled',true).val("{:L('上传中')}...");
 		return true;
 	}else{
-		alert('请至少选择一个文件上传！');
+		alert('{:L('请至少选择一个文件上传！')}');
 		return false;
 	}
 	return false;
