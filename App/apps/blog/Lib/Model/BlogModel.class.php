@@ -348,6 +348,8 @@ class BlogModel extends BaseModel {
 //     $this->opts = $this->api->option_get();
 //      $result = $this->api->space_changeCount( 'blog',$count );
 
+			Addons::hook('blog_delete');
+
         return $result;
     }
 
@@ -450,6 +452,7 @@ class BlogModel extends BaseModel {
         if( !$addId ) {
             return false;
         }
+        Addons::hook('blog_do_add',$addId);
         //获得配置信息
         $config    = $this->config->delete;
         if( $config ) {
@@ -506,7 +509,7 @@ function getBlogShort($content,$length = 60) {
             $result  = $mention->updateMention( $blogid,$friendsId );
         }
         $addId  = $this->where( 'id = '.$blogid )->save( $map );
-
+			Addons::hook('blog_do_save',$blogid);
         if( !$result && !empty( $friendsId ) ) {
             return false;
         }

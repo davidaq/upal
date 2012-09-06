@@ -1041,20 +1041,24 @@ function ts_cookie($name,$value='',$option=null)
 
 //trace message
 function trace($traceMsg=''){
-	function vdump($var){
-		$ret=$var;
-		if(is_array($var)){
-			$ret=array();
-			foreach($var as $k=>$f){
-				$ret[]=$k.' => '.vdump($f);
+	static $vdumpDef=true;
+	if($vdumpDef){
+		$vdumpDef=false;
+		function vdump($var){
+			$ret=$var;
+			if(is_array($var)){
+				$ret=array();
+				foreach($var as $k=>$f){
+					$ret[]=$k.' => '.vdump($f);
+				}
+				$ret='Array('.implode(',',$ret).')';
+			}else if(is_object($var)){
+				$ret='Object of '.get_class($var);
+			}else if(is_string($var)){
+				$ret='"'.$var.'"';
 			}
-			$ret='Array('.implode(',',$ret).')';
-		}else if(is_object($var)){
-			$ret='Object of '.get_class($var);
-		}else if(is_string($var)){
-			$ret='"'.$var.'"';
+			return $ret;
 		}
-		return $ret;
 	}
 	$fp=fopen('core/trace.io.php','a');
 	if(!$fp)

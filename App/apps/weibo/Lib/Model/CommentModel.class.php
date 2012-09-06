@@ -170,6 +170,7 @@ class CommentModel extends Model {
     		$r['boolen'] = 1;
     		$r['message'] = L('del_success');
     		$r['count']   = intval( $webInfo['comment'] -1 );
+    		Addons::hook('weibo_delete_comment',$id);
     	}else{
     		$r['boolen'] = 0;
     		$r['message'] = L('del_failed');

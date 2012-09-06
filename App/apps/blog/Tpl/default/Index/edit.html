@@ -33,6 +33,7 @@
                     <input id="title" name="title" type="text" class="text" style="width:363px;" onBlur="this.className='text'" onFocus="this.className='text2'" maxlength="25" value="{$title}" />
                   </div>
                 </li>
+                {:Addons::hook('blog_precontent',$saveId)}
                 <li style="padding:0;">
                   <label>{:L('内容')}: &nbsp;</label>
                   <div class="c1"><textarea id="content" name="content" style="height:350px;">{$content}</textarea></div>
