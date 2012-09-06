@@ -49,6 +49,7 @@
 		                    </div>
 						</dd>
 						{:Addons::hook('default_language_setting', $userId)}
+						{:Addons::hook('pref_language_setting', $userId)}
 		          </dl>
 				  {:Addons::hook('home_account_profile_base')}
 		          <dl class="set_basic"><dd><label>&nbsp;</label><input type="submit" class="btn_b" value="{:L('save')}" /></dd></dl>

@@ -28,6 +28,7 @@ class SpaceAction extends Action
 	   	   					);
     			// 基本信息-钩子
 	   	   		Addons::hook('home_space_profile_base', array('uid' => $this->uid, 'user_info' => & $userinfo));
+	   	   		Addons::hook('userinfo_language', array('uid' => $this->uid, 'user_info' => & $userinfo));
 				$this->assign('userinfo', $userinfo);
 				$this->assign('user_credit', service('Credit')->getUserCredit($this->uid));
 	   	   	} else {
