@@ -40,4 +40,23 @@ class WikiTagModel extends Model{
 		}
 		return $ret;
 	}
+	public function getPopularTags() {
+		$alltag = $this->field('tag')->select();
+		$mp = array();
+		foreach($alltag as $tag) {
+			if ($mp[$tag]) {
+				$mp[$tag]++;
+			} else 
+				$mp[$tag] = 1;
+		}
+		asort($alltag);
+		$cnt = 0;
+		$ret = array();
+		foreach ($alltag as $v) {
+			$cnt++;
+			if ($cnt > 20) break;
+			$ret[] = $v;
+		}
+		return $ret;
+	}
 }
