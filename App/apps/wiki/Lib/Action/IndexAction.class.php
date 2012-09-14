@@ -30,7 +30,9 @@ class IndexAction extends Action{
 		$this->display();
 	}
 	// Display search result
-	function search(){
+	function search($key){
+		$ret = searchWikiByTitle($key)
+		print_r($ret)
 	}
 	// Create/modify a wiki post to a wiki
 	function edit(){		
