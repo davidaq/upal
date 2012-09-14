@@ -31,12 +31,19 @@ class IndexAction extends Action{
 	}
 	// Display search result
 	function search(){
-		$key = $_POST['wiki_key'];
-		$ret_wiki = $this->wiki->searchWikiByTitle($key);
-		$ret_tag = $this->wikiTag->searchWikiByTag($key);
+		if (isset($_POST['wiki_key']))
+		{
+			$key = $_POST['wiki_key'];
+			$ret_wiki_acc = $this->wiki->searchWikiByTitleAccurate($key);
+			$ret_wiki_sim = $this->wiki->searchWikiByTitleSimilar($key);
+			$ret_tag = $this->wikiTag->searchWikiByTag($key);
+		}
+		if (isset($_POST['wiki_tag']))
+		{
+			$tag = $_POST['wiki_tag'];
+			$ret_tag = $this->wikiTag->searchWikiByTag($tag);
+		}
 		echo "Search result: ";
-		print_r($ret_wiki);
-		print_r($ret_tag);
 	}
 	// Create/modify a wiki post to a wiki
 	function edit(){		

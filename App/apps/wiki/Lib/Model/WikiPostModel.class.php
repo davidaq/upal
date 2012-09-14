@@ -5,6 +5,7 @@ class WikiPostModel extends Model{
 		$data['title'] = trim($rawdata['title']);
 		$data['author'] = intval($rawdata['author']);
 		$data['wiki_id'] = intval($rawdata['wiki_id']);
+		$data['content'] = intval($rawdata['content']);
 		$data['cTime'] = time();
 		Model::add($data);
 	}
@@ -13,6 +14,7 @@ class WikiPostModel extends Model{
 		$data['title'] = trim($rawdata['title']);
 		$data['author'] = intval($rawdata['author']);
 		$data['wiki_id'] = intval($rawdata['wiki_id']);
+		$data['content'] = intval($rawdata['content']);
 		$data['cTime'] = time();
 		Model::save($data);
 	}
