@@ -1,0 +1,121 @@
+<include file="header" />
+<style type="text/css">
+.wikiSearchWrap{
+	margin:0 auto;
+	width:558px;
+	border:1px solid #DDD;
+}
+div.wikiHotTags{
+	background:url(apps/home/Tpl/default/Public/images/search_square_bg_t.png) no-repeat;
+	width:558px;
+	height:128px;
+	border-bottom:1px solid #DDD;
+}
+div.wikiHotTags label{
+	padding:5px;
+	display:block;
+}
+.wikiHotTags a{
+	padding:0;
+	margin:5px;
+	float:left;
+	line-height:25px;
+	font-weight:bold;
+}
+.wikiHotTags a.wikitag1{
+	color:#557;
+	font-size:12px;
+}
+.wikiHotTags a.wikitag2{
+	color:#337;
+	font-size:14px;
+}
+.wikiHotTags a.wikitag3{
+	color:#773;
+	font-size:16px;
+}
+.wikiHotTags a.wikitag4{
+	color:#A73;
+	font-size:20px;
+}
+.wikiHotTags a.wikitag5{
+	color:#F00;
+	font-size:25px;
+}
+form.wikiSearchbox{
+	background:url(apps/home/Tpl/default/Public/images/search_square_bg_b.png) no-repeat;
+	display:block;
+	width:558px;
+	height:70px;
+	border-top:1px solid #F7F7F7;
+}
+form.wikiSearchbox p{
+	padding-left:150px;
+	padding-top:20px;
+}
+form.wikiSearchbox input{
+	width:300px;
+	padding:5px;
+	border:1px solid #CCC;
+	outline:none;
+}
+.wikiSearchResult{
+	padding:10px;
+	margin:10px;
+	border-top:1px solid #EEE;
+}
+.wikiSearchResult h2{
+	font-size:15px;
+	color:#444;
+}
+.wikiSearchResult .item{
+	margin:5px;
+	padding:5px;
+	border-top:1px dashed #EEE;
+}
+.wikiSearchResult .item a{
+	color:#557;
+	font-size:15px;
+	font-weight:bold;
+}
+.wikiSearchResult .best a{
+	font-size:17px;
+}
+.wikiSearchResult .best p{
+	font-size:15px;
+}
+</style>
+<div class="wikiSearchWrap">
+	<form action="{:U('wiki/Index/search')}" class="wikiSearchbox" method="post">
+	<p>
+		<input type="text" name="wiki_key" value="{$searchkey}"/>
+		<button class="btn_b" onclick="submit">搜索词条</button>
+	</p>
+	</form>
+</div>
+<div class="wikiSearchResult">
+	<h2>搜索结果：</h2>
+	<div class="createNew">
+		这个词条还没人注意到！ &nbsp;&nbsp;&nbsp; <a class="btn_b" href="{:U('wiki/Index/edit',array('title'=>$searchkey))}">我来创建</a>
+	</div>
+	<div class="item best">
+		<a href="{:U('display',array('wid'=>$f['id']))}">test</a>
+		<p>This is a test, blah blah blah. Another 15000 words to say, but i kept silent?</p>
+	</div>
+	<h2>相关词条：</h2>
+	<div class="item">
+		<a href="{:U('display',array('wid'=>$f['id']))}">test</a>
+		<p>This is a test, blah blah blah. Another 15000 words to say, but i kept silent?</p>
+	</div>
+	<div class="item">
+		<a href="{:U('display',array('wid'=>$f['id']))}">test</a>
+		<p>This is a test, blah blah blah. Another 15000 words to say, but i kept silent?</p>
+	</div>
+	<?php foreach($searchresult as $v){ ?>
+		<div class="item">
+			<a href="{:U('display',array('wid'=>$f['id']))}">{$f.keyword}</a>
+			<p>{$f.description}</p>
+		</div>
+	<?php } ?>
+</div>
+<include file="footer" />

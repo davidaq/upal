@@ -34,9 +34,10 @@ class IndexAction extends Action{
 		$key = $_POST['wiki_key'];
 		$ret_wiki = $this->wiki->searchWikiByTitle($key);
 		$ret_tag = $this->wikiTag->searchWikiByTag($key);
-		echo "Search result: ";
-		print_r($ret_wiki);
-		print_r($ret_tag);
+		
+		$this->assign('searchkey','asdasd');
+		$this->assign('searchresult',array_merge($ret_wiki,$ret_tag));
+		$this->display();
 	}
 	// Create/modify a wiki post to a wiki
 	function edit(){		
