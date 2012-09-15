@@ -87,7 +87,7 @@ class IndexAction extends Action{
 	public function show() {
 		if(isset($_GET['id'])){
 			$wid=intval($_GET['id']);
-			$this->wiki->where(array('id'=>$wid))->
+			$this->wiki->where(array('id'=>$wid))->select();
 			$this->display();
 		}
 	}
