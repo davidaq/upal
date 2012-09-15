@@ -33,4 +33,7 @@ class WikiTagModel extends Model{
 		$r = $this->where(array('tag'=>strtolower(trim($tag))))->field('wiki_id')->count();
 		return $r;
 	}
+	public function searchWikiByTag($tag) {
+		
+	}
 }

@@ -1,10 +1,10 @@
 <?php
-function getValues($arr,$key=false){
+function getValues($arr, $key){
 	if($arr==false)
 		return false;
-	$ret = arrray();
+	$ret = array();
 	foreach($arr as $f){
-		$ret[]=($key===false)?$f:$f[$key];
+		$ret[]=$f[$key];
 	}
 	return $ret;
 }

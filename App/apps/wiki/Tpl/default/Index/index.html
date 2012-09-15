@@ -1,10 +1,22 @@
 <include file="header" />
 <style type="text/css">
+.wikiMain{
+	padding-top:20px;
+}
+div.wikiHotTags{
+	background:url(apps/home/Tpl/default/Public/images/search_square_bg_t.png) no-repeat;
+	width:558px;
+	height:128px;
+	margin:0 auto;
+	border-bottom:1px solid #DDD;
+}
 form.wikiSearchbox{
-	background:#000 url(apps/home/Tpl/default/Public/images/search_square_bg_b.png) no-repeat;
+	background:url(apps/home/Tpl/default/Public/images/search_square_bg_b.png) no-repeat;
 	display:block;
 	width:558px;
 	height:70px;
+	margin:0 auto;
+	border-top:1px solid #F7F7F7;
 }
 form.wikiSearchbox p{
 	padding-left:150px;
@@ -13,14 +25,19 @@ form.wikiSearchbox p{
 form.wikiSearchbox input{
 	width:300px;
 	padding:5px;
-	border:1px solid #AAA;
+	border:1px solid #CCC;
 	outline:none;
 }
 </style>
-<form action="{:U('/wiki/Index/search')}" class="wikiSearchbox">
-<p>
-	<input type="text"/>
-	<button class="btn_b">搜索词条</button>
-</p>
-</form>
+<div class="wikiMain">
+	<div class="wikiHotTags">
+		<label>热门标签</label>
+	</div>
+	<form action="{:U('wiki/Index/search')}" class="wikiSearchbox" method="post">
+	<p>
+		<input type="text" name="wiki_key"/>
+		<button class="btn_b" onclick="submit">搜索词条</button>
+	</p>
+	</form>
+</div>
 <include file="footer" />

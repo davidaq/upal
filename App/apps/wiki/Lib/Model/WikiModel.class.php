@@ -47,4 +47,8 @@ class WikiModel extends Model{
 		$data['wiki_id']=intval($wid);
 		$this->add($data);
 	}
+	public function searchWikiByTitle($title) {
+		$r = $this->where("keyword LIKE {$title}")->field('keyword, description')->select();
+		return $r;
+	}
 }
