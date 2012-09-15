@@ -45,7 +45,24 @@ class IndexAction extends Action{
 		}
 		echo "Search result: ";
 	}
+	function getUserJoinedWiki()
+	{
+		$id = $_POST['id'];
+		$ret = $wiki->getUserJoinedWiki($id);
+		print_r($ret);
+	}
+	function getUserCreatedWiki()
+	{
+		$id = $_POST['id'];
+		$ret = $wiki->getUserCreatedWiki($id);
+		print_r($ret);
+	}
+	function getPopularTags() {
+		$ret = $wikiTaggetPupularTags();
+		print_r($ret);
+	}
 	// Create/modify a wiki post to a wiki
-	function edit(){		
+	function edit(){
+
 	}
 }
