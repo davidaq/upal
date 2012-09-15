@@ -1,5 +1,26 @@
 <include file="header" />
-<form action="{:}">
-
+<style type="text/css">
+form.wikiSearchbox{
+	background:#000 url(apps/home/Tpl/default/Public/images/search_square_bg_b.png) no-repeat;
+	display:block;
+	width:558px;
+	height:70px;
+}
+form.wikiSearchbox p{
+	padding-left:150px;
+	padding-top:20px;
+}
+form.wikiSearchbox input{
+	width:300px;
+	padding:5px;
+	border:1px solid #AAA;
+	outline:none;
+}
+</style>
+<form action="{:U('/wiki/Index/search')}" class="wikiSearchbox">
+<p>
+	<input type="text"/>
+	<button class="btn_b">搜索词条</button>
+</p>
 </form>
 <include file="footer" />
