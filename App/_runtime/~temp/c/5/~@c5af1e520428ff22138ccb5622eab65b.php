@@ -1,3 +1,0 @@
-<?php
-//000000000000a:5:{i:0;a:6:{s:2:"id";s:2:"74";s:3:"uid";s:1:"0";s:4:"list";s:12:"announcement";s:3:"key";s:7:"content";s:5:"value";s:46:"s:38:"欢迎使用ThinkSNS开源微博系统";";s:5:"mtime";s:19:"2012-07-11 10:28:00";}i:1;a:6:{s:2:"id";s:2:"73";s:3:"uid";s:1:"0";s:4:"list";s:12:"announcement";s:3:"key";s:7:"is_open";s:5:"value";s:4:"i:1;";s:5:"mtime";s:19:"2012-07-11 10:28:00";}s:7:"content";s:38:"欢迎使用ThinkSNS开源微博系统";s:7:"is_open";i:1;s:5:"ctime";i:1341973680;}
-?>
