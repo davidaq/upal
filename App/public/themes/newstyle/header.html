@@ -144,7 +144,9 @@
         </li>
         */
         ?>
+        <?php if(L('change_language')!='change_language'){ ?>
         <li><a href="{:U('home/index/switch_lan')}" class="fb14">{:L('change_language')}</a></li>
+        <?php } ?>
   		{:Addons::hook('header_topnav', array('menu' => & $header_topnav))}
   		<volist name="header_topnav" id="vo">
   		<li><a href="{$vo['url']}" class="fb14">{$vo['name']}</a></li>

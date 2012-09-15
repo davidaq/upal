@@ -1,0 +1,3 @@
+<?php
+//000000000000a:35:{i:0;s:2:"id";i:1;s:3:"uid";i:2;s:4:"name";i:3;s:5:"intro";i:4;s:4:"logo";i:5;s:8:"announce";i:6;s:4:"cid0";i:7;s:4:"cid1";i:8;s:11:"membercount";i:9;s:11:"threadcount";i:10;s:4:"type";i:11;s:11:"need_invite";i:12;s:11:"need_verify";i:13;s:11:"actor_level";i:14;s:12:"brower_level";i:15;s:9:"openWeibo";i:16;s:8:"openBlog";i:17;s:14:"openUploadFile";i:18;s:13:"whoUploadFile";i:19;s:15:"whoDownloadFile";i:20;s:9:"openAlbum";i:21;s:14:"whoCreateAlbum";i:22;s:12:"whoUploadPic";i:23;s:4:"anno";i:24;s:6:"ipshow";i:25;s:10:"invitepriv";i:26;s:15:"createalbumpriv";i:27;s:13:"uploadpicpriv";i:28;s:5:"ctime";i:29;s:5:"mtime";i:30;s:6:"status";i:31;s:7:"isrecom";i:32;s:6:"is_del";s:8:"_autoinc";b:1;s:3:"_pk";s:2:"id";}
+?>

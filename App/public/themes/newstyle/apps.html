@@ -58,10 +58,12 @@
   		{
   			static $_L=array(
   				'日志'=>'Blog',
+  				'相册'=>'Blog',
   			);
-  			return $_L[$txt];
-  		}else
-  			return $txt;
+  			if(isset($_L[$txt]))
+	  			return $_L[$txt];
+  		}
+		return $txt;
   	}
   	?>
   	    <volist name="install_app" id="vo">

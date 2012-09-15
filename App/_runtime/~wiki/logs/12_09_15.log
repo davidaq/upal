@@ -1,0 +1,6 @@
+[ 2012-09-15T02:43:26+08:00 ] ERR: (ThinkException) 实例化一个不存在的类！:FileAwayWidget
+[ 2012-09-15T02:43:35+08:00 ] ERR: (ThinkException) 实例化一个不存在的类！:FileAwayWidget
+[ 2012-09-15T02:43:35+08:00 ] ERR: (ThinkException) 实例化一个不存在的类！:FileAwayWidget
+[ 2012-09-15T02:52:59+08:00 ] ERR: (ThinkException) 非法操作my
+[ 2012-09-15T02:53:02+08:00 ] ERR: (ThinkException) 非法操作my
+[ 2012-09-15T20:48:59+08:00 ] ERR: (ThinkException) 无法加载模块Wiki
