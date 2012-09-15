@@ -33,7 +33,6 @@ class IndexAction extends Action{
 	function search(){
 	}
 	// Create/modify a wiki post to a wiki
-	function edit(){
-		
+	function edit(){		
 	}
 }

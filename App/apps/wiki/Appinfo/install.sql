@@ -10,6 +10,7 @@ CREATE TABLE `ts_wiki` (
   `cTime` int(11) NOT NULL,
   `verified` int(1) NOT NULL DEFAULT 0,
   `vote` int(11) NOT NULL DEFAULT 0,
+  `description` text NOT NULL,
   PRIMARY KEY  (`id`),
   INDEX(keyword),
   INDEX(creator),
