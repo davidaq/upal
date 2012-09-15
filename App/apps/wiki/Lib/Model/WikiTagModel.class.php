@@ -36,7 +36,7 @@ class WikiTagModel extends Model{
 	public function searchWikiByTag($tag) {
 		$ids = $this->where("tag LIKE {$tag}")->field('wiki_id')->select();
 		foreach($ids as $id) {
-			$ret[] = $M('model')->where("tag LIKE {$tag}")->field("keyword, description")->select();
+			$ret[] = $M('model')->where("tag LIKE {$tag}")->field("id, keyword, description")->select();
 		}
 		return $ret;
 	}
