@@ -3,7 +3,7 @@ if (!defined('SITE_PATH')) exit();
 
 header('Content-Type: text/html; charset=utf-8');
 
-$sql_file  = APPS_PATH.'/wiki/Appinfo/install.sql';
+$sql_file  = APPS_PATH.'/buy/Appinfo/install.sql';
 //执行sql文件
 $res = M('')->executeSqlFile($sql_file);
 if(!empty($res)){//错误
@@ -11,6 +11,6 @@ if(!empty($res)){//错误
 	echo '<br />';
 	echo $res['error_sql'];
 	//清除已导入的数据
-	include_once(APPS_PATH.'/wiki/Appinfo/uninstall.php');
+	include_once(APPS_PATH.'/buy/Appinfo/uninstall.php');
 	exit;
 }

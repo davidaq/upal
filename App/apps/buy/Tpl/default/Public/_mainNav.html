@@ -1,0 +1,9 @@
+<div class=page_tit>
+  <!-- page_title begin -->
+  <h2><img src="{$ts['app']['icon_url']}" />{$ts['app']['app_alias']}</h2>
+  <ul class="tit_tab">
+    <li><a href="{:U('wiki/Index/index')}" <php>if(ACTION_NAME=='index')echo 'class="on"';</php>>{$ts['app']['app_alias']}中心</a></li>
+    <li><a href="{:U('wiki/Index/mywiki')}" <php>if(ACTION_NAME=='mywiki')echo 'class="on"';</php>>我的{$ts['app']['app_alias']}</a></li>
+  </ul>
+  <div class="c"></div>
+</div>

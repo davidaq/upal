@@ -3,17 +3,17 @@ if (!defined('SITE_PATH')) exit();
 
 return array(
 	// 应用名称 [必填]
-	'NAME'						=> 'Wiki',
+	'NAME'						=> 'Buy',
 	// 应用简介 [必填]
-	'DESCRIPTION'				=> '群组一起维护一个结构化的Wiki',
+	'DESCRIPTION'				=> '一个交易平台',
 	// 托管类型 [必填]（0:本地应用，1:远程应用）
 	'HOST_TYPE'					=> '0',
 	// 前台入口 [必填]（格式：Action/act）
 	'APP_ENTRY'					=> 'Index/index',
 	// 应用图标 [必填]
-	'ICON_URL'					=> SITE_URL . '/apps/wiki/Appinfo/ico_app.png',
+	'ICON_URL'					=> SITE_URL . '/apps/buy/Appinfo/ico_app.png',
 	// 应用图标 [必填]
-	'LARGE_ICON_URL'			=> SITE_URL . '/apps/wiki/Appinfo/ico_app_large.png',
+	'LARGE_ICON_URL'			=> SITE_URL . '/apps/buy/Appinfo/ico_app_large.png',
 	// 版本号 [必填]
 	'VERSION_NUMBER'			=> '1',
 	// 后台入口 [选填]
