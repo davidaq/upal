@@ -12,9 +12,9 @@ CREATE TABLE `ts_wiki` (
   `vote` int(11) NOT NULL DEFAULT 0,
   `description` text NOT NULL,
   PRIMARY KEY  (`id`),
-  INDEX(keyword),
-  INDEX(creator),
-  INDEX(cTime),
+  INDEX(`keyword`),
+  INDEX(`creator`),
+  INDEX(`cTime`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `ts_wiki_tag`;
@@ -36,8 +36,8 @@ CREATE TABLE `ts_wiki_post` (
   `cTime` int(11) NOT NULL,
   `order` int(11) NOT NULL,
   PRIMARY KEY  (`id`),
-  INDEX(author)
-  INDEX(page_id)
+  INDEX(author),
+  INDEX(wiki_id)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `ts_wiki_member`;
@@ -45,7 +45,7 @@ DROP TABLE IF EXISTS `ts_wiki_member`;
 CREATE TABLE `ts_wiki_member` (
   `wiki_id` int(11) NOT NULL auto_increment,
   `user_id` int(11) NOT NULL,
-  `contribution` int(11) NOT NULL
+  `contribution` int(11) NOT NULL,
   PRIMARY KEY  (`wiki_id`,`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 

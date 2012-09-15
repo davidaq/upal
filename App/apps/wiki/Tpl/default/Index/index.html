@@ -11,6 +11,37 @@ div.wikiHotTags{
 	height:128px;
 	border-bottom:1px solid #DDD;
 }
+div.wikiHotTags label{
+	padding:5px;
+	display:block;
+}
+.wikiHotTags a{
+	padding:0;
+	margin:5px;
+	float:left;
+	line-height:25px;
+	font-weight:bold;
+}
+.wikiHotTags a.wikitag1{
+	color:#557;
+	font-size:12px;
+}
+.wikiHotTags a.wikitag2{
+	color:#337;
+	font-size:14px;
+}
+.wikiHotTags a.wikitag3{
+	color:#773;
+	font-size:16px;
+}
+.wikiHotTags a.wikitag4{
+	color:#A73;
+	font-size:20px;
+}
+.wikiHotTags a.wikitag5{
+	color:#F00;
+	font-size:25px;
+}
 form.wikiSearchbox{
 	background:url(apps/home/Tpl/default/Public/images/search_square_bg_b.png) no-repeat;
 	display:block;
@@ -29,14 +60,29 @@ form.wikiSearchbox input{
 	outline:none;
 }
 </style>
-<div>&nbsp;</div>
 <div class="wikiSearchWrap">
 	<div class="wikiHotTags">
 		<label>热门标签</label>
+		<a class="wikitag1">Test</a>
+		<a class="wikitag3">Test2</a>
+		<a class="wikitag2">Test3</a>
+		<a class="wikitag5">Test</a>
+		<a class="wikitag4">Test</a>
+		<a class="wikitag1">Test</a>
+		<a class="wikitag3">Test2</a>
+		<a class="wikitag2">Test3</a>
+		<a class="wikitag5">Test</a>
+		<a class="wikitag4">Test</a>
+		<a class="wikitag2">Test3</a>
+		<a class="wikitag5">Test</a>
+		<a class="wikitag4">Test</a>
 	</div>
-	<form action="{:U('wiki/Index/search')}" class="wikiSearchbox" method="post">
+	<form action="index.php" class="wikiSearchbox" method="get">
 	<p>
 		<input type="text" name="wiki_key"/>
+		<input type="hidden" name="app" value="wiki"/>
+		<input type="hidden" name="mod" value="Index"/>
+		<input type="hidden" name="act" value="search"/>
 		<button class="btn_b" onclick="submit">搜索词条</button>
 	</p>
 	</form>

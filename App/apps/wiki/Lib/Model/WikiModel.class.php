@@ -32,9 +32,9 @@ class WikiModel extends Model{
 	}
 	public function createWiki($title,$description,$uid){
 		$title=trim($title);
-		$data['title']=$title;
+		$data['keyword']=$title;
 		$data['creator']=$uid;
-		$data['description'] = $description;
+		$data['description']=$description;
 		$data['cTime']=time();
 		$this->add($data);
 	}
@@ -49,11 +49,11 @@ class WikiModel extends Model{
 		$this->add($data);
 	}
 	public function searchWikiByTitleSimilar($title) {
-		$r = $this->where("keyword LIKE {$title}")->field('id, keyword, description')->select();
+		$r = $this->where(array("keyword"=>array('like','%'.$title.'%')))->field('id, keyword, description')->select();
 		return $r;
 	}
 	public function searchWikiByTitleAccurate($title) {
-		$r = $this->where("keyword={$title}")->field('id, keyword, description')->select();
+		$r = $this->where(array("keyword"=>$title))->field('id, keyword, description')->select();
 		return $r;
 	}
 	public function setWikiDescription($wid, $v) {
