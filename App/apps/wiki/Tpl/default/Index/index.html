@@ -77,9 +77,12 @@ form.wikiSearchbox input{
 		<a class="wikitag5">Test</a>
 		<a class="wikitag4">Test</a>
 	</div>
-	<form action="{:U('wiki/Index/search')}" class="wikiSearchbox" method="post">
+	<form action="index.php" class="wikiSearchbox" method="get">
 	<p>
 		<input type="text" name="wiki_key"/>
+		<input type="hidden" name="app" value="wiki"/>
+		<input type="hidden" name="mod" value="Index"/>
+		<input type="hidden" name="act" value="search"/>
 		<button class="btn_b" onclick="submit">搜索词条</button>
 	</p>
 	</form>

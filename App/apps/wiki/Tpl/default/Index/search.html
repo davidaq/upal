@@ -79,10 +79,11 @@ form.wikiSearchbox input{
 	font-weight:bold;
 }
 .wikiSearchResult .best a{
-	font-size:17px;
+	color:#335;
+	font-size:20px;
 }
 .wikiSearchResult .best p{
-	font-size:15px;
+	font-size:17px;
 }
 </style>
 <script type="text/javascript">
@@ -91,9 +92,12 @@ function createNew(){
 }
 </script>
 <div class="wikiSearchWrap">
-	<form action="{:U('wiki/Index/search')}" class="wikiSearchbox" method="post">
+	<form action="index.php" class="wikiSearchbox" method="get">
 	<p>
 		<input type="text" name="wiki_key" value="{$searchkey}"/>
+		<input type="hidden" name="app" value="wiki"/>
+		<input type="hidden" name="mod" value="Index"/>
+		<input type="hidden" name="act" value="search"/>
 		<button class="btn_b" onclick="submit">搜索词条</button>
 	</p>
 	</form>
@@ -102,7 +106,7 @@ function createNew(){
 	<h2>搜索结果：</h2>
 	<?php if(isset($searchresultacc) && $searchresultacc){ ?>
 	<div class="item best">
-		<a href="{:U('display',array('wid'=>$f['id']))}">{$searchresultacc[0]['keyword']}</a>
+		<a href="{:U('wiki/Index/show',array('wid'=>$searchresultacc[0]['id']))}">{$searchresultacc[0]['keyword']}</a>
 		<p>{$searchresultacc[0]['description']}</p>
 	</div>
 	<?php }else{ ?>
@@ -111,19 +115,15 @@ function createNew(){
 	</div>
 	<?php } ?>
 	<h2>相关词条：</h2>
-	<div class="item">
-		<a href="{:U('display',array('wid'=>$f['id']))}">test</a>
-		<p>This is a test, blah blah blah. Another 15000 words to say, but i kept silent?</p>
-	</div>
-	<div class="item">
-		<a href="{:U('display',array('wid'=>$f['id']))}">test</a>
-		<p>This is a test, blah blah blah. Another 15000 words to say, but i kept silent?</p>
-	</div>
+	<?php if($searchresult){ ?>
 	<?php foreach($searchresult as $v){ ?>
 		<div class="item">
-			<a href="{:U('display',array('wid'=>$f['id']))}">{$f.keyword}</a>
-			<p>{$f.description}</p>
+			<a href="{:U('wiki/Index/show',array('wid'=>$v['id']))}">{$v.keyword}</a>
+			<p>{$v.description}</p>
 		</div>
+	<?php } ?>
+	<?php }else{ ?>
+		没有找到相关内容
 	<?php } ?>
 </div>
 <include file="footer" />
