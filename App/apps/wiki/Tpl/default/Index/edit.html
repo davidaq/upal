@@ -1,0 +1,57 @@
+<style type="text/css">
+.wikiEditWrap{
+	margin:0 auto;
+	text-align:left;
+}
+div.wikiEditWrap{
+}
+div.wikiEditWrap label{
+	padding:5px;
+}
+div.wikiEdit{
+	padding:3px;
+	display:block;
+}
+div.wikiEdit p{
+	padding-left:150px;
+	padding-top:20px;
+}
+div.wikiEdit input{
+	width:300px;
+	padding:5px;
+	border:1px solid #CCC;
+	outline:none;
+}
+div.wikiEdit textarea{
+	width:500px;
+	height:60px;
+	border:1px solid #CCC;
+	outline:none;
+	margin-left:5px;
+}
+</style>
+<script type="text/javascript">
+function doEdit(){
+	<?php
+		if($id==0){
+			$pattr='"'.U('wiki/Operation/createWiki').'",{"wiki_title":"'.$keyword.'","wiki_description":$("#wikiSign").val()}';
+		}
+	?>
+	$.post({$pattr},function(ret){
+		if(ret=='ok'){
+			ui.success('编辑成功');
+			ui.box.close();
+		}else
+			ui.error('编辑失败');
+	});
+}
+</script>
+<div class="wikiEditWrap">
+	<div class="wikiEdit">
+		<label>词条名称：</label><b>{$keyword}</b><br/>
+		<label>词条签名：</label><br/>
+		<textarea id="wikiSign"></textarea><br/>
+		<button class="btn_b" style="margin:10px;" onclick="doEdit()">提交</button>
+	</div>
+</div>
+<div>&nbsp;</div>

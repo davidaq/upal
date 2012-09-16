@@ -37,6 +37,7 @@ class IndexAction extends Action{
 			$ret_wiki_acc = $this->wiki->searchWikiByTitleAccurate($key);
 			$ret_wiki_sim = $this->wiki->searchWikiByTitleSimilar($key);
 			$ret_tag = $this->wikiTag->searchWikiByTag($key);
+			$this->assign('searchresultacc',$ret_wiki_acc);
 		}
 		if (isset($_POST['wiki_tag']))
 		{
@@ -46,11 +47,17 @@ class IndexAction extends Action{
 		}
 		
 
-		$this->assign('searchkey',$key);
-		$this->assign('searchresult',array_merge($ret_wiki,$ret_tag));
+		$this->assign('searchkey',htmlspecialchars($key));
+		$this->assign('searchresult',array_merge($ret_wiki_sim,$ret_tag));
 		$this->display();
 	}
-	// Create/modify a wiki post to a wiki
-	function edit(){		
+	// Create/modify a wiki word
+	function edit(){
+		if(isset($_GET['id'])){
+		}else{
+			$this->assign('keyword',$_GET['keyword']);
+			$this->assign('id',0);			
+		}
+		$this->display();
 	}
 }

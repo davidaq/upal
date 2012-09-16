@@ -16,37 +16,42 @@ class OperationAction extends Action{
 		$this->wikiPost = D('WikiPost');
 	}
 	function createWiki(){
-		$title = $_POST['wiki_title'];
-		$des = $_POST['wiki_description'];
-		$uid = $_POST['creator_id'];
-		$wiki->createWiki($title, $des, $uid);
+		if(isset($_POST['wiki_title'])&&isset($_POST['wiki_description'])){
+			$title = $_POST['wiki_title'];
+			$des = $_POST['wiki_description'];
+			$uid = $this->mid;
+			$this->wiki->createWiki($title, $des, $uid);
+			die('ok');
+		}else{
+			die('bad post');
+		}
 	}
 	function addPost() {
 		$data['title'] = $_POST['post_title'];
 		$data['author'] = $_POST['post_author'];
 		$data['content'] = $_POST['post_content'];
 		$data['wiki_id'] = $_POST['wiki_id'];
-		$wikipost->add($data);
+		$this->wikipost->add($data);
 	}
 	function editPost() {
 		$data['title'] = $_POST['post_title'];
 		$data['author'] = $_POST['post_author'];
 		$data['content'] = $_POST['post_content'];
 		$data['wiki_id'] = $_POST['wiki_id'];
-		$wikipost->save($data);
+		$this->wikipost->save($data);
 	}
 	function editWikiDescription() {
 		$id = $_POST['wiki_id'];
 		$des = $_POST['wiki_des'];
-		$wiki->setWikiDescription($id, $des);
+		$this->wiki->setWikiDescription($id, $des);
 	}
 	function deleteWiki() {
 		$wid = $_POST['wid'];
-		$wiki->removeWiki($wid);
+		$this->wiki->removeWiki($wid);
 	}
 	function deletePost($pid) {
 		$pid = $_POST['pid'];
-		$wikipost->remove($pid);
+		$this->wikipost->remove($pid);
 	}
 	function setTag() {
 		$tag = $_POST['tags'];
@@ -54,6 +59,6 @@ class OperationAction extends Action{
 		$tag = explode(",", $tag);
 		foreach ($tag as $k => $v) 
 			$tag[$k] = trim($v);
-		$wikitag->setWikiTags($wid, $tag);
+		$this->wikitag->setWikiTags($wid, $tag);
 	}
 }
