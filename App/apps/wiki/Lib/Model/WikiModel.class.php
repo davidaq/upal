@@ -36,7 +36,7 @@ class WikiModel extends Model{
 		$data['creator']=$uid;
 		$data['description']=$description;
 		$data['cTime']=time();
-		$this->add($data);
+		return $this->add($data);
 	}
 	public function removeWiki($wid){
 		$this->where(array('id'=>intval($wid)))->delete();

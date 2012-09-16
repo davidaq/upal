@@ -68,6 +68,7 @@ class IndexAction extends Action{
 		}
 		$this->display();
 	}
+<<<<<<< HEAD
 	public function show(){
 		if(isset($_GET['wid'])){
 			$wid=intval($_GET['wid']);
@@ -86,6 +87,30 @@ class IndexAction extends Action{
 				$this->assign('posts',$this->wikiPost->listOfWIki($wid,true));
 				$this->display();
 			}
+=======
+	function getUserJoinedWiki()
+	{
+		$id = $_POST['id'];
+		$ret = $wiki->getUserJoinedWiki($id);
+		print_r($ret);
+	}
+	function getUserCreatedWiki()
+	{
+		$id = $_POST['id'];
+		$ret = $wiki->getUserCreatedWiki($id);
+		print_r($ret);
+	}
+	function getPopularTags() {
+		$ret = $wikiTaggetPupularTags();
+		print_r($ret);
+	}
+	// Create/modify a wiki post to a wiki
+	public function show() {
+		if(isset($_GET['id'])){
+			$wid=intval($_GET['id']);
+			$this->wiki->where(array('id'=>$wid))->select();
+			$this->display();
+>>>>>>> fcc20380e4e6dcd7241cfc6b64e699c2422721b1
 		}
 	}
 }
