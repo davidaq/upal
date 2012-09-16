@@ -12,7 +12,7 @@ CREATE TABLE `ts_wiki` (
   `vote` int(11) NOT NULL DEFAULT 0,
   `description` text NOT NULL,
   PRIMARY KEY  (`id`),
-  INDEX(`keyword`),
+  UNIQUE(`keyword`),
   INDEX(`creator`),
   INDEX(`cTime`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

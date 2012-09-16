@@ -26,9 +26,9 @@ class WikiPostModel extends Model{
 	public function remove($id){
 		$this->where(array('id'=>intval($id)))->delete();
 	}
-	public function listOfWIki($wid){
+	public function listOfWIki($wid,$wantBody=false){
 		$wid = intval($wid);
-		$r = $this->where(array('wiki_id'=>$wid))->field('id,title')->select();
+		$r = $this->where(array('wiki_id'=>$wid))->field($wantBody?'id,title,author,content':'id,title')->select();
 		return getValues($r);
 	}
 }

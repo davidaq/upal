@@ -9,7 +9,8 @@ class WikiTagModel extends Model{
 		$wid = intval($wid);
 		$this->where(array('wiki_id'=>$wid))->delete();
 		if($keys){
-			$keys = preg_split('/\s+/',strtolower(trim($keys)));
+			$keys = preg_split('/(?:\s|\&nbsp\;)+/i',htmlspecialchars(strtolower(trim($keys))));
+			print_r($keys);
 			$data['wiki_id'] = $wid;
 			foreach($keys as $f){
 				$data['tag'] = $f;
@@ -34,10 +35,11 @@ class WikiTagModel extends Model{
 		return $r;
 	}
 	public function searchWikiByTag($tag) {
-		$ids = $this->where("tag LIKE {$tag}")->field('wiki_id')->select();
-		foreach($ids as $id) {
-			$ret[] = $M('model')->where("tag LIKE {$tag}")->field("id, keyword, description")->select();
-		}
-		return $ret;
+		$tag = preg_split('/(?:\s|\&nbsp\;)+/i',htmlspecialchars(strtolower(trim($tag))));
+		$ids = $this->where(array('tag'=>array('IN',$tag)))->field('wiki_id')->select();
+		$ids = getValues($ids,'wiki_id');
+		if($ids)
+			return M('wiki')->where(array('id'=>array('IN',$ids)))->field("id, keyword, description")->select();
+		return array();
 	}
 }

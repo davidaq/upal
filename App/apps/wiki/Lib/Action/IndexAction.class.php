@@ -4,6 +4,7 @@ class IndexAction extends Action{
 	private $wiki;
 	private $wikiTag;
 	private $wikiPost;
+	private $wikiMember;
 	protected $app_alias;
 	
 	/**
@@ -17,6 +18,7 @@ class IndexAction extends Action{
 		$this->wiki = D('Wiki');
 		$this->wikiTag = D('WikiTag');
 		$this->wikiPost = D('WikiPost');
+		$this->wikiMember = D('wikiMember');
 		$_SESSION['language']='zh-cn';
 		
 	}
@@ -47,8 +49,7 @@ class IndexAction extends Action{
 		if (isset($_GET['wiki_tag']))
 		{
 			$key = $_GET['wiki_tag'];
-			$tag = $_GET['wiki_tag'];
-			$ret_tag = $this->wikiTag->searchWikiByTag($tag);
+			$ret_tag = $this->wikiTag->searchWikiByTag($key);
 			if($ret_tag)
 				$res = array_merge($res,$ret_tag);
 		}
@@ -68,10 +69,23 @@ class IndexAction extends Action{
 		$this->display();
 	}
 	public function show(){
-		if(isset($_GET['id'])){
-			$wid=intval($_GET['id']);
-			$this->wiki->where(array('id'=>$wid))->select();
-			$this->display();
+		if(isset($_GET['wid'])){
+			$wid=intval($_GET['wid']);
+			$r = $this->wiki->where(array('id'=>$wid))->select();
+			if($r){
+				$r=$r[0];
+				$this->assign('wiki',$r);
+				$editable=false;
+				if($r['creator']==$this->mid)
+					$editable=true;
+				else{
+					$editable=0<$this->wikiMember->where(array('wiki_id'=>$wid,'user_id'=>$this->mid))->count();
+				}
+				$this->assign('tags',$this->wikiTag->getWikiTags($wid));
+				$this->assign('editable',$editable);
+				$this->assign('posts',$this->wikiPost->listOfWIki($wid,true));
+				$this->display();
+			}
 		}
 	}
 }

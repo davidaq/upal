@@ -20,7 +20,8 @@ class OperationAction extends Action{
 			$title = $_POST['wiki_title'];
 			$des = $_POST['wiki_description'];
 			$uid = $this->mid;
-			$this->wiki->createWiki($title, $des, $uid);
+			$wid = $this->wiki->createWiki($title, $des, $uid);
+			$this->setTag($wid);
 			die('ok');
 		}else{
 			die('bad post');
@@ -43,6 +44,7 @@ class OperationAction extends Action{
 	function editWikiDescription() {
 		$id = $_POST['wiki_id'];
 		$des = $_POST['wiki_des'];
+		$this->setTag();
 		$this->wiki->setWikiDescription($id, $des);
 	}
 	function deleteWiki() {
@@ -53,12 +55,9 @@ class OperationAction extends Action{
 		$pid = $_POST['pid'];
 		$this->wikipost->remove($pid);
 	}
-	function setTag() {
+	function setTag($wid=false) {
 		$tag = $_POST['tags'];
-		$wid = $_POST['wid'];
-		$tag = explode(",", $tag);
-		foreach ($tag as $k => $v) 
-			$tag[$k] = trim($v);
-		$this->wikitag->setWikiTags($wid, $tag);
+		$wid = ($wid)?$wid:$_POST['wiki_id'];
+		$this->wikiTag->setWikiTags($wid, $tag);
 	}
 }

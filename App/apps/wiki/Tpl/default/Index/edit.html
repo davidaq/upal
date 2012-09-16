@@ -34,15 +34,16 @@ div.wikiEdit textarea{
 function doEdit(){
 	<?php
 		if($id==0){
-			$pattr='"'.U('wiki/Operation/createWiki').'",{"wiki_title":"'.$keyword.'","wiki_description":$("#wikiSign").val()}';
-		}
+			$pattr='"'.U('wiki/Operation/createWiki').'",{"tags":$("#wikiTags").val(),"wiki_title":"'.$keyword.'","wiki_description":$("#wikiSign").val()}';
+		}else
+			$pattr='"'.U('wiki/Operation/editWikiDescription').'",{"tags":$("#wikiTags").val(),"wiki_id":"'.$id.'","wiki_des":$("#wikiSign").val()}';
 	?>
 	$.post({$pattr},function(ret){
 		if(ret=='ok'){
 			ui.success('编辑成功');
 			ui.box.close();
 		}else
-			ui.error('编辑失败');
+			ui.error('编辑失败'+ret);
 	});
 }
 </script>
@@ -51,7 +52,7 @@ function doEdit(){
 		<label>词条名称：</label><b>{$keyword}</b><br/>
 		<label>词条签名：</label><br/>
 		<textarea id="wikiSign"></textarea><br/>
-		<label>词条类别：</label><input type="text" value="{$tags}"/><br/>
+		<label>词条类别：</label><input type="text" id="wikiTags" value="{$tags}"/><br/>
 		<button class="btn_b" style="margin:10px;" onclick="doEdit()">提交</button>
 	</div>
 </div>

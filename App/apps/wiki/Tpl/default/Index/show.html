@@ -1,0 +1,47 @@
+<include file="header"/>
+<style type="text/css">
+.wikiShow h1{
+	font-size:40px;
+	color:#222;
+	font-weight:bold;
+	margin:10px 0;
+}
+.wikiShow h2{
+	font-size:18px;
+	color:#333;
+	font-weight:bold;
+	margin:10px 0;
+	padding:5px;
+	border-bottom:1px solid #CDD;
+}
+.wikiShow p{
+	padding:5px;
+	font-size:13px;
+	color:#444;
+}
+</style>
+<div class="wikiShow">
+	<h1>{$wiki.keyword}</h1>
+	<p>{$wiki.description}</p>
+	<?php if($posts)foreach($posts as $v){ ?>
+	<h2>{$v.title}</h2>
+	<p>{$v.content}</p>
+	<?php } ?>
+	<?php if($tags){ ?>
+	<h2>分类</h2><p>
+	<?php foreach($tags as $v){ ?>
+		<a href="{:U('wiki/Index/search',array('wiki_key'=>$v))}">{$v}</a>
+	<?php } ?>
+	</p>
+	<?php } ?>
+	<?php if($editable){ ?>
+		<h2>词条编辑</h2>
+		<p>
+			<button class="btn_b">添加释义</button>
+			<button class="btn_b">调整顺序</button>
+			<button class="btn_b">编辑签名</button>
+			<button class="btn_b">编辑类别</button>
+		</p>
+	<?php } ?>
+</div>
+<include file="footer"/>
