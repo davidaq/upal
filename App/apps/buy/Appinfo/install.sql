@@ -7,7 +7,6 @@ CREATE TABLE `ts_buy` (
   `name` varchar(255) NOT NULL,
   `owner` int(11) NOT NULL,
   `img`	varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
   `cTime` int(11) NOT NULL,
   `verified` int(1) NOT NULL DEFAULT 0,
   `description` text NOT NULL,
