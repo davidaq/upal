@@ -108,9 +108,12 @@ class IndexAction extends Action{
 					$editable=0<$this->wikiMember->where(array('wiki_id'=>$wid,'user_id'=>$this->mid))->count();
 				}
 				$this->assign('tags',$this->wikiTag->getWikiTags($wid));
-				$this->assign('editable',$editable);
+				$this->assign('editable',($this->mid==1)||$editable);
 				$this->assign('isCreator',$r['creator']==$this->mid);
 				$this->assign('posts',$this->wikiPost->listOfWIki($wid,true));
+				$member = $this->wiki->wikiMember($wid);
+				$r = M('user')->where(array('uid'=>array('IN',$member)))->field('uid,uname')->select();
+				$this->assign('member',$r);
 				$this->display();
 			}
 		}

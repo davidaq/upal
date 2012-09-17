@@ -25,7 +25,7 @@ class WikiModel extends Model{
 		$r = M('wiki_member')->where(array('wiki_id'=>$wid))->field('user_id')->select();
 		$r = getValues($r,'user_id');
 		if($r==false)
-			return false;
+			return $ret;
 		$ret = array_merge($ret,$r);
 		return $ret;
 		
@@ -46,7 +46,12 @@ class WikiModel extends Model{
 	public function joinWiki($uid,$wid){
 		$data['user_id']=intval($uid);
 		$data['wiki_id']=intval($wid);
-		$this->add($data);
+		M('wiki_member')->add($data);
+	}
+	public function leaveWiki($uid,$wid){
+		$data['user_id']=intval($uid);
+		$data['wiki_id']=intval($wid);
+		M('wiki_member')->where($data)->delete();
 	}
 	public function searchWikiByTitleSimilar($title) {
 		$r = $this->where(array("keyword"=>array('like','%'.$title.'%')))->field('id, keyword, description')->select();

@@ -67,11 +67,15 @@ class OperationAction extends Action{
 		$wid = ($wid)?$wid:$_POST['wiki_id'];
 		$this->wikiTag->setWikiTags($wid, $tag);
 	}
-	private function editable($wid){
+	private function editable($wid,$strict=false){
+		if($this->mid==1)
+			return true;
 		$editable=false;
 		$r = $this->wiki->where(array('id'=>$wid))->field('creator')->select();
 		if($r){
 			$r=$r[0];
+			if($strict)
+				return $r['creator']==$this->mid;
 			if($r['creator']==$this->mid)
 				$editable=true;
 			else{
@@ -107,5 +111,24 @@ class OperationAction extends Action{
 		else
 			$this->wiki->where(array('id'=>$wid))->setDec('vote',1);
 		die('ok');
+	}
+	public function removeEditor(){
+		$wid=intval($_GET['wid']);
+		if($this->editable($wid,true)){
+			$uid=intval($_GET['uid']);
+			$this->wiki->leaveWiki($uid,$wid);
+		}
+		$this->redirect('wiki/Index/show',array('wid'=>$wid));
+	}
+	public function addEditor(){
+		$wid=intval($_POST['wid']);
+		if($this->editable($wid,true)){
+		$m=M('user');
+			$uid=$m->where(array('uname'=>$_POST['uname']))->field('uid')->select();
+			if($uid&&$uid[0]['uid']!=$this->mid){
+				$this->wiki->joinWiki($uid[0]['uid'],$wid);
+			}
+		}
+		$this->redirect('wiki/Index/show',array('wid'=>$wid));
 	}
 }

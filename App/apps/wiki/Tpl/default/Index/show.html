@@ -51,8 +51,31 @@
 	<?php } ?>
 	</h1>
 	<p>{$wiki.description}</p>
-	
-	
+	<script type="text/javascript">
+	function updateIndex(){
+		var items=$('.wikiPost').toArray();
+		var index=$('#wikiPostIndex');
+		if(!items[0]){
+			index.hide();
+			return;
+		}
+		index.html('<b>目录</b>');
+		for(k in items){
+			var item=$(items[k]).find('.anchor');
+			index.append('<a href="#'+item.attr('name')+'">'+item.attr('title')+'</a>');
+		}
+		index.show();		
+	}
+	$(updateIndex);
+	function vote(v){
+		$.post('{:U('wiki/Operation/vote')}',{'wid':<?php echo $wiki['id'] ?>,'vote':v},function(ret){
+			if(ret=='ok')
+				ui.success('评价成功');
+			else
+				ui.error('您已评价');
+		});
+	}
+	</script>
 	<?php if($editable){ ?>
 	<script type="text/javascript">
 	function postOperate(item){
@@ -109,21 +132,6 @@
 		setTimeout(updateIndex,600);
 		updateIndex();
 	}
-	function updateIndex(){
-		var items=$('.wikiPost').toArray();
-		var index=$('#wikiPostIndex');
-		if(!items[0]){
-			index.hide();
-			return;
-		}
-		index.html('<b>目录</b>');
-		for(k in items){
-			var item=$(items[k]).find('h2 a');
-			index.append('<a href="#'+item.attr('name')+'">'+item.html()+'</a>');
-		}
-		index.show();		
-	}
-	$(updateIndex);
 	function saveOpr(){
 		var items=$('.wikiPost').toArray();
 		var ids=[];
@@ -135,14 +143,6 @@
 				ui.success('保存成功');
 			else
 				ui.error('保存失败');
-		});
-	}
-	function vote(v){
-		$.post('{:U('wiki/Operation/vote')}',{'wid':<?php echo $wiki['id'] ?>,'vote':v},function(ret){
-			if(ret=='ok')
-				ui.success('评价成功');
-			else
-				ui.error('您已评价');
 		});
 	}
 	</script>
@@ -163,8 +163,9 @@
 	<div id="wikiPosts">
 	<?php if($posts)foreach($posts as $v){ ?>
 	<div class="wikiPost" id="wikiPost{$v.id}">
+		<a name="wikiPost{$v.id}"></a>
 		<h2>
-			<a name="wikiPost{$v.id}">{$v.title}</a>
+			<a>{$v.title}</a>
 			<?php if($editable){ ?>
 			<select class="wikiOperate" onchange="postOperate(this)" postid="{$v.id}">
 				<option value="0">--操作--</option>
@@ -208,5 +209,24 @@
 			<button class="btn_b" onclick="saveOpr()">保存操作</button>【注意：移动、删除操作需要保存才可生效】
 		</p>
 	<?php } ?>
+	
+	<h2>词条维护人员</h2>
+	<p>
+	<?php if($member)foreach($member as $v){ ?>
+		<a href="{:U('home/Space/index',array('uid'=>$v['uid']))}">{$v.uname}</a>
+		<?php if($isCreator&&$v['uid']!=$wiki['creator']){ ?>
+		<a href="{:U('wiki/Operation/removeEditor',array('uid'=>$v['uid']))}">[移除]</a>
+		<?php } ?>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+	<?php } ?>
+	<?php if($isCreator){ ?>
+		<br/>
+		<form action="{:U('wiki/Operation/addEditor')}" method="post">
+			<input type="hidden" name="wid" value="{$wiki.id}"/>
+			<input type="text" name="uname"/>
+			<button onclick="submit()" class="btn_b">添加</button>
+		</form>
+	<?php } ?>
+	</p>
 </div>
 <include file="footer"/>
