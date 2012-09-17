@@ -25,6 +25,7 @@
 
         protected function _initialize()
         {
+			$_SESSION['language']='zh-cn';
         	$this->assign('all_my_app', D('Group')->getAllMyGroup($this->mid, 0));
 
         	// 群组id

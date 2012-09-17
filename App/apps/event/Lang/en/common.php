@@ -1,0 +1,25 @@
+<?php
+return array(
+	'change_language'=>	'中文',
+	'风云榜'=>'Hot',
+	'名人堂'=>'Hall of fame',
+	'帐号'=>'Account',
+	'小工具'=>'Tools',
+	'后台管理'=>'Admin Panel',
+	'退出'=>'Logout',
+	'首页'	=>	'Home',
+	'广场'	=>	'Square',
+	'相册' => 'Album',
+	'搜名字/标签/微博'	=>	'Search name / tag / status',
+	'热门'	=> 'Hot ',
+	'最新'=>'Latest ',
+	'的'	=>	'\'s ',
+	'未分类'	=>	'Unclassified',
+	'首页 '	=>' home',
+	'我的'	=>'My ',
+	'分享'=>'Share',
+	'编辑'=>'Edit',
+	'删除'=>'Delete',
+	'本'=>'This ',
+);
+?>

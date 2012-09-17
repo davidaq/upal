@@ -21,6 +21,7 @@ class IndexAction extends Action {
      */
     public function _initialize() {
 		//应用名称
+		$_SESSION['language']='zh-cn';
 		global $ts;
 		$this->appName = $ts['app']['app_alias'];
         //设置活动的数据处理层
