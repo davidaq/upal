@@ -10,7 +10,6 @@ class WikiTagModel extends Model{
 		$this->where(array('wiki_id'=>$wid))->delete();
 		if($keys){
 			$keys = preg_split('/(?:\s|\&nbsp\;)+/i',htmlspecialchars(strtolower(trim($keys))));
-			print_r($keys);
 			$data['wiki_id'] = $wid;
 			foreach($keys as $f){
 				$data['tag'] = $f;

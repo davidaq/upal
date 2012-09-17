@@ -24,19 +24,20 @@ div.wikiEdit input{
 }
 div.wikiEdit textarea{
 	width:500px;
-	height:60px;
+	height:100px;
 	border:1px solid #CCC;
 	outline:none;
 	margin-left:5px;
 }
 </style>
 <script type="text/javascript">
-function doEdit(){
+function doPost(){
 	<?php
 		if($id==0){
-			$pattr='"'.U('wiki/Operation/createWiki').'",{"tags":$("#wikiTags").val(),"wiki_title":"'.$keyword.'","wiki_description":$("#wikiSign").val()}';
+			$pattr='"'.U('wiki/Operation/addPost').'"';
 		}else
-			$pattr='"'.U('wiki/Operation/editWikiDescription').'",{"tags":$("#wikiTags").val(),"wiki_id":"'.$id.'","wiki_des":$("#wikiSign").val()}';
+			$pattr='"'.U('wiki/Operation/editPost').'"';
+		$pattr.=',{"post_title":$("#wikiPostTitle").val(),"post_content":$("#wikiPostContent").val(),"wiki_id":'.$post['wiki_id'].',"pid":'.$post['id'].'}';
 	?>
 	$.post({$pattr},function(ret){
 		if(ret=='ok'){
@@ -52,11 +53,10 @@ function doEdit(){
 </script>
 <div class="wikiEditWrap">
 	<div class="wikiEdit">
-		<label>词条名称：</label><b>{$keyword}</b><br/>
-		<label>词条签名：</label><br/>
-		<textarea id="wikiSign">{$desc}</textarea><br/>
-		<label>词条类别：</label><input type="text" id="wikiTags" value="{$tags}"/><br/>
-		<button class="btn_b" style="margin:10px;" onclick="doEdit()">提交</button>
+		<label>标题：</label><input type="text" id="wikiPostTitle" value="{$post.title}"/><br/>
+		<label>内容：</label><br/>
+		<textarea id="wikiPostContent">{$post.content}</textarea><br/>
+		<button class="btn_b" style="margin:10px;" onclick="doPost()">提交</button>
 	</div>
 </div>
 <div>&nbsp;</div>

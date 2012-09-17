@@ -31,7 +31,7 @@ CREATE TABLE `ts_wiki_post` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
   `author`	int(11) NOT NULL,
-  `content` int(11) NOT NULL,
+  `content` longtext NOT NULL,
   `wiki_id` int(11) NOT NULL,
   `cTime` int(11) NOT NULL,
   `order` int(11) NOT NULL,

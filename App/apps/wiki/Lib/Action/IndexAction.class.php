@@ -58,17 +58,42 @@ class IndexAction extends Action{
 		$this->assign('searchresult',$res);
 		$this->display();
 	}
+	
+	function editPost(){
+		if(isset($_GET['pid'])&&$_GET['pid']>0){
+			$pid=intval($_GET['pid']);
+			$this->assign('post',$this->wikiPost->get($pid));
+		}elseif(isset($_GET['wid'])){
+			$this->assign('post',array('id'=>0,'wiki_id'=>intval($_GET['wid']),'title'=>'','content'=>''));
+		}else
+			return;
+		$this->show();
+	}
 	// Create/modify a wiki word
 	function edit(){
 		if(isset($_GET['id'])){
+			$r = $this->wiki->where(array('id'=>intval($_GET['id'])))->select();
+			if($r){
+				$r=$r[0];
+				$this->assign('keyword',$r['keyword']);
+				$tags = $this->wikiTag->getWikiTags($r['id']);
+				if($tags)
+					$tags = implode(' ',$tags);
+				else
+					$tags = '';
+				$this->assign('tags',$tags);
+				$this->assign('desc',$r['description']);
+				$this->assign('id',$r['id']);
+			}
 		}else{
 			$this->assign('keyword',$_GET['keyword']);
 			$this->assign('tags','');
+			$this->assign('desc','');
 			$this->assign('id',0);			
 		}
 		$this->display();
 	}
-<<<<<<< HEAD
+	
 	public function show(){
 		if(isset($_GET['wid'])){
 			$wid=intval($_GET['wid']);
@@ -84,10 +109,12 @@ class IndexAction extends Action{
 				}
 				$this->assign('tags',$this->wikiTag->getWikiTags($wid));
 				$this->assign('editable',$editable);
+				$this->assign('isCreator',$r['creator']==$this->mid);
 				$this->assign('posts',$this->wikiPost->listOfWIki($wid,true));
 				$this->display();
 			}
-=======
+		}
+	}
 	function getUserJoinedWiki()
 	{
 		$id = $_POST['id'];
@@ -103,14 +130,5 @@ class IndexAction extends Action{
 	function getPopularTags() {
 		$ret = $wikiTaggetPupularTags();
 		print_r($ret);
-	}
-	// Create/modify a wiki post to a wiki
-	public function show() {
-		if(isset($_GET['id'])){
-			$wid=intval($_GET['id']);
-			$this->wiki->where(array('id'=>$wid))->select();
-			$this->display();
->>>>>>> fcc20380e4e6dcd7241cfc6b64e699c2422721b1
-		}
 	}
 }

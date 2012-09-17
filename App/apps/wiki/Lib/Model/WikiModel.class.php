@@ -38,8 +38,8 @@ class WikiModel extends Model{
 		$data['cTime']=time();
 		return $this->add($data);
 	}
-	public function removeWiki($wid){
-		$this->where(array('id'=>intval($wid)))->delete();
+	public function removeWiki($wid,$uid){
+		$this->where(array('id'=>intval($wid),'creator'=>$uid))->delete();
 		$P = C('DB_PREFIX');
 		M('wiki_member')->where("wiki_id NOT IN (SELECT id FROM {$P}wiki)")->delete();
 	}

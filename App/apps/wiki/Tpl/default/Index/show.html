@@ -13,20 +13,179 @@
 	margin:10px 0;
 	padding:5px;
 	border-bottom:1px solid #CDD;
+	position:relative;
+}
+.wikiShow h2 select{
+	position:absolute;
+	top:5px;
+	right:0;
+	font-size:15px;
 }
 .wikiShow p{
 	padding:5px;
 	font-size:13px;
 	color:#444;
 }
+#wikiPostIndex{
+	border:1px solid #CCE;
+	float:left;
+	padding:10px;
+	margin:10px;
+}
+#wikiPostIndex a{
+	display:block;
+	font-size:15px;
+	text-indent:10px;
+	line-height:20px;
+	color:#557;
+}
+.pref button{
+	float:right;
+	margin:10px;
+}
 </style>
 <div class="wikiShow">
-	<h1>{$wiki.keyword}</h1>
-	<p>{$wiki.description}</p>
-	<?php if($posts)foreach($posts as $v){ ?>
-	<h2>{$v.title}</h2>
-	<p>{$v.content}</p>
+	<h1>{$wiki.keyword}&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn_b" onclick="editInfo()">编辑词条</button>
+	<?php if($isCreator){ ?>
+	<a class="btn_b" href="{:U('wiki/Operation/deleteWiki',array('wid'=>$wiki['id']))}">删除词条</a>
 	<?php } ?>
+	</h1>
+	<p>{$wiki.description}</p>
+	
+	
+	<?php if($editable){ ?>
+	<script type="text/javascript">
+	function postOperate(item){
+		var op=$(item).val();
+		$(item).val('0');
+		var pid=$(item).attr('postid');
+		if(op=='0')
+			return;
+		function swap(item1,item2){
+			if(item2[0]&&item1[0]){
+				var html1=item1.html();
+				var html2=item2.html();
+				var id1=item1.attr('id');
+				var id2=item2.attr('id');
+				item1.fadeOut(250,function(){
+					$(this).html(html2);
+					$(this).attr('id',id2);
+					$(this).fadeIn(250);
+				});
+				item2.fadeOut(250,function(){
+					$(this).html(html1);
+					$(this).attr('id',id1);
+					$(this).fadeIn(250);
+				});
+			}
+		}
+		if(op=='edit'){
+			editPost(pid);
+			return;
+		}else if(op=='delete'){
+			$('#wikiPost'+pid).hide(500,function(){
+				$(this).remove();
+			});
+		}else if(op=='up'){
+			var curr=$('#wikiPost'+pid);
+			swap(curr,curr.prev('.wikiPost'));
+		}else if(op=='down'){
+			var curr=$('#wikiPost'+pid);
+			swap(curr,curr.next('.wikiPost'));
+		}else if(op=='top'){
+			var curr=$('#wikiPost'+pid);
+			curr.fadeOut(250,function(){
+				$('#wikiPosts').prepend(curr);
+				curr.show(300);
+			});
+		}else if(op=='bottom'){
+			var curr=$('#wikiPost'+pid);
+			curr.fadeOut(250,function(){
+				$('#wikiPosts').append(curr);
+				curr.show(300);
+			});
+		}
+		ui.success('操作保存后才生效');
+		setTimeout(updateIndex,600);
+		updateIndex();
+	}
+	function updateIndex(){
+		var items=$('.wikiPost').toArray();
+		var index=$('#wikiPostIndex');
+		if(!items[0]){
+			index.hide();
+			return;
+		}
+		index.html('<b>目录</b>');
+		for(k in items){
+			var item=$(items[k]).find('h2 a');
+			index.append('<a href="#'+item.attr('name')+'">'+item.html()+'</a>');
+		}
+		index.show();		
+	}
+	$(updateIndex);
+	function saveOpr(){
+		var items=$('.wikiPost').toArray();
+		var ids=[];
+		for(k in items){
+			ids.push($(items[k]).find('.wikiOperate').attr('postid'));
+		}
+		$.post('{:U('wiki/Operation/saveOpr')}',{'wid':<?php echo $wiki['id'] ?>,'ids':ids},function(ret){
+			if(ret=='ok')
+				ui.success('保存成功');
+			else
+				ui.error('保存失败');
+		});
+	}
+	function vote(v){
+		$.post('{:U('wiki/Operation/vote')}',{'wid':<?php echo $wiki['id'] ?>,'vote':v},function(ret){
+			if(ret=='ok')
+				ui.success('评价成功');
+			else
+				ui.error('您已评价');
+		});
+	}
+	</script>
+	<?php } ?>
+	<div class="pref" style="overflow:hidden;zoom:1">
+		<div id="wikiPostIndex"></div>
+		<?php
+		$up='';
+		$down='';
+		if($wiki['vote']>0)
+			$up='('.$wiki['vote'].')';
+		elseif($wiki['vote']<0)
+			$down='('.(-$wiki['vote']).')';
+		?>
+		<button class="btn_b" onclick="vote(1)">顶{$up}</button>
+		<button class="btn_b" onclick="vote(-1)">踩{$down}</button>
+	</div>
+	<div id="wikiPosts">
+	<?php if($posts)foreach($posts as $v){ ?>
+	<div class="wikiPost" id="wikiPost{$v.id}">
+		<h2>
+			<a name="wikiPost{$v.id}">{$v.title}</a>
+			<?php if($editable){ ?>
+			<select class="wikiOperate" onchange="postOperate(this)" postid="{$v.id}">
+				<option value="0">--操作--</option>
+				<optgroup label="移动">
+					<option value="up">提前</option>
+					<option value="down">置后</option>
+					<option value="top">置顶</option>
+					<option value="bottom">置底</option>
+				</optgroup>
+				<optgroup label="操作">
+					<option value="edit">编辑</option>
+					<option value="delete">删除</option>
+				</optgroup>
+			</select>
+			<?php } ?>
+		</h2>
+		<p>{$v.content}</p>
+	</div>
+	<?php } ?>
+	</div>
+	
 	<?php if($tags){ ?>
 	<h2>分类</h2><p>
 	<?php foreach($tags as $v){ ?>
@@ -34,13 +193,19 @@
 	<?php } ?>
 	</p>
 	<?php } ?>
+	
 	<?php if($editable){ ?>
-		<h2>词条编辑</h2>
+		<script type="text/javascript">
+		function editInfo(){
+			ui.box.load('{:U('wiki/Index/edit',array('id'=>$wiki['id']))}',{title:'编辑说明'});
+		}
+		function editPost(id){
+			ui.box.load('{:U('wiki/Index/editPost',array('wid'=>$wiki['id'],'pid'=>''))}'+id,{title:'编辑词条'});
+		}
+		</script>
 		<p>
-			<button class="btn_b">添加释义</button>
-			<button class="btn_b">调整顺序</button>
-			<button class="btn_b">编辑签名</button>
-			<button class="btn_b">编辑类别</button>
+			<button class="btn_b" onclick="editPost(0)">添加释义</button>
+			<button class="btn_b" onclick="saveOpr()">保存操作</button>【注意：移动、删除操作需要保存才可生效】
 		</p>
 	<?php } ?>
 </div>
