@@ -39,7 +39,7 @@ return array(
 	'SIDEBAR_SUPPORT_SUBMENU'	=> '0',
 
 	// 作者名 [必填]
-	'AUTHOR_NAME'				=> 'Num6',
+	'AUTHOR_NAME'				=> 'Num16',
 	// 作者Email [必填]
 	'AUTHOR_EMAIL'				=> 'num16studio@126.com',
 	// 作者主页 [选填]
