@@ -1,7 +1,37 @@
 	</div>
+	<script type="text/javascript">
+	$(function(){
+		$.getJSON('{:U('wiki/Index/mywiki')}',function(data){
+			var t=data['create'];
+			for(k in t){
+				$('#createdWiki').append('<a href="{:U('wiki/Index/show',array('wid'=>''))}'+t[k]['id']+'">'+t[k]['keyword']+'</a>');
+			}
+			var t=data['join'];
+			for(k in t){
+				$('#joinedWiki').append('<a href="{:U('wiki/Index/show',array('wid'=>''))}'+t[k]['id']+'">'+t[k]['keyword']+'</a>');
+			}
+		});
+	});
+	</script>
+	<style type="text/css">
+	.keywordList{
+		overflow:hidden;
+		zoom:1;
+	}
+	.keywordList a{
+		font-size:14px;
+		float:left;
+		margin:5px 15px;
+		display:block;
+	}
+	</style>
 	<div class="rightBar">
+		<div id="createdWiki" class="keywordList">
 		<h2>我创建的词条</h2>
+		</div>
+		<div id="joinedWiki" class="keywordList">
 		<h2>我参与的词条</h2>
+		</div>
 	</div>
   </div>
 </div>

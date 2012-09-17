@@ -63,19 +63,9 @@ form.wikiSearchbox input{
 <div class="wikiSearchWrap">
 	<div class="wikiHotTags">
 		<label>热门标签</label>
-		<a class="wikitag1">Test</a>
-		<a class="wikitag3">Test2</a>
-		<a class="wikitag2">Test3</a>
-		<a class="wikitag5">Test</a>
-		<a class="wikitag4">Test</a>
-		<a class="wikitag1">Test</a>
-		<a class="wikitag3">Test2</a>
-		<a class="wikitag2">Test3</a>
-		<a class="wikitag5">Test</a>
-		<a class="wikitag4">Test</a>
-		<a class="wikitag2">Test3</a>
-		<a class="wikitag5">Test</a>
-		<a class="wikitag4">Test</a>
+		<?php foreach($hot as $v){ ?>
+			<a class="wikitag{$v.level}" href="{:U('wiki/Index/search',array('wiki_key'=>$v['tag']))}">{$v.tag}</a>
+		<?php } ?>
 	</div>
 	<form action="index.php" class="wikiSearchbox" method="get">
 	<p>

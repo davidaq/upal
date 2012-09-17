@@ -42,22 +42,21 @@ class WikiTagModel extends Model{
 		return array();
 	}
 	public function getPopularTags() {
-		$alltag = $this->field('tag')->select();
-		$mp = array();
-		foreach($alltag as $tag) {
-			if ($mp[$tag]) {
-				$mp[$tag]++;
-			} else 
-				$mp[$tag] = 1;
+		$r = $this->group('tag')->order('count(*)')->field('tag,count(*) as c')->limit(20)->select();
+		if(!$r)
+			return array();
+		
+		function rand_sort($a,$b){
+			return rand(-1,1);
 		}
-		asort($alltag);
-		$cnt = 0;
-		$ret = array();
-		foreach ($alltag as $v) {
-			$cnt++;
-			if ($cnt > 20) break;
-			$ret[] = $v;
+		$min=$r[0]['c']-1;
+		$max=$r[count($r)-1]['c'];
+		usort($r,'rand_sort');
+		$l=($max-$min)/5;
+		foreach($r as $k=>$v){
+			$r[$k]['level']=ceil(($v['c']-$min)/$l);
+			unset($r[$k]['c']);
 		}
-		return $ret;
+		return $r;
 	}
 }

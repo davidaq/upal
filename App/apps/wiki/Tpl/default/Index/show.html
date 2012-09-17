@@ -163,9 +163,10 @@
 	<div id="wikiPosts">
 	<?php if($posts)foreach($posts as $v){ ?>
 	<div class="wikiPost" id="wikiPost{$v.id}">
-		<a name="wikiPost{$v.id}"></a>
+		<a name="wikiPost{$v.id}" title="{$v.title}" class="anchor"></a>
+		<br/><br/>
 		<h2>
-			<a>{$v.title}</a>
+			{$v.title}
 			<?php if($editable){ ?>
 			<select class="wikiOperate" onchange="postOperate(this)" postid="{$v.id}">
 				<option value="0">--操作--</option>
@@ -215,7 +216,7 @@
 	<?php if($member)foreach($member as $v){ ?>
 		<a href="{:U('home/Space/index',array('uid'=>$v['uid']))}">{$v.uname}</a>
 		<?php if($isCreator&&$v['uid']!=$wiki['creator']){ ?>
-		<a href="{:U('wiki/Operation/removeEditor',array('uid'=>$v['uid']))}">[移除]</a>
+		<a href="{:U('wiki/Operation/removeEditor',array('wid'=>$wiki['id'],'uid'=>$v['uid']))}">[移除]</a>
 		<?php } ?>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 	<?php } ?>

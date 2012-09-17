@@ -3,8 +3,8 @@ include_once 'ModelCommon.php';
 class WikiModel extends Model{
 	public function getUserCreatedWiki($uid){
 		$uid = intval($uid);
-		$r = $this->where(array('creator'=>$uid))->field('id')->select();
-		return getValues($r,'id');
+		$r = $this->where(array('creator'=>$uid))->field('id,keyword')->select();
+		return $r;
 	}
 	public function setWikiVerified($wid,$v=true){
 		$data['id'] = intval($wid);
@@ -14,7 +14,10 @@ class WikiModel extends Model{
 	public function getUserJoinedWiki($uid){
 		$uid=intval($uid);
 		$r = M('wiki_member')->where(array('user_id'=>$uid))->field('wiki_id')->select();
-		return getValues($r,'wiki_id');
+		$ids = getValues($r,'wiki_id');
+		if(!$ids)
+			return array();
+		return $this->where(array('id'=>array('IN',$ids)))->field('id,keyword')->select();
 	}
 	public function wikiMember($wid){
 		$wid = intval($wid);

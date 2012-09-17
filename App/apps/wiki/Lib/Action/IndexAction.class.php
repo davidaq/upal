@@ -24,12 +24,15 @@ class IndexAction extends Action{
 	}
 	// A basicly static page, provides searching, hot tags display
 	function index(){
+		$this->assign('hot',$this->wikiTag->getPopularTags());
 		$this->display();
 	}
 	// Display the wiki words that one created or joinedin
 
 	function mywiki(){
-		$this->display();
+		$list['create']=$this->wiki->getUserCreatedWiki($this->mid);
+		$list['join']=$this->wiki->getUserJoinedWiki($this->mid);
+		echo json_encode($list);
 	}
 	// Display search result
 	function search(){
