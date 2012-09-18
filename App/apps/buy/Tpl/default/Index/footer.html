@@ -1,3 +1,20 @@
+		<script type="text/javascript">
+			$(function(){
+				$.get('{:U('buy/Index/rightItems')}',function(data){
+					var t=data['hotItems'];
+					for(k in t){
+						alert(k);
+						//$('#createdWiki').append('<a href="{:U('buy/Index/show',array('wid'=>''))}'+t[k]['id']+'">'+t[k]['keyword']+'</a>');
+						$('#hotItems').append("<a>" + t[k]['name'] + "</a>");
+					}
+					var t=data['goodItems'];
+					for(k in t){
+						//$('#joinedWiki').append('<a href="{:U('buy/Index/show',array('wid'=>''))}'+t[k]['id']+'">'+t[k]['keyword']+'</a>');
+						$('#goodItems').append("<a>" + t[k]['name'] + "</a>");
+					}
+				});
+			});
+		</script>
 		<style type="text/css">
 		div.buyRightBar input{
 			border:1px solid #AAC;
@@ -20,9 +37,15 @@
 				<button class="btn_b" onclick="submit">搜索商品</button>
 			</p>
 			</form>
-			<h2>热评商品</h2>
-			<h2>好评商品</h2>
-			<h2>优秀店主</h2>x
+			<div id = "hotItems">
+				<h2>热评商品</h2>
+			</div>
+			<div id = "goodItems">
+				<h2>好评商品</h2>
+			</div>
+			<div>
+				<h2>优秀店主</h2>
+			</div>
 		</div>
 		<div>&nbsp;</div>
 	</div>

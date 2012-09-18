@@ -25,7 +25,7 @@ CReATE TABLE `ts_buy_comment` (
 	`bid` int(11) NOT NULL,
 	`cTime` int(11) NOT NULL,
 	`content` text NOT NULL,
-  	`vote` int(1) NOT NULL DEFAULT 3,
+  `vote` int(1) NOT NULL DEFAULT 3,
 	PRIMARY KEY  (`id`),
 	INDEX(`uid`),
 	INDEX(`bid`),

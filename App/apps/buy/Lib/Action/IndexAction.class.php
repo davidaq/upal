@@ -21,6 +21,11 @@ class IndexAction extends Action{
 		$this->getRecentItem();
 		$this->display();
 	}
+	function rightItems(){
+		#$list['hotItems'] = $this->buy->getHotItems(5);
+		$list['goodItems'] = $this->buy->getGoodItems(5);
+		echo json_encode($list);
+	}
 	function getUserItems() {
 		$uid = $_POST['uid'];
 		$ret = $this->buy->getUserItems();
@@ -29,13 +34,29 @@ class IndexAction extends Action{
 	function getRecentItem() {
 		$num = $_POST['num'];
 		$ret = $this->buy->getRecentItem($num);
-		echo "aaaaasdgagag!";
 		print_r($ret);
 		$this->assign('recentItem', $res);
 	}
 	function search() {
 		$name = $_GET['buy_title'];
 		$ret = $this->buy->searchItemByName($name);
+		print_r($ret);
+	}
+
+	function getHotItems() {
+		if (isset($_POST['num']))
+			$num = $_POST['num'];
+		else
+			$num = 10;
+		$ret = $this->buy->getHotItems($num);
+		print_r($ret);
+	}
+	function getGoodItems() {
+		if (isset($_POST['num']))
+			$num = $_POST['num'];
+		else
+			$num = 10;
+		$ret = $this->buy->getGoodItems($num);
 		print_r($ret);
 	}
 }
