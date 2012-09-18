@@ -17,7 +17,7 @@ class BuyCommentModel extends Model{
 	public function getComments($bid){
 		// Todo: get a list of comments of the buy item with id $bid
 		$P=C('DB_PREFIX');
-		$r = $this->join("{$P}user as U ON U.uid={$P}buy_comment.uid")->where(array('bid'=>intval($bid)))->limit(20)->field('U.uid,U.uname,vote,content')->select();
+		$r = $this->join("{$P}user as U ON U.uid={$P}buy_comment.uid")->where(array('bid'=>intval($bid)))->order(array('id'=>'DESC'))->limit(20)->field('U.uid,U.uname,vote,content')->select();
 		return $r;
 	}
 }
