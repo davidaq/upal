@@ -1,11 +1,13 @@
 <?php
 class OperationAction extends Action{
 	private $buy;
+	private $buyComment;
 	protected $app_alias;
 	
 	function _initialize(){
 		global $ts;
 		$this->buy = D('Buy');
+		$this->buyComment = D('BuyComment');
 	}
 	function edit(){
 		if($_POST['id']==0){
@@ -55,5 +57,12 @@ class OperationAction extends Action{
 		if($this->buy->getOwner($id)==$this->mid)
 			$this->buy->removeItem($id);
 		$this->redirect('buy/Index/myshop');
+	}
+	public function makecomment(){
+		$content=trim($_POST['content']);
+		if($content){
+			$this->buyComment->makeComment($_POST['id'],$this->mid,$content,$_POST['vote']);
+		}
+		$this->redirect('buy/Index/showitem',array('id'=>$_POST['id']));
 	}
 }

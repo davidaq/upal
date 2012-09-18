@@ -38,7 +38,7 @@
 			<a type="image" href="javascript:void()" onclick="createNewItem()" style="display:block;background:url({:SITE_URL}/apps/buy/create_buy.png) no-repeat center center;width:222px;height:55px"></a>
 			<form action="index.php" class="buySearchbox" method="get">
 			<p>
-				<input type="text" name="buy_title"/>
+				<input type="text" name="buy_key" value="{:(isset($_GET['buy_key'])?htmlspecialchars($_GET['buy_key']):'')}"/>
 				<input type="hidden" name="app" value="buy"/>
 				<input type="hidden" name="mod" value="Index"/>
 				<input type="hidden" name="act" value="search"/>
