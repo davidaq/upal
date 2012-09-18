@@ -4,6 +4,7 @@
 	font-size:20px;
 	padding-bottom:5px;
 	border-bottom:1px solid #DDD;
+	margin:10px 0;
 }
 .mainArea .thumbs{
 	overflow:hidden;
@@ -68,26 +69,44 @@ $(function(){
 		$(this).find('.btn_b').stop(true,true).fadeOut(300);
 	});
 });
+function modify(){
+	ui.box.load('{:U('buy/Index/editItem',array('id'=>$item['id']))}',{title:'修改商品'});
+}
 </script>
 <div class="mainArea">
-	<h1>{商品名称} &nbsp;&nbsp;&nbsp; {:renderStar(3)}</h1>
-	<p>
-		商品介绍。。。。商品介绍。。。。商品介绍。。商品介绍
-		商品介绍。。。。商品介绍。。。。商品介绍。。商品介绍
-		商品介绍。。。。商品介绍。。。。商品介绍。。商品介绍
-		商品介绍。。。。商品介绍。。。。商品介绍。。商品介绍
-		商品介绍。。。。商品介绍。。。。商品介绍。。商品介绍
-	</p>
+	<h1>{$item.name} &nbsp;&nbsp;&nbsp; {:renderStar(3)} &nbsp;&nbsp;&nbsp; 货余量：{$item.count}
+	<?php if($isOwner){ ?>
+		&nbsp;&nbsp;&nbsp; 
+		<button class="btn_b" onclick="modify()">修改</button>
+		&nbsp;&nbsp;&nbsp; 
+		<a class="btn_b" href="{:U('buy/Operation/deleteItem',array('id'=>$item['id']))}">删除</a>
+	<?php } ?>
+</h1>
+	<pre style="font-size:15px">{:htmlspecialchars($item['description'])}</pre>
 	<h1>商品截图：</h1>
 	<div class="thumbs">
-		<span><img src="http://localhost/upal/App/apps/wiki/Appinfo/ico_app.png"/><a href="" class="btn_b">删除</a></span>
-		<span><img src="http://localhost/upal/App/public/themes/newstyle/images/logo.png"/><a href="" class="btn_b">删除</a></span>
-		<span><img src=""/></span>
-		<span><img src=""/></span>
+		<?php
+		$img=json_decode($item['img'],true);
+		$index=0;
+		foreach($img as $f){
+		?>
+		<span>
+			<a href="{$f}" target="_blank" title="点击察看原图"><img src="{$f}"/></a>
+			<?php if($isOwner){ ?>
+			<a href="{:U('buy/Operation/deleteThumb',array('id'=>$item['id'],'index'=>$index))}" class="btn_b">删除</a>
+			<?php } ?>
+		</span>
+		<?php 
+			$index++;
+		} 
+		?>
 	</div>
+	<?php if($isOwner){ ?>
 	<form method="post" action="{:U('buy/Operation/uploadThumb')}" enctype="multipart/form-data">
 		<input type="file" name="upload"/><input type="submit" class="btn_b" value="添加截图"/>
+		<input type="hidden" name="id" value="{$item.id}"/>
 	</form>
+	<?php } ?>
 	<h1>评论：</h1>
 	<form class="commentForm" action="{:U('buy/Operation/comment')}" method="post">
 		<script type="text/javascript">

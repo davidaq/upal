@@ -9,12 +9,16 @@
 <div class="mainArea">
 	<h1>我的商品</h1>
 	<div class="shelf">
-
-		<include file="shelf_item"/>
-		<include file="shelf_item"/>
-		<include file="shelf_item"/>
-		<include file="shelf_item"/>
-		
+		<?php
+			if($userItem)foreach($userItem as $item){ 
+			$item['img']=json_decode($item['img'],0);
+			if(isset($item['img'][0]))
+				$item['img']=$item['img'][0];
+			else
+				$item['img']='';
+		?>
+			<include file="shelf_item"/>
+		<?php } ?>	
 	</div>
 	<include file="pager"/>
 </div>
