@@ -2,24 +2,30 @@
 			$(function(){
 				$.getJSON('{:U('buy/Index/rightItems')}',function(data){
 					//alert(data);
+					$('#hotItems').append("<ul>");
 					var t=data['hotItems'];
 					for(k in t){
-						//$('#createdWiki').append('<a href="{:U('buy/Index/show',array('wid'=>''))}'+t[k]['id']+'">'+t[k]['keyword']+'</a>');
+						$('#hotItems').append("<li>");
 						$('#hotItems').append("<a>" + t[k]['name'] + "</a>");
+						$('#hotItems').append("</li>");
 					}
+					$('#hotItems').append("</ul>");
 					var t=data['goodItems'];
 					$('#goodItems').append("<ul>");
 					for(k in t){
 						$('#goodItems').append('<li>');
-						//$('#joinedWiki').append('<a href="{:U('buy/Index/show',array('wid'=>''))}'+t[k]['id']+'">'+t[k]['keyword']+'</a>');
 						$('#goodItems').append("<a>" + t[k]['name'] + "</a>");
 						$('#goodItems').append('</li>');
 					}
 					$('#goodItems').append("</ul>");
 					var t = data['goodOwners'];
+					$('#goodOwners').append("<ul>");
 					for (k in t) {
+						$("#goodOwners").append("<li>");
 						$('#goodOwners').append("<a>" + t[k]['uname'] + "</a>");
+						$("#goodOwners").append("</li>");
 					}
+					$("#goodOwners").append("</ul>");
 				});
 			});
 		</script>
