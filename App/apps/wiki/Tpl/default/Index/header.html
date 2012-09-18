@@ -21,6 +21,14 @@
 	color:#BBB;
 }
 </style>
+<div class=page_tit>
+  <!-- page_title begin -->
+  <h2><img src="{:SITE_URL}/apps/wiki/Appinfo/ico_app.png" />{$ts['app']['app_alias']}</h2>
+  <ul class="tit_tab">
+    <li><a href="{:U('wiki/Index/index')}" <php>if(ACTION_NAME=='index')echo 'class="on"';</php>>Wiki首页</a></li>
+  </ul>
+  <div class="c"></div>
+</div>
 <div class="content no_bg">
   <include file="../Public/_blog_header" />
   <div class="main no_l">
