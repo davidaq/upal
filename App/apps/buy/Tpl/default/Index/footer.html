@@ -1,16 +1,24 @@
 		<script type="text/javascript">
 			$(function(){
-				$.get('{:U('buy/Index/rightItems')}',function(data){
+				$.getJSON('{:U('buy/Index/rightItems')}',function(data){
+					//alert(data);
 					var t=data['hotItems'];
 					for(k in t){
-						alert(k);
 						//$('#createdWiki').append('<a href="{:U('buy/Index/show',array('wid'=>''))}'+t[k]['id']+'">'+t[k]['keyword']+'</a>');
 						$('#hotItems').append("<a>" + t[k]['name'] + "</a>");
 					}
 					var t=data['goodItems'];
+					$('#goodItems').append("<ul>");
 					for(k in t){
+						$('#goodItems').append('<li>');
 						//$('#joinedWiki').append('<a href="{:U('buy/Index/show',array('wid'=>''))}'+t[k]['id']+'">'+t[k]['keyword']+'</a>');
 						$('#goodItems').append("<a>" + t[k]['name'] + "</a>");
+						$('#goodItems').append('</li>');
+					}
+					$('#goodItems').append("</ul>");
+					var t = data['goodOwners'];
+					for (k in t) {
+						$('#goodOwners').append("<a>" + t[k]['uname'] + "</a>");
 					}
 				});
 			});
@@ -43,7 +51,7 @@
 			<div id = "goodItems">
 				<h2>好评商品</h2>
 			</div>
-			<div>
+			<div id = "goodOwners">
 				<h2>优秀店主</h2>
 			</div>
 		</div>

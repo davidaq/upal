@@ -92,10 +92,22 @@ class BuyModel extends Model{
 		return $r;
 	}
 	public function getHotItems($num) {
-		$r = $M('BuyComment')->order(array('total' => 'desc'))->limit($num)->group("bid")-> select('bid, count(*) as total');
-		return $r;
+		$r = M('BuyComment')->order(array('total' => 'desc'))->limit($num)->group("bid")->field("bid, count(*) as total") -> select();
+		$ret = array();
+		foreach ($r as $v) {
+			//return $this->where(array('id' => intval($v['bid'])))->select();
+			$ret = array_merge($ret, $this->where(array('id' => $v['bid']))->select());
+		}
+		return $ret;
 	}
 	public function getGoodOwner($num) {
-
+		$r = $this->order(array('tmp' => 'desc')) -> limit($num) -> group('owner')->field("owner, avg(vote) as tmp") -> select();
+		#return $r;
+		$ret = array();
+		foreach ($r as $v) {
+			#return intval($v['owner']);
+			$ret = array_merge($ret, M('User')->where(array('uid' => intval($v['owner'])))->select());
+		}
+		return $ret;
 	}
 }
