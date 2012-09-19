@@ -79,6 +79,10 @@ $(function(){
 function modify(){
 	ui.box.load('{:U('buy/Index/editItem',array('id'=>$item['id']))}',{title:'修改商品'});
 }
+function rm(){
+	if(confirm('确认要删除这个商品？'))
+		document.location.href='{:U('buy/Operation/deleteItem',array('id'=>$item['id']))}';
+}
 </script>
 <div class="mainArea">
 	<h1>{$item.name} &nbsp;&nbsp;&nbsp; {:renderStar($item['vote']/10)} &nbsp;&nbsp;&nbsp; 货余量：{$item.count}
@@ -86,7 +90,7 @@ function modify(){
 		&nbsp;&nbsp;&nbsp; 
 		<button class="btn_b" onclick="modify()">修改</button>
 		&nbsp;&nbsp;&nbsp; 
-		<a class="btn_b" href="{:U('buy/Operation/deleteItem',array('id'=>$item['id']))}">删除</a>
+		<a class="btn_b" href="javascript:void(0)" onclick="rm()">删除</a>
 	<?php } ?>
 </h1>
 	<p style="padding:10px 0;font-size:12px">

@@ -81,6 +81,7 @@ class BuyModel extends Model{
 				unlink($f);
 		}
 		$this->where(array('id'=>intval($id)))->delete();
+		M('buy_comment')->where(array('bid'=>intval($id)))->delete();
 	}
 	public function searchItemByName($name,$page,$num) {
 		$name=preg_split('/(\&nbsp\;|[\s,;])+/i',htmlspecialchars($name));

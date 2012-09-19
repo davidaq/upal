@@ -57,7 +57,14 @@ class WikiModel extends Model{
 		M('wiki_member')->where($data)->delete();
 	}
 	public function searchWikiByTitleSimilar($title) {
-		$r = $this->where(array("keyword"=>array('like','%'.$title.'%')))->field('id, keyword, description')->select();
+		$title=htmlspecialchars($title);
+		$name=preg_split('/(\&nbsp\;|[\s,;])+/i',$title);
+		$map = '`keyword` <> "'.$title.'" AND ( 1=2';
+		foreach($name as $f){
+			$map.=' OR `keyword` like "%'.$f.'%" OR `description` like "%'.$f.'%"';
+		}
+		$map.=' )';
+		$r = $this->where($map)->limit(50)->order(array('id'=>'DESC'))->field('id, keyword, description')->select();
 		return $r;
 	}
 	public function searchWikiByTitleAccurate($title) {
