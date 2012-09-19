@@ -32,7 +32,7 @@ class IndexAction extends Action{
 			$this->assign('title','我的商品');
 		else{
 			$r=M('user')->where('uid='.$user)->field('uname')->select();
-			$this->assign('title',$r[0]['uname'].'的商品');
+			$this->assign('title','<a href="'.U('home/Space/index',array('uid'=>$user)).'">'.$r[0]['uname'].'</a> 的商品');
 		}
 		$this->getUserItems($user);
 		$this->display('myshop');
