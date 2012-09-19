@@ -3,9 +3,12 @@ include_once 'ModelCommon.php';
 class BuyModel extends Model{
 	public function getItem($id){
 		$r = $this->where(array('id'=>$id))->select();
-		if($r)
-			return $r[0];
-		else
+		if($r){
+			$r = $r[0];
+			$r['uname']=M('user')->where('uid='.$r['owner'])->field('uname')->select();
+			$r['uname']=$r['uname'][0]['uname'];
+			return $r;
+		}else
 			return false;
 	}
 	public function getUserItems($uid,$page,$num){
@@ -78,9 +81,15 @@ class BuyModel extends Model{
 		}
 		$this->where(array('id'=>intval($id)))->delete();
 	}
-	public function searchItemByName($name) {
-		$r = $this->where(array("name"=>array('like','%'.$name.'%')))->field('id, name, description, img, owner')->select();
-		return $r;
+	public function searchItemByName($name,$page,$num) {
+		$name=preg_split('/(\&nbsp\;|[\s,;])+/i',htmlspecialchars($name));
+		$map = '1=0';
+		foreach($name as $f){
+			$map.=' OR `name` like "%'.$f.'%"';
+		}
+		$r = $this->where($map)->limit($num*$page,$num)->select();
+		$c = $this->where($map)->count();
+		return array('items'=>$r,'pages'=>ceil($c/$num));
 	}
 	public function getRecentItem($num) {
 		$r = $this->order(array('cTime' => 'desc'))->limit($num)->select();

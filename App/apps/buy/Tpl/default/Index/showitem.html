@@ -42,6 +42,13 @@ form.commentForm textarea{
 	border:1px solid #AAC;
 	margin:5px 0;
 }
+.comment{
+	font-size:14px;
+	color:#333;
+}
+.comment h3{
+	font-size:16px;
+}
 </style>
 <script type="text/javascript">
 //Auto scale images;
@@ -74,7 +81,7 @@ function modify(){
 }
 </script>
 <div class="mainArea">
-	<h1>{$item.name} &nbsp;&nbsp;&nbsp; {:renderStar(3)} &nbsp;&nbsp;&nbsp; 货余量：{$item.count}
+	<h1>{$item.name} &nbsp;&nbsp;&nbsp; {:renderStar($item['vote']/10)} &nbsp;&nbsp;&nbsp; 货余量：{$item.count}
 	<?php if($isOwner){ ?>
 		&nbsp;&nbsp;&nbsp; 
 		<button class="btn_b" onclick="modify()">修改</button>
@@ -82,6 +89,10 @@ function modify(){
 		<a class="btn_b" href="{:U('buy/Operation/deleteItem',array('id'=>$item['id']))}">删除</a>
 	<?php } ?>
 </h1>
+	<p style="padding:10px 0;font-size:12px">
+		<label>卖主：</label>
+		<a href="{:U('buy/Index/usershop',array('uid'=>$item['owner']))}">{$item.uname}</a>
+	</p>
 	<pre style="font-size:15px">{:htmlspecialchars($item['description'])}</pre>
 	<h1>商品截图：</h1>
 	<div class="thumbs">
@@ -108,7 +119,16 @@ function modify(){
 	</form>
 	<?php } ?>
 	<h1>评论：</h1>
-	<form class="commentForm" action="{:U('buy/Operation/comment')}" method="post">
+	<?php foreach($comments as $v){ ?>
+	<div class="comment">
+		<h3>
+			<a href="{:U('home/Space/index',array('uid'=>$v['uid']))}">{$v.uname}</a>
+			{:renderStar($v['vote'])}
+		</h3>
+		<p style="padding:5px;">{$v.content}</p>
+	</div>
+	<?php } ?>
+	<form class="commentForm" action="{:U('buy/Operation/makeComment')}" method="post">
 		<script type="text/javascript">
 		$(function(){
 			var c=$('#commentStar');
@@ -134,9 +154,10 @@ function modify(){
 			快速评论：
 			<span id="commentStar">{:renderStar(3)}</span>
 		</h2>
+		<input type="hidden" value="{$item.id}" name="id"/>
 		<input type="hidden" value="3" name="vote" id="voteStar"/>
-		<textarea name="comment"></textarea>
-		<button class="btn_b">评论</button>
+		<textarea name="content"></textarea>
+		<input type="submit" class="btn_b" value="评论" />
 	</form>
 </div>
 <include file="footer" />

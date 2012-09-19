@@ -11,7 +11,7 @@
 		// $pager['total'] Total Page count
 		// $pager['current'] The page user currently on, starts from 0
 	?>
-	<?php if(isset($pager)){ 
+	<?php if(isset($pager['total'])&&$pager['total']>1){ 
 		function PU($page){
 			return $_SERVER['REQUEST_URI'].'&page='.$page;
 		}

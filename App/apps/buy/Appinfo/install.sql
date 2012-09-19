@@ -10,7 +10,7 @@ CREATE TABLE `ts_buy` (
   `cTime` int(11) NOT NULL,
   `count` int(11) NOT NULL,
   `description` text NOT NULL,
-  `vote` int(1) NOT NULL DEFAULT 3,
+  `vote` int(2) NOT NULL DEFAULT 30,
   PRIMARY KEY  (`id`),
   INDEX(`id`),
   INDEX(`owner`),
