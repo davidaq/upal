@@ -5,7 +5,7 @@ return array(
 	// 应用名称 [必填]
 	'NAME'						=> 'Wiki',
 	// 应用简介 [必填]
-	'DESCRIPTION'				=> '群组一起维护一个结构化的Wiki',
+	'DESCRIPTION'				=> '一起创建一个百科辞典',
 	// 托管类型 [必填]（0:本地应用，1:远程应用）
 	'HOST_TYPE'					=> '0',
 	// 前台入口 [必填]（格式：Action/act）
@@ -39,11 +39,11 @@ return array(
 	'SIDEBAR_SUPPORT_SUBMENU'	=> '0',
 
 	// 作者名 [必填]
-	'AUTHOR_NAME'				=> 'Num6',
+	'AUTHOR_NAME'				=> 'Num16',
 	// 作者Email [必填]
 	'AUTHOR_EMAIL'				=> 'num16studio@126.com',
 	// 作者主页 [选填]
-	'AUTHOR_HOMEPAGE_URL'		=> 'num16.com',
+	'AUTHOR_HOMEPAGE_URL'		=> 'http://num16.com',
 	// 贡献者姓名 [选填]
 	'CONTRIBUTOR_NAMES'			=> 'DavidAQ, Ming',
 );
