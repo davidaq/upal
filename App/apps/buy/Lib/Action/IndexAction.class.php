@@ -21,21 +21,47 @@ class IndexAction extends Action{
 		$this->getRecentItem();
 		$this->display();
 	}
+	function myshop(){
+		$this->getUserItems();
+		$this->display();
+	}
 	function getUserItems() {
 		$uid = $_POST['uid'];
-		$ret = $this->buy->getUserItems();
-		print_r($ret);
+		$page = isset($_GET['page'])?intval($_GET['page']):0;
+		$ret = $this->buy->getUserItems($this->mid,$page,20);
+		$this->assign('pager',array('total'=>$ret['pages'],'current'=>$page));
+		$this->assign('userItem', $ret['items']);
 	}
 	function getRecentItem() {
-		$num = $_POST['num'];
-		$ret = $this->buy->getRecentItem($num);
-		echo "aaaaasdgagag!";
-		print_r($ret);
-		$this->assign('recentItem', $res);
+		$ret = $this->buy->getRecentItem(20);
+		$this->assign('recentItem', $ret);
 	}
 	function search() {
 		$name = $_GET['buy_title'];
 		$ret = $this->buy->searchItemByName($name);
 		print_r($ret);
+	}
+	function showitem(){
+		if(isset($_GET['id'])){
+			$id=intval($_GET['id']);
+			$this->assign('isOwner',$this->buy->getOwner($id)==$this->mid);
+			$this->assign('item',$this->buy->getItem($id));
+			
+			$this->display();
+		}
+	}
+	function edititem(){
+		$ditem['name']='';
+		$ditem['count']=1;
+		$ditem['description']='';
+		$ditem['id']=0;
+		if(isset($_GET['id'])){
+			$item=$this->buy->getItem($_GET['id']);
+			if($item){
+				$ditem=$item;
+			}
+		}
+		$this->assign('item',$ditem);
+		$this->display();
 	}
 }

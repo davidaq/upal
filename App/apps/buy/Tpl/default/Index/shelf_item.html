@@ -1,8 +1,8 @@
 <div>
-	<a class = "item" href="">
+	<a class = "item" href="{:U('buy/Index/showitem',array('id'=>$item['id']))}">
 		<div class="mask"></div>
-		<img src="" title="商品截图" class="thumb"/>
-		<div>{:renderStar(2.25)}</div>
-		{商品名称}
+		<img src="{$item.img}" title="商品截图" class="thumb"/>
+		<div>{:renderStar($item['vote'])}</div>
+		{$item.name}
 	</a>
 </div>

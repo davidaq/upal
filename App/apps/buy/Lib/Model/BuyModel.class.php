@@ -1,35 +1,81 @@
 <?php
 include_once 'ModelCommon.php';
 class BuyModel extends Model{
-	public function getUserItems($uid){
+	public function getItem($id){
+		$r = $this->where(array('id'=>$id))->select();
+		if($r)
+			return $r[0];
+		else
+			return false;
+	}
+	public function getUserItems($uid,$page,$num){
 		$uid = intval($uid);
-		$r = $this->where(array('owner'=>$uid))->select();
-		return $r;
+		$c = $this->where(array('owner'=>$uid))->count();
+		$pages=ceil($c/$num);
+		$r = $this->where(array('owner'=>$uid))->limit($page*$num,$num)->select();
+		return array('pages'=>$pages,'items'=>$r);
 	}
-	public function setItemVerified($id,$v=true){
-		$data['id'] = intval($id);
-		$data['verified'] = $v?1:0;
-		$this->save($data);
+	public function getOwner($id){
+		$r = $this->where(array('id'=>intval($id)))->field('owner')->select();
+		if($r){
+			return $r[0]['owner'];
+		}
+		return 0;
 	}
-	public function createItem($title,$description,$uid, $imgpath){
+	public function createItem($title,$description,$uid,$count){
 		$title=trim($title);
 		$data['name']=$title;
 		$data['owner']=intval($uid);
 		$data['description']=$description;
-		$data['img'] = $imgpath;
+		$data['img'] = '[]';
 		$data['cTime']=time();
+		$data['count']=intval($count);
 		return $this->add($data);
 	}
-	public function modifyItem($id, $title,$description,$uid, $imgpath) {
+	public function modifyItem($id,$title,$description,$count) {
 		$title=trim($title);
 		$data['id'] = intval($id);
 		$data['name']=$title;
-		$data['owner']=intval($uid);
 		$data['description']=$description;
-		$data['img'] = $imgpath;
+		$data['count']=intval($count);
 		$this->save($data);
 	}
+	public function addImage($id,$path){
+		$id = intval($id);
+		$path = trim($path);
+		$r = $this->where(array('id'=>$id))->field('img')->select();
+		if($r){
+			$r=json_decode($r[0]['img'],true);
+			if(!in_array($path,$r)){
+				$r[]=$path;
+			}
+			$r=json_encode($r);
+			$data['id']=intval($id);
+			$data['img']=$r;
+			$r = $this->save($data);
+		}
+	}
+	public function removeImage($id,$index){
+		$id = intval($id);
+		$r = $this->where(array('id'=>$id))->field('img')->select();
+		if($r){
+			$r=json_decode($r[0]['img'],true);
+			unlink($r[$index]);
+			unset($r[$index]);
+			$r=json_encode($r);
+			$data['id']=intval($id);
+			$data['img']=$r;
+			$r = $this->save($data);
+		}
+	}
 	public function removeItem($id){
+		$id = intval($id);
+		$r = $this->where(array('id'=>$id))->field('img')->select();
+		if($r){
+			$r=json_decode($r[0]['img'],true);
+			foreach($r as $f)
+				unlink($f);
+		}
 		$this->where(array('id'=>intval($id)))->delete();
 	}
 	public function searchItemByName($name) {
