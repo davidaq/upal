@@ -25,6 +25,12 @@
 	top:5px;
 	left:5px;
 }
+.mainArea .thumbs span .btn_b{
+	position:absolute;
+	right:5px;
+	top:5px;
+	display:none;
+}
 form.commentForm h2{
 	line-height:25px;
 	font-size:15px;
@@ -56,6 +62,11 @@ $(function(){
 		}
 		$(this).css({width:w,height:h,left:l,top:t});
 	});
+	$('.thumbs span').hover(function(){
+		$(this).find('.btn_b').stop(true,true).fadeIn(300);
+	},function(){
+		$(this).find('.btn_b').stop(true,true).fadeOut(300);
+	});
 });
 </script>
 <div class="mainArea">
@@ -67,12 +78,16 @@ $(function(){
 		商品介绍。。。。商品介绍。。。。商品介绍。。商品介绍
 		商品介绍。。。。商品介绍。。。。商品介绍。。商品介绍
 	</p>
+	<h1>商品截图：</h1>
 	<div class="thumbs">
-		<span><img src="http://localhost/upal/App/apps/wiki/Appinfo/ico_app.png"/></span>
-		<span><img src="http://localhost/upal/App/public/themes/newstyle/images/logo.png"/></span>
+		<span><img src="http://localhost/upal/App/apps/wiki/Appinfo/ico_app.png"/><a href="" class="btn_b">删除</a></span>
+		<span><img src="http://localhost/upal/App/public/themes/newstyle/images/logo.png"/><a href="" class="btn_b">删除</a></span>
 		<span><img src=""/></span>
 		<span><img src=""/></span>
 	</div>
+	<form method="post" action="{:U('buy/Operation/uploadThumb')}" enctype="multipart/form-data">
+		<input type="file" name="upload"/><input type="submit" class="btn_b" value="添加截图"/>
+	</form>
 	<h1>评论：</h1>
 	<form class="commentForm" action="{:U('buy/Operation/comment')}" method="post">
 		<script type="text/javascript">

@@ -4,8 +4,13 @@
 			padding:5px;
 		}
 		</style>
+		<script type="text/javascript">
+		function createNewItem(){
+			ui.box.load('{:U('buy/Index/editItem')}',{title:'添加新商品'});
+		}
+		</script>
 		<div class = "buyRightBar">
-			<a type="image" style="display:block;background:url({:SITE_URL}/apps/buy/create_buy.png) no-repeat center center;width:222px;height:55px"></a>
+			<a type="image" href="javascript:void()" onclick="createNewItem()" style="display:block;background:url({:SITE_URL}/apps/buy/create_buy.png) no-repeat center center;width:222px;height:55px"></a>
 			<form action="index.php" class="buySearchbox" method="get">
 			<p>
 				<input type="text" name="buy_title"/>
