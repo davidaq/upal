@@ -1,0 +1,108 @@
+<include file="header" />
+<style type="text/css">
+.mainArea h1{
+	font-size:20px;
+	padding-bottom:5px;
+	border-bottom:1px solid #DDD;
+}
+.mainArea .thumbs{
+	overflow:hidden;
+	zoom:1;
+}
+.mainArea .thumbs span{
+	display:block;
+	float:left;
+	width:150px;
+	height:150px;
+	margin:5px;
+	overflow:hidden;
+	border:1px solid #CCD;
+	position:relative;
+	background:#EEE;
+}
+.mainArea .thumbs span img{
+	position:absolute;
+	top:5px;
+	left:5px;
+}
+form.commentForm h2{
+	line-height:25px;
+	font-size:15px;
+}
+form.commentForm textarea{
+	width:620px;
+	height:50px;
+	border:1px solid #AAC;
+	margin:5px 0;
+}
+</style>
+<script type="text/javascript">
+//Auto scale images;
+$(function(){
+	$('.thumbs span img').load(function(){
+		var w=$(this).width();
+		var h=$(this).height();
+		var t=5;
+		var l=5;
+		var ratio=w/h;
+		if(w>h){
+			w=140;
+			h=w/ratio;
+			t=(150-h)/2;
+		}else{
+			h=140;
+			w=h*ratio;
+			l=(150-w)/2;
+		}
+		$(this).css({width:w,height:h,left:l,top:t});
+	});
+});
+</script>
+<div class="mainArea">
+	<h1>{商品名称} &nbsp;&nbsp;&nbsp; {:renderStar(3)}</h1>
+	<p>
+		商品介绍。。。。商品介绍。。。。商品介绍。。商品介绍
+		商品介绍。。。。商品介绍。。。。商品介绍。。商品介绍
+		商品介绍。。。。商品介绍。。。。商品介绍。。商品介绍
+		商品介绍。。。。商品介绍。。。。商品介绍。。商品介绍
+		商品介绍。。。。商品介绍。。。。商品介绍。。商品介绍
+	</p>
+	<div class="thumbs">
+		<span><img src="http://localhost/upal/App/apps/wiki/Appinfo/ico_app.png"/></span>
+		<span><img src="http://localhost/upal/App/public/themes/newstyle/images/logo.png"/></span>
+		<span><img src=""/></span>
+		<span><img src=""/></span>
+	</div>
+	<h1>评论：</h1>
+	<form class="commentForm" action="{:U('buy/Operation/comment')}" method="post">
+		<script type="text/javascript">
+		$(function(){
+			var c=$('#commentStar');
+			c.css('cursor','pointer');
+			function setStar(num){
+				c.find('img:lt('+num+')').attr('src','{:SITE_URL}/apps/buy/star_all.png');
+				c.find('img:eq('+num+')').attr('src','{:SITE_URL}/apps/buy/star_all.png');
+				c.find('img:gt('+num+')').attr('src','{:SITE_URL}/apps/buy/star_none.png');
+			}
+			c.find('img').each(function(index){
+				$(this).click(function(){
+					$('#voteStar').val(index+1);
+				});
+				$(this).hover(function(){
+					setStar(index);
+				},function(){
+					setStar($('#voteStar').val()-1);
+				});
+			});
+		});
+		</script>
+		<h2>
+			快速评论：
+			<span id="commentStar">{:renderStar(3)}</span>
+		</h2>
+		<input type="hidden" value="3" name="vote" id="voteStar"/>
+		<textarea name="comment"></textarea>
+		<button class="btn_b">评论</button>
+	</form>
+</div>
+<include file="footer" />

@@ -1,0 +1,50 @@
+	<style type="text/css">
+	.pager{
+		text-align:center;
+		padding:10px;
+	}
+	.pager a{
+		margin:5px;
+	}
+	</style>
+	<?php
+		// $pager['total'] Total Page count
+		// $pager['curent'] The page user curently on, starts from 0
+	?>
+	<?php if(isset($pager)){ 
+		function PU($page){
+			return $_SERVER['REQUEST_URI'].'&page='.$page;
+		}
+	?>
+	<div class="pager">
+		<?php if($pager['curent']>0){ ?>
+		<a href="{:PU($pager['curent']-1)}">上一页</a>
+		<?php } ?>
+		
+		<?php if($pager['curent']<5){ for($i=0;$i<$pager['curent'];$i++){?>
+			<a href="{:PU($i)}">{:$i+1}</a>
+		<?php } }else{ ?>
+			<a href="{:PU(0)}">1</a>
+			...
+			<?php for($i=$pager['curent']-2;$i<$pager['curent'];$i++){ ?>
+				<a href="{:PU($i)}">{:$i+1}</a>
+			<?php } ?>
+		<?php } ?>
+		
+		{:1+$pager['curent']}
+		
+		<?php if($pager['total']-$pager['curent']<5){ for($i=$pager['curent']+1;$i<$pager['total'];$i++){?>
+			<a href="{:PU($i)}">{:$i+1}</a>
+		<?php } }else{ ?>
+			<?php for($i=$pager['curent']+1;$i<$pager['curent']+3;$i++){ ?>
+				<a href="{:PU($i)}">{:$i+1}</a>
+			<?php } ?>
+			...
+			<a href="{:PU($pager['total']-1)}">{$pager['total']}</a>
+		<?php } ?>
+		
+		<?php if($pager['curent']<$pager['total']-1){ ?>
+		<a href="{:PU($pager['curent']+1)}">下一页</a>
+		<?php } ?>
+	</div>
+	<?php } ?>

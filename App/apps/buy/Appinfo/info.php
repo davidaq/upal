@@ -3,7 +3,7 @@ if (!defined('SITE_PATH')) exit();
 
 return array(
 	// 应用名称 [必填]
-	'NAME'						=> 'Buy',
+	'NAME'						=> '市场',
 	// 应用简介 [必填]
 	'DESCRIPTION'				=> '一个交易平台',
 	// 托管类型 [必填]（0:本地应用，1:远程应用）
@@ -43,7 +43,7 @@ return array(
 	// 作者Email [必填]
 	'AUTHOR_EMAIL'				=> 'num16studio@126.com',
 	// 作者主页 [选填]
-	'AUTHOR_HOMEPAGE_URL'		=> 'num16.com',
+	'AUTHOR_HOMEPAGE_URL'		=> 'http://num16.com',
 	// 贡献者姓名 [选填]
 	'CONTRIBUTOR_NAMES'			=> 'DavidAQ, Ming',
 );

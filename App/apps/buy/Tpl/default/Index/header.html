@@ -5,23 +5,75 @@
 <style type="text/css">
 .main{
 	padding:20px;
+}
+.buyWrap{
+	overflow:hidden;
+	zoom:1;	
+}
+.mainArea{
+	float: left;
+	width:650px;
+}
+.buyRightBar {
+	float: right;
+	width:250px;
+}
+.buyRightBar h2{
+	font-size:17px;
+	margin-top:15px;
+	margin-bottom:10px;
+}
+
+.shelf{
 	overflow:hidden;
 	zoom:1;
 }
-.mainbox{
+.shelf .item{
 	float:left;
-	width:650px;
+	text-align:center;
+	margin:5px;
+	padding:10px;
+	position:relative;
+	display:block;
 }
-.rightBar{
-	float:right;
-	width:250px;
+.shelf .item .mask{
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	background:transparent;
+	border:2px solid #CCE;
+	display:none;
 }
-.rightBar h2{
-	font-size:17px;
-	color:#BBB;
+.shelf .item .thumb{
+	width:130px;
+	height:100px;
 }
 </style>
+<script type="text/javascript">
+$(function(){
+	$('.shelf .item').hover(function(){
+		var $c=$(this).find('.mask');
+		$c.stop(true,true);
+		$c.fadeIn(100);
+	},function(){
+		var $c=$(this).find('.mask');
+		$c.stop(true,true);
+		$c.fadeOut(500);
+	});
+});
+</script>
+<div class=page_tit>
+  <!-- page_title begin -->
+  <h2><img src="{:SITE_URL}/apps/wiki/Appinfo/ico_app.png" />市场</h2>
+  <ul class="tit_tab">
+    <li><a href="{:U('buy/Index/index')}" <php>if(ACTION_NAME=='index')echo 'class="on"';</php>>市场首页</a></li>
+    <li><a href="{:U('buy/Index/myshop')}" <php>if(ACTION_NAME=='myshop')echo 'class="on"';</php>>我的商品</a></li>
+  </ul>
+  <div class="c"></div>
+</div>
 <div class="content no_bg">
   <include file="../Public/_blog_header" />
   <div class="main no_l">
-    <div class="mainbox">
+    <div class="mainbox buyWrap">
