@@ -6,7 +6,7 @@
 					var t=data['hotItems'];
 					for(k in t){
 						$('#hotItems').append("<li>");
-						$('#hotItems').append("<a>" + t[k]['name'] + "</a>");
+						$('#hotItems').append("<a href='{:U('buy/Index/showitem',array('id'=>''))}"+t[k]['id']+"'>" + t[k]['name'] + "</a>");
 						$('#hotItems').append("</li>");
 					}
 					$('#hotItems').append("</ul>");
@@ -14,7 +14,7 @@
 					$('#goodItems').append("<ul>");
 					for(k in t){
 						$('#goodItems').append('<li>');
-						$('#goodItems').append("<a>" + t[k]['name'] + "</a>");
+						$('#goodItems').append("<a href='{:U('buy/Index/showitem',array('id'=>''))}"+t[k]['id']+"'>" + t[k]['name'] + "</a>");
 						$('#goodItems').append('</li>');
 					}
 					$('#goodItems').append("</ul>");
@@ -22,7 +22,7 @@
 					$('#goodOwners').append("<ul>");
 					for (k in t) {
 						$("#goodOwners").append("<li>");
-						$('#goodOwners').append("<a>" + t[k]['uname'] + "</a>");
+						$('#goodOwners').append("<a href='{:U('buy/Index/usershop',array('uid'=>''))}"+t[k]['uid']+"'>" + t[k]['uname'] + "</a>");
 						$("#goodOwners").append("</li>");
 					}
 					$("#goodOwners").append("</ul>");
@@ -33,6 +33,14 @@
 		div.buyRightBar input{
 			border:1px solid #AAC;
 			padding:5px;
+		}
+		.buyRightBar h2{
+			border-bottom:1px solid #DDD;
+		}
+		.buyRightBar a{
+			font-size:15px;
+			color:#557;
+			margin-left:5px;
 		}
 		</style>
 		<script type="text/javascript">
