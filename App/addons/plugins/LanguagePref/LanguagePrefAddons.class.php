@@ -44,7 +44,7 @@
 			echo<<<HTML
 				<dd>
 					<label>母语/Mother Lang: </label>		
-					<select>
+					<select name="mother_language">
 HTML;
 			$lang='';
 			foreach($this->languages as $k=>$v) {
@@ -109,6 +109,7 @@ HTML;
 			$m = M('weibo_pref_language');
 			if (($d = $m -> find($param['uid'])) == false)
 				return;
+			$d['mother_language'] = $_POST['mother_language'];
 			$i = 1;
 			foreach($this->languages as $k=>$v) {
 				if ($_POST['mas_'.$k] == "yes")

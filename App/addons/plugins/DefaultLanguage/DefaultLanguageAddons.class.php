@@ -59,11 +59,12 @@ HTML;
 		}
 		public function update($param)
 		{
+			#print_r($param);
 			$m = M('weibo_default_language');
 			if (false != $m->find($param['uid'])) {
 				$m->data($param)->save();			
 			} else {
-				return;
+				$m->data($param)->add();
 			}
 		}
 		public function install()

@@ -84,8 +84,24 @@
                             </div>
                         </div>
                     </div>
-                </li>	
-	 
+                </li>
+                <div style = "margin: 5px; line-height: 15px; font: 15px;" >
+                    <style type = "text/css">
+                        label {
+                            margin-right: 15px;
+                        }
+                        *  {
+                          line-height: 30px;
+                        }
+                    </style>
+                    <li>
+                        {:Addons::hook('default_language_setting', $userId)}
+                    </li>
+                    <li>
+                        {:Addons::hook('pref_language_setting', $userId)}
+                    </li>
+                </div>
+
             	<eq name="register_verify_on" value="1">
                 <li class="form_li">
                     <div class="reg_li_1">{:L('验证码')}:</div>

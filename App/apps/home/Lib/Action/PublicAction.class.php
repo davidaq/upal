@@ -585,7 +585,6 @@ class PublicAction extends Action{
 	{
 		if (!$this->mid)
 			redirect(U('home/Public/login'));
-
 		// 已初始化的用户, 不允许在此修改资料
 		global $ts;
 		if ($this->mid && $ts['user']['is_init'])
@@ -608,6 +607,12 @@ class PublicAction extends Action{
 			$data['is_init']  = 1;
 			M('user')->where("uid={$this->mid}")->data($data)->save();
 
+			//Plugin
+			$param['uid'] = $this->mid;
+        	$param['language'] = $_POST['default_language'];
+        	Addons::hook('update_default_language', $param);
+        	Addons::hook('update_pref_language', $param);
+
 			// 关联操作
 			$this->registerRelation($this->mid);
 
@@ -618,6 +623,7 @@ class PublicAction extends Action{
 			$user_info = D('User', 'home')->getUserByIdentifier($this->mid, 'uid');
 			$this->assign('nickname', $user_info['uname']);
 			$this->setTitle(L('complete_information'));
+			$this->assign('userId', $this->mid);
 			$this->display();
 		}
 	}
