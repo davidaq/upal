@@ -30,33 +30,32 @@ div.wikiEdit textarea{
 	margin-left:5px;
 }
 </style>
+<include file="__THEME__/editor" />
 <script type="text/javascript">
-function doPost(){
-	<?php
-		if($id==0){
-			$pattr='"'.U('wiki/Operation/addPost').'"';
-		}else
-			$pattr='"'.U('wiki/Operation/editPost').'"';
-		$pattr.=',{"post_title":$("#wikiPostTitle").val(),"post_content":$("#wikiPostContent").val(),"wiki_id":'.$post['wiki_id'].',"pid":'.$post['id'].'}';
-	?>
-	$.post({$pattr},function(ret){
-		if(ret=='ok'){
-			ui.success('编辑成功');
-			ui.box.close();
-			setTimeout(function(){
-				document.location.reload();
-			},500);
-		}else
-			ui.error('编辑失败'+ret);
+function preSubmit(){
+	$('#subf').load(function(){
+		document.location.reload();
 	});
 }
+$(function(){
+	loadEditor("post_content");
+});
 </script>
+<?php
+	if($post['id']==0){
+		$action=U('wiki/Operation/addPost');
+	}else
+		$action=U('wiki/Operation/editPost');
+?>
 <div class="wikiEditWrap">
-	<div class="wikiEdit">
-		<label>标题：</label><input type="text" id="wikiPostTitle" value="{$post.title}"/><br/>
+	<iframe name="subf" id="subf" style="width:0;height:0;border:0;background:transparent;position:absolute" src="about:blank"></iframe>
+	<form class="wikiEdit" action="{$action}" onsubmit="preSubmit()" target="subf" method="post">
+		<label>标题：</label><input type="text" name="post_title" id="wikiPostTitle" value="{$post.title}"/><br/>
 		<label>内容：</label><br/>
-		<textarea id="wikiPostContent">{$post.content}</textarea><br/>
+		<textarea id="post_content" name="post_content">{$post.content}</textarea><br/>
+		<input type="hidden" name="pid" value="{$post['id']}"/>
+		<input type="hidden" name="wiki_id" value="{$post['wiki_id']}">
 		<button class="btn_b" style="margin:10px;" onclick="doPost()">提交</button>
-	</div>
+	</form>
 </div>
 <div>&nbsp;</div>

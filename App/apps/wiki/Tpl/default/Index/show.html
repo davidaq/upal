@@ -183,7 +183,7 @@
 			</select>
 			<?php } ?>
 		</h2>
-		<p>{$v.content}</p>
+		<p>{:htmlspecialchars_decode($v['content'])}</p>
 	</div>
 	<?php } ?>
 	</div>

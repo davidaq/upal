@@ -211,12 +211,15 @@
       <div class="logo"><a href="{:U('home/Index')}"><img src="<php>echo $ts['site']['site_logo']?$ts['site']['site_logo']:__THEME__.'/images/logo.png';</php>" style="_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop)" /></a></div>
       <div id="indt" class="nav_sub br3">
         <p>
+        
+        <?php if(L('change_language')!='change_language'){ ?>
 	      <a href="{:__ROOT__}/?language=<?php
 			if(isset($_SESSION['language'])&&$_SESSION['language']=='en')
 				echo 'zh_cn';
 			else
 				echo 'en';
-	      ?>" class="fb14">{:L('change_language')}</a>&nbsp;|&nbsp;
+	      ?>" class="fb14">{:L('change_language')}</a>
+        <?php } ?>&nbsp;|&nbsp;
       	<eq name="ts['site']['site_anonymous_square']" value="1">
       	  <a href="{:U('home/Square')}">{:L('微博广场')}</a>&nbsp;|&nbsp;
       	</eq>

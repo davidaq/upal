@@ -2,6 +2,7 @@
 .wikiEditWrap{
 	margin:0 auto;
 	text-align:left;
+	madding:5px;
 }
 div.wikiEditWrap{
 }
@@ -17,7 +18,7 @@ div.wikiEdit p{
 	padding-top:20px;
 }
 div.wikiEdit input{
-	width:300px;
+	width:400px;
 	padding:5px;
 	border:1px solid #CCC;
 	outline:none;
@@ -30,33 +31,35 @@ div.wikiEdit textarea{
 	margin-left:5px;
 }
 </style>
+<include file="__THEME__/editor" />
 <script type="text/javascript">
-function doEdit(){
-	<?php
-		if($id==0){
-			$pattr='"'.U('wiki/Operation/createWiki').'",{"tags":$("#wikiTags").val(),"wiki_title":"'.$keyword.'","wiki_description":$("#wikiSign").val()}';
-		}else
-			$pattr='"'.U('wiki/Operation/editWikiDescription').'",{"tags":$("#wikiTags").val(),"wiki_id":"'.$id.'","wiki_des":$("#wikiSign").val()}';
-	?>
-	$.post({$pattr},function(ret){
-		if(ret=='ok'){
-			ui.success('编辑成功');
-			ui.box.close();
-			setTimeout(function(){
-				document.location.reload();
-			},500);
-		}else
-			ui.error('编辑失败'+ret);
+function preSubmit(){
+	$('#subf').load(function(){
+		document.location.reload();
 	});
 }
+$(function(){
+	loadEditor("wiki_des");
+});
 </script>
 <div class="wikiEditWrap">
-	<div class="wikiEdit">
+	<iframe name="subf" id="subf" style="width:0;height:0;border:0;background:transparent;position:absolute" src="about:blank"></iframe>
+	<?php
+			if($id==0){
+				$action = U('wiki/Operation/createWiki');
+				$extra = '<input type="hidden" name="wiki_title" value="'.htmlspecialchars($keyword).'"/>';
+			}else{
+				$action = U('wiki/Operation/editWikiDescription');
+				$extra = '<input type="hidden" name="wiki_id" value="'.$id.'"/>';
+			}
+		?>
+	<form class="wikiEdit" action="{$action}" onsubmit="preSubmit()" target="subf" method="post">
+		{$extra}
 		<label>词条名称：</label><b>{$keyword}</b><br/>
 		<label>词条签名：</label><br/>
-		<textarea id="wikiSign">{$desc}</textarea><br/>
-		<label>词条类别：</label><input type="text" id="wikiTags" value="{$tags}"/><br/>
-		<button class="btn_b" style="margin:10px;" onclick="doEdit()">提交</button>
-	</div>
+		<textarea id="wiki_des" name="wiki_des">{$desc}</textarea><br/>
+		<label>词条类别：</label><input type="text" id="wikiTags" name="tags" value="{$tags}"/><br/>
+		<input type="submit" class="btn_b" style="margin:10px;" value="提交"/>
+	</form>
 </div>
 <div>&nbsp;</div>

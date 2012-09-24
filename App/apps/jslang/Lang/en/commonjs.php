@@ -31,7 +31,7 @@ return array(
 	'系统消息'=>'System message',
 	'查看消息'=>'Check',
 	'条'=>' ',
-	'省/直辖市'=>'Province/State',
+	'洲/国'=>'Continent/Country',
 	'不限'=>'Unlimited',
 );
 ?>

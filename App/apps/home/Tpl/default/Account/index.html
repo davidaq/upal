@@ -37,7 +37,9 @@
 		                <dd id="isLocation" style="display:none;">
 		                    <label>{:L('at_location')}: </label>
 		                    <div class="left" style="_width:600px"><iframe style="position:absolute;_filter:alpha(opacity=0);opacity=0;z-index:-1;width:100%;height:100%;top:0;left:0;scrolling:no;" frameborder="0" src="about:blank"></iframe>
-							      <script>ui.getarea('area','',{$userInfo.detail.province},{$userInfo.detail.city});</script>
+							      <script type="text/javascript">
+							      	ui.getarea('area','',{$userInfo.detail.province},{$userInfo.detail.city});
+							      </script>
 		                    </div>
 		                </dd>
 						

@@ -567,13 +567,13 @@ ui = window.ui ||{
 	},
 	getarea:function(prefix,init_style,init_p,init_c){
 		var style = (init_style)?'class="'+init_style+'"':'';
-		var html = '<select name="'+prefix+'_province" '+style+'><option>{:L('省/直辖市')}</option></select> '+
+		var html = '<select name="'+prefix+'_province" '+style+'><option>{:L('洲/国')}</option></select> '+
 				'<select name="'+prefix+'_city" '+style+' style="width:180px"><option value=0>{:L('不限')}</option></select>';
 		document.write(html);
 		// _PUBLIC_+'/js/area.js'
 		$.getJSON(U('home/Public/getArea'), function(json){
 			json = json.provinces;
-			var province ='<option>{:L('省/直辖市')}</option>';
+			var province ='<option>{:L('洲/国')}</option>';
 			$.each(json,function(i,n){
 				var pselected='';
 				var cselected='';
