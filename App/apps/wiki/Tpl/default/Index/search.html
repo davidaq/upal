@@ -98,12 +98,12 @@ function createNew(){
 		<input type="hidden" name="app" value="wiki"/>
 		<input type="hidden" name="mod" value="Index"/>
 		<input type="hidden" name="act" value="search"/>
-		<button class="btn_b" onclick="submit">搜索词条</button>
+		<button class="btn_b" onclick="submit">{:L('搜索词条')}</button>
 	</p>
 	</form>
 </div>
 <div class="wikiSearchResult">
-	<h2>搜索结果：</h2>
+	<h2>{:L('搜索结果')}：</h2>
 	<?php if(isset($searchresultacc) && $searchresultacc){ ?>
 	<div class="item best">
 		<a href="{:U('wiki/Index/show',array('wid'=>$searchresultacc[0]['id']))}">{$searchresultacc[0]['keyword']}</a>
@@ -111,10 +111,10 @@ function createNew(){
 	</div>
 	<?php }else{ ?>
 	<div class="createNew">
-		“{$searchkey}” 还没被解释过！ &nbsp;&nbsp;&nbsp; <a class="btn_b" href="javascript:void(0)" onclick="createNew()">我来定义</a>
+		“{$searchkey}” {:L('还没被解释过！')} &nbsp;&nbsp;&nbsp; <a class="btn_b" href="javascript:void(0)" onclick="createNew()">{:L('我来定义')}</a>
 	</div>
 	<?php } ?>
-	<h2>相关词条：</h2>
+	<h2>{:L('相关词条')}：</h2>
 	<?php if($searchresult){ ?>
 	<?php foreach($searchresult as $v){ ?>
 		<div class="item">
@@ -123,7 +123,7 @@ function createNew(){
 		</div>
 	<?php } ?>
 	<?php }else{ ?>
-		没有找到相关内容
+		{:L('没有找到相关内容')}
 	<?php } ?>
 </div>
 <include file="footer" />

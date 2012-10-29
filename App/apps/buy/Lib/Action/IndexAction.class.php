@@ -36,7 +36,7 @@ class IndexAction extends Action{
 		else
 			$user=$this->mid;
 		if($user==$this->mid)
-			$this->assign('title','我的商品');
+			$this->assign('title',L('我的商品'));
 		else{
 			$r=M('user')->where('uid='.$user)->field('uname')->select();
 			$this->assign('title','<a href="'.U('home/Space/index',array('uid'=>$user)).'">'.$r[0]['uname'].'</a> 的商品');

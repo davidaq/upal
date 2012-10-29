@@ -1,12 +1,12 @@
 <form style="padding:5px;text-align:left" action="{:U('buy/Operation/edit')}" method="post">
-	<label>商品名称：</label> <input name="name" type="text" value="{$item.name}"/>
-	<label>货余量：</label> <input name="count" size="3" type="text" value="{$item.count}"/><br/>
-	<label>商品描述</label><br/>
+	<label>{:L("商品名称")}：</label> <input name="name" type="text" value="{$item.name}"/>
+	<label>{:L("货余量")}：</label> <input name="count" size="3" type="text" value="{$item.count}"/><br/>
+	<label>{:L("商品描述")}</label><br/>
 	<textarea name="description" style="width:400px;height:100px;resize:none;border:1px solid #AAD">{:htmlspecialchars($item['description'])}
 	</textarea>
 	<br/>
 	<div style="text-align:right">
-		(提示：商品截图可在商品浏览页面添加/删除) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <button class="btn_b">保存</button>
+		({:L("提示：商品截图可在商品浏览页面添加/删除")}) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <button class="btn_b">{:L("保存")}</button>
 	</div>
 	<input type="hidden" name="id" value="{$item.id}"/>
 </form>

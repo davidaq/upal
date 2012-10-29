@@ -77,28 +77,28 @@ $(function(){
 	});
 });
 function modify(){
-	ui.box.load('{:U('buy/Index/editItem',array('id'=>$item['id']))}',{title:'修改商品'});
+	ui.box.load('{:U('buy/Index/editItem',array('id'=>$item['id']))}',{title:'{:L("修改商品")}'});
 }
 function rm(){
-	if(confirm('确认要删除这个商品？'))
+	if(confirm('{:L("确认要删除这个商品？")}'))
 		document.location.href='{:U('buy/Operation/deleteItem',array('id'=>$item['id']))}';
 }
 </script>
 <div class="mainArea">
-	<h1>{$item.name} &nbsp;&nbsp;&nbsp; {:renderStar($item['vote']/10)} &nbsp;&nbsp;&nbsp; 货余量：{$item.count}
+	<h1>{$item.name} &nbsp;&nbsp;&nbsp; {:renderStar($item['vote']/10)} &nbsp;&nbsp;&nbsp; {:L("货余量")}：{$item.count}
 	<?php if($isOwner){ ?>
 		&nbsp;&nbsp;&nbsp; 
-		<button class="btn_b" onclick="modify()">修改</button>
+		<button class="btn_b" onclick="modify()">{:L("修改")}</button>
 		&nbsp;&nbsp;&nbsp; 
-		<a class="btn_b" href="javascript:void(0)" onclick="rm()">删除</a>
+		<a class="btn_b" href="javascript:void(0)" onclick="rm()">{:L("删除")}</a>
 	<?php } ?>
 </h1>
 	<p style="padding:10px 0;font-size:12px">
-		<label>卖主：</label>
+		<label>{:L("卖主")}：</label>
 		<a href="{:U('buy/Index/usershop',array('uid'=>$item['owner']))}">{$item.uname}</a>
 	</p>
 	<pre style="font-size:15px">{:htmlspecialchars($item['description'])}</pre>
-	<h1>商品截图：</h1>
+	<h1>{:L("商品截图")}:</h1>
 	<div class="thumbs">
 		<?php
 		$img=json_decode($item['img'],true);
@@ -106,9 +106,9 @@ function rm(){
 		foreach($img as $f){
 		?>
 		<span>
-			<a href="{$f}" target="_blank" title="点击察看原图"><img src="{$f}"/></a>
+			<a href="{$f}" target="_blank" title="{:L('点击察看原图')}"><img src="{$f}"/></a>
 			<?php if($isOwner){ ?>
-			<a href="{:U('buy/Operation/deleteThumb',array('id'=>$item['id'],'index'=>$index))}" class="btn_b">删除</a>
+			<a href="{:U('buy/Operation/deleteThumb',array('id'=>$item['id'],'index'=>$index))}" class="btn_b">{:L("删除")}</a>
 			<?php } ?>
 		</span>
 		<?php 
@@ -118,11 +118,11 @@ function rm(){
 	</div>
 	<?php if($isOwner){ ?>
 	<form method="post" action="{:U('buy/Operation/uploadThumb')}" enctype="multipart/form-data">
-		<input type="file" name="upload"/><input type="submit" class="btn_b" value="添加截图"/>
+		<input type="file" name="upload"/><input type="submit" class="btn_b" value="{:L('添加截图')}"/>
 		<input type="hidden" name="id" value="{$item.id}"/>
 	</form>
 	<?php } ?>
-	<h1>评论：</h1>
+	<h1>{:L("评论")}：</h1>
 	<?php foreach($comments as $v){ ?>
 	<div class="comment">
 		<h3>
@@ -156,13 +156,13 @@ function rm(){
 		</script>
 		<br/><br/><br/>
 		<h2>
-			快速评论：
+			{:L("快速评论")}：
 			<span id="commentStar">{:renderStar(3)}</span>
 		</h2>
 		<input type="hidden" value="{$item.id}" name="id"/>
 		<input type="hidden" value="3" name="vote" id="voteStar"/>
 		<textarea name="content"></textarea>
-		<input type="submit" class="btn_b" value="评论" />
+		<input type="submit" class="btn_b" value="{:L('评论')}" />
 	</form>
 </div>
 <include file="footer" />

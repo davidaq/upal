@@ -62,7 +62,7 @@ form.wikiSearchbox input{
 </style>
 <div class="wikiSearchWrap">
 	<div class="wikiHotTags">
-		<label>热门标签</label>
+		<label>{:L('热门标签')}</label>
 		<?php foreach($hot as $v){ ?>
 			<a class="wikitag{$v.level}" href="{:U('wiki/Index/search',array('wiki_key'=>$v['tag']))}">{$v.tag}</a>
 		<?php } ?>
@@ -73,10 +73,10 @@ form.wikiSearchbox input{
 		<input type="hidden" name="app" value="wiki"/>
 		<input type="hidden" name="mod" value="Index"/>
 		<input type="hidden" name="act" value="search"/>
-		<button class="btn_b" onclick="submit">搜索词条</button>
+		<button class="btn_b" onclick="submit">{:L('搜索词条')}</button>
 	</p>
 	</form>	
 </div>
-	<center>赶快搜索词条，遇到没有被创建的就有机会管理这个词条哦！</center>
+	<center>{:L('赶快搜索词条，遇到没有被创建的就有机会管理这个词条哦！')}</center>
 <div>&nbsp;</div>
 <include file="footer" />

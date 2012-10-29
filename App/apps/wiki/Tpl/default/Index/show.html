@@ -45,9 +45,9 @@
 }
 </style>
 <div class="wikiShow">
-	<h1>{$wiki.keyword}&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn_b" onclick="editInfo()">编辑词条</button>
+	<h1>{$wiki.keyword}&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn_b" onclick="editInfo()">{:L("编辑词条")}</button>
 	<?php if($isCreator){ ?>
-	<a class="btn_b" href="{:U('wiki/Operation/deleteWiki',array('wid'=>$wiki['id']))}">删除词条</a>
+	<a class="btn_b" href="{:U('wiki/Operation/deleteWiki',array('wid'=>$wiki['id']))}">{:L('删除词条')}</a>
 	<?php } ?>
 	</h1>
 	<p>{$wiki.description}</p>
@@ -59,7 +59,7 @@
 			index.hide();
 			return;
 		}
-		index.html('<b>目录</b>');
+		index.html('<b>{:L("目录")}</b>');
 		for(k in items){
 			var item=$(items[k]).find('.anchor');
 			index.append('<a href="#'+item.attr('name')+'">'+item.attr('title')+'</a>');
@@ -70,9 +70,9 @@
 	function vote(v){
 		$.post('{:U('wiki/Operation/vote')}',{'wid':<?php echo $wiki['id'] ?>,'vote':v},function(ret){
 			if(ret=='ok')
-				ui.success('评价成功');
+				ui.success('{:L("评价成功")}');
 			else
-				ui.error('您已评价');
+				ui.error('{:L("您已评价")}');
 		});
 	}
 	</script>
@@ -128,7 +128,7 @@
 				curr.show(300);
 			});
 		}
-		ui.success('操作保存后才生效');
+		ui.success('{:L("操作保存后才生效")}');
 		setTimeout(updateIndex,600);
 		updateIndex();
 	}
@@ -140,9 +140,9 @@
 		}
 		$.post('{:U('wiki/Operation/saveOpr')}',{'wid':<?php echo $wiki['id'] ?>,'ids':ids},function(ret){
 			if(ret=='ok')
-				ui.success('保存成功');
+				ui.success('{:L("保存成功")}');
 			else
-				ui.error('保存失败');
+				ui.error('{:L("保存失败")}');
 		});
 	}
 	</script>
@@ -157,8 +157,8 @@
 		elseif($wiki['vote']<0)
 			$down='('.(-$wiki['vote']).')';
 		?>
-		<button class="btn_b" onclick="vote(1)">顶{$up}</button>
-		<button class="btn_b" onclick="vote(-1)">踩{$down}</button>
+		<button class="btn_b" onclick="vote(1)">{:L('顶')}{$up}</button>
+		<button class="btn_b" onclick="vote(-1)">{:L("踩")}{$down}</button>
 	</div>
 	<div id="wikiPosts">
 	<?php if($posts)foreach($posts as $v){ ?>
@@ -169,16 +169,16 @@
 			{$v.title}
 			<?php if($editable){ ?>
 			<select class="wikiOperate" onchange="postOperate(this)" postid="{$v.id}">
-				<option value="0">--操作--</option>
-				<optgroup label="移动">
-					<option value="up">提前</option>
-					<option value="down">置后</option>
-					<option value="top">置顶</option>
-					<option value="bottom">置底</option>
+				<option value="0">--{:L('操作')}--</option>
+				<optgroup label="{:L('移动')}">
+					<option value="up">{:L('提前')}</option>
+					<option value="down">{:L("置后")}</option>
+					<option value="top">{:L('置顶')}</option>
+					<option value="bottom">{:L('置底')}</option>
 				</optgroup>
-				<optgroup label="操作">
-					<option value="edit">编辑</option>
-					<option value="delete">删除</option>
+				<optgroup label="{:L('操作')}">
+					<option value="edit">{:L("编辑")}</option>
+					<option value="delete">{:L('删除')}</option>
 				</optgroup>
 			</select>
 			<?php } ?>
@@ -189,7 +189,7 @@
 	</div>
 	
 	<?php if($tags){ ?>
-	<h2>分类</h2><p>
+	<h2>{:L('分类')}</h2><p>
 	<?php foreach($tags as $v){ ?>
 		<a href="{:U('wiki/Index/search',array('wiki_key'=>$v))}">{$v}</a>
 	<?php } ?>
@@ -199,24 +199,24 @@
 	<?php if($editable){ ?>
 		<script type="text/javascript">
 		function editInfo(){
-			ui.box.load('{:U('wiki/Index/edit',array('id'=>$wiki['id']))}',{title:'编辑说明'});
+			ui.box.load('{:U('wiki/Index/edit',array('id'=>$wiki['id']))}',{title:'{:L("编辑说明")}'});
 		}
 		function editPost(id){
-			ui.box.load('{:U('wiki/Index/editPost',array('wid'=>$wiki['id'],'pid'=>''))}'+id,{title:'编辑词条'});
+			ui.box.load('{:U('wiki/Index/editPost',array('wid'=>$wiki['id'],'pid'=>''))}'+id,{title:'{:L("编辑词条")}'});
 		}
 		</script>
 		<p>
-			<button class="btn_b" onclick="editPost(0)">添加释义</button>
-			<button class="btn_b" onclick="saveOpr()">保存操作</button>【注意：移动、删除操作需要保存才可生效】
+			<button class="btn_b" onclick="editPost(0)">{:L("添加释义")}</button>
+			<button class="btn_b" onclick="saveOpr()">{:L('保存')}</button>【注意：移动、删除操作需要保存才可生效】
 		</p>
 	<?php } ?>
 	
-	<h2>词条维护人员</h2>
+	<h2>{:L("词条维护人员")}</h2>
 	<p>
 	<?php if($member)foreach($member as $v){ ?>
 		<a href="{:U('home/Space/index',array('uid'=>$v['uid']))}">{$v.uname}</a>
 		<?php if($isCreator&&$v['uid']!=$wiki['creator']){ ?>
-		<a href="{:U('wiki/Operation/removeEditor',array('wid'=>$wiki['id'],'uid'=>$v['uid']))}">[移除]</a>
+		<a href="{:U('wiki/Operation/removeEditor',array('wid'=>$wiki['id'],'uid'=>$v['uid']))}">[{:L("删除")}]</a>
 		<?php } ?>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 	<?php } ?>
@@ -225,7 +225,7 @@
 		<form action="{:U('wiki/Operation/addEditor')}" method="post">
 			<input type="hidden" name="wid" value="{$wiki.id}"/>
 			<input type="text" name="uname"/>
-			<button onclick="submit()" class="btn_b">添加</button>
+			<button onclick="submit()" class="btn_b">{:L("添加")}</button>
 		</form>
 	<?php } ?>
 	</p>

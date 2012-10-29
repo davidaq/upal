@@ -50,8 +50,8 @@ $(function(){
 <div class="wikiEditWrap">
 	<iframe name="subf" id="subf" style="width:0;height:0;border:0;background:transparent;position:absolute" src="about:blank"></iframe>
 	<form class="wikiEdit" action="{$action}" onsubmit="preSubmit()" target="subf" method="post">
-		<label>标题：</label><input type="text" name="post_title" id="wikiPostTitle" value="{$post.title}"/><br/>
-		<label>内容：</label><br/>
+		<label>{:L('标题')}：</label><input type="text" name="post_title" id="wikiPostTitle" value="{$post.title}"/><br/>
+		<label>{:L('内容')}：</label><br/>
 		<textarea id="post_content" name="post_content">{$post.content}</textarea><br/>
 		<input type="hidden" name="pid" value="{$post['id']}"/>
 		<input type="hidden" name="wiki_id" value="{$post['wiki_id']}">

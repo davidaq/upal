@@ -30,5 +30,5 @@ return array(
 	'的封面'=>'\'s cover',
 	'完成上传'=>'Done',
 	'你的图片还没有保存，如果离开本页，上传的图片会丢失！'=>'Photo not saved, will be lost if you leave!',
-	
+
 );

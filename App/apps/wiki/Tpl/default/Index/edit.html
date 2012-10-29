@@ -55,10 +55,10 @@ $(function(){
 		?>
 	<form class="wikiEdit" action="{$action}" onsubmit="preSubmit()" target="subf" method="post">
 		{$extra}
-		<label>词条名称：</label><b>{$keyword}</b><br/>
-		<label>词条签名：</label><br/>
+		<label>{:L('词条名称')}：</label><b>{$keyword}</b><br/>
+		<label>{:L('词条签名')：}</label><br/>
 		<textarea id="wiki_des" name="wiki_des">{$desc}</textarea><br/>
-		<label>词条类别：</label><input type="text" id="wikiTags" name="tags" value="{$tags}"/><br/>
+		<label>{:L('词条类别')}：</label><input type="text" id="wikiTags" name="tags" value="{$tags}"/><br/>
 		<input type="submit" class="btn_b" style="margin:10px;" value="提交"/>
 	</form>
 </div>
